@@ -1,0 +1,178 @@
+\documentclass[preprint, 3p,
+authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+
+\usepackage[hyphens]{url}
+
+  \journal{Transport Geography?} % Sets Journal name
+
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+% TODO: Currently lineno needs to be loaded after amsmath because of conflict
+% https://github.com/latex-lineno/lineno/issues/5
+\usepackage{lineno} % add
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={Leveraging GTFS data to assess transit supply},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+
+\setcounter{secnumdepth}{5}
+% Pandoc toggle for numbering sections (defaults to be off)
+
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+
+
+\begin{document}
+
+
+\begin{frontmatter}
+
+  \title{Leveraging GTFS data to assess transit supply}
+    \author[Public Transport Research Group (PTRG)]{James Reynolds%
+  \corref{cor1}%
+  \fnref{1}}
+   \ead{james.reynolds@monash.edu} 
+    \author[Public Transport Research Group (PTRG)]{Yanda Qu%
+  %
+  \fnref{2}}
+   \ead{yanda.qu@monash.edu} 
+    \author[Public Transport Research Group (PTRG)]{Graham Currie%
+  %
+  \fnref{3}}
+   \ead{graham.currie@monash.edu} 
+      \affiliation[Public Transport Research Group (PTRG)]{
+    organization={Institute of Transport Studies, Department of Civil
+Engineering Engineering, Monash University},addressline={Clayton
+Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
+    \cortext[cor1]{Corresponding author}
+    \fntext[1]{Research Fellow}
+    \fntext[2]{PhD Strudent}
+    \fntext[2]{Professor}
+  
+  \begin{abstract}
+  This is the abstract.
+
+  It consists of two paragraphs.
+  \end{abstract}
+    \begin{keyword}
+    keyword1 \sep 
+    keyword2
+  \end{keyword}
+  
+ \end{frontmatter}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\citet{Berenson2016} highlights that the quote ``if you can't measure
+it, you can't manage it'' is often miss-attributed to
+\citet{Deming1993new}, and that he was actually trying to make the
+opposite point in \emph{If you can't measure performance, can you
+improve it?}. Regardless, service level indicators are an important part
+of researching, managing and seeking to improve transit operations
+\citep{FieldingGordonJ1987Mpts, Ryus:2003aa}. A wide range of indicators
+already, including, for example: those in the Transit Capacity and
+Quality of Service Manual (TCQSM)\citep{TCQSM:2013}, the Transit Score
+metric \citep{WalkScore:2023tg} and many more.
+
+Practitioners, researchers and advocates seeking to use such metrics may
+face two inter-related challenges: (1) calculating the metrics
+themselves for a specific location and service pattern; and (2)
+explaining the metrics, their meaning and importance to those who might
+not be specialists in transit, such as to politicians or the general
+public. For example, the TCQSM metrics appear difficult to calculate in
+practice without access to specialist software and data. They appear
+relatively easy to explain given they use an A to F scoring system and
+there is an entire guidebook about them. However, although this may be
+offset by the multitude of different indicators. In contrast, Transit
+Scores can be obtained simply by typing an address into a website, but
+cannot be calculated independently as the methodolgy / algorithm is not
+publically available.
+
+Previous research by \citet{currie2007identifying} developed a transit
+Supply Index (SI) metric that is both relatively easy to calculate and
+explain. It is obtained by calculating the number of transit arrivals at
+stops within an area of interest, with an adjustment made to account for
+the typical walk-access catchment for each stop. Hence, higher SI scores
+indicate areas with higher frequency and/or better coverage.
+
+Unfortunately, the SI does not appear to have been widely used, perhaps
+in part because at the time it was first published timetable data was
+not publicly available in a standardized and machine-readable format.
+The scores reported in Currie and Senbergs (2007) were calculated
+directly from a database of services provided by the transit authority
+in Melbourne, Australia. Since then, however, the General Transit Feed
+Specification (GTFS) has been developed as a way to publish timetable
+data, along with many processing tools. More than 10,000 agencies are
+now providing GTFS feeds\footnote{There are two forms: GTFS-static
+  consisting of the timetable data (the scheduled services); and
+  GTFS-realtime, which includes vehicle arrivals and departure times
+  based on real-world position data. This paper and project uses only
+  the GTFS-static (timetable) format.} \citep{GTFS},
+
+A gap, however, is that a tool to calculate SI scores directly from a
+GTFS dataset has not yet been available. This provides the motivation in
+this paper, in which a new R package (gtfssupplyindex) specifically
+developed to calculate SI scores is presented.
+
+\renewcommand\refname{References}
+\bibliography{References.bib}
+
+
+\end{document}

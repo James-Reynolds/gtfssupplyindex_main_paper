@@ -1,0 +1,171 @@
+---
+title: "Leveraging GTFS data to assess transit supply"
+author:
+  - name: James Reynolds
+    email: james.reynolds@monash.edu
+    affiliation: Public Transport Research Group (PTRG)
+    correspondingauthor: true
+    footnote: 1
+  - name: Yanda Qu
+    email: yanda.qu@monash.edu
+    affiliation: Public Transport Research Group (PTRG)
+    footnote: 2
+  - name: Graham Currie
+    email: graham.currie@monash.edu
+    affiliation: Public Transport Research Group (PTRG)
+    footnote: 3
+address:
+  - code: Public Transport Research Group (PTRG)
+    organization: Institute of Transport Studies, Department of Civil Engineering Engineering, Monash University
+    addressline: Clayton Campus
+    city: Melbourne 
+    state: Victoria
+    postcode: 3800
+    country: Australia
+  
+footnote:
+  - code: 1
+    text: "Research Fellow"
+  - code: 2
+    text: "PhD Strudent"
+  - code: 2
+    text: "Professor"
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+keywords: 
+  - keyword1
+  - keyword2
+journal: "Transport Geography?"
+date: "`r Sys.Date()`"
+classoption: preprint, 3p, authoryear
+bibliography: References.bib
+linenumbers: false
+numbersections: true
+# Use a CSL with `citation_package = "default"`
+# csl: https://www.zotero.org/styles/elsevier-harvard
+output: 
+  rticles::elsevier_article:
+    keep_tex: true
+    citation_package: natbib
+---
+
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidytransit)
+library(sp)
+library(strayr)
+library(ptinpoly)
+library(magrittr)
+library(ggplot2)
+library(sf)
+library(ASGS.foyer)
+library(raster)
+library(ggmap)
+library(units)
+library(janitor)
+library(mapview)
+library(ggstatsplot)
+library(gtsummary)
+library(moments)
+library(scales)
+library(gtfstools)
+library(lubridate)
+library(kableExtra)
+library(knitr)
+library(readxl)
+library(dplyr)
+library(devtools)
+library(gtfssupplyindex)
+# invalidate cache when the tufte version changes
+#knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
+```
+
+
+
+# Introduction
+@Berenson2016 highlights that the quote "if you can't measure it, you can't manage it" is often miss-attributed to @Deming1993new, and that
+he was actually trying to
+make the opposite point in 
+*If you can't measure performance, can you improve it?*.
+Regardless, 
+service level indicators 
+are an important part of 
+researching, 
+managing 
+and seeking to improve transit operations 
+[@FieldingGordonJ1987Mpts; @Ryus:2003aa]. 
+A wide range of indicators already, 
+including, for example: 
+those in the Transit Capacity and Quality of Service Manual (TCQSM)[@TCQSM:2013], 
+the Transit Score metric [@WalkScore:2023tg] 
+and many more.
+
+Practitioners, 
+researchers 
+and advocates 
+seeking to use such metrics 
+may face two inter-related challenges: 
+(1) calculating the metrics themselves 
+for a specific location 
+and service pattern; and
+(2) explaining the metrics, 
+their meaning 
+and importance 
+to those who 
+might not be specialists in transit, 
+such as to politicians 
+or the general public. For example, the TCQSM 
+metrics appear difficult to calculate in practice without access to specialist software and data.  They appear relatively easy to explain given they use an A to F scoring system and there is an entire guidebook about them. However, although this may be offset by the multitude of different indicators. 
+In contrast, 
+Transit Scores can be obtained 
+simply by typing an address into a website, 
+but cannot be calculated independently 
+as the  methodolgy / algorithm is 
+not publically available.
+
+
+Previous research by @currie2007identifying developed a transit Supply Index (SI) metric that is both relatively easy to calculate and explain. It is obtained by calculating 
+the number of transit arrivals 
+at stops within an area of interest, 
+with an adjustment made to account for the typical walk-access catchment for each stop. 
+Hence, 
+higher SI scores indicate 
+areas with higher frequency 
+and/or better coverage. 
+
+Unfortunately, 
+the SI does not appear to have been widely used,
+perhaps in part because at the time it was first published 
+timetable data was not publicly available 
+in a standardized 
+and machine-readable format. 
+The scores reported in Currie and Senbergs (2007)
+were calculated directly from a database of services 
+provided by the transit authority 
+in Melbourne, Australia. 
+Since then, however, 
+the General Transit Feed Specification (GTFS) 
+has been developed 
+as a way to publish timetable data, 
+along with many processing tools.
+More than 10,000 agencies 
+are now providing GTFS feeds^[There are two forms: 
+GTFS-static consisting of the timetable data (the scheduled services); 
+and GTFS-realtime, which includes vehicle arrivals and departure times based on real-world position data. 
+This paper and project uses only the GTFS-static (timetable) format.] 
+[@GTFS],
+
+A gap, however, is that 
+a tool to calculate SI scores directly from 
+a GTFS dataset has not yet been available. 
+This provides the motivation in this paper, in which a new R package (gtfssupplyindex) specifically developed to calculate SI scores 
+is presented. 
+
+
+
+# References {-}
+
