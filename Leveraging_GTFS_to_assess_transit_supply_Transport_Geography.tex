@@ -54,6 +54,47 @@ authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
 \setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
 
+% Pandoc syntax highlighting
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 
 % tightlist command for lists without linebreak
 \providecommand{\tightlist}{%
@@ -122,37 +163,35 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-While ``if you can't measure it, you can't manage it'' is often
+``If you can't measure it, you can't manage it'' is often
 miss-attributed to \citet{Deming1993new}, who was trying to make the
-opposite point \citep{Berenson2016in}, service level indicators are an
-important part of researching, managing and seeking to improve transit
-operations \citep{FieldingGordonJ1987Mpts, Ryus:2003aa}. A wide range of
+opposite point \citep{Berenson2016in}. Regardless, service level
+indicators are important in researching, managing and seeking to improve
+transit operations \citep{FieldingGordonJ1987Mpts, Ryus:2003aa}. Many
 indicators already exist including, for example: those in the Transit
 Capacity and Quality of Service Manual (TCQSM)\citep{TCQSM:2013} and the
 Transit Score metric \citep{WalkScore:2023tg}.
 
-Practitioners, researchers and advocates using such metrics may face two
-inter-related challenges: (1) calculating the metrics themselves for a
-specific location and service pattern; and (2) explaining the metrics,
-their meaning and importance to those who might not be specialists in
-transit, such as to politicians or the general public. For example, the
-TCQSM metrics appear difficult to calculate in practice without access
-to specialist software and data. But, they appear relatively easy to
-explain given they use an A to F scoring system and there is an entire
-guidebook about them (although this may be offset by large number of
-indicators). In contrast, Transit Scores can be obtained simply by
-typing an address into a website, which will report a score out of 100
-reflecting the quantity of transit available. However, Transit Scores
-cannot be calculated independently as the methodolgy / algorithm is not
-publicly available.
+However, practitioners, researchers and advocates using such metrics may
+face two inter-related challenges: (1) calculating the metrics
+themselves for a specific location and service pattern; and (2)
+explaining the metrics, their meaning and importance to those who are
+not specialists in transit For example: the TCQSM metrics might be
+difficult to calculate without specialist software and data, but, they
+use an A to F scoring system and there is an entire guidebook explaining
+each;\\
+in contrast, entering an address into the Transit Score website will
+return a score out of 100 reflecting the quantity of transit available,
+but the methodolgy and algorithm is not publicly available, so these
+cannot be calculated independently.
 
 Previous research by \citet{currie2007identifying} developed a transit
-Supply Index (SI) metric that appears to be both relatively easy to
-calculate and relatively simple to explain to non-transport
-professionals. It is obtained by calculating the number of transit
-arrivals at each stop within an area of interest, with an adjustment
-made to account for the typical walking distance catchment. Higher SI
-scores indicate areas with higher frequency and/or better coverage.
+Supply Index (SI) that appears to be both relatively easy to calculate
+and explain to non-transport professionals. It is obtained by
+calculating the number of transit arrivals at each stop within an area
+of interest, with an adjustment made to account for the typical walking
+distance catchment of transit stops and stations. Higher SI scores
+indicate areas with higher frequency services and/or better coverage.
 
 Unfortunately, the SI does not appear to have been widely used, perhaps
 in part because at the time it was first published timetable data was
@@ -160,19 +199,21 @@ not publicly available in a standardized and machine-readable format.
 The scores reported in Currie and Senbergs (2007) were calculated
 directly from a database of services provided by the transit authority
 in Melbourne, Australia. Since then, however, the General Transit Feed
-Specification (GTFS) has been developed as a way to publish timetable
-data in a standardized format.\\
+Specification (GTFS) has developed as a way to publish timetable data in
+a standardized format.\\
 More than 10,000 agencies are now providing GTFS feeds\footnote{There
   are two forms: GTFS-static consisting of the timetable data (the
   scheduled services); and GTFS-realtime, which includes vehicle
   arrivals and departure times based on real-world position data. This
   paper and project uses only the GTFS-static (timetable) format.}
-\citep{GTFS}, and many visulization, procession and analysis tools are
-now available. A gap, however, is that there is not yet a tool to
-calculate SI scores directly from a GTFS dataset. This provides the
-motivation for the research reported in this paper, in which a new R
-package (gtfssupplyindex) specifically developed to calculate SI scores
-is presented. The remainder of this paper is structured as follows: the
+\citep{GTFS}, and many visualization, processing and analysis tools are
+now available.
+
+A gap, however, is that there is not yet a tool to calculate SI scores
+directly from GTFS datasets. This provides the motivation for the
+research reported in this paper, in which a new R package
+(gtfssupplyindex) specifically developed to calculate SI scores is
+presented. The remainder of this paper is structured as follows: the
 next seciton outlines the background to this research, including the
 original formulation of the Transit Supply Index, and an explanation of
 the GTFS. Section 3 then describes the study methodology, followed by a
@@ -193,7 +234,7 @@ developing a performance-measurement system \citep{Ryus:2003aa}; (2)
 online databases provided by the Florida Transit Information System
 (FTIS) \citep{Florida-Transit-Information-System:2018aa} and
 \citet{UITP:2015aa}; (3) those used in the extensive annual benchmarking
-programme undertaken yearly by the Transport Strategy Centre, which
+program undertaken yearly by the Transport Strategy Centre, which
 includes over 100 transit providers around the world
 \citep{Imperial-College-London:2023aa}; and (4) a recently developed
 methodology to calculate `blank spots' within an area, being those
@@ -202,20 +243,20 @@ stops/train stations \citep{AlamriSultan2023GAoA}.
 
 The Fielding Triangle \citep{FieldingGordonJ1987Mpts} provides a
 framework for understanding how such metrics combine service inputs,
-service outputs and service consumption.\\
-These can help describe cost efficiency, cost effectiveness or service
+outputs and consumption.\\
+to describe cost efficiency and effectiveness; and service
 effectiveness. At a larger scale, \citet{Litman:2003ab} and
 \citet{Litman:2016aa} discuss some of the traffic, mobility,
 accessibility, social equity, strategic planning and other rational
-decision-making frames that might underlie such transit metrics, while
-\citet{Reynolds:2017ah} extends into models of how institutionalism,
-incrementalism and other public policy analysis concepts might apply to
-decision-making processes. Further examples include: (1)
-\citet{GuzmanLuisA.2017Aeit}, who develop a measure of accessibility in
-the context of policy development and social equity for Latin American
-Bus Rapid Transit (BRT) networks; and (2) the street space allocation
-metrics based around 10 ethical principles introduced by
-\citet{Creutzig2020streetspaceallocation}.
+decision-making-based perspectives underling such transit metrics, while
+\citet{Reynolds:2017ah} extends these into models of how
+institutionalism, incrementalism and other public policy analysis
+concepts might apply to decision-making processes. Further examples
+include: (1) \citet{GuzmanLuisA.2017Aeit}, who develop a measure of
+accessibility in the context of policy development and social equity for
+Latin American Bus Rapid Transit (BRT) networks; and (2) the street
+space allocation metrics based around 10 ethical principles introduced
+by \citet{Creutzig2020streetspaceallocation}.
 
 However, many of these metrics appear difficult to calculate, complex to
 explain or understand, and likely not well suited to communication with
@@ -223,42 +264,42 @@ those who are not transit planners or engineers, or other technical
 specialists. Where pre-calculated metrics are immediately available it
 may not be possible for practitioners, researchers or advocates to
 independently generate metrics for proposed system changes. Sometimes it
-is not even possible to know precisesly how scores for the existing
-services levels are calculated. For example, Transit Scores for
-locations with a published GTFS feed are readily available on the
-\citet{WalkScore:2023tg} website, eliminating the need for any
-calculations. The meaning of these Transit Scores appears easy to
-explain, as the highest possible score of 100 represents what might be
-experienced in the centre of New York. However, the Transit Score
-algorithm is patented and effectively a black box. It is not possible to
-calculate scores independently. Nor does it appear to be possible for
-Transit Scores to be generated for proposed changes to networks. Transit
-Score, therefore, fails the first of the aforementioned challenges, as
-practitioners, researchers and advocates can only use those scores
-provided online. The metric is simple to explain: the closer to 100, the
-better. However, because it is based on a patented algorithm it may not
-be easy to understand or explain the connection between real-world
-conditions and the Transit Score, or what might need to be done to
-improve the score and service levels. As such, it might partially pass
-the second of the aforementioned challenges, as it is simple to
-understand, yet may not withstand scrutiny.
+is not even possible to know precisely how scores for the existing
+services levels are calculated.
 
-Another example is the TCQSM, which specifies Levels of Service (LOS)
-between A and F across a range of factors\footnote{ Including service
-  span, frequency, speed, the proportion of the population serviced,
-  competitiveness of travel times to car-based travel, and many more.}.
-This scoring scheme appears relatively simple to explain\footnote{ A is
-  good and F is bad. Also this scoring system matches the A to F LOS
-  scoring used in many traffic capacity analysis software and manuals.},
-and the detail within \citet{TCQSM:2013} provides a resource for anyone
-wanting to better understand what the scores mean. However, calculation
-of many of TCQSM metrics may need specialised software and
-datasets\footnote{ For example, the Service Coverage Area metric in the
-  TCQSM (pp.~5-8 to 5-21) may require GIS or other analysis, on top of
-  accurate data about population densities, stop locations and service
-  schedules.} and it might be challenging to explain the detail of these
-measures or how to improve them to non-technical decision-makers,
-stakeholders or others involved in transit management or advocacy.
+For example, Transit Scores for locations with a published GTFS feed are
+readily available on the \citet{WalkScore:2023tg} website, eliminating
+the need for any calculations. The meaning of these Transit Scores
+appears easy to explain, as the highest possible score of 100 represents
+what might be experienced in the centre of New York. However, the
+Transit Score algorithm is patented and effectively a black box. It is
+not possible to calculate Transit Scores scores independently. Nor can
+Transit Scores to be generated for proposed changes to networks. The
+Transit Score metric, therefore, fails the first of the aforementioned
+challenges, as practitioners, researchers and advocates can only use
+those scores provided online. The metric is simple to explain: the
+closer to 100, the better; but, because it is based on a patented
+algorithm it may not be easy to understand or explain the connection
+between real-world conditions and the Transit Score, or what might need
+to be done to improve the score (and service levels). As such, it might
+partially pass the second of the aforementioned challenges, as it is
+simple to understand, yet may not withstand scrutiny.
+
+In contrast, the TCQSM, specifies Levels of Service (LOS) between A and
+F across a range of factors\footnote{ Including service span, frequency,
+  speed, the proportion of the population serviced, competitiveness of
+  travel times to car-based travel, and many more.}. This scoring scheme
+appears relatively simple to explain\footnote{ A is good and F is bad.}
+and matches that often used in traffic capacity analysis. Detail within
+\citet{TCQSM:2013} provides a resource for anyone wanting to better
+understand what the scores mean. However, calculation of many of TCQSM
+metrics may need specialised software and datasets\footnote{ For
+  example, the Service Coverage Area metric in the TCQSM (pp.~5-8 to
+  5-21) may require GIS or other analysis, on top of accurate data about
+  population densities, stop locations and service schedules.} and it
+might be challenging to explain the detail of these measures or how to
+improve them to non-technical decision-makers, stakeholders or others
+involved in transit management or advocacy.
 
 \hypertarget{gtfs}{%
 \subsection{GTFS}\label{gtfs}}
@@ -276,30 +317,30 @@ platform \citep{GTFS}.
 
 Figure 1 shows an Entity Relationship Diargram (ERD) of the GTFS data
 structure. Each box represents a database table in the GTFS, with table
-rows indicating the variables (columns) included in each\footnote{For
+rows indicating the variables (columns) included in each\footnote{ For
   example, each record in the `stops' table includes a value for
   stop\_id, stop\_name, stop\_lat and stop\_lon.}. Relationships between
 the tables are indicated by the connecting lines, and Primary Key (PK)
-and Foreign Key (FK) designations\footnote{For example, stop\_id also
-  appears in the `stop\_times' table as a Primary Key and Foreign Key.}.
-`Crow's feet' indicate the relationships between each table\footnote{See
-  https://i.stack.imgur.com/fxaAq.png for guide to the symbols. But, for
-  example, the stops table is required, with the stop\_id field
-  providing a unique (primary) key for every stop. Within the
-  stop\_times table (which is also required) the stop\_id field is a
+and Foreign Key (FK) designations\footnote{ For example, stop\_id
+  appears in the `stops' and `stop\_times' tables as a Primary Key and
+  Foreign Key.}. `Crow's feet' indicate the relationships between each
+table\footnote{ See https://i.stack.imgur.com/fxaAq.png for guide to the
+  symbols. But, for example, the stops table is required, with the
+  stop\_id field providing a unique (primary) key for every stop. Within
+  the stop\_times table (which is also required) the stop\_id field is a
   foreign key. Each unique stop\_id can appear many times in the
-  stop\_times table, but must appear only once in the stops table. In
-  the stop\_times table each combination of trip\_id, stop\_id and
-  arrival time must be unique (But, see note 2!) meaning that these
-  fields represent a composite key.}.
+  stop\_times table, but can appear only once in the stops table. In the
+  stop\_times table each combination of trip\_id, stop\_id and arrival
+  time must be unique (although see note 2!) meaning that these fields
+  together represent a composite key.}.
 
 GTFS now provides a mechanism for including individual transit systems
-in many online products and analyseses, including the Transit Score
-metric itself. \citet{Wong:2013aa} provides another example of what can
-be done with GTFS data, having developed code to calculate of some of
-the TCQSM metrics\footnote{ Daily average headways, route length and
-  stop numbers for 50 transit operators.}. While the \citet{Wong:2013aa}
-open-source code is readily available\footnote{
+in many online products and analysis, including the Transit Score metric
+itself. \citet{Wong:2013aa} provides another example of what can be done
+with GTFS data, having developed code to calculate of some of the TCQSM
+metrics\footnote{ Daily average headways, route length and stop numbers.}
+for 50 transit operators. While the \citet{Wong:2013aa} open-source code
+is readily available\footnote{
   https://github.com/jcwong86/GTFS\_Explore\_Tool} this is now 11 years
 old and does not appear to be currently maintained. Future research may
 involve reviewing this code and using it to analyse modern GTFS feeds.
@@ -310,7 +351,7 @@ calculate Currie and Senbergs' (2007) SI.
 \subsection{The Transit Suppy Index}\label{the-transit-suppy-index}}
 
 A generalized form of the Transit Supply Index (SI) is shown in Equation
-1\footnote{Currie and Senbergs (2007) focus was the context of
+1\footnote{ Currie and Senbergs' (2007) focus was the context of
   Melbourne's Census Collection Districts (CCD) and calculations based
   on a week of transit service. CCDs predate the introduction of
   Statistical Areas 1, 2, 3, and 4 (SA1, SA2, SA3, SA4), and other
@@ -342,60 +383,59 @@ In Equation 1:
 An advantage of the SI is that it is a relatively simple number to
 calculate, understand and explain. It describes the number of transit
 arrivals at stops within an area of interest and time frame, multiplied
-by a factor accounting for the proportion of the area of interest that
-is within typical walking distance of each stop. Hence, more services,
-more stops and higher frequencies increase the score. However, the SI
-does not incorporate service span, speed or other elements of a transit
-service. While these may be important to passenger experience, they
-might add considerable complexity. Simplicity is also helped by the way
-that the SI is additive, in that \(SI_{area, time}\) scores can be
-aggregated to calculate an overall score across multiple time periods or
-for a region encompassing multiple areas of interest.
+by a factor accounting for the proportion of the area of interest within
+typical walking distances of each stop. Hence, more services, more stops
+and higher frequencies increase the score. However, the SI does not
+incorporate service span, speed or other elements of a transit service.
+While these may be important to passenger experience, they might add
+considerable complexity.
+
+Simplicity is also helped by the way that the SI is additive, in that
+\(SI_{area, time}\) scores can be aggregated to calculate an overall
+score across multiple time periods or for a region encompassing multiple
+areas of interest.
 
 \hypertarget{methodology}{%
 \section{Methodology}\label{methodology}}
 
-This study involved the development of a package with tools for
-calculating the SI from GTFS data. R \citep{R-base}, a widely used and
-readily available statistical programming language, was adopted for code
-development. The package development setup and workflow described by
-\citet{wickham2023r} was adopted in this study. Various existing
-packages were relied upon including: the sf package \citep{R-sf} for
-geospatial analysis; the tidyverse \citep{tidyverse2019}; gtfstools
-\citep{R-gtfstools}; and tidytransit \citep{R-tidytransit}. Some code
-was adapted from examples, vignettes and other documentation in the
-tidytransit, gtfstools and other packages.
+This study developed a package with tools for calculating the SI from
+GTFS data. R \citep{R-base}, a widely used and readily available
+statistical programming language, was adopted for code development. The
+package development setup and workflow described by \citet{wickham2023r}
+was adopted in this study. Various existing packages were relied upon
+including: the sf package \citep{R-sf} for geospatial analysis; the
+tidyverse \citep{tidyverse2019}; gtfstools \citep{R-gtfstools}; and
+tidytransit \citep{R-tidytransit}. Some code was adapted from examples,
+vignettes and other documentation in the tidytransit, gtfstools and
+other packages.
 
-Two cases where used as during the code development and testing so that
-results might be generated for real GTFS data. These were the Mornington
-Peninsula Tourist Railway GTFS feed and the Public Transport Victoria
-(PTV) GTFS feed, both in Victoria, Australia. Both were selected
-primarily for convenience, given that the authors are familiar with the
-typical service patterns and geography. Further cases were selected as
-leading, representative and contrasting examples for the results
-reported here.
+Two cases where used during the code development and testing such that
+results might be generated for real GTFS data.\\
+These cases were the Mornington Peninsula Tourist Railway GTFS feed and
+the Public Transport Victoria (PTV) GTFS feed, both in Victoria,
+Australia. Both were selected primarily for convenience, given that the
+authors are familiar with the typical service patterns and geography.
+Further cases were selected as leading, representative and contrasting
+examples for the results reported here.
 
 \hypertarget{mornington-penninsula-tourist-railway}{%
 \subsection{Mornington Penninsula Tourist
 Railway}\label{mornington-penninsula-tourist-railway}}
 
-The Morning Penninsula Tourist Railway is located in the outer
+The Morning Peninsula Tourist Railway is located in the outer
 south-eastern suburbs of Greater Melbourne. It runs on Sundays and
-Wednesdays between Moorooduc and Mornington, with an intermediate stop
-at Tanti Park\footnote{https://transitfeeds.com/p/mornington-railway/806/latest/stops}.
+Wednesdays between Mornington (southwestern-most station) and Moorooduc,
+with an intermediate stop at Tanti Park\footnote{https://transitfeeds.com/p/mornington-railway/806/latest/stops}.
 A GTFS feed from 2018 was selected for the purposes of tests and
 demonstrating the code and output. Australian Bureau of Statistics (ABS)
 data was also used, primarily through the strayr and absmapsdata
 packages \citep{r-strayr}. The Mornington Peninsular Statistical Area 3
 (SA3) zone and the Statistical Area 1 (SA1) zones contained within it
-were adopted as the areas\_of\_interest. These are shown in Figure 1,
-together with the three railway stations.
+were adopted as the areas of interest. These are shown in Figure 2,
+together with the locations of the three railway stations.
 
 \begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/mornington_map-1.pdf}
-\caption{Mornington Penninsula SA1 zones and location of Mornington
-Tourist Rail stops.}
+\includegraphics[width=8.46in]{graphics/mornington} \caption{SA1 zones and location of Mornington Tourist Railway Stations.}\label{fig:mornington_map_ABS}
 \end{figure}
 
 \hypertarget{public-transport-victoria-ptv}{%
@@ -405,7 +445,7 @@ Tourist Rail stops.}
 Larger scale testing was performed using the Victorian GTFS feed,
 published by Public Transport Victoria (PTV), sourced via
 \citet{transitfeeds_victoria:2023aa} for historical feeds. Again, ABS
-data was used for the areas\_of\_interest.
+data was used for the areas of interest.
 
 \hypertarget{extensions}{%
 \subsection{Extensions??}\label{extensions}}
@@ -427,42 +467,46 @@ functions developed to generate each table are shown in Figure 2. This
 indicates how the package takes input from three files: a gtfs feed
 (gtfs.zip); a sf object describing the geometry of the areas for which
 the SI is to be calculated; and a csv file defining the buffer zone
-distances (in metres) for each route\_type\footnote{A version of this
-  file is included in the package.}.
+distances (in metres) for each route type\footnote{This file is included
+  in the package.}.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/SI_data_structure} \caption{Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package}\label{fig:SI_ERD}
 \end{figure}
 
-Various data tables are output by functions included in the package. The
-ultimate output (Figure 2, bottom right) is a si\_by\_area\_and\_hour
-table, which reports the SI score for each hour of the day across dates
-specified by the user.
+The ultimate output is a si\_by\_area\_and\_hour table (Figure 2, bottom
+right), which reports the SI score for each hour of the day across dates
+specified by the user. The various functions and their output and
+explained in the following, using the Mornington Penninsula GTFS as an
+example.
 
 \hypertarget{mornington-penninsula-results}{%
 \subsection{Mornington Penninsula
 results}\label{mornington-penninsula-results}}
 
-This section shows outputs of the various functions for December 30th,
-2018, for the Mornington Peninsula Tourist Railway GTFS feed. The
-ultimate results, showing the SI scores for each Hourly results are
-shown in Table 2.
+Outputs of the various functions are shown in the following for December
+30th, 2018. The ultimate output, showing the SI scores for each hour,
+are shown in Table 1 and mapped in Figure 4.
 
 \begin{table}
 
-\caption{\label{tab:SI_mornington_20181230_output}Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zones}
+\caption{\label{tab:SI_mornington_20181230_output}Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for first 6 SA1 zones}
 \centering
 \begin{tabular}[t]{l|r|r|r|r|r|r}
 \hline
 area\_id & 10:00 & 11:00 & 12:00 & 13:00 & 14:00 & 15:00\\
 \hline
-214021381 & 0.0000672 & 0.0522962 & 0.0523635 & 0.0000672 & 0.0522962 & 0.0523635\\
+21402138114 & 0 & 0.5 & 0.5 & 0 & 0.5 & 0.5\\
 \hline
-214021385 & 0.0000000 & 0.0067970 & 0.0067970 & 0.0000000 & 0.0067970 & 0.0067970\\
+21402138115 & 0 & 0.1 & 0.1 & 0 & 0.1 & 0.1\\
 \hline
-214021591 & 0.2436873 & 0.1366432 & 0.3803305 & 0.1366432 & 0.2436873 & 0.3803305\\
+21402138128 & 0 & 0.2 & 0.2 & 0 & 0.2 & 0.2\\
 \hline
-214021592 & 0.0684965 & 0.0000000 & 0.0684965 & 0.0000000 & 0.0684965 & 0.0684965\\
+21402138502 & 0 & 0.0 & 0.0 & 0 & 0.0 & 0.0\\
+\hline
+21402138507 & 0 & 0.0 & 0.0 & 0 & 0.0 & 0.0\\
+\hline
+21402138508 & 0 & 0.0 & 0.0 & 0 & 0.0 & 0.0\\
 \hline
 \end{tabular}
 \end{table}
@@ -471,8 +515,398 @@ area\_id & 10:00 & 11:00 & 12:00 & 13:00 & 14:00 & 15:00\\
 \centering
 \includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/SI_mornington_20181230_output-1.pdf}
 \caption{Mornington Penninsula Tourist Railway hourly SI values for
-December 30, 2018, for SA1 zones}
+December 30, 2018}
 \end{figure}
+
+The results meet expectations, with higher scores for SA1 zones closer
+to the three stations. To confirm the calculation by hand selecting SA1
+21402138128, which is close to the Mornington Station, is relatively
+trivial. By inspection, all of SA1 21402138128 is within an 800 metre
+walking distance of Mornington Station, meaning that
+\(Area_{Bn} / Area_{area} = 1\). The SI scores for each hour are
+therefore equal to the number of arrivals in each hour. Table ?? shows
+the scores calculated by the funtion, which matches the pattern of
+arrivals shown in Figure ??
+
+\begin{table}
+
+\caption{\label{tab:mornington_hand_check}Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zone 21402159136}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r|r}
+\hline
+area\_id & 10:00 & 11:00 & 12:00 & 13:00 & 14:00 & 15:00\\
+\hline
+21402159136 & 1 & 0 & 1 & 0 & 1 & 1\\
+\hline
+\end{tabular}
+\end{table}
+
+\includegraphics[width=10.56in]{graphics/mornington_arrivals}
+
+\hypertarget{step-by-step-mornington-peninsula}{%
+\subsection{Step-by-step: Mornington
+Peninsula}\label{step-by-step-mornington-peninsula}}
+
+This section briefly describes the individual steps involved in using
+the gtfssupplyindex package. These are (1) loading the gtfs.zip file;
+(2) loading geometry information about the areas of interested; (3)
+calculating which stops are within the catchment walking distance of
+which areas; and (4) calculating SI scores for a given time period or,
+as above, for all hours on a specific day.
+
+\hypertarget{gtfs_by_route_type-function}{%
+\subsubsection{1. gtfs\_by\_route\_type
+function}\label{gtfs_by_route_type-function}}
+
+GTFS data is first loaded, with the gtfs\_by\_route\_type function
+splitting this into a list (by route\_type) of tidygtfs objects. This is
+achieved using the filter\_by\_route\_type function from the gtfstools
+package \citep{filter_GTFS_by_mode}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#load the revised mornington GTFS data}
+\NormalTok{list\_gtfs }\OtherTok{=}\NormalTok{ gtfssupplyindex}\SpecialCharTok{:::}\FunctionTok{gtfs\_by\_route\_type}\NormalTok{(}\FunctionTok{system.file}\NormalTok{(}
+  \StringTok{"extdata/mornington180109"}\NormalTok{,}
+  \StringTok{"gtfs.zip"}\NormalTok{, }
+  \AttributeTok{package =} \StringTok{"gtfssupplyindex"}\NormalTok{, }
+  \AttributeTok{mustWork =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{load_areas_of_interest-function}{%
+\subsubsection{2. load\_areas\_of\_interest
+function}\label{load_areas_of_interest-function}}
+
+Geographical data about the areas of interest are loaded by the
+load\_areas\_of\_interest.R function into an sf object, using the sf
+\citep{R-sf} package. The resultant areas\_of\_interest table contains
+each area\_id and its associated geometry.
+
+\begin{verbatim}
+## Reading layer `mornington_sa12021' from data source 
+##   `/Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library/gtfssupplyindex/extdata/mornington_sa12021.geojson' 
+##   using driver `GeoJSON'
+## Simple feature collection with 392 features and 1 field
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 144.6514 ymin: -38.49738 xmax: 145.2615 ymax: -38.16239
+## Geodetic CRS:  WGS 84
+\end{verbatim}
+
+\begin{table}
+
+\caption{\label{tab:load_ABS data}First 6 entries in areas_of_interest table}
+\centering
+\begin{tabular}[t]{l|l}
+\hline
+area\_id & geometry\\
+\hline
+21402137701 & MULTIPOLYGON (((144.9617 -3...\\
+\hline
+21402137702 & MULTIPOLYGON (((144.9916 -3...\\
+\hline
+21402137703 & MULTIPOLYGON (((144.9923 -3...\\
+\hline
+21402137704 & MULTIPOLYGON (((144.9878 -3...\\
+\hline
+21402137705 & MULTIPOLYGON (((145.0015 -3...\\
+\hline
+21402137706 & MULTIPOLYGON (((145.0088 -3...\\
+\hline
+\end{tabular}
+\end{table}
+
+Data about buffer zones, specifically the walking distance threshold
+assigned to each route\_type (mode) is then loaded, again through a
+function (load\_buffer\_zone.R). The package includes this information
+in a csv file, in which it is assumed that the buffer zone is definied
+in metres.
+
+\begin{table}
+
+\caption{\label{tab:load_buffer_distance_data}First six entries in buffer_distance definitions}
+\centering
+\begin{tabular}[t]{r|r|l}
+\hline
+route\_type & buffer\_distance & short\_name\\
+\hline
+0 & 400 & lrt\\
+\hline
+1 & 800 & subway\\
+\hline
+2 & 800 & rail\\
+\hline
+3 & 400 & bus\\
+\hline
+4 & 800 & ferry\\
+\hline
+5 & 400 & cable\_tram\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{stops_in_walk_dist-function}{%
+\subsubsection{3. stops\_in\_walk\_dist
+function}\label{stops_in_walk_dist-function}}
+
+The stops\_in\_walk\_dist function then generates a list (by
+route\_type) in which each element is a datea table describing which
+stops are within walking distance of which areas of interest. Each table
+entry includes a stop\_id, an area\_id that is within the
+buffer\_distance threshold of that stop, and the corresponding area
+related terms in the SI calculation\footnote{This is the
+  \(Area_{Bn} / Area_{Area}\) bit}.
+
+\begin{table}
+
+\caption{\label{tab:calculate_stop_in_or_near_areas}'Rail' element of the stops_in_or_near_areas list for the Mornington Pennisula datasets, first six entries}
+\centering
+\begin{tabular}[t]{l|l|r}
+\hline
+stop\_id & area\_id & area\_terms\\
+\hline
+1388695887 & 21402159101 & 0.7999912\\
+\hline
+1388695887 & 21402159102 & 0.0168220\\
+\hline
+1388695887 & 21402159105 & 0.6779951\\
+\hline
+1388695887 & 21402159107 & 0.6453927\\
+\hline
+1388695887 & 21402159111 & 0.2011127\\
+\hline
+1388695887 & 21402159113 & 0.1081424\\
+\hline
+\end{tabular}
+\end{table}
+
+The variables passed to the stop\_in\_or\_near\_areas function are
+list\_gtfs\footnote{The list of tidygtfs objects ouput by the
+  gtfs\_by\_route\_type function}, the areas\_of\_interest
+table\footnote{Which is the output of the load\_areas\_of\_interest
+  function}, the buffer\_distance table\footnote{Output by the
+  load\_buffer\_zones function}, and an EPSG\_for\_transform variable.
+This last variable is the Coordinate Reference System (CRS) value
+relevant to the geographic location. It is used to project the latitude
+and longitude values included in the GTFS data and area\_of\_interest
+data into metres, in this case relating to the GDA94 / MGA zone 55
+relevant to Australia\footnote{https://epsg.io/28355}.
+
+The stops\_in\_walk\_dist function is complicated by the need to have
+different buffer distances for each route\_type, and to only include
+those parts of the walking catchment that are within each area of
+interest. It is structured as follows:
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\item
+  The first part of the stops\_in\_walk\_dist function looks up the
+  buffer\_distance\_length specific to each route\_type in the list (by
+  route\_type) of tidygtfs objects. This value is appended to each
+  tidygtfs object as an additional element (named buffer\_distance).
+\item
+  Next the areas\_of interest are transformed from latitude and
+  longitude into metres, and the area is calculated.
+\item
+  The stops\_in\_walking\_distance function then applies a sub-function,
+  stops\_in\_walk\_dist\_one\_route, to the list\_gtfs (list of tidygtfs
+  objects), in which:
+\item
+  A list of stops is extracted from the tidygtfs, using the
+  stops\_as\_sf function from \citet{R-tidytransit}.
+\item
+  Circles are then drawn around each stop, with the radius equal to the
+  buffer distance. Intersecting these circles with the
+  areas\_of\_interest then outputs an sf showing the catchment of each
+  stop within each area of interest
+\item
+  Finally, the \(area_{Bn}\) terms are calculated for each combination
+  of stop\_id and area\_id,
+\end{enumerate}
+
+The stops\_in\_walk\_dist function includes a mode with output printed
+at each intermediate step (verbose = TRUE). The below shows the
+Morington Penninsula railway calculations again (as per the previous
+table), but run with verbose = TRUE so that intermediate steps are
+printed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stops\_in\_or\_near\_areas }\OtherTok{\textless{}{-}}\NormalTok{ gtfssupplyindex}\SpecialCharTok{:::}\FunctionTok{stops\_in\_walk\_dist}\NormalTok{(}
+  \AttributeTok{list\_gtfs =}\NormalTok{ list\_gtfs, }
+  \AttributeTok{areas\_of\_interest =}\NormalTok{ areas\_of\_interest,}
+  \AttributeTok{EPSG\_for\_transform =} \DecValTok{28355}\NormalTok{, }
+  \AttributeTok{verbose =} \ConstantTok{TRUE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/calculate_stop_in_or_near_areas_verbose-1} \caption{Step 5, circles around each stop, showing the intersections with the areas_of_interest, all stops}\label{fig:calculate_stop_in_or_near_areas_verbose-1}
+\end{figure}
+\begin{figure}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/calculate_stop_in_or_near_areas_verbose-2} \caption{as above, but from each stop individually}\label{fig:calculate_stop_in_or_near_areas_verbose-2}
+\end{figure}
+
+\hypertarget{calculating-stop-arrivals-and-the-si-si_total-and-hourly}{%
+\subsubsection{4. Calculating stop arrivals and the SI, SI\_total and
+hourly}\label{calculating-stop-arrivals-and-the-si-si_total-and-hourly}}
+
+The si\_calc.R function takes the stops\_in\_or\_near\_areas list (by
+route\_type) of dataframes and the list\_gtfs list (by route\_type) of
+tidygtfs objects and calculates the si\_by\_route\_type\footnote{Which,
+  again, is a list (by route\_type) of dataframes, each containing a
+  record for each area\_id and combination of date, start\_time and
+  end\_time specified by the user, and the corresponding (calculated) SI
+  value.}
+
+The tidytransit package includes an article about generating a departure
+timetable from a gtfs dataset \citep{tidytransit_departure_timetable}.
+Code from that article was adapted from this example to create functions
+to calculate the number of departures and arrivals from (a vector of)
+stop\_ids within a given time period. These functions are included in
+the package\footnote{See departures\_and\_arrivals.R} and called by the
+si\_calc function\footnote{Although this is not shown on the ERD}.
+Output from the arrivals function is shown in the bellow table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stop\_ids }\OtherTok{\textless{}{-}}\NormalTok{ list\_gtfs[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{stops }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(stop\_id)}
+
+\NormalTok{arrivals\_by\_stop\_id }\OtherTok{\textless{}{-}}\NormalTok{ gtfssupplyindex}\SpecialCharTok{::}\FunctionTok{arrivals}\NormalTok{(}
+ \AttributeTok{gtfs =}\NormalTok{ list\_gtfs[[}\DecValTok{1}\NormalTok{]],}
+ \AttributeTok{stop\_ids =}\NormalTok{ stop\_ids,}
+ \AttributeTok{date\_ymd =} \StringTok{"2018{-}12{-}30"}\NormalTok{,}
+ \AttributeTok{start\_hms =}\NormalTok{ lubridate}\SpecialCharTok{::}\FunctionTok{hms}\NormalTok{(}\StringTok{"10:30:00"}\NormalTok{),}
+ \AttributeTok{end\_hms =}\NormalTok{ lubridate}\SpecialCharTok{::}\FunctionTok{hms}\NormalTok{(}\StringTok{"16:00:00"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{arrivals\_by\_stop\_id }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Arrivals at each stop for Sunday December 30th 2018, Mornington Peninsula tourist railway."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:arrivals_mornington_20181230}Arrivals at each stop for Sunday December 30th 2018, Mornington Peninsula tourist railway.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+stop\_id & arrivals\\
+\hline
+1388695887 & 4\\
+\hline
+1452182324 & 8\\
+\hline
+650916735 & 4\\
+\hline
+\end{tabular}
+\end{table}
+
+This matches the number of trips shown in the Mornington Railway GTFS
+feed, being 4 in each direction\footnote{https://transitfeeds.com/p/mornington-railway/806/latest/stop/1388695887/20181230}.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{graphics/1388695887_inbound} \caption{Arrivals at Mornington Station (stop_id 1388695887) for 30/12/2018}\label{fig:SI_Mornington_arrivals}
+\end{figure}
+
+All the inputs to calculate the si are now available. Hence, the SI.calc
+function can be run, resulting in the si\_by\_route\_type list (by
+route\_type) of tables showing the area\_id corresponding SI values
+
+\begin{verbatim}
+## [1] "Now calculating rail"
+\end{verbatim}
+
+\begin{table}
+\caption{\label{tab:SI_mornington_20181230}SI values for Mornington Penninsula Railway services on 30/12/2018 (full day)}
+
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+area\_id & SI\\
+\hline
+214021381 & 0.2094539\\
+\hline
+214021385 & 0.0271880\\
+\hline
+214021591 & 1.5213219\\
+\hline
+214021592 & 0.2739859\\
+\hline
+\end{tabular}
+\end{table}
+
+The si\_total function aggregates the si\_by\_route\_type tables so that
+values are no longer separated by mode. Although in the case of the
+Mornington Penninsula Railway there is only one route\_type.
+
+Finally, the hourly function runs the si\_calc and si\_total functions
+for every hour in a single day. It outputs a table showing the SI scores
+for each area for each hour of the day\footnote{Across the service span}.
+The below table shows this output, together with row and column totals.
+
+\begin{table}
+
+\caption{\label{tab:SI_hourly_mornington_20181230}Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zones}
+\centering
+\begin{tabular}[t]{l|r|l|r}
+\hline
+area\_id & SI & hour\_starting & Total\\
+\hline
+214021381 & 0.0000672 & 10:00 & 0.0000672\\
+\hline
+214021385 & 0.0000000 & 10:00 & 0.0000000\\
+\hline
+214021591 & 0.2436873 & 10:00 & 0.2436873\\
+\hline
+214021592 & 0.0684965 & 10:00 & 0.0684965\\
+\hline
+214021381 & 0.0522962 & 11:00 & 0.0522962\\
+\hline
+214021385 & 0.0067970 & 11:00 & 0.0067970\\
+\hline
+214021591 & 0.1366432 & 11:00 & 0.1366432\\
+\hline
+214021592 & 0.0000000 & 11:00 & 0.0000000\\
+\hline
+214021381 & 0.0523635 & 12:00 & 0.0523635\\
+\hline
+214021385 & 0.0067970 & 12:00 & 0.0067970\\
+\hline
+214021591 & 0.3803305 & 12:00 & 0.3803305\\
+\hline
+214021592 & 0.0684965 & 12:00 & 0.0684965\\
+\hline
+214021381 & 0.0000672 & 13:00 & 0.0000672\\
+\hline
+214021385 & 0.0000000 & 13:00 & 0.0000000\\
+\hline
+214021591 & 0.1366432 & 13:00 & 0.1366432\\
+\hline
+214021592 & 0.0000000 & 13:00 & 0.0000000\\
+\hline
+214021381 & 0.0522962 & 14:00 & 0.0522962\\
+\hline
+214021385 & 0.0067970 & 14:00 & 0.0067970\\
+\hline
+214021591 & 0.2436873 & 14:00 & 0.2436873\\
+\hline
+214021592 & 0.0684965 & 14:00 & 0.0684965\\
+\hline
+214021381 & 0.0523635 & 15:00 & 0.0523635\\
+\hline
+214021385 & 0.0067970 & 15:00 & 0.0067970\\
+\hline
+214021591 & 0.3803305 & 15:00 & 0.3803305\\
+\hline
+214021592 & 0.0684965 & 15:00 & 0.0684965\\
+\hline
+Total & 2.0319496 & - & 2.0319496\\
+\hline
+\end{tabular}
+\end{table}
 
 \hypertarget{discussion-and-conclusions}{%
 \section{Discussion and conclusions}\label{discussion-and-conclusions}}
