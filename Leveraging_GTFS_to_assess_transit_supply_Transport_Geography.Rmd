@@ -82,6 +82,8 @@ library(devtools)
 library(gtfssupplyindex)
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
+
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```
 
 
@@ -332,12 +334,12 @@ GTFS is an open,
 text-based format 
 that was developed originally to allow transit information to be included in the Google Maps navigation platform [@GTFS]. 
 
-```{r GTFS_ERD, fig.width = 10, fig.height = 2, fig.fullwidth = TRUE, fig.cap = "GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r GTFS_ERD, fig.cap = "GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/GTFS.png")
 
 ```
 
-Figure 1 shows 
+Figure \@ref(fig:GTFS_ERD) shows 
 an Entity Relationship Diargram (ERD) 
 of the GTFS data structure. 
 Each box represents 
@@ -510,10 +512,10 @@ and absmapsdata packages [@r-strayr].
 The Mornington Peninsular Statistical Area 3 (SA3) zone 
 and the Statistical Area 1 (SA1) zones contained within it 
 were adopted as the areas of interest. 
-These are shown in Figure 2, 
+These are shown in Figure \@ref(fig:mornington_map_ABS), 
 together with the locations of the three railway stations.  
 
-```{r mornington_map_SA3, fig.cap = "Mornington Penninsula SA1 zones and location of Mornington Tourist Railway Stations.", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r mornington_map_SA3, fig.cap = "SA1 zones (red), location of Mornington Tourist Railway Stations (black) and boundary of zones within 800m catchment (blue)", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 ### ---------------- get abs data for Mornington Peninsula
 #options(timeout = 1000)
 #remotes::install_github("wfmackey/absmapsdata")
@@ -563,7 +565,7 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ```
 
-```{r mornington_map_ABS, fig.width = 3, fig.height= 3, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r mornington_map_ABS, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
 knitr::include_graphics("graphics/mornington.png")
 
@@ -592,7 +594,7 @@ and so this was used for code tests were appropriate.
 Developed code is available and documented on github [@gtfssupplyindex_github]. 
 The structure of the package 
 and the functions developed 
-to generate each table are shown in Figure 2. 
+to generate each table are shown in Figure \@ref(fig:SI_ERD). 
 This indicates how the package takes input from three files: 
 a gtfs feed (gtfs.zip); 
 a sf object describing the geometry of the areas 
@@ -600,29 +602,173 @@ for which the SI is to be calculated; and
 a csv file defining the buffer zone distances (in metres) 
 for each route type^[This file is included in the package.]. 
 
-```{r SI_ERD, fig.width = 10, fig.height = 2, fig.fullwidth = TRUE, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r SI_ERD, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/SI_data_structure.png")
 
 ```
 
 The ultimate output 
 is a si_by_area_and_hour table 
-(Figure 2, bottom right), 
+(Figure \@ref(fig:SI_ERD), bottom right), 
 which reports the SI score for each hour of the day 
 across dates specified by the user. 
 The various functions and their output 
 and explained in the following, 
-using the Mornington Penninsula GTFS 
+using the Mornington Peninsula GTFS 
 as an example.
 
-## Mornington Penninsula results
-Outputs of the various functions 
-are shown in the following 
-for December 30th, 2018. 
+## Step-by-step: Mornington Peninsula
+
+This section presents 
+outputs of the various functions 
+for December 30th, 2018, 
+using the Mornington Penninsula Tourist Railway GTFS feed 
+and SA1 zone boundaries. 
+The individual steps involved in using the gtfssupplyindex package are:
+
+(1) loading the gtfs.zip file - the gtfs_by_route_type function loads the gtfs data and splits it into a list (by route_type) of tidygtfs objects, using the filter_by_route_type function from the gtfstools package [@filter_GTFS_by_mode].
+
+```{r load_mornington_GTFS data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+#load the revised mornington GTFS data
+list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
+  "extdata/mornington180109",
+  "gtfs.zip", 
+  package = "gtfssupplyindex", 
+  mustWork = TRUE))
+
+```
+
+(2) loading geometry information about the areas of interest - geographical data about the areas of interest are loaded by the load_areas_of_interest.R function into an sf object, using the sf package [@R-sf] . The resultant areas_of_interest table contains each area_id and its associated geometry. 
+Data about buffer zones, specifically the walking distance threshold assigned to each route_type (mode) is then loaded, again through a function (load_buffer_zone.R). The package includes this information in a csv file, in which the buffer zone is defined in metres. 
+  
+
+```{r load_ABS data, echo = FALSE, error = FALSE, include = FALSE, results='hide', warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+
+suppressWarnings({
+areas_of_interest <- load_areas_of_interest(areas_of_interest = sf::st_read(system.file(
+  "extdata",
+  "mornington_sa12021.geojson", 
+  package = "gtfssupplyindex", 
+  mustWork = TRUE)), 
+  area_id_field = "sa1_code_2021")
+})
+
+#head(areas_of_interest) %>% kable(caption = "First 6 entries in areas of interest table")
+```
+
+```{r load_buffer_distance_data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+#head(buffer_distance) %>% kable(caption = "First six entries in buffer distance definitions")
+```
+
+(3) calculating which stops are within the catchment walking distance of which areas, which is achieved using the stops_in_walk_dist function. However, this is complicated by the need to have different buffer distances for each route_type, and to only include those parts of the walking catchment that are within each area of interest. The calculation involves: (1) looking up the buffer_distance_length specific to each route_type; (2) transforming from latitude and longitude into metres and determining the area; (3) drawing circles around each stop, with the radius equal to the buffer distance, and intersecting these with the areas_of_interest (see Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose)); (4) calculating the $area_{Bn}$ terms are for each combination of stop_id and area_id; and then reporting the overall area terms for each area_of_interest ($Area_{Bn} / Area_{Area}$), as shown in Table \ref@(tab:calculate_stop_in_or_near_areas).
+
+```{r calculate_stop_in_or_near_areas_verbose, echo = TRUE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.keep = "first", fig.cap= "Step 3, part 4, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones"}
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355, 
+  verbose = TRUE
+)
+
+```
+
+```{r calculate_stop_in_or_near_areas, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355, 
+  verbose = FALSE
+)
+
+head(stops_in_or_near_areas[[1]]) %>% kable(caption = "'Rail' element of the stops in or near areas list for the Mornington Pennisula datasets, first six entries")
+```
+
+<!-- The variables passed to the stop_in_or_near_areas function are list_gtfs^[The list of tidygtfs objects ouput by the gtfs_by_route_type function], the areas_of_interest table^[Which is the output of the load_areas_of_interest function], the buffer_distance table^[Output by the load_buffer_zones function], and an EPSG_for_transform variable. This last variable is the Coordinate Reference System (CRS) value relevant to the geographic location. It is used to project the latitude and longitude values included in the GTFS data and area_of_interest data into metres, in this case relating to the GDA94 / MGA zone 55 relevant to Australia^[https://epsg.io/28355].  
+
+--->
+
+
+(4) Calculating SI scores for a given time period, using the si_calc.R function. This adapts code from an article included in the tidytransit package [@tidytransit_departure_timetable] to calculate the number of arrivals in a given time period, and then combines this with the area terms to calculate the SI score. The si_total.R function aggregates the SI scores across all modes, although the Mornington Penninsula example presented here only includes rail services. Hourly values can likewise be generated using the hourly.R function which runs , giving the results shown in Table \@ref(tab:SI_mornington_20181230_output)and mapped in Figure \@ref(fig:SI_mornington_20181230_output). 
+
+```{r arrivals_mornington_20181230, echo = FALSE, eval=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+stop_ids <- list_gtfs[[1]]$stops %>%
+ dplyr::select(stop_id)
+
+arrivals_by_stop_id <- gtfssupplyindex::arrivals(
+ gtfs = list_gtfs[[1]],
+ stop_ids = stop_ids,
+ date_ymd = "2018-12-30",
+ start_hms = lubridate::hms("10:30:00"),
+ end_hms = lubridate::hms("16:00:00")
+)
+
+arrivals_by_stop_id %>% kable(caption = "Arrivals at each stop for Sunday December 30th 2018, Mornington Peninsula tourist railway.")
+
+```
+<!--- This matches the number of trips shown in the Mornington Railway GTFS feed, being 4 in each direction^[https://transitfeeds.com/p/mornington-railway/806/latest/stop/1388695887/20181230]. 
+
+```{r SI_Mornington_arrivals, fig.margin = FALSE, fig.cap = "Arrivals at Mornington Station (stop id 1388695887) for 30/12/2018", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+knitr::include_graphics("graphics/1388695887_inbound.png")
+
+```
+
+All the inputs to calculate the si are now available. Hence, the SI.calc function can be run, resulting in the si_by_route_type list (by route_type) of tables showing the area_id corresponding SI values
+
+```{r SI_mornington_20181230, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+####-----first load all the inputs
+
+#load the revised mornington GTFS data
+list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
+  "extdata/mornington180109",
+  "gtfs.zip", 
+  package = "gtfssupplyindex", 
+  mustWork = TRUE))
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa22021 %>% filter(sa3_name_2021 == "Mornington Peninsula") %>% select(sa2_code_2021),  area_id_field = "sa2_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+####----run SI.calc function to build si_by_mode_and_time list (by route_type) of tables
+
+si_by_route_type <- si_calc(
+    list_gtfs = list_gtfs,
+    stops_in_or_near_areas = stops_in_or_near_areas, 
+    date_ymd = lubridate::ymd("2018-12-30"), 
+    start_hms = lubridate::hms("10:30:00"),
+    end_hms = lubridate::hms("16:00:00"),
+    verbose = TRUE)
+
+si_by_route_type %>% kable(caption = "SI values for Mornington Penninsula Railway services on 30/12/2018 (full day)")
+
+```
+
+The si_total function aggregates the si_by_route_type tables so that values are no longer separated by mode. Although in the case of the Mornington Penninsula Railway there is only one route_type.  
+
+Finally, the hourly function runs the si_calc and si_total functions for every hour in a single day. It outputs a table showing the SI scores for each area for each hour of the day^[Across the service span]. The below table shows this output, together with row and column totals.  
+
+```{r SI_hourly_mornington_20181230, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+si_by_area_and_hour_wider <- hourly(list_gtfs, stops_in_or_near_areas, "2018-12-30")
+
+si_by_area_and_hour_wider %>% adorn_totals(where = c("row", "col")) %>% kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zones")
+
+```
+--->
+
+
 The ultimate output, 
 showing the SI scores for each hour,
-are shown in Table 1
-and mapped in Figure 4. 
+isshown in Table \@ref(tab:SI_mornington_20181230_output)
+and mapped in Figure \@ref(fig:SI_mornington_20181230_output). 
 
 
 ```{r SI_mornington_20181230_output, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.cap = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018"}
@@ -678,9 +824,9 @@ ggplot() +
 
 ```
 
-The results meet expectations, with higher scores for SA1 zones closer to the three stations. To confirm the calculation by hand selecting SA1 21402138128, which is close to the Mornington Station, is relatively trivial. By inspection, all of SA1 21402138128 is within an 800 metre walking distance of Mornington Station, meaning that $Area_{Bn} / Area_{area} = 1$.  The SI scores for each hour are therefore equal to the number of arrivals in each hour.  Table ?? shows the scores calculated by the funtion, which matches the pattern of arrivals shown in Figure ??
+The results meet expectations, with higher scores for SA1 zones closer to the three stations. Hand calculation for SA1 21402159136, which is close to the Mornington Station, to confirm the results is relatively trivial. By inspection, all of SA1 21402159136 (shown in purple in Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose) is within an 800 metre walking distance of Mornington Station, meaning that $Area_{Bn} / Area_{area} = 1$.  The SI scores for each hour are therefore equal to the number of arrivals in each hour.  Table \@ref(tab:mornington_hand_check) shows the scores calculated by the function, which matches the pattern of arrivals at 10:47am, 12:12pm, 2:02pm and 3:27pm^[See  https://transitfeeds.com/p/mornington-railway/806/latest/stops].
 
-```{r mornington_hand_check, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r mornington_hand_check, fig.cap = "Mornington Penninsula Railway GTFS summary", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 
 
 si_by_area_and_hour_wider %>% 
@@ -689,143 +835,50 @@ si_by_area_and_hour_wider %>%
   kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zone 21402159136")
 
 
-knitr::include_graphics("graphics/mornington_arrivals.png")
+#knitr::include_graphics("graphics/mornington_arrivals.png")
 
 
 
 ```
 
 
-## Step-by-step: Mornington Peninsula
+## Greater Melbourne - October 2023
+As a further example, hourly SI scores were calculated  for all SA1 2021 zones within Greater Melbourne on Tuesday 10th, Saturday 14th and Sunday 15th October, 2023. These dates were selected so as to match the typical census timing of a Tuesday early in October, although 2023 is not actually a census year. GTFS data was obtained from @transitfeeds_victoria:2023aa, with the October 6, 2023 dataset selected^[Minor adjustments were made to this dataset to remove duplicate stop_ids from the stops.txt file]. SI scores by hour for SA1 zones in the centre of Melbourne (shown in Figure \@ref(CBD_map)) on Tuesday 10th October are shown in Figure \@ref(Melbourne_CBD_map_231010), 
 
-This section briefly describes the individual steps involved in using the gtfssupplyindex package.  These are (1) loading the gtfs.zip file; (2) loading geometry information about the areas of interested; (3) calculating which stops are within the catchment walking distance of which areas; and (4) calculating SI scores for a given time period or, as above, for all hours on a specific day. 
+```{r CBD_map, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
-### 1. gtfs_by_route_type function
-
-GTFS data is first loaded, with the gtfs_by_route_type function splitting this into a list (by route_type) of tidygtfs objects. This is achieved using the filter_by_route_type function from the gtfstools package [@filter_GTFS_by_mode].
-
-```{r load_mornington_GTFS data, echo = TRUE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-#load the revised mornington GTFS data
-list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
-  "extdata/mornington180109",
-  "gtfs.zip", 
-  package = "gtfssupplyindex", 
-  mustWork = TRUE))
+knitr::include_graphics("graphics/Melbourne_cbd.png")
 
 ```
 
 
-### 2. load_areas_of_interest function
+
+```{r fix_ptv_data_Victoria_231006, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_231006 <- tidytransit::read_gtfs("data/ptv_231006/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_231006_duplicated_stops <- tabyl(ptv_231006$stops$stop_id) %>% filter (n>1)
+names(ptv_231006_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_231006_duplicated_stops <- left_join(ptv_231006_duplicated_stops, ptv_231006$stops)
+
+##discard duplicates
+ptv_231006$stops <- ptv_231006$stops[!duplicated(ptv_231006$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_231006 <- as_tidygtfs(ptv_231006)
+tidytransit::write_gtfs(ptv_231006, "data/ptv_231006/gtfs_duplicate_stops_removed.zip")
 
 
-Geographical data about the areas of interest are loaded by the load_areas_of_interest.R function into an sf object, using the sf [@R-sf] package. The resultant areas_of_interest table contains each area_id and its associated geometry.   
+## convert to list of tidygtfs objects
+ptv_231006_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_231006/gtfs_duplicate_stops_removed.zip")
 
-```{r load_ABS data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-areas_of_interest <- load_areas_of_interest(areas_of_interest = sf::st_read(system.file(
-  "extdata",
-  "mornington_sa12021.geojson", 
-  package = "gtfssupplyindex", 
-  mustWork = TRUE)), 
-  area_id_field = "sa1_code_2021")
-head(areas_of_interest) %>% kable(caption = "First 6 entries in areas_of_interest table")
+list_gtfs = ptv_231006_list_gtfs
 
-```
-
-Data about buffer zones, specifically the walking distance threshold assigned to each route_type (mode) is then loaded, again through a function (load_buffer_zone.R). The package includes this information in a csv file, in which it is assumed that the buffer zone is definied in metres. 
-
-```{r load_buffer_distance_data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-head(buffer_distance) %>% kable(caption = "First six entries in buffer_distance definitions")
-```
-
-### 3. stops_in_walk_dist function
-
-The stops_in_walk_dist function then generates a list (by route_type) in which each element is a datea table describing which stops are within walking distance of which areas of interest. Each table entry includes a stop_id, an area_id that is within the buffer_distance threshold of that stop, and the corresponding area related terms in the SI calculation^[This is the $Area_{Bn} / Area_{Area}$ bit]. 
-
-```{r calculate_stop_in_or_near_areas, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355, 
-  verbose = FALSE
-)
-
-head(stops_in_or_near_areas[[1]]) %>% kable(caption = "'Rail' element of the stops_in_or_near_areas list for the Mornington Pennisula datasets, first six entries")
-```
-
-The variables passed to the stop_in_or_near_areas function are list_gtfs^[The list of tidygtfs objects ouput by the gtfs_by_route_type function], the areas_of_interest table^[Which is the output of the load_areas_of_interest function], the buffer_distance table^[Output by the load_buffer_zones function], and an EPSG_for_transform variable. This last variable is the Coordinate Reference System (CRS) value relevant to the geographic location. It is used to project the latitude and longitude values included in the GTFS data and area_of_interest data into metres, in this case relating to the GDA94 / MGA zone 55 relevant to Australia^[https://epsg.io/28355].  
-
-The stops_in_walk_dist function is complicated by the need to have different buffer distances for each route_type, and to only include those parts of the walking catchment that are within each area of interest. It is structured as follows:  
-
-(1) The first part of the stops_in_walk_dist function looks up the buffer_distance_length specific to each route_type in the list (by route_type) of tidygtfs objects. This value is appended to each tidygtfs object as an additional element (named buffer_distance). 
-
-(2) Next the areas_of interest are transformed from latitude and longitude into metres, and the area is calculated. 
-
-(3) The stops_in_walking_distance function then applies a sub-function, stops_in_walk_dist_one_route, to the list_gtfs (list of tidygtfs objects), in which: 
-
-(4) A list of stops is extracted from the tidygtfs, using the stops_as_sf function from @R-tidytransit. 
-
-(5) Circles are then drawn around each stop, with the radius equal to the buffer distance.  Intersecting these circles with the areas_of_interest then outputs an sf showing the catchment of each stop within each area of interest
-
-(6) Finally, the $area_{Bn}$ terms are calculated for each combination of stop_id and area_id, 
-
-The stops_in_walk_dist function includes a mode with output printed at each intermediate step (verbose = TRUE). The below shows the Morington Penninsula railway calculations again (as per the previous table), but run with verbose = TRUE so that intermediate steps are printed.  
-
-
-```{r calculate_stop_in_or_near_areas_verbose, echo = TRUE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.cap= c( "Step 5, circles around each stop, showing the intersections with the areas_of_interest, all stops", "as above, but from each stop individually")}
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355, 
-  verbose = TRUE
-)
-
-```
-
-
-### 4. Calculating stop arrivals and the SI, SI_total and hourly
-
-
-The si_calc.R function takes the stops_in_or_near_areas list (by route_type) of dataframes and the list_gtfs list (by route_type) of tidygtfs objects and calculates the si_by_route_type^[Which, again, is a list (by route_type) of dataframes, each containing a record for each area_id and combination of date, start_time and end_time specified by the user, and the corresponding (calculated) SI value.]
-
-The tidytransit package includes an article about generating a departure timetable from a gtfs dataset [@tidytransit_departure_timetable]. Code from that article was adapted from this example to create functions to calculate the number of departures and arrivals from (a vector of) stop_ids within a given time period. These functions are included in the package^[See departures_and_arrivals.R] and called by the si_calc function^[Although this is not shown on the ERD].  Output from the arrivals function is shown in the bellow table. 
-
-```{r arrivals_mornington_20181230, echo = TRUE, warning=FALSE, message=FALSE, cache=TRUE}
-
-stop_ids <- list_gtfs[[1]]$stops %>%
- dplyr::select(stop_id)
-
-arrivals_by_stop_id <- gtfssupplyindex::arrivals(
- gtfs = list_gtfs[[1]],
- stop_ids = stop_ids,
- date_ymd = "2018-12-30",
- start_hms = lubridate::hms("10:30:00"),
- end_hms = lubridate::hms("16:00:00")
-)
-
-arrivals_by_stop_id %>% kable(caption = "Arrivals at each stop for Sunday December 30th 2018, Mornington Peninsula tourist railway.")
-
-```
-This matches the number of trips shown in the Mornington Railway GTFS feed, being 4 in each direction^[https://transitfeeds.com/p/mornington-railway/806/latest/stop/1388695887/20181230]. 
-
-```{r SI_Mornington_arrivals, fig.width = 10, fig.height = 2, fig.margin = FALSE, fig.cap = "Arrivals at Mornington Station (stop_id 1388695887) for 30/12/2018", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-knitr::include_graphics("graphics/1388695887_inbound.png")
-
-```
-
-All the inputs to calculate the si are now available. Hence, the SI.calc function can be run, resulting in the si_by_route_type list (by route_type) of tables showing the area_id corresponding SI values
-
-```{r SI_mornington_20181230, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-####-----first load all the inputs
-
-#load the revised mornington GTFS data
-list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
-  "extdata/mornington180109",
-  "gtfs.zip", 
-  package = "gtfssupplyindex", 
-  mustWork = TRUE))
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa22021 %>% filter(sa3_name_2021 == "Mornington Peninsula") %>% select(sa2_code_2021),  area_id_field = "sa2_code_2021")
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
 buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
@@ -836,31 +889,418 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-####----run SI.calc function to build si_by_mode_and_time list (by route_type) of tables
+```
 
-si_by_route_type <- si_calc(
-    list_gtfs = list_gtfs,
-    stops_in_or_near_areas = stops_in_or_near_areas, 
-    date_ymd = lubridate::ymd("2018-12-30"), 
-    start_hms = lubridate::hms("10:30:00"),
-    end_hms = lubridate::hms("16:00:00"),
-    verbose = TRUE)
 
-si_by_route_type %>% kable(caption = "SI values for Mornington Penninsula Railway services on 30/12/2018 (full day)")
+
+```{r run_for_all_modes_Victoria_231006, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_231010 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231010, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010")
+
+
+si_by_area_and_hour_231014 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231014, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014")
+
+
+
+si_by_area_and_hour_231015 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231015, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015")
 
 ```
 
-The si_total function aggregates the si_by_route_type tables so that values are no longer separated by mode. Although in the case of the Mornington Penninsula Railway there is only one route_type.  
 
-Finally, the hourly function runs the si_calc and si_total functions for every hour in a single day. It outputs a table showing the SI scores for each area for each hour of the day^[Across the service span]. The below table shows this output, together with row and column totals.  
+```{r Melbourne_231010, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
-```{r SI_hourly_mornington_20181230, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231010 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010")
+si_by_area_and_hour_231010 <- si_by_area_and_hour_231010[,2:4]
+si_by_area_and_hour_231010$area_id <- as.character(si_by_area_and_hour_231010$area_id)
 
-si_by_area_and_hour_wider <- hourly(list_gtfs, stops_in_or_near_areas, "2018-12-30")
+#pivot to wider for display as table
+si_by_area_and_hour_231010_wider <- si_by_area_and_hour_231010 %>% pivot_wider(names_from = hour_starting, values_from = SI)
 
-si_by_area_and_hour_wider %>% adorn_totals(where = c("row", "col")) %>% kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zones")
+#si_by_area_and_hour_231010_wider %>% select(1, 6:25) %>% head() %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 6 SA1 zones, 4am to 11pm only" )
+
 
 ```
+
+```{r Melbourne_231014, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231014 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014")
+si_by_area_and_hour_231014 <- si_by_area_and_hour_231014[,2:4]
+si_by_area_and_hour_231014$area_id <- as.character(si_by_area_and_hour_231014$area_id)
+
+#pivot to wider for display as table
+si_by_area_and_hour_231014_wider <- si_by_area_and_hour_231014 %>% pivot_wider(names_from = hour_starting, values_from = SI)
+
+##Skip printing table
+#si_by_area_and_hour_231014_wider %>% select(1, 6:28) %>% head(n=75) %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 75 SA1 zones, 4am to 2am only" )
+
+
+```
+
+
+```{r Melbourne_231015, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231015 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015")
+si_by_area_and_hour_231015 <- si_by_area_and_hour_231015[,2:4]
+si_by_area_and_hour_231015$area_id <- as.character(si_by_area_and_hour_231015$area_id)
+
+#pivot to wider for display as table
+si_by_area_and_hour_231015_wider <- si_by_area_and_hour_231015 %>% pivot_wider(names_from = hour_starting, values_from = SI)
+
+## Skip table
+#si_by_area_and_hour_231015_wider %>% select(1, 6:28) %>% head(n=75) %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 75 SA1 zones, 4am to 2am only" )
+
+
+```
+
+```{r Melbourne_CBD_map_231010, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for October 10, 2023, by hour between 5am and 1am"}
+
+map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+#Join SI to map data
+map_si_by_area_and_hour_231010 <- inner_join(map_areas_of_interest, si_by_area_and_hour_231010)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_231010$hour_starting <- hm(map_si_by_area_and_hour_231010$hour_starting)
+map_si_by_area_and_hour_231010$hour_starting <- hour(map_si_by_area_and_hour_231010$hour_starting)
+
+xlim <- c(144.93343289587824,  144.9946369676684)
+ylim <- c(-37.80347733938971, -37.82753754010771)
+
+
+
+#plot only 5am to 1am
+ggplot() + 
+  geom_sf(data=map_si_by_area_and_hour_231010 %>% filter(hour_starting %in% (5:24)),
+          aes(fill = SI)) +
+            facet_wrap(vars(hour_starting)) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  coord_sf(xlim = xlim, ylim = ylim)  
+```
+
+The results shown in Figure \@ref(Melbourne_CBD_map_231010) meet expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop^[Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station.], and where many tram and bus routes converge. The SI scores are highest during the day, especially in the morning and afternoon peak periods around 7-9am and 4-7pm, reflecting the typical service peaks. 
+
+### By mode
+
+SI scores were also obtained for each mode separately. Scores for the whole day on Tuesday October 10th, 2023 are shown in Figure \@ref(Melbourne_231010_by_mode).
+
+```{r run_for_tram_Victoria_231006, eval = FALSE, echo = FALSE}
+
+### eval = FALSE so this chunk will not run
+si_by_area_and_hour_231010 <- hourly(
+  
+list_gtfs = ptv_231006_list_gtfs[[1]], 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231010, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_tram")
+
+
+si_by_area_and_hour_231014 <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[[1]], 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231014, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_tram")
+
+
+si_by_area_and_hour_231015 <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[[1]], 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-10-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231015, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_tram")
+```
+
+
+```{r run_for_rail_Victoria_231006, eval = FALSE, echo = FALSE}
+
+#### eval = FALSE so this chunk will not run
+si_by_area_and_hour_231010_rail <- hourly(
+list_gtfs = ptv_231006_list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-10-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231010_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_rail")
+
+si_by_area_and_hour_231014_rail <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-10-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231014_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_rail")
+
+si_by_area_and_hour_231015_rail <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-10-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231015_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_rail")
+
+```
+
+
+```{r run_for_bus_Victoria_231006, eval = FALSE, echo = FALSE}
+
+### eval = FALSE so this chunk will not run
+si_by_area_and_hour_231010_bus <- hourly(
+list_gtfs = ptv_231006_list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-10-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231010_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_bus")
+
+si_by_area_and_hour_231014_bus <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-10-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231014_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_bus")
+
+si_by_area_and_hour_231015_bus <- hourly(
+  list_gtfs = ptv_231006_list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-10-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_231015_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_bus")
+
+```
+
+
+
+
+```{r Melbourne_231010_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for October 10, 2023, by mode", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231010_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_tram")
+si_by_area_and_hour_231010_tram <- si_by_area_and_hour_231010_tram[,2:4]
+si_by_area_and_hour_231010_tram$area_id <- as.character(si_by_area_and_hour_231010_tram$area_id)
+
+si_by_area_and_hour_231010_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_rail")
+si_by_area_and_hour_231010_rail <- si_by_area_and_hour_231010_rail[,2:4]
+si_by_area_and_hour_231010_rail$area_id <- as.character(si_by_area_and_hour_231010_rail$area_id)
+
+si_by_area_and_hour_231010_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_bus")
+si_by_area_and_hour_231010_bus <- si_by_area_and_hour_231010_bus[,2:4]
+si_by_area_and_hour_231010_bus$area_id <- as.character(si_by_area_and_hour_231010_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_231010_tram$mode <- "Tram"
+si_by_area_and_hour_231010_rail$mode <- "Rail"
+si_by_area_and_hour_231010_bus$mode <- "Bus"
+
+si_by_area_and_hour_231010_all_modes <- merge(si_by_area_and_hour_231010_tram, si_by_area_and_hour_231010_rail, all = TRUE)
+si_by_area_and_hour_231010_all_modes <- merge(si_by_area_and_hour_231010_all_modes, si_by_area_and_hour_231010_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_231010_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231010_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_231010_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231010_all_modes$hour_starting)
+map_si_by_area_and_hour_231010_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231010_all_modes$hour_starting)
+
+
+#plot bus, tram and rail
+#ggplot() + 
+#  geom_sf(data=map_si_by_area_and_hour_231010_all_modes,
+#          aes(fill = SI)) +
+#            facet_wrap(vars(mode)) +
+#  theme(axis.text.x=element_blank(), #remove x axis labels
+#        axis.ticks.x=element_blank(), #remove x axis ticks
+#        axis.text.y=element_blank(),  #remove y axis labels
+#        axis.ticks.y=element_blank()  #remove y axis ticks
+#  ) +
+#  coord_sf(xlim = xlim, ylim = ylim) 
+```
+
+Figure \@ref(Melbourne_231010_by_mode) indicates how the central city is serviced by:
+ - buses that mostly travel along the Latrobe and Queen Street corridors, many of which travel east-west along Victoria Street to/from the north-east; 
+ - rail services stopping at City Loop stations; and 
+ - tram services, most of which running north-south along the Swanston Street corridor.  
+  
+
+```{r Melbourne_231014_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Sunday October 15, 2023, by mode", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231014_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_tram")
+si_by_area_and_hour_231014_tram <- si_by_area_and_hour_231014_tram[,2:4]
+si_by_area_and_hour_231014_tram$area_id <- as.character(si_by_area_and_hour_231014_tram$area_id)
+
+si_by_area_and_hour_231014_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_rail")
+si_by_area_and_hour_231014_rail <- si_by_area_and_hour_231014_rail[,2:4]
+si_by_area_and_hour_231014_rail$area_id <- as.character(si_by_area_and_hour_231014_rail$area_id)
+
+si_by_area_and_hour_231014_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_bus")
+si_by_area_and_hour_231014_bus <- si_by_area_and_hour_231014_bus[,2:4]
+si_by_area_and_hour_231014_bus$area_id <- as.character(si_by_area_and_hour_231014_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_231014_tram$mode <- "Tram"
+si_by_area_and_hour_231014_rail$mode <- "Rail"
+si_by_area_and_hour_231014_bus$mode <- "Bus"
+
+si_by_area_and_hour_231014_all_modes <- merge(si_by_area_and_hour_231014_tram, si_by_area_and_hour_231014_rail, all = TRUE)
+si_by_area_and_hour_231014_all_modes <- merge(si_by_area_and_hour_231014_all_modes, si_by_area_and_hour_231014_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_231014_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231014_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_231014_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231014_all_modes$hour_starting)
+map_si_by_area_and_hour_231014_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231014_all_modes$hour_starting)
+
+#plot bus, tram and rail
+#ggplot() + 
+#  geom_sf(data=map_si_by_area_and_hour_231014_all_modes,
+#          aes(fill = (SI))) +
+#            facet_wrap(vars(mode)) +
+#  theme(axis.text.x=element_blank(), #remove x axis labels
+#        axis.ticks.x=element_blank(), #remove x axis ticks
+#        axis.text.y=element_blank(),  #remove y axis labels
+#        axis.ticks.y=element_blank()  #remove y axis ticks
+#  ) +
+#  coord_sf(xlim = xlim, ylim = ylim) 
+
+```
+  
+
+```{r Melbourne_231015_by_mode, fig.cap = c( "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Tuesday October 10, 2023, by mode", "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Saturday October 14, 2023, by mode", "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Sunday October 15, 2023, by mode"), crop = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_231015_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_tram")
+si_by_area_and_hour_231015_tram <- si_by_area_and_hour_231015_tram[,2:4]
+si_by_area_and_hour_231015_tram$area_id <- as.character(si_by_area_and_hour_231015_tram$area_id)
+
+si_by_area_and_hour_231015_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_rail")
+si_by_area_and_hour_231015_rail <- si_by_area_and_hour_231015_rail[,2:4]
+si_by_area_and_hour_231015_rail$area_id <- as.character(si_by_area_and_hour_231015_rail$area_id)
+
+si_by_area_and_hour_231015_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_bus")
+si_by_area_and_hour_231015_bus <- si_by_area_and_hour_231015_bus[,2:4]
+si_by_area_and_hour_231015_bus$area_id <- as.character(si_by_area_and_hour_231015_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_231015_tram$mode <- "Tram"
+si_by_area_and_hour_231015_rail$mode <- "Rail"
+si_by_area_and_hour_231015_bus$mode <- "Bus"
+
+si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_tram, si_by_area_and_hour_231015_rail, all = TRUE)
+si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_all_modes, si_by_area_and_hour_231015_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_231015_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231015_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_231015_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231015_all_modes$hour_starting)
+map_si_by_area_and_hour_231015_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231015_all_modes$hour_starting)
+
+
+#plot bus, tram and rail by date
+ggplot() + 
+  geom_sf(data=map_si_by_area_and_hour_231010_all_modes,
+          aes(fill = (SI))) +
+            facet_wrap(vars(mode)) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  coord_sf(xlim = xlim, ylim = ylim) 
+
+#plot bus, tram and rail by date
+ggplot() + 
+  geom_sf(data=map_si_by_area_and_hour_231014_all_modes,
+          aes(fill = (SI))) +
+            facet_wrap(vars(mode)) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  coord_sf(xlim = xlim, ylim = ylim) 
+
+
+
+#plot bus, tram and rail by date
+ggplot() + 
+  geom_sf(data=map_si_by_area_and_hour_231015_all_modes,
+          aes(fill = (SI))) +
+            facet_wrap(vars(mode)) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  coord_sf(xlim = xlim, ylim = ylim) 
+
+```
+
+
+Figure \@ref(Melbourne_231015_by_mode) shows a similar plot, but for Sunday October 15th, 2023. However, in this case the bus scores appear very low. While Sunday bus services in the CBD are generally much less frequent on Sundays than on other days, further investigation suggests that strike action had been planned around that time by transit workers[@Hannaford_2023]. While it is unclear what normal services had been officially cancelled around that time, it appears likely that Sunday bus services may have been cut so as to have some replacement bus capacity available on other days. Regardless, this suggests that the October 2023 services reported above may not actually be representative of typical conditions in Melbourne. Hence, in the following section a similar analysis is shown for July 2023 instead.  
+
+
+## Greater Melbourne - July 2023
+
+
+### Central Business District (CBD)
+
+
+### Clayton
+
+### Local Government Areas
+
+### Patterns
+
+### Trends
+
+
+# Extensions
+## Melbourne CBD Index
+
+## New York Index
+
+## London Index
+
 
 
 # Discussion and conclusions
