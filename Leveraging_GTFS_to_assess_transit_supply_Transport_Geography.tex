@@ -103,6 +103,7 @@ authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
 
 
 
+\usepackage{subfig}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -692,9 +693,9 @@ to/from the north-east; - rail services stopping at City Loop stations;
 and - tram services, most of which running north-south along the
 Swanston Street corridor.
 
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-1.pdf}
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-2.pdf}
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-3.pdf}
+\begin{figure}
+\subfloat[a. Tuesday October 10, 2023\label{fig:Melbourne_231015_by_mode-1}]{\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-1} }\subfloat[b. Satuday October 14, 2023\label{fig:Melbourne_231015_by_mode-2}]{\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-2} }\subfloat[c. Sunday October 15, 2023\label{fig:Melbourne_231015_by_mode-3}]{\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-3} }\caption{Victorian GTFS and SA1 zones near the Melbourne CBD, SI values, by mode}\label{fig:Melbourne_231015_by_mode}
+\end{figure}
 
 Figure @ref(Melbourne\_231015\_by\_mode) shows a similar plot, but for
 Sunday October 15th, 2023. However, in this case the bus scores appear

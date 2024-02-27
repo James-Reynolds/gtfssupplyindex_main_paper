@@ -49,6 +49,7 @@ output:
   rticles::elsevier_article:
     keep_tex: true
     citation_package: natbib
+    extra_dependencies: "subfig"
 ---
 
 
@@ -1202,7 +1203,7 @@ map_si_by_area_and_hour_231014_all_modes$hour_starting <- hour(map_si_by_area_an
 ```
   
 
-```{r Melbourne_231015_by_mode, fig.cap = c( "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Tuesday October 10, 2023, by mode", "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Saturday October 14, 2023, by mode", "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Sunday October 15, 2023, by mode"), crop = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r Melbourne_231015_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values, by mode, 2023", crop = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 ###Load results from CSV (Precalculated above) and make first column character
@@ -1226,52 +1227,45 @@ si_by_area_and_hour_231015_bus$mode <- "Bus"
 si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_tram, si_by_area_and_hour_231015_rail, all = TRUE)
 si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_all_modes, si_by_area_and_hour_231015_bus,  all = TRUE)
 
+### sum across hours
+si_by_area_231010_all_modes_all_day <- si_by_area_and_hour_231010_all_modes %>%
+  group_by(area_id, mode) %>%
+  summarise(Freq = sum(SI))
+si_by_area_231014_all_modes_all_day <- si_by_area_and_hour_231014_all_modes %>%
+  group_by(area_id, mode) %>%
+  summarise(Freq = sum(SI))
+si_by_area_231015_all_modes_all_day <- si_by_area_and_hour_231015_all_modes %>%
+  group_by(area_id, mode) %>%
+  summarise(Freq = sum(SI))
+
+si_by_area_231010_all_modes_all_day$date <- "10/10"
+si_by_area_231014_all_modes_all_day$date <- "14/10"
+si_by_area_231015_all_modes_all_day$date <- "15/10"
+
+#merge 
+si_by_area_2310_all_modes_all_day <- merge(si_by_area_231010_all_modes_all_day, si_by_area_231014_all_modes_all_day, all = TRUE)
+si_by_area_2310_all_modes <- merge(si_by_area_2310_all_modes_all_day, si_by_area_231015_all_modes_all_day, all = TRUE)
+
+names(si_by_area_2310_all_modes) <- c("area_id", "mode", "SI", "date")
 
 #Join SI to map data
-map_si_by_area_and_hour_231015_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231015_all_modes)
+map_si_by_area_2310_all_modes_all_day <- inner_join(map_areas_of_interest, si_by_area_2310_all_modes)
 
-#convert hour starting to numeric
-map_si_by_area_and_hour_231015_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231015_all_modes$hour_starting)
-map_si_by_area_and_hour_231015_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231015_all_modes$hour_starting)
-
+# my_breaks = c(2, 10, 50, 250, 1250, 6000)
 
 #plot bus, tram and rail by date
 ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour_231010_all_modes,
+  geom_sf(data=map_si_by_area_2310_all_modes_all_day,
           aes(fill = (SI))) +
-            facet_wrap(vars(mode)) +
+            facet_grid(date ~ mode) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
   coord_sf(xlim = xlim, ylim = ylim) 
-
-#plot bus, tram and rail by date
-ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour_231014_all_modes,
-          aes(fill = (SI))) +
-            facet_wrap(vars(mode)) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  coord_sf(xlim = xlim, ylim = ylim) 
-
-
-
-#plot bus, tram and rail by date
-ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour_231015_all_modes,
-          aes(fill = (SI))) +
-            facet_wrap(vars(mode)) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  coord_sf(xlim = xlim, ylim = ylim) 
+#+  scale_fill_gradient(name = "SI", trans = "pseudo_log"),
+  #                    breaks = my_breaks, labels = my_breaks)
 
 ```
 
@@ -1282,16 +1276,26 @@ Figure \@ref(Melbourne_231015_by_mode) shows a similar plot, but for Sunday Octo
 ## Greater Melbourne - July 2023
 
 
-### Central Business District (CBD)
-
-
-### Clayton
 
 ### Local Government Areas
 
 ### Patterns
 
+
 ### Trends
+
+1. Download
+https://transitfeeds.com/p/ptv/497/20220929/download
+https://transitfeeds.com/p/ptv/497/20210924/download
+https://transitfeeds.com/p/ptv/497/20200930/download
+https://transitfeeds.com/p/ptv/497/20190930/download
+https://transitfeeds.com/p/ptv/497/20180927/download
+https://transitfeeds.com/p/ptv/497/20170930/download
+https://transitfeeds.com/p/ptv/497/20160928/download
+https://transitfeeds.com/p/ptv/497/20151001/download
+
+2. Write for loop to run analysis across all, using SA1 2021 data.
+
 
 
 # Extensions
