@@ -54,47 +54,6 @@ authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
 \setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
 
-% Pandoc syntax highlighting
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 
 % tightlist command for lists without linebreak
 \providecommand{\tightlist}{%
@@ -147,7 +106,7 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
     \cortext[cor1]{Corresponding author}
     \fntext[1]{Research Fellow}
     \fntext[2]{PhD Strudent}
-    \fntext[2]{Professor}
+    \fntext[3]{Professor}
   
   \begin{abstract}
   This is the abstract.
@@ -486,17 +445,6 @@ zone boundaries. Individual steps are:
   the 800 metre catchment of the Mornington stations is identifed.
 \end{enumerate}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{stops\_in\_or\_near\_areas }\OtherTok{\textless{}{-}}\NormalTok{ gtfssupplyindex}\SpecialCharTok{:::}\FunctionTok{stops\_in\_walk\_dist}\NormalTok{(}
-  \AttributeTok{list\_gtfs =}\NormalTok{ list\_gtfs, }
-  \AttributeTok{areas\_of\_interest =}\NormalTok{ areas\_of\_interest,}
-  \AttributeTok{EPSG\_for\_transform =} \DecValTok{28355}\NormalTok{, }
-  \AttributeTok{verbose =} \ConstantTok{TRUE}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 \includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/calculate_stop_in_or_near_areas_verbose-1} \caption{Step 3, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones}\label{fig:calculate_stop_in_or_near_areas_verbose}
 \end{figure}
@@ -604,9 +552,6 @@ the Central Business District (CBD).
 \includegraphics[width=1\linewidth]{graphics/Melbourne_cbd} \caption{SA1 zone boundaries in central Melbourne.}\label{fig:CBD_map}
 \end{figure}
 
-Figure @ref(CBD\_map)) shows SA1 zones in central Melbourne, including
-the Central Business District (CBD).
-
 \begin{figure}
 \centering
 \includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_CBD_map_230808-1.pdf}
@@ -649,29 +594,31 @@ is serviced by:
   most of which running north-south along the Swanston Street corridor.
 \end{itemize}
 
-\hypertarget{local-government-areas}{%
-\subsubsection{Local Government Areas}\label{local-government-areas}}
+\hypertarget{equality-of-service}{%
+\subsubsection{Equality of service}\label{equality-of-service}}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats-1.pdf}
+\caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
+values for Tuesday August 8, 2023}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Gini_coefficients-1.pdf}
+\caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
+values for Tuesday August 8, 2023, Lorenz plot}
+\end{figure}
+
+\hypertarget{comparing-areas}{%
+\subsubsection{Comparing areas}\label{comparing-areas}}
 
 \hypertarget{patterns}{%
 \subsubsection{Patterns}\label{patterns}}
 
 \hypertarget{trends}{%
 \subsubsection{Trends}\label{trends}}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Download https://transitfeeds.com/p/ptv/497/20220929/download
-  https://transitfeeds.com/p/ptv/497/20210924/download
-  https://transitfeeds.com/p/ptv/497/20200930/download
-  https://transitfeeds.com/p/ptv/497/20190930/download
-  https://transitfeeds.com/p/ptv/497/20180927/download
-  https://transitfeeds.com/p/ptv/497/20170930/download
-  https://transitfeeds.com/p/ptv/497/20160928/download
-  https://transitfeeds.com/p/ptv/497/20151001/download
-\item
-  Write for loop to run analysis across all, using SA1 2021 data.
-\end{enumerate}
 
 \hypertarget{extensions}{%
 \section{Extensions}\label{extensions}}

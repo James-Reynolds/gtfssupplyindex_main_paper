@@ -28,7 +28,7 @@ footnote:
     text: "Research Fellow"
   - code: 2
     text: "PhD Strudent"
-  - code: 2
+  - code: 3
     text: "Professor"
 abstract: |
   This is the abstract.
@@ -1578,7 +1578,7 @@ Figure \@ref(Melbourne_230808_by_mode) indicates how the central city is service
 ### Equality of service
 
 
-```{r Gini_coefficients, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r gghistostats, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 #aggregate SI by 
 si_by_area_230808 <- si_by_area_and_hour_230808 %>%
@@ -1586,35 +1586,73 @@ si_by_area_230808 <- si_by_area_and_hour_230808 %>%
   as_tibble()
 
 #load_population_data
-X2021Census_G01_VIC_SA1 <- read_csv("data/2021_GCP_SA1_for_VIC_short-header/2021 Census GCP Statistical Area 1 for VIC/2021Census_G01_VIC_SA1.csv")
-X2021Census_G01_VIC_SA1$SA1_CODE_2021 <- as.character(X2021Census_G01_VIC_SA1$SA1_CODE_2021)
+X2021Census_G01_VIC_SA1 <- read_csv(
+  "data/2021_GCP_SA1_for_VIC_short-header/2021 Census GCP Statistical Area 1 for VIC/2021Census_G01_VIC_SA1.csv")
+X2021Census_G01_VIC_SA1$SA1_CODE_2021 <- as.character(
+  X2021Census_G01_VIC_SA1$SA1_CODE_2021)
 #join_to_SI_scores
 si_by_area_230808 <- left_join(si_by_area_230808,
                                (X2021Census_G01_VIC_SA1 %>% 
                                   select(SA1_CODE_2021, Tot_P_P)), 
                                 by = join_by(area_id == SA1_CODE_2021)
                                 )
-names(si_by_area_230808) <- c("area_id", "SI", "2021 population")
 
-ggplot(si_by_area_230808, mapping = aes(x = SI, n = `2021 population`) + 
-  stat_lorenz() +
+names(si_by_area_230808) <- c("area_id", "SI", "Population")
+
+
+#Join SI to SA3 data
+si_by_area_230808 <- left_join(si_by_area_230808, 
+                               (absmapsdata::sa12021 %>% 
+                                 filter(gcc_name_2021 == "Greater Melbourne") %>% 
+                                 select(sa1_code_2021, sa3_name_2021, 
+                                        areasqkm_2021, cent_lat, cent_long) %>%
+                                 st_drop_geometry()), 
+                               by = join_by(area_id == sa1_code_2021)
+)
+
+ggscatterstats(
+  data = si_by_area_230808, ## data frame from which variables are taken
+  x = Population, ## predictor/independent variable
+  y = SI, ## dependent variable
+  xlab = "Population", ## label for the x-axis
+  ylab = "SI score", ## label for the y-axis
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  label.expression = Population > 100 & SI < 10, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) +
+  scale_x_log10() +
+  scale_y_log10()
+
+
+```
+
+```{r Gini_coefficients, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+ggplot(si_by_area_230808 %>% select(SI, Population), 
+       aes(x = SI, n = Population)) + 
+         stat_lorenz()  +
   geom_abline(linetype = "dashed") +
   theme_bw() +
-  labs(x = "Cumulative share SI score", y = "Cumulative share of population") +
+  labs(x = "Cumulative share of Population", y = "Cumulative share of SI") +
   #scale_x_continuous(labels = scales::percent()) + 
   #scale_y_continuous(labels = scales::percent()) + 
-  annotate_ineq(measure_ineq = "Gini", color = "red",
+  annotate_ineq(data_ineq = si_by_area_230808$SI, 
+                freq_ineq = si_by_area_230808$Population,
+                measure_ineq = "Gini", 
+                color = "red",
                 family = theme_get()$text[["family"]],
                 size = theme_get()$text[["size"]] / 2,
                 fontface = "italic")
-)
+
+
 
 ```
 
 
 
 
-The
 
 ### Comparing areas
 
