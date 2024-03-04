@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  27 FEB 2024 19:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  4 MAR 2024 14:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -776,116 +776,114 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Package natbib Warning: Citation `Berenson2016in' on page 1 undefined on input 
-line 169.
-
-
 Overfull \hbox (2.22221pt too wide) has occurred while \output is active
 [] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 213.
+(hyperref)                removing `\<def>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\cnotenum' on input line 213.
+(hyperref)                removing `\cnotenum' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 213.
+(hyperref)                removing `\<def>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@corref' on input line 213.
+(hyperref)                removing `\@corref' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 213.
+(hyperref)                removing `\<let>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 213.
+(hyperref)                removing `\comma' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 213.
+(hyperref)                removing `\<def>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 213.
+(hyperref)                removing `\@fnmark' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 213.
+(hyperref)                removing `\<let>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 213.
+(hyperref)                removing `\comma' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 213.
+(hyperref)                removing `\<def>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 213.
+(hyperref)                removing `\@fnmark' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 213.
+(hyperref)                removing `\<let>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 213.
+(hyperref)                removing `\comma' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 213.
+(hyperref)                removing `\<def>-command' on input line 216.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 213.
+(hyperref)                removing `\@fnmark' on input line 216.
 
 [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-<graphics/GTFS.png, id=201, 1366.10374pt x 917.4275pt>
+<graphics/GTFS.png, id=185, 1366.10374pt x 917.4275pt>
 File: graphics/GTFS.png Graphic file (type png)
 <use graphics/GTFS.png>
-Package pdftex.def Info: graphics/GTFS.png  used on input line 316.
+Package pdftex.def Info: graphics/GTFS.png  used on input line 325.
 (pdftex.def)             Requested size: 468.0pt x 314.28702pt.
-[3 <./graphics/GTFS.png>] [4]
-<graphics/mornington.png, id=267, 611.28375pt x 496.85625pt>
+[3] [4 <./graphics/GTFS.png>]
+<graphics/mornington.png, id=231, 611.28375pt x 496.85625pt>
 File: graphics/mornington.png Graphic file (type png)
 <use graphics/mornington.png>
-Package pdftex.def Info: graphics/mornington.png  used on input line 441.
+Package pdftex.def Info: graphics/mornington.png  used on input line 421.
 (pdftex.def)             Requested size: 468.0pt x 380.38947pt.
-[5 <./graphics/mornington.png>]
-<graphics/SI_data_structure.png, id=284, 914.66719pt x 660.21657pt>
+<graphics/SI_data_structure.png, id=234, 914.66719pt x 660.21657pt>
 File: graphics/SI_data_structure.png Graphic file (type png)
 <use graphics/SI_data_structure.png>
-Package pdftex.def Info: graphics/SI_data_structure.png  used on input line 477
+Package pdftex.def Info: graphics/SI_data_structure.png  used on input line 442
 .
 (pdftex.def)             Requested size: 468.0pt x 337.80406pt.
-[6 <./graphics/SI_data_structure.png>]
 
-LaTeX Warning: Reference `@' on page 7 undefined on input line 527.
+Overfull \hbox (28.78615pt too wide) in paragraph at lines 482--487
+[]\T1/lmr/m/n/10 (-20) calculating which stops are within the catch-ment walk-i
+ng dis-tance of which ar-eas: us-ing the stops_in_walk_dist
+ []
 
+[5] [6 <./graphics/mornington.png>] [7 <./graphics/SI_data_structure.png>]
 
-Package xcolor Warning: Incompatible color definition on input line 530.
+Package xcolor Warning: Incompatible color definition on input line 489.
 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 532.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 491.
 
-Package xcolor Warning: Incompatible color definition on input line 539.
+Package xcolor Warning: Incompatible color definition on input line 498.
 
 
-Package xcolor Warning: Incompatible color definition on input line 539.
+Package xcolor Warning: Incompatible color definition on input line 498.
 
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/calculate_stop_in_or_near_areas_verbose-1.pdf, id=300, 454.69875pt x 310.1587
+x/calculate_stop_in_or_near_areas_verbose-1.pdf, id=276, 454.69875pt x 310.1587
 5pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/calculate_stop_in_or_near_areas_verbose-1.pdf Graphic file (type pdf)
@@ -893,147 +891,124 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/calculate_stop_in_or_near_areas_verbose-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/calculate_stop_in_or_near_areas_verbose-1.pdf  used o
-n input line 542.
+n input line 501.
 (pdftex.def)             Requested size: 468.0pt x 319.23518pt.
 
-Overfull \hbox (51.10794pt too wide) in paragraph at lines 586--589
-[]\T1/lmr/m/n/10 (-20) The ul-ti-mate out-put, show-ing the SI scores for each 
-hour, is-shown in Ta-ble @ref(tab:SI_mornington_20181230_output)
+Overfull \hbox (3.76697pt too wide) in paragraph at lines 509--517
+\T1/lmr/m/n/10 (-20) tions pro-vided ag-gre-ga-tion, giv-ing the re-sults shown
+ in Ta-ble @ref(tab:SI_mornington_20181230_output)
  []
 
+[8 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
+-latex/calculate_stop_in_or_near_areas_verbose-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/SI_mornington_20181230_output-1.pdf, id=303, 469.755pt x 325.215pt>
+x/SI_mornington_20181230_output-1.pdf, id=297, 450.68375pt x 274.02374pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/SI_mornington_20181230_output-1.pdf Graphic file (type pdf)
 <use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
 latex/SI_mornington_20181230_output-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/SI_mornington_20181230_output-1.pdf  used on input li
-ne 615.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (1.75386pt too wide) in paragraph at lines 615--617
- [][] 
- []
-
-
-Overfull \hbox (33.43747pt too wide) in paragraph at lines 620--632
-\T1/lmr/m/n/10 (-20) By in-spec-tion, all of SA1 21402159136 (shown in pur-ple 
-in Fig-ure @ref(fig:calculate_stop_in_or_near_areas_verbose)
- []
-
-
-Overfull \hbox (36.07742pt too wide) in paragraph at lines 620--632
-\T1/lmr/m/n/10 (-20) scores for each hour are there-fore equal to the num-ber o
-f ar-rivals in each hour. Ta-ble @ref(tab:mornington_hand_check)
- []
-
-[7] [8 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/fi
-gure-latex/calculate_stop_in_or_near_areas_verbose-1.pdf>] [9 <./Leveraging_GTF
-S_to_assess_transit_supply_Transport_Geography_files/figure-latex/SI_mornington
-_20181230_output-1.pdf>]
-<graphics/Melbourne_cbd.png, id=347, 1243.64626pt x 586.44093pt>
+ne 592.
+(pdftex.def)             Requested size: 450.68263pt x 274.02307pt.
+<graphics/Melbourne_cbd.png, id=298, 1243.64626pt x 586.44093pt>
 File: graphics/Melbourne_cbd.png Graphic file (type png)
 <use graphics/Melbourne_cbd.png>
-Package pdftex.def Info: graphics/Melbourne_cbd.png  used on input line 663.
+Package pdftex.def Info: graphics/Melbourne_cbd.png  used on input line 604.
 (pdftex.def)             Requested size: 468.0pt x 220.68436pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Melbourne_CBD_map_231010-1.pdf, id=348, 450.68375pt x 233.87375pt>
+x/Melbourne_CBD_map_230808-1.pdf, id=299, 450.68375pt x 167.62625pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
--latex/Melbourne_CBD_map_231010-1.pdf Graphic file (type pdf)
+-latex/Melbourne_CBD_map_230808-1.pdf Graphic file (type pdf)
 <use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
-latex/Melbourne_CBD_map_231010-1.pdf>
+latex/Melbourne_CBD_map_230808-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
-graphy_files/figure-latex/Melbourne_CBD_map_231010-1.pdf  used on input line 66
-8.
-(pdftex.def)             Requested size: 450.68263pt x 233.87315pt.
-[10 <./graphics/Melbourne_cbd.png>]
+graphy_files/figure-latex/Melbourne_CBD_map_230808-1.pdf  used on input line 61
+2.
+(pdftex.def)             Requested size: 450.68263pt x 167.62582pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Melbourne_231015_by_mode-1.pdf, id=361, 450.68375pt x 105.39375pt>
+x/Melbourne_230808_by_mode-1.pdf, id=301, 450.68375pt x 105.39375pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
--latex/Melbourne_231015_by_mode-1.pdf Graphic file (type pdf)
+-latex/Melbourne_230808_by_mode-1.pdf Graphic file (type pdf)
 <use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
-latex/Melbourne_231015_by_mode-1.pdf>
+latex/Melbourne_230808_by_mode-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
-graphy_files/figure-latex/Melbourne_231015_by_mode-1.pdf  used on input line 69
-7.
+graphy_files/figure-latex/Melbourne_230808_by_mode-1.pdf  used on input line 63
+3.
 (pdftex.def)             Requested size: 450.68263pt x 105.39348pt.
-<Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Melbourne_231015_by_mode-2.pdf, id=362, 450.68375pt x 105.39375pt>
-File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
--latex/Melbourne_231015_by_mode-2.pdf Graphic file (type pdf)
-<use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
-latex/Melbourne_231015_by_mode-2.pdf>
-Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
-graphy_files/figure-latex/Melbourne_231015_by_mode-2.pdf  used on input line 69
-7.
-(pdftex.def)             Requested size: 450.68263pt x 105.39348pt.
-<Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Melbourne_231015_by_mode-3.pdf, id=363, 450.68375pt x 105.39375pt>
-File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
--latex/Melbourne_231015_by_mode-3.pdf Graphic file (type pdf)
-<use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
-latex/Melbourne_231015_by_mode-3.pdf>
-Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
-graphy_files/figure-latex/Melbourne_231015_by_mode-3.pdf  used on input line 69
-7.
-(pdftex.def)             Requested size: 450.68263pt x 105.39348pt.
-
-Overfull \hbox (894.04788pt too wide) in paragraph at lines 697--697
-[][][][][][] 
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 6
+44.
+(/usr/local/texlive/2022/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [9] [10 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files
+/figure-latex/SI_mornington_20181230_output-1.pdf> <./graphics/Melbourne_cbd.pn
+g>] [11 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/f
+igure-latex/Melbourne_CBD_map_230808-1.pdf> <./Leveraging_GTFS_to_assess_transi
+t_supply_Transport_Geography_files/figure-latex/Melbourne_230808_by_mode-1.pdf>
+]
+Overfull \hbox (90.04417pt too wide) in paragraph at lines 664--673
+[]\T1/lmr/m/n/10 (-20) Download https://transitfeeds.com/p/ptv/497/20220929/dow
+nload https://transitfeeds.com/p/ptv/497/20210924/download
  []
 
-[11 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figur
-e-latex/Melbourne_CBD_map_231010-1.pdf> <./Leveraging_GTFS_to_assess_transit_su
-pply_Transport_Geography_files/figure-latex/Melbourne_231015_by_mode-1.pdf> <./
-Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex
-/Melbourne_231015_by_mode-2.pdf> <./Leveraging_GTFS_to_assess_transit_supply_Tr
-ansport_Geography_files/figure-latex/Melbourne_231015_by_mode-3.pdf>] (./Levera
-ging_GTFS_to_assess_transit_supply_Transport_Geography.bbl [12])
 
-Package natbib Warning: There were undefined citations.
+Overfull \hbox (45.22502pt too wide) in paragraph at lines 664--673
+\T1/lmr/m/n/10 (-20) https://transitfeeds.com/p/ptv/497/20200930/download https
+://transitfeeds.com/p/ptv/497/20190930/download
+ []
 
-[13] (./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
 
-LaTeX Warning: There were undefined references.
+Overfull \hbox (45.22502pt too wide) in paragraph at lines 664--673
+\T1/lmr/m/n/10 (-20) https://transitfeeds.com/p/ptv/497/20180927/download https
+://transitfeeds.com/p/ptv/497/20170930/download
+ []
 
+
+Overfull \hbox (45.22502pt too wide) in paragraph at lines 664--673
+\T1/lmr/m/n/10 (-20) https://transitfeeds.com/p/ptv/497/20160928/download https
+://transitfeeds.com/p/ptv/497/20151001/download 
+ []
+
+(./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.bbl [12]) [13] 
+(./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
 Package rerunfilecheck Info: File `Leveraging_GTFS_to_assess_transit_supply_Tra
 nsport_Geography.out' has not changed.
-(rerunfilecheck)             Checksum: 222E537F4ED221C0E46F03C73A3DAE92;3757.
+(rerunfilecheck)             Checksum: A6C0ED1F280D2A452BDDAA10A0368385;2951.
  ) 
 Here is how much of TeX's memory you used:
- 18137 strings out of 478268
- 300958 string characters out of 5846347
- 638243 words of memory out of 5000000
- 35695 multiletter control sequences out of 15000+600000
- 530295 words of font info for 158 fonts, out of 8000000 for 9000
+ 18102 strings out of 478268
+ 298725 string characters out of 5846347
+ 640323 words of memory out of 5000000
+ 35688 multiletter control sequences out of 15000+600000
+ 530196 words of font info for 154 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,10n,79p,1057b,528s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
-texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
-22/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2022/texmf-d
-ist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/
-dvips/lm/lm-mathit.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/l
-m/lmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmex10.p
-fb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texliv
-e/2022/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2022/texm
-f-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2022/texmf-dist/font
-s/type1/public/lm/lmr6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publ
-ic/lm/lmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr8.p
-fb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/lm/lmri7.pfb></usr/local/texliv
-e/2022/texmf-dist/fonts/type1/public/lm/lmri8.pfb></usr/local/texlive/2022/texm
-f-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2022/texmf-dist/fon
-ts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/pu
-blic/lm/lmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmt
-k10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
+ 70i,9n,79p,1057b,522s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
+/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2022/
+texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2022/texmf-dist
+/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc
+/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-m
+athit.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx10.pfb>
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/loca
+l/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/
+2022/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/
+type1/public/lm/lmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publi
+c/lm/lmr6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr7.pf
+b></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/loca
+l/texlive/2022/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/
+2022/texmf-dist/fonts/type1/public/lm/lmri7.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/lm/lmri8.pfb></usr/local/texlive/2022/texmf-dist/fonts/
+type1/public/lm/lmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publ
+ic/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy7
+.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/tex
+live/2022/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
 Output written on Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.
-pdf (13 pages, 3953496 bytes).
+pdf (13 pages, 2693109 bytes).
 PDF statistics:
- 567 PDF objects out of 1000 (max. 8388607)
- 481 compressed objects within 5 object streams
- 136 named destinations out of 1000 (max. 500000)
- 30459 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 504 PDF objects out of 1000 (max. 8388607)
+ 424 compressed objects within 5 object streams
+ 116 named destinations out of 1000 (max. 500000)
+ 32465 words of extra memory for PDF output out of 35830 (max. 10000000)
 
