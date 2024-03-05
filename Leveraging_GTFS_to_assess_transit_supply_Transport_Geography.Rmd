@@ -1590,6 +1590,7 @@ ggwithinstats(
   ylab = "SI", ## label for the y-axis
   package = "yarrr", ## package from which color palette is to be taken
   palette = "info2", ## choosing a different color palette
+  pairwise.display = "significant"
 ) + ## modifying the plot further
   ggplot2::scale_y_log10(
     #limits = c(0, 10),
