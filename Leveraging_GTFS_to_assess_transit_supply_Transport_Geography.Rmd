@@ -453,11 +453,24 @@ both in Victoria, Australia.
 Both were selected primarily for convenience, 
 given that the authors are familiar with 
 the typical service patterns and geography.
+
+Figure \@ref(Melbourne_map)) shows the areas of interest for which results are presented in this paper, including Greater Melbourne and its SA3 zones (main), SA1 zones in the central part of Melbourne (top-right) and the Mornington Peninsula Railway and SA1 zones within 800 metres (bottom-right) . Stations are shown in 
+```{r Melbourne_map, crop = TRUE, fig.cap = "SA1 zone boundaries in central Melbourne.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+
+knitr::include_graphics("graphics/all_maps.png")
+
+```
+
 Further cases were selected as 
 leading, 
 representative 
 and contrasting examples 
 for the results reported here. 
+
+
+
+
+
 
 
 ## Mornington Penninsula Tourist Railway
@@ -1209,7 +1222,6 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 
 ```
 
-
 <!---
 ## Extensions?? 
 Hourly
@@ -1421,10 +1433,10 @@ si_by_area_and_hour <- hourly(list_gtfs, stops_in_or_near_areas, "2018-12-30")
 
 si_by_area_and_hour_wider <- pivot_wider(si_by_area_and_hour, names_from = hour_starting, values_from = SI)
 
-si_by_area_and_hour_wider %>% 
+#si_by_area_and_hour_wider %>% 
 #  head() %>%
-  adorn_rounding() %>%
-  kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018")
+#  adorn_rounding() %>%
+#  kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018")
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa3_name_2021 == "Mornington Peninsula") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
@@ -1467,12 +1479,6 @@ si_by_area_and_hour_wider %>%
 --->
 
 ## Central Melbourne
-Figure \@ref(CBD_map)) shows SA1 zones in central Melbourne, including the Central Business District (CBD). 
-```{r CBD_map, crop = TRUE, fig.cap = "SA1 zone boundaries in central Melbourne.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
-
-knitr::include_graphics("graphics/Melbourne_cbd.png")
-
-```
 
 
 ```{r Melbourne_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
@@ -1490,7 +1496,7 @@ si_by_area_and_hour_230808_wider <- si_by_area_and_hour_230808 %>% pivot_wider(n
 
 ```
 
-```{r Melbourne_CBD_map_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by hour between 5am and 10am"}
+```{r Melbourne_CBD_map_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap=c("",Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by hour between 5am and 11am (top) and by mode (bottom)")}
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
@@ -1517,13 +1523,6 @@ ggplot() +
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
   coord_sf(xlim = xlim, ylim = ylim)  
-```
-
-The results shown in Figure \@ref(Melbourne_CBD_map_230808) meet expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop^[Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station.], and where many tram and bus routes converge. The SI scores are highest between 7-9am, reflecting the typical service peaks. 
-
-Figure \@ref(Melbourne_230808_by_mode) shows SI scores by mode for all of Tuesday August 8, 2023, again for central . 
-
-```{r Melbourne_230808_by_mode, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Tuesday August 8, 2023, by mode", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 ###Load results from CSV (Precalculated above) and make first column character
@@ -1569,20 +1568,46 @@ ggplot() +
   coord_sf(xlim = xlim, ylim = ylim) 
 ```
 
-Figure \@ref(Melbourne_230808_by_mode) indicates how the central city is serviced by:
 
- - buses that mostly travel along the Latrobe and Queen Street corridors, many of which travel east-west along Victoria Street to/from the north-east; 
- - rail services stopping at City Loop stations; and  - tram services, most of which running north-south along the Swanston Street corridor.  
-
+Figure \@ref(Melbourne_CBD_map_230808) shows SI scores for Tuesday August 8, 2023, by hour between 5am and 11am (top) and by mode for the whole day (bottom).  These generally expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop: Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station; and where many tram and bus routes converge. The SI scores are highest between 7-9am, reflecting the typical service peaks. Results are also consistent with: the high number for bus services along the Victoria and Queen Street corridors; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
 
  
 ## Greater Melbourne 
-## By hour
+### By hour
 
 ```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones in Greater Melbourne, SI values for Tuesday August 8, 2023, by hour", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
+
+si_by_area_and_hour_230808$hour_starting <- si_by_area_and_hour_230808$hour_starting %>% hm() %>% hour()
+
+
+#Join SI to ABS names data
+si_by_area_and_hour_230808  <- left_join(
+  si_by_area_and_hour_230808,
+  (absmapsdata::sa12021 %>% 
+     filter(gcc_name_2021 == "Greater Melbourne") %>% 
+     select(sa1_code_2021, sa3_code_2021, sa3_name_2021, sa4_name_2021) %>%
+     st_drop_geometry()), 
+  by = join_by(area_id == sa1_code_2021)
+)
+
+#aggregate SI by SA3
+
+si_by_area_and_hour_230808$hour_starting <- as.numeric(si_by_area_and_hour_230808$hour_starting)
+
+si_by_area_and_hour_230808_sa3 <- aggregate(
+  si_by_area_and_hour_230808$SI,
+  list(si_by_area_and_hour_230808$hour_starting,
+       si_by_area_and_hour_230808$sa3_name_2021, 
+       si_by_area_and_hour_230808$sa4_name_2021),
+  FUN = sum) %>%
+  as_tibble()
+names(si_by_area_and_hour_230808_sa3) <- c("hour_starting", "sa3_name_2021", "sa4_name_2021", "SI")
+
 ggwithinstats(
-  data = si_by_area_and_hour_230808,
+  data = si_by_area_and_hour_230808_sa3 %>% 
+    filter(hour_starting > 5 & 
+            hour_starting < 24),
   x = hour_starting,
   y = SI,
   #type = "nonparametric", ## type of statistical test
@@ -1590,39 +1615,22 @@ ggwithinstats(
   ylab = "SI", ## label for the y-axis
   package = "yarrr", ## package from which color palette is to be taken
   palette = "info2", ## choosing a different color palette
-  pairwise.display = "significant"
-) + ## modifying the plot further
-  ggplot2::scale_y_log10(
-    #limits = c(0, 10),
-    #breaks = seq(from = 0, to = 10, by = 1)
-  )
+  pairwise.display = "significant",
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  label.expression = SI < 100, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+) +
+  facet_wrap(sa4_name_2021, ncol=1)
+
 
 
 ```
 
-```{r Melbourne_230808_by_hour_by_mode, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones in Greater Melbourne, SI values for Tuesday August 8, 2023, by hour", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-ggwithinstats(
-  data = si_by_area_and_hour_230808_all_modes,
-  x = hour_starting,
-  y = SI,
-  #type = "nonparametric", ## type of statistical test
-  xlab = "Hour starting", ## label for the x-axis
-  ylab = "SI", ## label for the y-axis
-  package = "yarrr", ## package from which color palette is to be taken
-  palette = "info2", ## choosing a different color palette
-) + ## modifying the plot further
-  ggplot2::scale_y_log10(
-    #limits = c(0, 10),
-    #breaks = seq(from = 0, to = 10, by = 1)
-  ) + 
-  facet_wrap(mode, ncol=1)
-```
 
 ### By location
 
 
-```{r gghistostats, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r ggbetween_stats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 #aggregate SI by area
@@ -1642,6 +1650,8 @@ si_by_area_230808 <- left_join(si_by_area_230808,
 )
 
 
+
+
 ggbetweenstats(
   data = si_by_area_230808,
   x = sa3_name_2021,
@@ -1651,6 +1661,7 @@ ggbetweenstats(
   ylab = "SI", ## label for the y-axis
   package = "yarrr", ## package from which color palette is to be taken
   palette = "info2", ## choosing a different color palette
+  pairwise.display = "significant"
 ) + ## modifying the plot further
   ggplot2::scale_y_log10(
     #limits = c(0, 10),
@@ -1661,14 +1672,6 @@ ggbetweenstats(
 ```
 
 ```{r map_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-#aggregate SI by SA3
-si_by_area_230808_sa3 <- si_by_area_230808 %>%
-  aggregate(SI ~ sa3_name_2021, FUN = sum) %>%
-  as_tibble()
-
-
-map_areas_of_interest_sa3 <- absmapsdata::sa32021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa3_name_2021, sa4_name_2021, geometry)
 
 #Join SI to map data
 map_si_by_area_230808_sa3 <- inner_join(map_areas_of_interest_sa3, si_by_area_230808_sa3)
@@ -1688,7 +1691,7 @@ ggplot() +
 
 ### Equality of service
 
-```{r gghistostats, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r gghistostats_greater_melbounre_230808, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 #load_population_data
 X2021Census_G01_VIC_SA1 <- read_csv(
@@ -1747,7 +1750,7 @@ ggplot(si_by_area_230808 %>% select(SI, Population),
 ```
 
 
-```{r gghistostats_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r gghistostats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 #aggregate SI by SA3
