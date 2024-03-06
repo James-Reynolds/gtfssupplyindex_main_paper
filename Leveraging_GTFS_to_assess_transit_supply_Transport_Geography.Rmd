@@ -28,7 +28,7 @@ footnote:
     text: "Research Fellow"
   - code: 2
     text: "PhD Strudent"
-  - code: 2
+  - code: 3
     text: "Professor"
 abstract: |
   This is the abstract.
@@ -81,6 +81,8 @@ library(readxl)
 library(dplyr)
 library(devtools)
 library(gtfssupplyindex)
+library(readabs)
+library(gglorenz)
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
 
@@ -353,7 +355,7 @@ Primary Key and Foreign Key.
 indicate the relationships between each table^[
 See https://i.stack.imgur.com/fxaAq.png for guide to the symbols.]
 
-```{r GTFS_ERD, fig.cap = "GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r GTFS_ERD, crop = TRUE, fig.cap = "GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/GTFS.png")
 
 ```
@@ -451,11 +453,24 @@ both in Victoria, Australia.
 Both were selected primarily for convenience, 
 given that the authors are familiar with 
 the typical service patterns and geography.
+
+Figure \@ref(Melbourne_map)) shows the areas of interest for which results are presented in this paper, including Greater Melbourne and its SA3 zones (main), SA1 zones in the central part of Melbourne (top-right) and the Mornington Peninsula Railway and SA1 zones within 800 metres (bottom-right) . Stations are shown in 
+```{r Melbourne_map, crop = TRUE, fig.cap = "SA1 zone boundaries in central Melbourne.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+
+knitr::include_graphics("graphics/all_maps.png")
+
+```
+
 Further cases were selected as 
 leading, 
 representative 
 and contrasting examples 
 for the results reported here. 
+
+
+
+
+
 
 
 ## Mornington Penninsula Tourist Railway
@@ -477,7 +492,7 @@ were adopted as the areas of interest.
 These are shown in Figure \@ref(fig:mornington_map_ABS), 
 together with the locations of the three railway stations.  
 
-```{r mornington_map_ABS, fig.cap = "SA1 zones (red), location of Mornington Tourist Railway Stations (black) and boundary of zones within 800m catchment (blue)", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r mornington_calc, crop = TRUE, fig.cap = "SA1 zones (red), location of Mornington Tourist Railway Stations (black) and boundary of zones within 800m catchment (blue)", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 ### ---------------- get abs data for Mornington Peninsula
 #options(timeout = 1000)
 #remotes::install_github("wfmackey/absmapsdata")
@@ -527,7 +542,7 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ```
 
-```{r mornington_map_ABS, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+```{r mornington_map_ABS, crop = TRUE, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
 knitr::include_graphics("graphics/mornington.png")
 
@@ -537,7 +552,675 @@ knitr::include_graphics("graphics/mornington.png")
 Larger scale testing was performed using the Victorian GTFS feed, 
 published by Public Transport Victoria (PTV), 
 sourced via @transitfeeds_victoria:2023aa for historical feeds. 
-Again, ABS data was used as the areas of interest. 
+Again, ABS data was used as the areas of interest, focusing on SA1 zones within Greater Melbourne. Data was analysed for the second Tuesday in August each year, so as to match the typical date of the Australian census. 
+
+```{r fix_ptv_data_Victoria_230804, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_230804 <- tidytransit::read_gtfs("data/ptv_230804/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_230804_duplicated_stops <- tabyl(ptv_230804$stops$stop_id) %>% filter (n>1)
+names(ptv_230804_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_230804_duplicated_stops <- left_join(ptv_230804_duplicated_stops, ptv_230804$stops)
+
+##discard duplicates
+ptv_230804$stops <- ptv_230804$stops[!duplicated(ptv_230804$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_230804 <- as_tidygtfs(ptv_230804)
+tidytransit::write_gtfs(ptv_230804, "data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_230804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_230808, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_230808 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2023-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808")
+
+si_by_area_and_hour_230808_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2023-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_tram")
+
+si_by_area_and_hour_230808_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_rail")
+
+si_by_area_and_hour_230808_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_220804, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_220804 <- tidytransit::read_gtfs("data/ptv_220804/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_220804_duplicated_stops <- tabyl(ptv_220804$stops$stop_id) %>% filter (n>1)
+names(ptv_220804_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_220804_duplicated_stops <- left_join(ptv_220804_duplicated_stops, ptv_220804$stops)
+
+##discard duplicates
+ptv_220804$stops <- ptv_220804$stops[!duplicated(ptv_220804$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_220804 <- as_tidygtfs(ptv_220804)
+tidytransit::write_gtfs(ptv_220804, "data/ptv_220804/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_220804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_220804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_220804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_200809, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_200809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2022-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809")
+
+si_by_area_and_hour_200809_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2022-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_tram")
+
+si_by_area_and_hour_200809_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2022-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_rail")
+
+si_by_area_and_hour_200809_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2022-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_210805, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_210805 <- tidytransit::read_gtfs("data/ptv_210805/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_210805_duplicated_stops <- tabyl(ptv_210805$stops$stop_id) %>% filter (n>1)
+names(ptv_210805_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_210805_duplicated_stops <- left_join(ptv_210805_duplicated_stops, ptv_210805$stops)
+
+##discard duplicates
+ptv_210805$stops <- ptv_210805$stops[!duplicated(ptv_210805$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_210805 <- as_tidygtfs(ptv_210805)
+tidytransit::write_gtfs(ptv_210805, "data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_210810, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810")
+
+si_by_area_and_hour_210810_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_tram")
+
+si_by_area_and_hour_210810_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_rail")
+
+si_by_area_and_hour_210810_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_200729, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_200729 <- tidytransit::read_gtfs("data/ptv_200729/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_200729_duplicated_stops <- tabyl(ptv_200729$stops$stop_id) %>% filter (n>1)
+names(ptv_200729_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_200729_duplicated_stops <- left_join(ptv_200729_duplicated_stops, ptv_200729$stops)
+
+##discard duplicates
+ptv_200729$stops <- ptv_200729$stops[!duplicated(ptv_200729$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_200729 <- as_tidygtfs(ptv_200729)
+tidytransit::write_gtfs(ptv_200729, "data/ptv_200729/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_200729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_200729/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_200729_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_200811, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_200811 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2020-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811")
+
+si_by_area_and_hour_200811_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2020-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_tram")
+
+si_by_area_and_hour_200811_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2020-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_rail")
+
+si_by_area_and_hour_200811_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2020-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_200811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_190802, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_190802 <- tidytransit::read_gtfs("data/ptv_190802/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_190802_duplicated_stops <- tabyl(ptv_190802$stops$stop_id) %>% filter (n>1)
+names(ptv_190802_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_190802_duplicated_stops <- left_join(ptv_190802_duplicated_stops, ptv_190802$stops)
+
+##discard duplicates
+ptv_190802$stops <- ptv_190802$stops[!duplicated(ptv_190802$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_190802 <- as_tidygtfs(ptv_190802)
+tidytransit::write_gtfs(ptv_190802, "data/ptv_190802/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_190802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_190802/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_190802_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_190813, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_190813 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2019-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_190813, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813")
+
+si_by_area_and_hour_190813_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2019-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_190813_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_tram")
+
+si_by_area_and_hour_190813_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2019-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_190813_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_rail")
+
+si_by_area_and_hour_190813_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2019-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_190813_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_180803, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_180803 <- tidytransit::read_gtfs("data/ptv_180803/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_180803_duplicated_stops <- tabyl(ptv_180803$stops$stop_id) %>% filter (n>1)
+names(ptv_180803_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_180803_duplicated_stops <- left_join(ptv_180803_duplicated_stops, ptv_180803$stops)
+
+##discard duplicates
+ptv_180803$stops <- ptv_180803$stops[!duplicated(ptv_180803$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_180803 <- as_tidygtfs(ptv_180803)
+tidytransit::write_gtfs(ptv_180803, "data/ptv_180803/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_180803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_180803/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_180803_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+
+```{r run_for_all_modes_Victoria_180814, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_180814 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2018-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_180814, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814")
+
+si_by_area_and_hour_180814_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2018-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_180814_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_tram")
+
+si_by_area_and_hour_180814_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2018-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_180814_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_rail")
+
+si_by_area_and_hour_180814_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2018-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_180814_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_170804, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_170804 <- tidytransit::read_gtfs("data/ptv_170804/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_170804_duplicated_stops <- tabyl(ptv_170804$stops$stop_id) %>% filter (n>1)
+names(ptv_170804_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_170804_duplicated_stops <- left_join(ptv_170804_duplicated_stops, ptv_170804$stops)
+
+##discard duplicates
+ptv_170804$stops <- ptv_170804$stops[!duplicated(ptv_170804$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_170804 <- as_tidygtfs(ptv_170804)
+tidytransit::write_gtfs(ptv_170804, "data/ptv_170804/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_170804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_170804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_170804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+
+```{r run_for_all_modes_Victoria_170808, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_170808 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2017-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_170808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808")
+
+si_by_area_and_hour_170808_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2017-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_170808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_tram")
+
+si_by_area_and_hour_170808_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2017-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_170808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_rail")
+
+si_by_area_and_hour_170808_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2017-08-08",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_170808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_160804, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_160804 <- tidytransit::read_gtfs("data/ptv_160804/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_160804_duplicated_stops <- tabyl(ptv_160804$stops$stop_id) %>% filter (n>1)
+names(ptv_160804_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_160804_duplicated_stops <- left_join(ptv_160804_duplicated_stops, ptv_160804$stops)
+
+##discard duplicates
+ptv_160804$stops <- ptv_160804$stops[!duplicated(ptv_160804$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_160804 <- as_tidygtfs(ptv_160804)
+tidytransit::write_gtfs(ptv_160804, "data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_160809, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
+
+si_by_area_and_hour_160809_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_tram")
+
+si_by_area_and_hour_160809_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_rail")
+
+si_by_area_and_hour_160809_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_bus")
+
+```
+
+```{r fix_ptv_data_Victoria_150729, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+ptv_150729 <- tidytransit::read_gtfs("data/ptv_150729/gtfs.zip")
+# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+
+#So, remove the duplicated stops 
+#identify duplicate stops
+ptv_150729_duplicated_stops <- tabyl(ptv_150729$stops$stop_id) %>% filter (n>1)
+names(ptv_150729_duplicated_stops) <- c("stop_id", "n", "percent")
+ptv_150729_duplicated_stops <- left_join(ptv_150729_duplicated_stops, ptv_150729$stops)
+
+##discard duplicates
+ptv_150729$stops <- ptv_150729$stops[!duplicated(ptv_150729$stops$stop_id),]
+
+## Write gtfs back to file
+ptv_150729 <- as_tidygtfs(ptv_150729)
+tidytransit::write_gtfs(ptv_150729, "data/ptv_150729/gtfs_duplicate_stops_removed.zip")
+
+## convert to list of tidygtfs objects
+ptv_150729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_150729/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_150729_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+```
+
+```{r run_for_all_modes_Victoria_150811, eval = FALSE, echo = FALSE}
+#eval is false, so as to not overwrite saved file
+
+si_by_area_and_hour_150811 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2015-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_150811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811")
+
+si_by_area_and_hour_150811_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2015-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_150811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_tram")
+
+si_by_area_and_hour_150811_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2015-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_150811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_rail")
+
+si_by_area_and_hour_150811_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2015-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_bus")
+
+```
 
 <!---
 ## Extensions?? 
@@ -554,9 +1237,9 @@ e tests were appropriate.
 
 
 # Results
-## Code structure and output
+## Code structure
 
-```{r SI_ERD, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r SI_ERD, crop = TRUE, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/SI_data_structure.png")
 
 ```
@@ -575,6 +1258,8 @@ for each route type^[This file is included in the package.]. The ultimate output
 is a si_by_area_and_hour table, 
 which reports the SI score for each hour of the day 
 across dates specified by the user. 
+
+## Mornington Pennisula Tourist Railway
 The various functions and their output 
 and explained in the following, 
 using the Mornington Peninsula GTFS for December 30th, 2018, and SA1 zone boundaries. 
@@ -620,7 +1305,7 @@ buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 --->
 
 
-```{r calculate_stop_in_or_near_areas_verbose, echo = TRUE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.keep = "first", fig.cap= "Step 3, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones"}
+```{r calculate_stop_in_or_near_areas_verbose, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.keep = "first", crop = TRUE, fig.cap= "Step 3, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones"}
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
   areas_of_interest = areas_of_interest,
@@ -666,7 +1351,7 @@ arrivals_by_stop_id <- gtfssupplyindex::arrivals(
 ```
 <!--- This matches the number of trips shown in the Mornington Railway GTFS feed, being 4 in each direction^[https://transitfeeds.com/p/mornington-railway/806/latest/stop/1388695887/20181230]. 
 
-```{r SI_Mornington_arrivals, fig.margin = FALSE, fig.cap = "Arrivals at Mornington Station (stop id 1388695887) for 30/12/2018", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r SI_Mornington_arrivals, fig.margin = FALSE, crop = TRUE, fig.cap = "Arrivals at Mornington Station (stop id 1388695887) for 30/12/2018", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/1388695887_inbound.png")
 
 ```
@@ -721,7 +1406,7 @@ si_by_area_and_hour_wider %>% adorn_totals(where = c("row", "col")) %>% kable(ca
 ```
 --->
 
-```{r SI_mornington_20181230_output, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.cap = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018"}
+```{r SI_mornington_20181230_output, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, crop = TRUE, fig.cap = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018"}
 ####-----first load all the inputs
 
 #load the revised mornington GTFS data
@@ -748,10 +1433,10 @@ si_by_area_and_hour <- hourly(list_gtfs, stops_in_or_near_areas, "2018-12-30")
 
 si_by_area_and_hour_wider <- pivot_wider(si_by_area_and_hour, names_from = hour_starting, values_from = SI)
 
-si_by_area_and_hour_wider %>% 
+#si_by_area_and_hour_wider %>% 
 #  head() %>%
-  adorn_rounding() %>%
-  kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018")
+#  adorn_rounding() %>%
+#  kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018")
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa3_name_2021 == "Mornington Peninsula") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
@@ -776,7 +1461,7 @@ ggplot() +
 
 <!--The results meet expectations, with higher scores for SA1 zones closer to the three stations. Hand calculation for SA1 21402159136, which is close to the Mornington Station, to confirm the results is relatively trivial. By inspection, all of SA1 21402159136 (shown in purple in Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose) is within an 800 metre walking distance of Mornington Station, meaning that $Area_{Bn} / Area_{area} = 1$.  The SI scores for each hour are therefore equal to the number of arrivals in each hour.  Table \@ref(tab:mornington_hand_check) shows the scores calculated by the function, which matches the pattern of arrivals at 10:47am, 12:12pm, 2:02pm and 3:27pm^[See  https://transitfeeds.com/p/mornington-railway/806/latest/stops].
 
-```{r mornington_hand_check, fig.cap = "Mornington Penninsula Railway GTFS summary", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
+```{r mornington_hand_check, crop = TRUE, fig.cap = "Mornington Penninsula Railway GTFS summary", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 
 
 si_by_area_and_hour_wider %>% 
@@ -793,157 +1478,43 @@ si_by_area_and_hour_wider %>%
 
 --->
 
-## Greater Melbourne - October 2023
-As a further example, hourly SI scores were calculated  for all SA1 2021 zones within Greater Melbourne on Tuesday 10th, Saturday 14th and Sunday 15th October, 2023. These dates were selected so as to match the typical census timing of a Tuesday early in October, although 2023 is not actually a census year. GTFS data was obtained from @transitfeeds_victoria:2023aa, with the October 6, 2023 dataset selected^[Minor adjustments were made to this dataset to remove duplicate stop_ids from the stops.txt file]. SI scores by hour for SA1 zones in the centre of Melbourne (shown in Figure \@ref(CBD_map)) on Tuesday 10th October are shown in Figure \@ref(Melbourne_CBD_map_231010), 
-
-```{r CBD_map, fig.cap = "SA1 zones and location of Mornington Tourist Railway Stations.",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
-
-knitr::include_graphics("graphics/Melbourne_cbd.png")
-
-```
+## Central Melbourne
 
 
-
-```{r fix_ptv_data_Victoria_231006, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_231006 <- tidytransit::read_gtfs("data/ptv_231006/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_231006_duplicated_stops <- tabyl(ptv_231006$stops$stop_id) %>% filter (n>1)
-names(ptv_231006_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_231006_duplicated_stops <- left_join(ptv_231006_duplicated_stops, ptv_231006$stops)
-
-##discard duplicates
-ptv_231006$stops <- ptv_231006$stops[!duplicated(ptv_231006$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_231006 <- as_tidygtfs(ptv_231006)
-tidytransit::write_gtfs(ptv_231006, "data/ptv_231006/gtfs_duplicate_stops_removed.zip")
-
-
-## convert to list of tidygtfs objects
-ptv_231006_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_231006/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_231006_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-
-
-```{r run_for_all_modes_Victoria_231006, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_231010 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-10",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231010, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010")
-
-
-si_by_area_and_hour_231014 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231014, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014")
-
-
-
-si_by_area_and_hour_231015 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-15",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231015, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015")
-
-```
-
-
-```{r Melbourne_231010, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r Melbourne_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 ###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231010 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010")
-si_by_area_and_hour_231010 <- si_by_area_and_hour_231010[,2:4]
-si_by_area_and_hour_231010$area_id <- as.character(si_by_area_and_hour_231010$area_id)
+si_by_area_and_hour_230808 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808")
+si_by_area_and_hour_230808 <- si_by_area_and_hour_230808[,2:4]
+si_by_area_and_hour_230808$area_id <- as.character(si_by_area_and_hour_230808$area_id)
 
 #pivot to wider for display as table
-si_by_area_and_hour_231010_wider <- si_by_area_and_hour_231010 %>% pivot_wider(names_from = hour_starting, values_from = SI)
+si_by_area_and_hour_230808_wider <- si_by_area_and_hour_230808 %>% pivot_wider(names_from = hour_starting, values_from = SI)
 
-#si_by_area_and_hour_231010_wider %>% select(1, 6:25) %>% head() %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 6 SA1 zones, 4am to 11pm only" )
+#si_by_area_and_hour_230808_wider %>% select(1, 6:25) %>% head() %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 6 SA1 zones, 4am to 11pm only" )
 
 
 ```
 
-```{r Melbourne_231014, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231014 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014")
-si_by_area_and_hour_231014 <- si_by_area_and_hour_231014[,2:4]
-si_by_area_and_hour_231014$area_id <- as.character(si_by_area_and_hour_231014$area_id)
-
-#pivot to wider for display as table
-si_by_area_and_hour_231014_wider <- si_by_area_and_hour_231014 %>% pivot_wider(names_from = hour_starting, values_from = SI)
-
-##Skip printing table
-#si_by_area_and_hour_231014_wider %>% select(1, 6:28) %>% head(n=75) %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 75 SA1 zones, 4am to 2am only" )
-
-
-```
-
-
-```{r Melbourne_231015, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231015 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015")
-si_by_area_and_hour_231015 <- si_by_area_and_hour_231015[,2:4]
-si_by_area_and_hour_231015$area_id <- as.character(si_by_area_and_hour_231015$area_id)
-
-#pivot to wider for display as table
-si_by_area_and_hour_231015_wider <- si_by_area_and_hour_231015 %>% pivot_wider(names_from = hour_starting, values_from = SI)
-
-## Skip table
-#si_by_area_and_hour_231015_wider %>% select(1, 6:28) %>% head(n=75) %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 75 SA1 zones, 4am to 2am only" )
-
-
-```
-
-```{r Melbourne_CBD_map_231010, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for October 10, 2023, by hour between 5am and 1am"}
+```{r Melbourne_CBD_map_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap=c("",Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by hour between 5am and 11am (top) and by mode (bottom)")}
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
 #Join SI to map data
-map_si_by_area_and_hour_231010 <- inner_join(map_areas_of_interest, si_by_area_and_hour_231010)
+map_si_by_area_and_hour_230808 <- inner_join(map_areas_of_interest, si_by_area_and_hour_230808)
 
 #convert hour starting to numeric
-map_si_by_area_and_hour_231010$hour_starting <- hm(map_si_by_area_and_hour_231010$hour_starting)
-map_si_by_area_and_hour_231010$hour_starting <- hour(map_si_by_area_and_hour_231010$hour_starting)
+map_si_by_area_and_hour_230808$hour_starting <- hm(map_si_by_area_and_hour_230808$hour_starting)
+map_si_by_area_and_hour_230808$hour_starting <- hour(map_si_by_area_and_hour_230808$hour_starting)
 
 xlim <- c(144.93343289587824,  144.9946369676684)
 ylim <- c(-37.80347733938971, -37.82753754010771)
 
 
 
-#plot only 5am to 1am
+#plot only 5am to 10am
 ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour_231010 %>% filter(hour_starting %in% (5:24)),
+  geom_sf(data=map_si_by_area_and_hour_230808 %>% filter(hour_starting %in% (5:10)),
           aes(fill = SI)) +
             facet_wrap(vars(hour_starting)) +
   theme(axis.text.x=element_blank(), #remove x axis labels
@@ -952,998 +1523,318 @@ ggplot() +
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
   coord_sf(xlim = xlim, ylim = ylim)  
-```
-
-The results shown in Figure \@ref(Melbourne_CBD_map_231010) meet expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop^[Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station.], and where many tram and bus routes converge. The SI scores are highest during the day, especially in the morning and afternoon peak periods around 7-9am and 4-7pm, reflecting the typical service peaks. 
-
-### By mode
-
-SI scores were also obtained for each mode separately. Scores for the whole day on Tuesday October 10th, 2023 are shown in Figure \@ref(Melbourne_231010_by_mode).
-
-```{r run_for_tram_Victoria_231006, eval = FALSE, echo = FALSE}
-
-### eval = FALSE so this chunk will not run
-si_by_area_and_hour_231010 <- hourly(
-  
-list_gtfs = ptv_231006_list_gtfs[[1]], 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-10",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231010, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_tram")
-
-
-si_by_area_and_hour_231014 <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[[1]], 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231014, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_tram")
-
-
-si_by_area_and_hour_231015 <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[[1]], 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-10-15",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231015, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_tram")
-```
-
-
-```{r run_for_rail_Victoria_231006, eval = FALSE, echo = FALSE}
-
-#### eval = FALSE so this chunk will not run
-si_by_area_and_hour_231010_rail <- hourly(
-list_gtfs = ptv_231006_list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2023-10-10",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231010_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_rail")
-
-si_by_area_and_hour_231014_rail <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2023-10-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231014_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_rail")
-
-si_by_area_and_hour_231015_rail <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2023-10-15",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231015_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_rail")
-
-```
-
-
-```{r run_for_bus_Victoria_231006, eval = FALSE, echo = FALSE}
-
-### eval = FALSE so this chunk will not run
-si_by_area_and_hour_231010_bus <- hourly(
-list_gtfs = ptv_231006_list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2023-10-10",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231010_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_bus")
-
-si_by_area_and_hour_231014_bus <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2023-10-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231014_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_bus")
-
-si_by_area_and_hour_231015_bus <- hourly(
-  list_gtfs = ptv_231006_list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2023-10-15",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_231015_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_bus")
-
-```
-
-
-
-
-```{r Melbourne_231010_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for October 10, 2023, by mode", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 ###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231010_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_tram")
-si_by_area_and_hour_231010_tram <- si_by_area_and_hour_231010_tram[,2:4]
-si_by_area_and_hour_231010_tram$area_id <- as.character(si_by_area_and_hour_231010_tram$area_id)
+si_by_area_and_hour_230808_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_tram")
+si_by_area_and_hour_230808_tram <- si_by_area_and_hour_230808_tram[,2:4]
+si_by_area_and_hour_230808_tram$area_id <- as.character(si_by_area_and_hour_230808_tram$area_id)
 
-si_by_area_and_hour_231010_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_rail")
-si_by_area_and_hour_231010_rail <- si_by_area_and_hour_231010_rail[,2:4]
-si_by_area_and_hour_231010_rail$area_id <- as.character(si_by_area_and_hour_231010_rail$area_id)
+si_by_area_and_hour_230808_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_rail")
+si_by_area_and_hour_230808_rail <- si_by_area_and_hour_230808_rail[,2:4]
+si_by_area_and_hour_230808_rail$area_id <- as.character(si_by_area_and_hour_230808_rail$area_id)
 
-si_by_area_and_hour_231010_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231010_bus")
-si_by_area_and_hour_231010_bus <- si_by_area_and_hour_231010_bus[,2:4]
-si_by_area_and_hour_231010_bus$area_id <- as.character(si_by_area_and_hour_231010_bus$area_id)
+si_by_area_and_hour_230808_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_bus")
+si_by_area_and_hour_230808_bus <- si_by_area_and_hour_230808_bus[,2:4]
+si_by_area_and_hour_230808_bus$area_id <- as.character(si_by_area_and_hour_230808_bus$area_id)
 
 ### merge dataframes
-si_by_area_and_hour_231010_tram$mode <- "Tram"
-si_by_area_and_hour_231010_rail$mode <- "Rail"
-si_by_area_and_hour_231010_bus$mode <- "Bus"
+si_by_area_and_hour_230808_tram$mode <- "Tram"
+si_by_area_and_hour_230808_rail$mode <- "Rail"
+si_by_area_and_hour_230808_bus$mode <- "Bus"
 
-si_by_area_and_hour_231010_all_modes <- merge(si_by_area_and_hour_231010_tram, si_by_area_and_hour_231010_rail, all = TRUE)
-si_by_area_and_hour_231010_all_modes <- merge(si_by_area_and_hour_231010_all_modes, si_by_area_and_hour_231010_bus,  all = TRUE)
+si_by_area_and_hour_230808_all_modes <- merge(si_by_area_and_hour_230808_tram, si_by_area_and_hour_230808_rail, all = TRUE)
+si_by_area_and_hour_230808_all_modes <- merge(si_by_area_and_hour_230808_all_modes, si_by_area_and_hour_230808_bus,  all = TRUE)
 
 
 #Join SI to map data
-map_si_by_area_and_hour_231010_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231010_all_modes)
+map_si_by_area_and_hour_230808_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_230808_all_modes)
 
 #convert hour starting to numeric
-map_si_by_area_and_hour_231010_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231010_all_modes$hour_starting)
-map_si_by_area_and_hour_231010_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231010_all_modes$hour_starting)
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_230808_all_modes$hour_starting)
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_230808_all_modes$hour_starting)
 
 
 #plot bus, tram and rail
-#ggplot() + 
-#  geom_sf(data=map_si_by_area_and_hour_231010_all_modes,
-#          aes(fill = SI)) +
-#            facet_wrap(vars(mode)) +
-#  theme(axis.text.x=element_blank(), #remove x axis labels
-#        axis.ticks.x=element_blank(), #remove x axis ticks
-#        axis.text.y=element_blank(),  #remove y axis labels
-#        axis.ticks.y=element_blank()  #remove y axis ticks
-#  ) +
-#  coord_sf(xlim = xlim, ylim = ylim) 
-```
-
-Figure \@ref(Melbourne_231010_by_mode) indicates how the central city is serviced by:
- - buses that mostly travel along the Latrobe and Queen Street corridors, many of which travel east-west along Victoria Street to/from the north-east; 
- - rail services stopping at City Loop stations; and 
- - tram services, most of which running north-south along the Swanston Street corridor.  
-  
-
-```{r Melbourne_231014_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values for Sunday October 15, 2023, by mode", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231014_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_tram")
-si_by_area_and_hour_231014_tram <- si_by_area_and_hour_231014_tram[,2:4]
-si_by_area_and_hour_231014_tram$area_id <- as.character(si_by_area_and_hour_231014_tram$area_id)
-
-si_by_area_and_hour_231014_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_rail")
-si_by_area_and_hour_231014_rail <- si_by_area_and_hour_231014_rail[,2:4]
-si_by_area_and_hour_231014_rail$area_id <- as.character(si_by_area_and_hour_231014_rail$area_id)
-
-si_by_area_and_hour_231014_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231014_bus")
-si_by_area_and_hour_231014_bus <- si_by_area_and_hour_231014_bus[,2:4]
-si_by_area_and_hour_231014_bus$area_id <- as.character(si_by_area_and_hour_231014_bus$area_id)
-
-### merge dataframes
-si_by_area_and_hour_231014_tram$mode <- "Tram"
-si_by_area_and_hour_231014_rail$mode <- "Rail"
-si_by_area_and_hour_231014_bus$mode <- "Bus"
-
-si_by_area_and_hour_231014_all_modes <- merge(si_by_area_and_hour_231014_tram, si_by_area_and_hour_231014_rail, all = TRUE)
-si_by_area_and_hour_231014_all_modes <- merge(si_by_area_and_hour_231014_all_modes, si_by_area_and_hour_231014_bus,  all = TRUE)
-
-
-#Join SI to map data
-map_si_by_area_and_hour_231014_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_231014_all_modes)
-
-#convert hour starting to numeric
-map_si_by_area_and_hour_231014_all_modes$hour_starting <- hm(map_si_by_area_and_hour_231014_all_modes$hour_starting)
-map_si_by_area_and_hour_231014_all_modes$hour_starting <- hour(map_si_by_area_and_hour_231014_all_modes$hour_starting)
-
-#plot bus, tram and rail
-#ggplot() + 
-#  geom_sf(data=map_si_by_area_and_hour_231014_all_modes,
-#          aes(fill = (SI))) +
-#            facet_wrap(vars(mode)) +
-#  theme(axis.text.x=element_blank(), #remove x axis labels
-#        axis.ticks.x=element_blank(), #remove x axis ticks
-#        axis.text.y=element_blank(),  #remove y axis labels
-#        axis.ticks.y=element_blank()  #remove y axis ticks
-#  ) +
-#  coord_sf(xlim = xlim, ylim = ylim) 
-
-```
-  
-
-```{r Melbourne_231015_by_mode, fig.cap = "Victorian GTFS and SA1 zones near the Melbourne CBD, SI values, by mode, 2023", crop = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_231015_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_tram")
-si_by_area_and_hour_231015_tram <- si_by_area_and_hour_231015_tram[,2:4]
-si_by_area_and_hour_231015_tram$area_id <- as.character(si_by_area_and_hour_231015_tram$area_id)
-
-si_by_area_and_hour_231015_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_rail")
-si_by_area_and_hour_231015_rail <- si_by_area_and_hour_231015_rail[,2:4]
-si_by_area_and_hour_231015_rail$area_id <- as.character(si_by_area_and_hour_231015_rail$area_id)
-
-si_by_area_and_hour_231015_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_231015_bus")
-si_by_area_and_hour_231015_bus <- si_by_area_and_hour_231015_bus[,2:4]
-si_by_area_and_hour_231015_bus$area_id <- as.character(si_by_area_and_hour_231015_bus$area_id)
-
-### merge dataframes
-si_by_area_and_hour_231015_tram$mode <- "Tram"
-si_by_area_and_hour_231015_rail$mode <- "Rail"
-si_by_area_and_hour_231015_bus$mode <- "Bus"
-
-si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_tram, si_by_area_and_hour_231015_rail, all = TRUE)
-si_by_area_and_hour_231015_all_modes <- merge(si_by_area_and_hour_231015_all_modes, si_by_area_and_hour_231015_bus,  all = TRUE)
-
-### sum across hours
-si_by_area_231010_all_modes_all_day <- si_by_area_and_hour_231010_all_modes %>%
-  group_by(area_id, mode) %>%
-  summarise(Freq = sum(SI))
-si_by_area_231014_all_modes_all_day <- si_by_area_and_hour_231014_all_modes %>%
-  group_by(area_id, mode) %>%
-  summarise(Freq = sum(SI))
-si_by_area_231015_all_modes_all_day <- si_by_area_and_hour_231015_all_modes %>%
-  group_by(area_id, mode) %>%
-  summarise(Freq = sum(SI))
-
-si_by_area_231010_all_modes_all_day$date <- "10/10"
-si_by_area_231014_all_modes_all_day$date <- "14/10"
-si_by_area_231015_all_modes_all_day$date <- "15/10"
-
-#merge 
-si_by_area_2310_all_modes_all_day <- merge(si_by_area_231010_all_modes_all_day, si_by_area_231014_all_modes_all_day, all = TRUE)
-si_by_area_2310_all_modes <- merge(si_by_area_2310_all_modes_all_day, si_by_area_231015_all_modes_all_day, all = TRUE)
-
-names(si_by_area_2310_all_modes) <- c("area_id", "mode", "SI", "date")
-
-#Join SI to map data
-map_si_by_area_2310_all_modes_all_day <- inner_join(map_areas_of_interest, si_by_area_2310_all_modes)
-
-# my_breaks = c(2, 10, 50, 250, 1250, 6000)
-
-#plot bus, tram and rail by date
 ggplot() + 
-  geom_sf(data=map_si_by_area_2310_all_modes_all_day,
-          aes(fill = (SI))) +
-            facet_grid(date ~ mode) +
+  geom_sf(data=map_si_by_area_and_hour_230808_all_modes,
+          aes(fill = SI)) +
+            facet_wrap(vars(mode)) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
   coord_sf(xlim = xlim, ylim = ylim) 
-#+  scale_fill_gradient(name = "SI", trans = "pseudo_log"),
-  #                    breaks = my_breaks, labels = my_breaks)
-
 ```
 
 
-Figure \@ref(Melbourne_231015_by_mode) shows a similar plot, but for Sunday October 15th, 2023. However, in this case the bus scores appear very low. While Sunday bus services in the CBD are generally much less frequent on Sundays than on other days, further investigation suggests that strike action had been planned around that time by transit workers[@Hannaford_2023]. While it is unclear what normal services had been officially cancelled around that time, it appears likely that Sunday bus services may have been cut so as to have some replacement bus capacity available on other days. Regardless, this suggests that the October 2023 services reported above may not actually be representative of typical conditions in Melbourne. Hence, in the following section a similar analysis is shown for July 2023 instead.  
+Figure \@ref(Melbourne_CBD_map_230808) shows SI scores for Tuesday August 8, 2023, by hour between 5am and 11am (top) and by mode for the whole day (bottom).  These generally expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop: Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station; and where many tram and bus routes converge. The SI scores are highest between 7-9am, reflecting the typical service peaks. Results are also consistent with: the high number for bus services along the Victoria and Queen Street corridors; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
+
+ 
+## Greater Melbourne 
+### By hour
+
+```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones in Greater Melbourne, SI values for Tuesday August 8, 2023, by hour", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
-## Greater Melbourne - August 2023
+si_by_area_and_hour_230808$hour_starting <- si_by_area_and_hour_230808$hour_starting %>% hm() %>% hour()
 
-```{r fix_ptv_data_Victoria_230804, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
-ptv_230804 <- tidytransit::read_gtfs("data/ptv_230804/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_230804_duplicated_stops <- tabyl(ptv_230804$stops$stop_id) %>% filter (n>1)
-names(ptv_230804_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_230804_duplicated_stops <- left_join(ptv_230804_duplicated_stops, ptv_230804$stops)
-
-##discard duplicates
-ptv_230804$stops <- ptv_230804$stops[!duplicated(ptv_230804$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_230804 <- as_tidygtfs(ptv_230804)
-tidytransit::write_gtfs(ptv_230804, "data/ptv_230804/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_230804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
+#Join SI to ABS names data
+si_by_area_and_hour_230808  <- left_join(
+  si_by_area_and_hour_230808,
+  (absmapsdata::sa12021 %>% 
+     filter(gcc_name_2021 == "Greater Melbourne") %>% 
+     select(sa1_code_2021, sa3_code_2021, sa3_name_2021, sa4_name_2021) %>%
+     st_drop_geometry()), 
+  by = join_by(area_id == sa1_code_2021)
 )
 
-```
+#aggregate SI by SA3
 
-```{r run_for_all_modes_Victoria_230808, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+si_by_area_and_hour_230808$hour_starting <- as.numeric(si_by_area_and_hour_230808$hour_starting)
 
-si_by_area_and_hour_230808 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
+si_by_area_and_hour_230808_sa3 <- aggregate(
+  si_by_area_and_hour_230808$SI,
+  list(si_by_area_and_hour_230808$hour_starting,
+       si_by_area_and_hour_230808$sa3_name_2021, 
+       si_by_area_and_hour_230808$sa4_name_2021),
+  FUN = sum) %>%
+  as_tibble()
+names(si_by_area_and_hour_230808_sa3) <- c("hour_starting", "sa3_name_2021", "sa4_name_2021", "SI")
 
-write.csv(si_by_area_and_hour_230808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808")
+ggwithinstats(
+  data = si_by_area_and_hour_230808_sa3 %>% 
+    filter(hour_starting > 5 & 
+            hour_starting < 24),
+  x = hour_starting,
+  y = SI,
+  #type = "nonparametric", ## type of statistical test
+  xlab = "Hour starting", ## label for the x-axis
+  ylab = "SI", ## label for the y-axis
+  package = "yarrr", ## package from which color palette is to be taken
+  palette = "info2", ## choosing a different color palette
+  pairwise.display = "significant",
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  label.expression = SI < 100, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+) +
+  facet_wrap(sa4_name_2021, ncol=1)
 
-si_by_area_and_hour_230808_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
 
-write.csv(si_by_area_and_hour_230808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_tram")
-
-si_by_area_and_hour_230808_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_rail")
-
-si_by_area_and_hour_230808_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_bus")
 
 ```
 
 
+### By location
 
-## Greater Melbourne - August 2022
 
-```{r fix_ptv_data_Victoria_220804, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r ggbetween_stats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
-ptv_220804 <- tidytransit::read_gtfs("data/ptv_220804/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
 
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_220804_duplicated_stops <- tabyl(ptv_220804$stops$stop_id) %>% filter (n>1)
-names(ptv_220804_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_220804_duplicated_stops <- left_join(ptv_220804_duplicated_stops, ptv_220804$stops)
+#aggregate SI by area
+si_by_area_230808 <- si_by_area_and_hour_230808 %>%
+  aggregate(SI ~ area_id, FUN = sum) %>%
+  as_tibble()
 
-##discard duplicates
-ptv_220804$stops <- ptv_220804$stops[!duplicated(ptv_220804$stops$stop_id),]
 
-## Write gtfs back to file
-ptv_220804 <- as_tidygtfs(ptv_220804)
-tidytransit::write_gtfs(ptv_220804, "data/ptv_220804/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_220804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_220804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_220804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
+#Join SI to ABS names data
+si_by_area_230808 <- left_join(si_by_area_230808, 
+                               (absmapsdata::sa12021 %>% 
+                                 filter(gcc_name_2021 == "Greater Melbourne") %>% 
+                                 select(sa1_code_2021, sa3_name_2021, sa4_name_2021,
+                                        areasqkm_2021, cent_lat, cent_long) %>%
+                                 st_drop_geometry()), 
+                               by = join_by(area_id == sa1_code_2021)
 )
 
-```
 
-```{r run_for_all_modes_Victoria_200809, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
-si_by_area_and_hour_200809 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809")
-
-si_by_area_and_hour_200809_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_tram")
-
-si_by_area_and_hour_200809_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_rail")
-
-si_by_area_and_hour_200809_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_bus")
+ggbetweenstats(
+  data = si_by_area_230808,
+  x = sa3_name_2021,
+  y = SI,
+  #type = "nonparametric", ## type of statistical test
+  xlab = "SA 4 zone", ## label for the x-axis
+  ylab = "SI", ## label for the y-axis
+  package = "yarrr", ## package from which color palette is to be taken
+  palette = "info2", ## choosing a different color palette
+  pairwise.display = "significant"
+) + ## modifying the plot further
+  ggplot2::scale_y_log10(
+    #limits = c(0, 10),
+    #breaks = seq(from = 0, to = 10, by = 1)
+  ) +
+  facet_wrap(sa4_name_2021, ncols =1)
 
 ```
 
+```{r map_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
+#Join SI to map data
+map_si_by_area_230808_sa3 <- inner_join(map_areas_of_interest_sa3, si_by_area_230808_sa3)
 
-## Greater Melbourne - August 2021
-
-```{r fix_ptv_data_Victoria_210805, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_210805 <- tidytransit::read_gtfs("data/ptv_210805/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_210805_duplicated_stops <- tabyl(ptv_210805$stops$stop_id) %>% filter (n>1)
-names(ptv_210805_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_210805_duplicated_stops <- left_join(ptv_210805_duplicated_stops, ptv_210805$stops)
-
-##discard duplicates
-ptv_210805$stops <- ptv_210805$stops[!duplicated(ptv_210805$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_210805 <- as_tidygtfs(ptv_210805)
-tidytransit::write_gtfs(ptv_210805, "data/ptv_210805/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_210805_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
+#plot
+ggplot() + 
+  geom_sf(data=map_si_by_area_230808_sa3,
+          aes(fill = SI)) + 
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  facet_wrap(sa4_name_2021)
 
 ```
 
-```{r run_for_all_modes_Victoria_210810, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+### Equality of service
 
-si_by_area_and_hour_210810 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2021-08-10",
-  verbose = TRUE)
+```{r gghistostats_greater_melbounre_230808, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
-write.csv(si_by_area_and_hour_210810, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810")
+#load_population_data
+X2021Census_G01_VIC_SA1 <- read_csv(
+  "data/2021_GCP_SA1_for_VIC_short-header/2021 Census GCP Statistical Area 1 for VIC/2021Census_G01_VIC_SA1.csv")
+X2021Census_G01_VIC_SA1$SA1_CODE_2021 <- as.character(
+  X2021Census_G01_VIC_SA1$SA1_CODE_2021)
+#join_to_SI_scores
+si_by_area_230808 <- left_join(si_by_area_230808,
+                               (X2021Census_G01_VIC_SA1 %>% 
+                                  select(SA1_CODE_2021, Tot_P_P)), 
+                                by = join_by(area_id == SA1_CODE_2021)
+                                )
 
-si_by_area_and_hour_210810_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2021-08-10",
-  verbose = TRUE)
+names(si_by_area_230808) <- c("area_id", "SI", "Population")
 
-write.csv(si_by_area_and_hour_210810_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_tram")
 
-si_by_area_and_hour_210810_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2021-08-10",
-  verbose = TRUE)
+ggscatterstats(
+  data = si_by_area_230808, ## data frame from which variables are taken
+  x = Population, ## predictor/independent variable
+  y = SI, ## dependent variable
+  xlab = "Population", ## label for the x-axis
+  ylab = "SI score", ## label for the y-axis
+  label.var = sa4_name_2021, ## variable to use for labeling data points
+  label.expression = Population > 100 & SI < 100, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) +
+  scale_x_log10() +
+  scale_y_log10()
 
-write.csv(si_by_area_and_hour_210810_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_rail")
 
-si_by_area_and_hour_210810_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2021-08-10",
-  verbose = TRUE)
 
-write.csv(si_by_area_and_hour_210810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_bus")
+```
+
+```{r Gini_coefficients, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+ggplot(si_by_area_230808 %>% select(SI, Population), 
+       aes(x = SI, n = Population)) + 
+         stat_lorenz()  +
+  geom_abline(linetype = "dashed") +
+  theme_bw() +
+  labs(x = "Cumulative share of Population", y = "Cumulative share of SI") +
+  #scale_x_continuous(labels = scales::percent()) + 
+  #scale_y_continuous(labels = scales::percent()) + 
+  annotate_ineq(data_ineq = si_by_area_230808$SI, 
+                freq_ineq = si_by_area_230808$Population,
+                measure_ineq = "Gini", 
+                color = "red",
+                family = theme_get()$text[["family"]],
+                size = theme_get()$text[["size"]] / 2,
+                fontface = "italic")
+
+
 
 ```
 
 
-## Greater Melbourne - August 2020
+```{r gghistostats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
-```{r fix_ptv_data_Victoria_200729, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
-ptv_200729 <- tidytransit::read_gtfs("data/ptv_200729/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
+#aggregate SI by SA3
+si_by_area_230808_sa3 <- si_by_area_230808 %>%
+  aggregate(SI ~ sa3_name_2021, FUN = sum) %>%
+  as_tibble()
 
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_200729_duplicated_stops <- tabyl(ptv_200729$stops$stop_id) %>% filter (n>1)
-names(ptv_200729_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_200729_duplicated_stops <- left_join(ptv_200729_duplicated_stops, ptv_200729$stops)
 
-##discard duplicates
-ptv_200729$stops <- ptv_200729$stops[!duplicated(ptv_200729$stops$stop_id),]
+map_areas_of_interest_sa3 <- absmapsdata::sa32021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa3_name_2021, sa4_name_2021, geometry)
 
-## Write gtfs back to file
-ptv_200729 <- as_tidygtfs(ptv_200729)
-tidytransit::write_gtfs(ptv_200729, "data/ptv_200729/gtfs_duplicate_stops_removed.zip")
+#Join SI to map data
+map_si_by_area_230808 <- inner_join(map_areas_of_interest_sa3, si_by_area_230808)
 
-## convert to list of tidygtfs objects
-ptv_200729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_200729/gtfs_duplicate_stops_removed.zip")
 
-list_gtfs = ptv_200729_list_gtfs
+#aggregate SI by SA3
+map_si_by_area_230808_sa3 <- map_si_by_area_230808 %>%
+  aggregate(SI ~ sa3_name_2021, FUN = sum) %>%
+  as_tibble()
 
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+#plot
+ggplot() + 
+  geom_sf(data=map_si_by_area_230808_sa3,
+          aes(fill = SI)) + 
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  facet_wrap(sa4_name_2021)
 
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
+
+ggscatterstats(
+  data = map_si_by_area_230808_sa3, ## data frame from which variables are taken
+  x = Population, ## predictor/independent variable
+  y = SI, ## dependent variable
+  xlab = "Population", ## label for the x-axis
+  ylab = "SI score", ## label for the y-axis
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  label.expression = Population > 100 & SI < 100, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) +
+  scale_x_log10() +
+  scale_y_log10() +
+  facet_wrap(sa4_name_2021)
+
+
 
 ```
 
-```{r run_for_all_modes_Victoria_200811, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r Gini_coefficients_sa4, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+ggplot(map_si_by_area_230808 %>% select(SI, Population), 
+       aes(x = SI, n = Population)) + 
+         stat_lorenz()  +
+  geom_abline(linetype = "dashed") +
+  theme_bw() +
+  labs(x = "Cumulative share of Population", y = "Cumulative share of SI") +
+  #scale_x_continuous(labels = scales::percent()) + 
+  #scale_y_continuous(labels = scales::percent()) + 
+  annotate_ineq(data_ineq = si_by_area_230808$SI, 
+                freq_ineq = si_by_area_230808$Population,
+                measure_ineq = "Gini", 
+                color = "red",
+                family = theme_get()$text[["family"]],
+                size = theme_get()$text[["size"]] / 2,
+                fontface = "italic") +
+  facet_wrap(sa4_name_2021, ncol = 1) 
 
-si_by_area_and_hour_200811 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2020-08-11",
-  verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811")
-
-si_by_area_and_hour_200811_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2020-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_tram")
-
-si_by_area_and_hour_200811_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2020-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_rail")
-
-si_by_area_and_hour_200811_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2020-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_bus")
-
-```
-
-
-## Greater Melbourne - August 2019
-
-```{r fix_ptv_data_Victoria_190802, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_190802 <- tidytransit::read_gtfs("data/ptv_190802/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_190802_duplicated_stops <- tabyl(ptv_190802$stops$stop_id) %>% filter (n>1)
-names(ptv_190802_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_190802_duplicated_stops <- left_join(ptv_190802_duplicated_stops, ptv_190802$stops)
-
-##discard duplicates
-ptv_190802$stops <- ptv_190802$stops[!duplicated(ptv_190802$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_190802 <- as_tidygtfs(ptv_190802)
-tidytransit::write_gtfs(ptv_190802, "data/ptv_190802/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_190802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_190802/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_190802_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-```{r run_for_all_modes_Victoria_200811, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_190813 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2019-08-13",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_190813, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813")
-
-si_by_area_and_hour_190813_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2019-08-13",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_190813_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_tram")
-
-si_by_area_and_hour_190813_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2019-08-13",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_190813_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_rail")
-
-si_by_area_and_hour_190813_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2019-08-13",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_190813_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_bus")
-
-```
-
-
-
-## Greater Melbourne - August 2018
-
-```{r fix_ptv_data_Victoria_180803, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_180803 <- tidytransit::read_gtfs("data/ptv_180803/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_180803_duplicated_stops <- tabyl(ptv_180803$stops$stop_id) %>% filter (n>1)
-names(ptv_180803_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_180803_duplicated_stops <- left_join(ptv_180803_duplicated_stops, ptv_180803$stops)
-
-##discard duplicates
-ptv_180803$stops <- ptv_180803$stops[!duplicated(ptv_180803$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_180803 <- as_tidygtfs(ptv_180803)
-tidytransit::write_gtfs(ptv_180803, "data/ptv_180803/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_180803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_180803/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_180803_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-
-```{r run_for_all_modes_Victoria_180814, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_180814 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2018-08-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_180814, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814")
-
-si_by_area_and_hour_180814_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2018-08-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_180814_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_tram")
-
-si_by_area_and_hour_180814_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2018-08-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_180814_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_rail")
-
-si_by_area_and_hour_180814_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2018-08-14",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_180814_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_bus")
-
-```
-
-
-
-## Greater Melbourne - August 2017
-
-```{r fix_ptv_data_Victoria_170804, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_170804 <- tidytransit::read_gtfs("data/ptv_170804/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_170804_duplicated_stops <- tabyl(ptv_170804$stops$stop_id) %>% filter (n>1)
-names(ptv_170804_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_170804_duplicated_stops <- left_join(ptv_170804_duplicated_stops, ptv_170804$stops)
-
-##discard duplicates
-ptv_170804$stops <- ptv_170804$stops[!duplicated(ptv_170804$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_170804 <- as_tidygtfs(ptv_170804)
-tidytransit::write_gtfs(ptv_170804, "data/ptv_170804/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_170804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_170804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_170804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-
-```{r run_for_all_modes_Victoria_170808, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_170808 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2017-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_170808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808")
-
-si_by_area_and_hour_170808_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2017-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_170808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_tram")
-
-si_by_area_and_hour_170808_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2017-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_170808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_rail")
-
-si_by_area_and_hour_170808_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2017-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_170808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_bus")
-
-```
-
-
-## Greater Melbourne - August 2016
-
-```{r fix_ptv_data_Victoria_160804, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_160804 <- tidytransit::read_gtfs("data/ptv_160804/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_160804_duplicated_stops <- tabyl(ptv_160804$stops$stop_id) %>% filter (n>1)
-names(ptv_160804_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_160804_duplicated_stops <- left_join(ptv_160804_duplicated_stops, ptv_160804$stops)
-
-##discard duplicates
-ptv_160804$stops <- ptv_160804$stops[!duplicated(ptv_160804$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_160804 <- as_tidygtfs(ptv_160804)
-tidytransit::write_gtfs(ptv_160804, "data/ptv_160804/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_160804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-```{r run_for_all_modes_Victoria_160809, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_160809 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2016-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_160809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
-
-si_by_area_and_hour_160809_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2016-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_160809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_tram")
-
-si_by_area_and_hour_160809_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2016-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_160809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_rail")
-
-si_by_area_and_hour_160809_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2016-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_160809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_bus")
-
-```
-
-
-
-## Greater Melbourne - August 2015
-
-```{r fix_ptv_data_Victoria_150729, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-ptv_150729 <- tidytransit::read_gtfs("data/ptv_150729/gtfs.zip")
-# This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
-
-#So, remove the duplicated stops 
-#identify duplicate stops
-ptv_150729_duplicated_stops <- tabyl(ptv_150729$stops$stop_id) %>% filter (n>1)
-names(ptv_150729_duplicated_stops) <- c("stop_id", "n", "percent")
-ptv_150729_duplicated_stops <- left_join(ptv_150729_duplicated_stops, ptv_150729$stops)
-
-##discard duplicates
-ptv_150729$stops <- ptv_150729$stops[!duplicated(ptv_150729$stops$stop_id),]
-
-## Write gtfs back to file
-ptv_150729 <- as_tidygtfs(ptv_150729)
-tidytransit::write_gtfs(ptv_150729, "data/ptv_150729/gtfs_duplicate_stops_removed.zip")
-
-## convert to list of tidygtfs objects
-ptv_150729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_150729/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_150729_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-```
-
-```{r run_for_all_modes_Victoria_150811, eval = TRUE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-si_by_area_and_hour_150811 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2015-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_150811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811")
-
-si_by_area_and_hour_150811_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2015-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_150811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_tram")
-
-si_by_area_and_hour_150811_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2015-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_150811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_rail")
-
-si_by_area_and_hour_150811_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2015-08-11",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_bus")
 
 ```
 
 
 
 
-
-### Local Government Areas
-
-### Patterns
+## Trends
 
 
-### Trends
+ 
 
-1. Download
-https://transitfeeds.com/p/ptv/497/20220929/download
-https://transitfeeds.com/p/ptv/497/20210924/download
-https://transitfeeds.com/p/ptv/497/20200930/download
-https://transitfeeds.com/p/ptv/497/20190930/download
-https://transitfeeds.com/p/ptv/497/20180927/download
-https://transitfeeds.com/p/ptv/497/20170930/download
-https://transitfeeds.com/p/ptv/497/20160928/download
-https://transitfeeds.com/p/ptv/497/20151001/download
 
-2. Write for loop to run analysis across all, using SA1 2021 data.
 
 
 
