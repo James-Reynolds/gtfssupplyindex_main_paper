@@ -1496,7 +1496,7 @@ si_by_area_and_hour_230808_wider <- si_by_area_and_hour_230808 %>% pivot_wider(n
 
 ```
 
-```{r Melbourne_CBD_map_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap=c("",Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by hour between 5am and 11am (top) and by mode (bottom)")}
+```{r Melbourne_CBD_map_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by hour between 5am and 11am (top) and by mode (bottom)"}
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
@@ -1575,7 +1575,7 @@ Figure \@ref(Melbourne_CBD_map_230808) shows SI scores for Tuesday August 8, 202
 ## Greater Melbourne 
 ### By hour
 
-```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones in Greater Melbourne, SI values for Tuesday August 8, 2023, by hour", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones in Melbourne - Inner, SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 si_by_area_and_hour_230808$hour_starting <- si_by_area_and_hour_230808$hour_starting %>% hm() %>% hour()
@@ -1606,7 +1606,8 @@ names(si_by_area_and_hour_230808_sa3) <- c("hour_starting", "sa3_name_2021", "sa
 
 ggwithinstats(
   data = si_by_area_and_hour_230808_sa3 %>% 
-    filter(hour_starting > 5 & 
+    filter(sa4_name_2021 == "Melbourne - Inner") %>% 
+    filter(hour_starting > 4 & 
             hour_starting < 24),
   x = hour_starting,
   y = SI,
@@ -1619,18 +1620,39 @@ ggwithinstats(
   label.var = sa3_name_2021, ## variable to use for labeling data points
   label.expression = SI < 100, ## expression for deciding which points to label
   point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
-) +
-  facet_wrap(sa4_name_2021, ncol=1)
+) 
+
 
 
 
 ```
+```{r Mornington_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones in Mornington Peninsula, SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
+
+ggwithinstats(
+  data = si_by_area_and_hour_230808_sa3 %>% 
+    filter(sa4_name_2021 == "Mornington Peninsula") %>% 
+    filter(hour_starting > 4 & 
+            hour_starting < 24),
+  x = hour_starting,
+  y = SI,
+  #type = "nonparametric", ## type of statistical test
+  xlab = "Hour starting", ## label for the x-axis
+  ylab = "SI", ## label for the y-axis
+  package = "yarrr", ## package from which color palette is to be taken
+  palette = "info2", ## choosing a different color palette
+  pairwise.display = "significant",
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  label.expression = SI < 100, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+) 
+
+```
 
 ### By location
 
 
-```{r ggbetween_stats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r ggbetween_stats_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, eval = FALSE}
 
 
 #aggregate SI by area
@@ -1672,6 +1694,10 @@ ggbetweenstats(
 ```
 
 ```{r map_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+map_areas_of_interest_sa3 <- absmapsdata::sa32021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa3_name_2021, sa4_name_2021, geometry)
+
 
 #Join SI to map data
 map_si_by_area_230808_sa3 <- inner_join(map_areas_of_interest_sa3, si_by_area_230808_sa3)
