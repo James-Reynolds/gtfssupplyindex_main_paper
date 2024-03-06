@@ -356,8 +356,20 @@ results might be generated for real GTFS data: the Mornington Peninsula
 Tourist Railway GTFS feed and the Public Transport Victoria (PTV) GTFS
 feed, both in Victoria, Australia. Both were selected primarily for
 convenience, given that the authors are familiar with the typical
-service patterns and geography. Further cases were selected as leading,
-representative and contrasting examples for the results reported here.
+service patterns and geography.
+
+Figure @ref(Melbourne\_map)) shows the areas of interest for which
+results are presented in this paper, including Greater Melbourne and its
+SA3 zones (main), SA1 zones in the central part of Melbourne (top-right)
+and the Mornington Peninsula Railway and SA1 zones within 800 metres
+(bottom-right) . Stations are shown in
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{graphics/all_maps} \caption{Areas of interest}\label{fig:Melbourne_map}
+\end{figure}
+
+Further cases were selected as leading, representative and contrasting
+examples for the results reported here.
 
 \hypertarget{mornington-penninsula-tourist-railway}{%
 \subsection{Mornington Penninsula Tourist
@@ -375,10 +387,6 @@ Statistical Area 1 (SA1) zones contained within it were adopted as the
 areas of interest. These are shown in Figure
 @ref(fig:mornington\_map\_ABS), together with the locations of the three
 railway stations.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{graphics/mornington} \caption{SA1 zones and location of Mornington Tourist Railway Stations.}\label{fig:mornington_map_ABS}
-\end{figure}
 
 \hypertarget{public-transport-victoria-ptv}{%
 \subsection{Public Transport Victoria
@@ -464,77 +472,6 @@ zone boundaries. Individual steps are:
   @ref(fig:SI\_mornington\_20181230\_output).
 \end{enumerate}
 
-\begin{table}
-
-\caption{\label{tab:SI_mornington_20181230_output}Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r|r}
-\hline
-area\_id & 10:00 & 11:00 & 12:00 & 13:00 & 14:00 & 15:00\\
-\hline
-21402138114 & 0.0 & 0.5 & 0.5 & 0.0 & 0.5 & 0.5\\
-\hline
-21402138115 & 0.0 & 0.1 & 0.1 & 0.0 & 0.1 & 0.1\\
-\hline
-21402138128 & 0.0 & 0.2 & 0.2 & 0.0 & 0.2 & 0.2\\
-\hline
-21402138502 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402138507 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402138508 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402159101 & 0.8 & 0.0 & 0.8 & 0.0 & 0.8 & 0.8\\
-\hline
-21402159102 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402159105 & 0.7 & 0.0 & 0.7 & 0.0 & 0.7 & 0.7\\
-\hline
-21402159107 & 0.6 & 0.0 & 0.6 & 0.0 & 0.6 & 0.6\\
-\hline
-21402159111 & 1.0 & 0.8 & 1.8 & 0.8 & 1.0 & 1.8\\
-\hline
-21402159112 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402159113 & 0.2 & 0.1 & 0.2 & 0.1 & 0.2 & 0.2\\
-\hline
-21402159114 & 1.0 & 1.0 & 1.9 & 1.0 & 1.0 & 1.9\\
-\hline
-21402159115 & 1.0 & 1.0 & 1.9 & 1.0 & 1.0 & 1.9\\
-\hline
-21402159119 & 0.9 & 0.9 & 1.7 & 0.9 & 0.9 & 1.7\\
-\hline
-21402159121 & 0.9 & 0.8 & 1.6 & 0.8 & 0.9 & 1.6\\
-\hline
-21402159122 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 & 0.1\\
-\hline
-21402159124 & 1.0 & 0.0 & 1.0 & 0.0 & 1.0 & 1.0\\
-\hline
-21402159131 & 1.0 & 0.0 & 1.0 & 0.0 & 1.0 & 1.0\\
-\hline
-21402159134 & 0.8 & 0.8 & 1.5 & 0.8 & 0.8 & 1.5\\
-\hline
-21402159135 & 0.1 & 0.1 & 0.2 & 0.1 & 0.1 & 0.2\\
-\hline
-21402159136 & 1.0 & 0.0 & 1.0 & 0.0 & 1.0 & 1.0\\
-\hline
-21402159202 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0\\
-\hline
-21402159203 & 0.4 & 0.0 & 0.4 & 0.0 & 0.4 & 0.4\\
-\hline
-21402159208 & 0.2 & 0.0 & 0.2 & 0.0 & 0.2 & 0.2\\
-\hline
-21402159210 & 0.1 & 0.0 & 0.1 & 0.0 & 0.1 & 0.1\\
-\hline
-21402159212 & 0.1 & 0.0 & 0.1 & 0.0 & 0.1 & 0.1\\
-\hline
-21402159215 & 1.0 & 0.0 & 1.0 & 0.0 & 1.0 & 1.0\\
-\hline
-21402159221 & 0.6 & 0.0 & 0.6 & 0.0 & 0.6 & 0.6\\
-\hline
-\end{tabular}
-\end{table}
-
 \begin{figure}
 \centering
 \includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/SI_mornington_20181230_output-1.pdf}
@@ -545,61 +482,84 @@ December 30, 2018}
 \hypertarget{central-melbourne}{%
 \subsection{Central Melbourne}\label{central-melbourne}}
 
-Figure @ref(CBD\_map)) shows SA1 zones in central Melbourne, including
-the Central Business District (CBD).
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{graphics/Melbourne_cbd} \caption{SA1 zone boundaries in central Melbourne.}\label{fig:CBD_map}
-\end{figure}
-
-\begin{figure}
-\centering
 \includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_CBD_map_230808-1.pdf}
-\caption{Victorian GTFS and central Melbourne SA1 zones, SI values for
-October 10, 2023, by hour between 5am and 10am}
-\end{figure}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_CBD_map_230808-2.pdf}
 
-The results shown in Figure @ref(Melbourne\_CBD\_map\_230808) meet
-expectations, with higher SI scores shown in the Central Business
-District (CBD), where there are the five stations that make up the City
-Loop\footnote{Flinders Street Station, Southern Cross Station, Flagstaff
-  Station, Melbourne Central Station and Parliament Station.}, and where
-many tram and bus routes converge. The SI scores are highest between
-7-9am, reflecting the typical service peaks.
+Figure @ref(Melbourne\_CBD\_map\_230808) shows SI scores for Tuesday
+August 8, 2023, by hour between 5am and 11am (top) and by mode for the
+whole day (bottom). These generally expectations, with higher SI scores
+shown in the Central Business District (CBD), where there are the five
+stations that make up the City Loop: Flinders Street Station, Southern
+Cross Station, Flagstaff Station, Melbourne Central Station and
+Parliament Station; and where many tram and bus routes converge. The SI
+scores are highest between 7-9am, reflecting the typical service peaks.
+Results are also consistent with: the high number for bus services along
+the Victoria and Queen Street corridors; and tram services that mostly
+run along the Swanston, Elizabeth, Bourke and Collins Street corridors.
 
-\hypertarget{by-mode}{%
-\subsubsection{By mode}\label{by-mode}}
+\hypertarget{greater-melbourne}{%
+\subsection{Greater Melbourne}\label{greater-melbourne}}
 
-Figure @ref(Melbourne\_230808\_by\_mode) shows SI scores by mode for all
-of Tuesday August 8, 2023.
+\hypertarget{by-hour}{%
+\subsubsection{By hour}\label{by-hour}}
+
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_230808_by_hour-1.pdf}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Mornington_230808_by_hour-1.pdf}
+
+\hypertarget{by-location}{%
+\subsubsection{By location}\label{by-location}}
 
 \begin{figure}
 \centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Melbourne_230808_by_mode-1.pdf}
-\caption{Victorian GTFS and SA1 zones near the Melbourne CBD, SI values
-for Tuesday August 8, 2023, by mode}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/map_by_sa3-1.pdf}
+\caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
+values for Tuesday August 8, 2023}
 \end{figure}
-
-Figure @ref(Melbourne\_230808\_by\_mode) indicates how the central city
-is serviced by:
-
-\begin{itemize}
-\tightlist
-\item
-  buses that mostly travel along the Latrobe and Queen Street corridors,
-  many of which travel east-west along Victoria Street to/from the
-  north-east;
-\item
-  rail services stopping at City Loop stations; and - tram services,
-  most of which running north-south along the Swanston Street corridor.
-\end{itemize}
 
 \hypertarget{equality-of-service}{%
 \subsubsection{Equality of service}\label{equality-of-service}}
 
+\begin{tabular}{l|c}
+\hline
+**Characteristic** & **N = 11,012**\\
+\hline
+Population & \\
+\hline
+Median (IQR) & 421 (333, 522)\\
+\hline
+Skew & 1\\
+\hline
+Mean (SD) & 430 (168)\\
+\hline
+10\%, 90\% & 258, 619\\
+\hline
+5\%, 95\% & 206, 687\\
+\hline
+1\%,99\% & 0,872\\
+\hline
+Minimum,Maximum & 0,2,967\\
+\hline
+SI & \\
+\hline
+Median (IQR) & 239 (100, 522)\\
+\hline
+Skew & 7\\
+\hline
+Mean (SD) & 482 (938)\\
+\hline
+10\%, 90\% & 27, 1,042\\
+\hline
+5\%, 95\% & 8, 1,506\\
+\hline
+1\%,99\% & 0,4,504\\
+\hline
+Minimum,Maximum & 0,14,804\\
+\hline
+\end{tabular}
+
 \begin{figure}
 \centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats-1.pdf}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats_greater_melbourne_230808-1.pdf}
 \caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
 values for Tuesday August 8, 2023}
 \end{figure}
@@ -611,14 +571,63 @@ values for Tuesday August 8, 2023}
 values for Tuesday August 8, 2023, Lorenz plot}
 \end{figure}
 
-\hypertarget{comparing-areas}{%
-\subsubsection{Comparing areas}\label{comparing-areas}}
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats_greater_melbourne_230808_by_sa3-1.pdf}
+\caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
+values for Tuesday August 8, 2023}
+\end{figure}
 
-\hypertarget{patterns}{%
-\subsubsection{Patterns}\label{patterns}}
+\begin{tabular}{l|c}
+\hline
+**Characteristic** & **N = 40**\\
+\hline
+Population & \\
+\hline
+Median (IQR) & 104,332 (77,574, 156,285)\\
+\hline
+Skew & 1\\
+\hline
+Mean (SD) & 118,389 (59,360)\\
+\hline
+10\%, 90\% & 52,168, 193,124\\
+\hline
+5\%, 95\% & 41,080, 218,426\\
+\hline
+1\%, 99\% & 25,502, 264,363\\
+\hline
+Range & 25,146, 279,213\\
+\hline
+SI & \\
+\hline
+Median (IQR) & 94,230 (53,209, 136,011)\\
+\hline
+Skew & 5\\
+\hline
+Mean (SD) & 132,633 (208,439)\\
+\hline
+10\%, 90\% & 17,527, 220,764\\
+\hline
+5\%, 95\% & 12,483, 289,046\\
+\hline
+1\%, 99\% & 5,282, 938,342\\
+\hline
+Range & 839, 1,335,114\\
+\hline
+\end{tabular}
+
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats_greater_melbourne_230808_by_sa3-2.pdf}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/gghistostats_greater_melbourne_230808_by_sa3-3.pdf}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Gini_coefficients_sa3-1.pdf}
+\caption{Victorian GTFS and SA1 zones within Greater Melbourne, SI
+values for Tuesday August 8, 2023, Lorenz plot}
+\end{figure}
 
 \hypertarget{trends}{%
-\subsubsection{Trends}\label{trends}}
+\subsection{Trends}\label{trends}}
 
 \hypertarget{extensions}{%
 \section{Extensions}\label{extensions}}
