@@ -1513,7 +1513,7 @@ ylim <- c(-37.80347733938971, -37.82753754010771)
 p1 <- ggplot() + 
   geom_sf(data=map_si_by_area_and_hour_230808 %>% filter(hour_starting %in% (8:10)),
           aes(fill = SI)) +
-            facet_wrap(vars(hour_starting), ncol=1) +
+            facet_wrap(vars(hour_starting), nrow=1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
@@ -1556,7 +1556,7 @@ map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_an
 p2 <- ggplot() + 
   geom_sf(data=map_si_by_area_and_hour_230808_all_modes,
           aes(fill = SI)) +
-            facet_wrap(vars(mode), ncol=1) +
+            facet_wrap(vars(mode), nrow=1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
@@ -1574,34 +1574,82 @@ p1 / p2
 
 ### By hour
 
+
+
+```{r Melbourne_City_sa2_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones, SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+#Join SI to ABS names data
+si_by_area_and_hour_230808_sa2  <- left_join(
+  si_by_area_and_hour_230808,
+  (absmapsdata::sa12021 %>% 
+     filter(gcc_name_2021 == "Greater Melbourne") %>% 
+     select(sa1_code_2021, sa2_code_2021, sa2_name_2021, sa3_name_2021) %>%
+     st_drop_geometry()), 
+  by = join_by(area_id == sa1_code_2021)
+)
+
+
+
+#aggregate SI by SA2 for Melbourne City only
+si_by_area_and_hour_230808_sa2 <- si_by_area_and_hour_230808_sa2 %>% 
+  filter(sa3_name_2021 == "Melbourne City") %>%
+  aggregate(SI ~ hour_starting+sa2_name_2021+sa3_name_2021,
+  FUN = sum) %>%
+  as_tibble()
+
+#convert hour starting to numeric
+si_by_area_and_hour_230808_sa2$hour_starting_numeric <- hm(si_by_area_and_hour_230808_sa2$hour_starting)
+si_by_area_and_hour_230808_sa2$hour_starting_numeric <- hour(si_by_area_and_hour_230808_sa2$hour_starting_numeric)
+
+ggwithinstats(
+  data = si_by_area_and_hour_230808_sa2 %>% 
+    filter(hour_starting_numeric > 5 & 
+            hour_starting_numeric < 24),
+  x = hour_starting_numeric,
+  y = SI,
+  #type = "nonparametric", ## type of statistical test
+  xlab = "Hour starting", ## label for the x-axis
+  ylab = "SI", ## label for the y-axis
+  package = "yarrr", ## package from which color palette is to be taken
+  palette = "info2", ## choosing a different color palette
+  pairwise.display = "none"
+)  
+```
+
+
+
 ```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones, SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+#Join SI to ABS names data
+si_by_area_and_hour_230808_sa3  <- left_join(
+  si_by_area_and_hour_230808,
+  (absmapsdata::sa12021 %>% 
+     filter(gcc_name_2021 == "Greater Melbourne") %>% 
+     select(sa1_code_2021, sa3_code_2021, sa3_name_2021, sa4_name_2021) %>%
+     st_drop_geometry()), 
+  by = join_by(area_id == sa1_code_2021)
+)
 
 
 
 #aggregate SI by SA3
-si_by_area_and_hour_230808_sa3 <- aggregate(
-  si_by_area_and_hour_230808$SI,
-  list(si_by_area_and_hour_230808$hour_starting,
-       si_by_area_and_hour_230808$sa3_name_2021, 
-       si_by_area_and_hour_230808$sa4_name_2021),
+si_by_area_and_hour_230808_sa3 <- si_by_area_and_hour_230808_sa3 %>% 
+  aggregate(SI ~ hour_starting+sa3_name_2021+sa4_name_2021,
   FUN = sum) %>%
   as_tibble()
-names(si_by_area_and_hour_230808_sa3) <- c("hour_starting", "sa3_name_2021", "sa4_name_2021", "SI")
-
 
 #convert hour starting to numeric
+si_by_area_and_hour_230808_sa3$hour_starting_numeric <- hm(si_by_area_and_hour_230808_sa3$hour_starting)
+si_by_area_and_hour_230808_sa3$hour_starting_numeric <- hour(si_by_area_and_hour_230808_sa3$hour_starting_numeric)
 
-si_by_area_and_hour_230808_sa3$hour_starting <- hm(si_by_area_and_hour_230808_sa3$hour_starting)
-si_by_area_and_hour_230808_sa3$hour_starting <- hour(si_by_area_and_hour_230808_sa3$hour_starting)
-
-
-
-p3 <- ggwithinstats(
+ggwithinstats(
   data = si_by_area_and_hour_230808_sa3 %>% 
-    filter(sa4_name_2021 == "Melbourne - Inner") %>% 
-    filter(hour_starting > 5 & 
-            hour_starting < 24),
-  x = hour_starting,
+    filter(sa3_name_2021 != "Melbourne City") %>%
+    filter(hour_starting_numeric > 5 & 
+            hour_starting_numeric < 24),
+  x = hour_starting_numeric,
   y = SI,
   #type = "nonparametric", ## type of statistical test
   xlab = "Hour starting", ## label for the x-axis
@@ -1611,27 +1659,7 @@ p3 <- ggwithinstats(
   pairwise.display = "none"
 )  
 
-
-p4 <- ggwithinstats(
-  data = si_by_area_and_hour_230808_sa3 %>% 
-    filter(sa4_name_2021 == "Mornington Peninsula") %>% 
-    filter(hour_starting > 5 & 
-            hour_starting < 24),
-  x = hour_starting,
-  y = SI,
-  #type = "nonparametric", ## type of statistical test
-  xlab = "Hour starting", ## label for the x-axis
-  ylab = "SI", ## label for the y-axis
-  package = "yarrr", ## package from which color palette is to be taken
-  palette = "info2", ## choosing a different color palette
-  pairwise.display = "none"
-) 
-
-p3 / p4
-
 ```
-
-
 
 ### Location, population and equality of service
 
