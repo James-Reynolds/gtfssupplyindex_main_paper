@@ -1619,7 +1619,7 @@ ggwithinstats(
 
 
 
-```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones, SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r Melbourne_230808_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones (except Melbourne City), SI values for Tuesday August 8, 2023, by hour, 5am to midnight", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 #Join SI to ABS names data
@@ -1658,6 +1658,122 @@ ggwithinstats(
   palette = "info2", ## choosing a different color palette
   pairwise.display = "none"
 )  
+
+```
+
+
+```{r greater_melbourne_230808_sa3_by_hour_percentatages, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, by hour as a percentage of the full day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+si_by_area_and_hour_230808_sa3_wider <- si_by_area_and_hour_230808_sa3 %>%
+  select(sa3_name_2021, hour_starting_numeric, SI) %>%
+  pivot_wider(names_from = hour_starting_numeric, values_from = SI)
+
+
+si_by_area_and_hour_230808_sa3_wider_percentages <- si_by_area_and_hour_230808_sa3_wider %>% 
+  adorn_percentages() 
+
+si_by_area_and_hour_230808_sa3_percentages <- si_by_area_and_hour_230808_sa3_wider_percentages %>% 
+  pivot_longer(cols = 2:ncol(si_by_area_and_hour_230808_sa3_wider_percentages), 
+               names_to = "hour_starting", 
+               values_to = "SI")
+
+si_by_area_and_hour_230808_sa3_percentages$hour_starting <- si_by_area_and_hour_230808_sa3_percentages$hour_starting %>% as.numeric()
+
+ggwithinstats(
+  data = si_by_area_and_hour_230808_sa3_percentages, ## data frame from which variables are taken
+  x = hour_starting, ## predictor/independent variable
+  y = SI, ## dependent variable
+  xlab = "Population", ## label for the x-axis
+  ylab = "SI score", ## label for the y-axis
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+  pairwise.display = "none"
+) 
+
+```
+
+
+
+```{r greater_melbourne_230808_8am_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+ggscatterstats(
+  data = si_by_area_and_hour_230808_sa3_wider_percentages,
+  x = `8`, ## predictor/independent variable
+  y = `20`, ## dependent variable
+  xlab = "8-9am", ## label for the x-axis
+  ylab = "8-9pm", ## label for the y-axis
+  label.var = sa3_name_2021, ## variable to use for labeling data points
+  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) 
+
+```
+
+
+
+```{r greater_melbourne_230808_8am_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+
+si_by_area_and_hour_230808_sa3_wider <- si_by_area_and_hour_230808_sa3_wider %>% 
+  adorn_totals(where = "col") 
+
+ggscatterstats(
+  data = si_by_area_and_hour_230808_sa3_wider %>% 
+    filter(sa3_name_2021 != "Melbourne City"), ## data frame from which variables are taken
+  x = `8`, ## predictor/independent variable
+  y = Total, ## dependent variable
+  xlab = "8-9am", ## label for the x-axis
+  ylab = "Full day", ## label for the y-axis
+  # label.var = sa3_name_2021, ## variable to use for labeling data points
+  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) 
+
+```
+
+
+```{r greater_melbourne_230808_5pm_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 5 to 6pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+ggscatterstats(
+  data = si_by_area_and_hour_230808_sa3_wider %>% 
+    filter(sa3_name_2021 != "Melbourne City"), ## data frame from which variables are taken
+  x = `5`, ## predictor/independent variable
+  y = Total, ## dependent variable
+  xlab = "5-6pm", ## label for the x-axis
+  ylab = "Full day", ## label for the y-axis
+   label.var = sa3_name_2021, ## variable to use for labeling data points
+  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) 
+
+```
+
+
+```{r greater_melbourne_230808_9pm_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 9 to 10pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+ggscatterstats(
+  data = si_by_area_and_hour_230808_sa3_wider %>% 
+    filter(sa3_name_2021 != "Melbourne City"), ## data frame from which variables are taken
+  x = `21`, ## predictor/independent variable
+  y = Total, ## dependent variable
+  xlab = "9-10pm", ## label for the x-axis
+  ylab = "Full day", ## label for the y-axis
+   label.var = sa3_name_2021, ## variable to use for labeling data points
+  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", ## fill for marginals on the x-axis
+  yfill = "#009E73", ## fill for marginals on the y-axis
+) 
 
 ```
 
@@ -1792,7 +1908,7 @@ ggplot(si_by_area_230808_pop %>%
 ```
 
 
-```{r map_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 (top), 2021 census population (middle), and SI divided by population (bottom)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r map_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 (left) and 2021 census population (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 map_areas_of_interest_sa3 <- absmapsdata::sa32021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa3_name_2021, sa4_name_2021, geometry)
@@ -1854,25 +1970,23 @@ p6 <- ggplot() +
 #plot
 p7 <- ggplot() + 
   geom_sf(data=map_si_by_area_230808_sa3,
-          aes(fill = (SI / Population))) + 
+          aes(fill = log(SI / Population))) + 
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_gradient(name = "Population", trans = "log", breaks = my_breaks, labels = my_breaks)
+  ) 
 
-
-p5 / p6 / p7
+p5 + p6
 
 
 ```
 
-```{r greater_melbourne_230808_by_sa3_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 (top), 2021 census population (middle), and SI divided by population (bottom)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_by_sa3_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population (left), and log(SI divided by population) (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 
-ggscatterstats(
+p8 <- ggscatterstats(
   data = map_si_by_area_230808_sa3 %>% st_drop_geometry(), ## data frame from which variables are taken
   x = Population, ## predictor/independent variable
   y = SI, ## dependent variable
@@ -1887,22 +2001,12 @@ ggscatterstats(
   scale_x_log10() +
   scale_y_log10()
 
-
+p8 + p7
 
 ```
 
 
 ### By year
-
-#Join SI to ABS names data
-si_by_area_and_hour_230808_sa3  <- left_join(
-  si_by_area_and_hour_230808,
-  (absmapsdata::sa12021 %>% 
-     filter(gcc_name_2021 == "Greater Melbourne") %>% 
-     select(sa3_code_2021, sa3_name_2021, sa4_name_2021) %>%
-     st_drop_geometry()), 
-  by = join_by(area_id == sa1_code_2021)
-)
 
  
 
