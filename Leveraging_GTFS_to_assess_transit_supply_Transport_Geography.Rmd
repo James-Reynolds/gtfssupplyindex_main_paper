@@ -584,6 +584,7 @@ list_gtfs = ptv_230804_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
                                               filter(state_name_2021 == "Victoria") %>%
+                                              filter(gcc_name_2021 != "Greater Melbourne") %>%
                                               select(sa1_code_2021),  
                                             area_id_field = "sa1_code_2021")
 
