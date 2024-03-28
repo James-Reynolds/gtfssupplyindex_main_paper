@@ -1787,7 +1787,7 @@ ggscatterstats(
 
 
 
-```{r greater_melbourne_230808_8am_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_8am_versus_total_scatterplot_by_hour, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 si_by_area_and_hour_230808_sa3_wider <- si_by_area_and_hour_230808_sa3_wider %>% 
@@ -2231,7 +2231,7 @@ ggscatterstats(
 
 
 
-```{r greater_melbourne_230808_8am_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_8am_versus_total_scatterplot_per_pop_2, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 8 to 9am versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 si_by_area_and_hour_230808_sa3_wider <- si_by_area_and_hour_230808_sa3_wider %>% 
@@ -2254,7 +2254,7 @@ ggscatterstats(
 ```
 
 
-```{r greater_melbourne_230808_5pm_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 5 to 6pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_5pm_versus_total_scatterplot_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 5 to 6pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 ggscatterstats(
   data = si_by_area_and_hour_230808_sa3_wider %>% 
@@ -2273,7 +2273,7 @@ ggscatterstats(
 ```
 
 
-```{r greater_melbourne_230808_9pm_versus_total_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 9 to 10pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_9pm_versus_total_scatterplot_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne (except Melbourne City), SI values for Tuesday August 8, 2023 9 to 10pm versus all day", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 ggscatterstats(
   data = si_by_area_and_hour_230808_sa3_wider %>% 
@@ -2293,7 +2293,7 @@ ggscatterstats(
 
 
 
-```{r gghistostats_greater_melbourne_230808, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r gghistostats_greater_melbourne_230808_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 #aggregate SI by area
 si_by_area_230808 <- si_by_area_and_hour_230808 %>%
@@ -2395,7 +2395,7 @@ si_by_area_230808_pop <- left_join(si_by_area_230808_pop,
 
 ```
 
-```{r Gini_coefficients, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r Gini_coefficients_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 ggplot(si_by_area_230808_pop %>% 
@@ -2422,7 +2422,7 @@ ggplot(si_by_area_230808_pop %>%
 ```
 
 
-```{r map_greater_melbourne_230808_by_sa3, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 (left) and 2021 census population (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r map_greater_melbourne_230808_by_sa3_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 (left) and 2021 census population (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 map_areas_of_interest_sa3 <- absmapsdata::sa32021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa3_name_2021, sa4_name_2021, geometry)
@@ -2496,7 +2496,7 @@ p5 + p6
 
 ```
 
-```{r greater_melbourne_230808_by_sa3_scatterplot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population (left), and log(SI divided by population) (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+```{r greater_melbourne_230808_by_sa3_scatterplot_per_pop, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population (left), and log(SI divided by population) (right)", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
 
