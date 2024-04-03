@@ -92,50 +92,13 @@ library(DescTools)
 
 
 # Introduction
-"If you can't measure it, you can't manage it" 
-is often miss-attributed to @Deming1993new who, 
-according to @Berenson2016,
-was actually trying to
-make the opposite point. 
-Regardless,
-service level indicators 
-are important in
-researching, 
-managing 
-and seeking to improve transit operations 
-[@FieldingGordonJ1987Mpts; @Ryus:2003aa]. 
-Many indicators already exist 
-including, for example: 
-those in the Transit Capacity and Quality of Service Manual (TCQSM)[@TCQSM:2013]; and
-the Transit Score metric [@WalkScore:2023tg]. There are two inter-related challenges
-in using such metrics: 
-(1) calculating the scores themselves 
-for a specific location 
-and service pattern; and
-(2) understanding the metrics, 
-their meaning 
-and importance 
-(and being able to explain this
-to those who 
-are not specialists in transit).
-For example:
-the TCQSM metrics 
-might fail the first challenge, 
-being difficult to calculate 
-without specialist software and data. 
-However, they use an A to F scoring system 
-and there is an entire guidebook 
-explaining each individual indicator, 
-suggesting that they might pass the second. 
-In contrast, 
-entering an address into the Transit Score website 
+The Transit Score website [@WalkScore:2023tg] 
 will return a score out of 100 
-reflecting the quantity of transit available, which is both easy to obtain and explain. 
-However, the methodology and algorithm 
-behind the Transit Score is 
-not publicly available, 
-so these cannot be calculated independently.
-This might limit 
+reflecting the quantity of transit available.  
+This score is easy to obtain 
+and simple to explain to a non-technical audience. 
+However, the score cannot be calculated independently, 
+which might limit 
 practitioners, researchers, advocates or
 others involved in transit planning, 
 operations or policy-making 
@@ -144,40 +107,45 @@ associated with new infrastructure,
 service patterns or 
 improvement options.  
 
+In contrast, the Transit Capacity and Quality of Service Manual 
+(TCQSM)[@TCQSM:2013] 
+provides a 700 page guidebook full of indicators, 
+all of which can be calculated independently 
+if the necessary data is available. 
+However, the TCQSM and many other transit service indicators 
+developed in research and practice are 
+focused towards the needs of practitioners and researchers. 
+There is no simple 'overall' metric that might be 
+easily obtained, used and/or understood 
+by those who are not engineers, planners 
+or other technically-minded people.  
+
 Previous research by @currie2007identifying 
 developed a transit Supply Index (SI), 
-This appears relatively easy to understand 
-and explain, as it is based 
+which has the advantage of providing a single score. 
+The SI score is based 
 on the number of transit arrivals 
-at stops within an area of interest.  
-An adjustment is made to account 
+at stops within an area of interest,   
+with an adjustment made to account 
 for how much of the area of interest is
-within walking distance of each stop, 
-meaning that higher SI scores indicate 
-areas with more frequent services 
-and/or better coverage. 
-
+within walking distance of each stop. 
 Unfortunately, 
 the SI does not appear to have been widely used,
-perhaps in part because at the time it was first published it was not particulrly easy to calculate. 
-At that time timetable data was not publicly available 
+perhaps in part because at the time it was first published 
+timetable data was not typically available 
 in a standardized 
-and machine-readable format, and 
-the scores reported in Currie and Senbergs (2007)
-were calculated directly from a database of services provided by the transit authority 
-in Melbourne, Australia. 
+and machine-readable format.  
 Nowadays, 
 the General Transit Feed Specification (GTFS) 
 allows timetable publication in a standardized format, 
 with more than 10,000 agencies 
-providing feeds^[There are two forms: 
-GTFS-static consisting of the timetable data (the scheduled services); 
-and GTFS-realtime, which includes vehicle arrivals and departure times based on real-world position data. 
-This paper and project uses only the GTFS-static (timetable) format.] 
-[@GTFS], 
-
+providing feeds[@GTFS].
 Many visualization, processing and analysis tools 
-that accept GTFS data are now available. 
+that accept GTFS data are now available, 
+and it is this data that provides the input 
+necessary for the Transit Score website to return a result. 
+
+
 A gap, however, is that 
 there is not yet a tool to calculate SI scores directly from 
 GTFS datasets.
@@ -203,28 +171,33 @@ Even a brief search reveals
 many metrics 
 available for benchmarking transit services. 
 Examples include: 
-(1) those in the Transit Cooperative Research Program (TCRP) Report 88, which is an extensive guidebook on developing a performance-measurement system [@Ryus:2003aa]; 
+(1) those in the Transit Cooperative Research Program (TCRP) Report 88, 
+which is an extensive guidebook 
+on developing a performance-measurement system [@Ryus:2003aa]; 
 (2) online databases provided by 
-the Florida Transit Information System (FTIS) [@Florida-Transit-Information-System:2018aa] 
+the Florida Transit Information System (FTIS) 
+[@Florida-Transit-Information-System:2018aa] 
 and @UITP:2015aa; 
 (3) those used in the extensive annual benchmarking program
 undertaken yearly by the Transport Strategy Centre in the United Kingdom, 
 including over 100 transit providers around the world [@Imperial-College-London:2023aa]; and
-(4) a recently developed methodology to calculate 'blank spots' within an area, 
-being those places beyond 400/800 metre walking distances to/from bus and tram stops/train stations [@AlamriSultan2023GAoA]. 
+(4) a recently developed methodology to calculate 'blank spots', 
+beyond typical walking access distances 
+to/from transit stops[@AlamriSultan2023GAoA]. 
   
   
 The Fielding Triangle [@FieldingGordonJ1987Mpts] 
 provides a framework 
-for understanding how such metrics combine 
+for combining indicators of 
 service inputs, 
 outputs 
 and consumption 
-to describe cost efficiency 
-and effectiveness; and
+to describe cost efficiency, 
+cost effectiveness and
 service effectiveness. 
-More broadly 
-@Litman:2003ab 
+More broadly: 
+
+- @Litman:2003ab 
 and @Litman:2016aa 
 discuss some of the traffic, 
 mobility, 
@@ -232,30 +205,35 @@ accessibility,
 social equity, 
 strategic planning 
 and other rational decision-making-based
-perspectives underling such metrics, 
-while @Reynolds:2017ah extends 
+perspectives underling transport indicators;
+
+- @Reynolds:2017ah extends 
 these into models of how 
 institutionalism, 
 incrementalism 
 and other public policy analysis concepts 
 might apply to decision-making processes 
-relating to transit prioritisation. 
-@GuzmanLuisA.2017Aeit, 
+relating to transit prioritization; 
+
+- @GuzmanLuisA.2017Aeit, 
 developed a measure of accessibility 
 in the context of policy development 
 and social equity 
-for Latin American Bus Rapid Transit (BRT) networks, while @Creutzig2020streetspaceallocation
+for Latin American Bus Rapid Transit (BRT) networks; and 
+
+- @Creutzig2020streetspaceallocation
 introduced street space allocation metrics 
 based around 10 ethical principles 
 
 However, 
-many of these metrics appear difficult to calculate, complex to explain or understand, 
+many of these metrics appear difficult to calculate, 
+complex to explain or understand, 
 and likely not well suited to communication 
-with those who are not transit planners or engineers, 
+with those who are not planners or engineers, 
 or other technical specialists. 
 Where pre-calculated metrics 
 are immediately available 
-it may not be possible for  practitioners, 
+it may not be possible for practitioners, 
 researchers 
 or advocates 
 to independently generate metrics 
@@ -275,85 +253,25 @@ However,
 the Transit Score algorithm 
 is patented 
 and effectively a black box. 
-It is not possible to calculate Transit Scores scores independently. 
-Nor can Transit Scores to be generated 
+Transit Scores cannot be calculated independently
+or generated 
 for proposed changes to networks. 
-The Transit Score metric, therefore, 
-fails the first of the aforementioned challenges, 
-as practitioners, researchers and advocates 
-can only use those scores provided online.
-But, because it is based on 
-a patented algorithm it may not be easy to understand or explain 
-the connection between real-world conditions 
-and the Transit Score, 
-or what might need to be done 
-to improve the score (and service levels). 
-As such, it might partially 
-pass the second of the aforementioned challenges, 
-as the score's concept is simple-  
-the closer to 100, the better -
-but further detail is limited.  
-
-In contrast, the TCQSM, 
-specifies Levels of Service (LOS) 
-between A and F 
-across a range of factors^[
-Including service span, 
-frequency, 
-speed, 
-the proportion of the population serviced, 
-competitiveness of travel times to car-based travel, 
-and many more.]. 
-This scoring scheme appears relatively simple to explain -
-A is good and F is bad - 
-and matches that often used in traffic capacity analysis. 
-Extensive detail is provided 
-within @TCQSM:2013 
-scores mean. 
-However, 
-calculation of many of TCQSM metrics may need specialised software 
-and datasets^[
-For example, 
-the Service Coverage Area metric in the TCQSM (pp. 5-8 to 5-21) 
-may require GIS or other analysis, 
-on top of accurate data about population densities, 
-stop locations 
-and service schedules.] 
-and it might be challenging to explain 
-the detail of these measures 
-or how to improve them 
-to non-technical decision-makers, 
-stakeholders 
-or others involved in transit management or advocacy. 
 
 ## GTFS
 The General Transit Feed Specification (GTFS)
 is an open, 
 text-based format 
-that was developed originally to allow transit information to be included in the Google Maps navigation platform [@GTFS]. Figure \@ref(fig:GTFS_ERD) shows 
-an Entity Relationship Diargram (ERD) 
-of the GTFS data structure, 
-in which each box represents 
-a database table 
-in the GTFS. 
-Table rows 
-indicate the variables (columns) 
-included in each, 
-for example  
-each record in the 'stops' table 
-includes a value for stop_id, 
-stop_name, 
-stop_lat and 
-stop_lon. 
-Relationships between the tables 
-are indicated by the connecting lines, 
-and Primary Key (PK) and Foreign Key (FK) designations, 
-for example, 
-stop_id appears in the 'stops' and 'stop_times' tables as a 
-Primary Key and Foreign Key. 
-`Crow's feet' 
-indicate the relationships between each table^[
-See https://i.stack.imgur.com/fxaAq.png for guide to the symbols.]
+developed originally to allow transit 
+to be included in the Google Maps navigation platform [@GTFS]. 
+Figure \@ref(fig:GTFS_ERD) shows 
+an Entity Relationship Diagram (ERD) 
+of the GTFS data structure. 
+This indicates how GTFS data 
+is stored as a series of tables 
+(agency, routes, trips etc.)
+with primary and foreign keys (agency_id, route_id, trip_id etc.) 
+providing links.
+
 
 ```{r GTFS_ERD, crop = TRUE, fig.cap = "GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/GTFS.png")
@@ -367,22 +285,13 @@ including the Transit Score metric itself.
 having developed code to calculate of some of the TCQSM metrics 
 and compared these
 across 50 transit operators.
-The @Wong:2013aa code is readily available (
-https://github.com/jcwong86/GTFS_Explore_Tool),  
-but does not appear to be currently maintained. 
-Future research may involve 
-reviewing this code 
-and using it to analyse modern GTFS feeds,  
-but in this paper the aim is more modest, 
-being to use GTFS data to calculate Currie and Senbergs' (2007) SI.   
-
 
 ## The Transit Suppy Index
-Currie and Senbergs' (2007) focus 
-was the context of Melbourne's Census Collection Districts (CCD) and calculations based on a week of transit service. A more generalized form of the Transit Supply Index (SI) is shown below: 
+A generalized form of the Transit Supply Index (SI) from Currie and Senbergs (2007) is: 
 
   $$SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}$$
 
+where:
 (1) $SI_{area, time}$ is the Supply Index for the area of interest 
 and a given period of time;
 (2) $Area_{Bn}$ is the buffer area for each stop (n) within the area of interest. 
@@ -392,25 +301,6 @@ and 800 metres for railway stations;
 (3) $Area_{area}$ is the area of the area of interest; and
 (4) $SL_{n,time}$ is the number of transit arrivals for each stop 
 for a given time period.
-
-An advantage of the SI is 
-that it is a relatively simple number 
-to calculate, 
-understand 
-and explain. 
-It describes 
-the number of transit arrivals 
-at stops within 
-an area of interest 
-and time frame, 
-multiplied by a factor 
-accounting for the proportion of the area of interest 
-that is within typical walking distances of each stop. 
-Hence, 
-more services, 
-more stops 
-and higher frequencies 
-increase the score. 
 
 The SI score does not incorporate 
 service span, 
@@ -432,8 +322,10 @@ or for a region encompassing multiple areas of interest.
 This study 
 developed a package 
 with tools for calculating the SI from GTFS data. 
-The R programming language [@R-base], 
-was adopted for code development, and the package development setup and workflow described by @wickham2023r 
+The R programming language [@R-base] 
+was adopted for code development. 
+Package development setup and workflow 
+as described by @wickham2023r 
 was adopted. 
 Various existing packages 
 were relied upon including: 
@@ -445,7 +337,7 @@ Some code was adapted from
 examples, vignettes and other documentation 
 in the tidytransit, gtfstools and other packages.
 
-Two cases where used during the code development and testing 
+Two cases where used during the code development and testing, 
 such that results might be generated for real GTFS data: 
 the Mornington Peninsula Tourist Railway GTFS feed 
 and the Public Transport Victoria (PTV) GTFS feed, 
@@ -454,7 +346,13 @@ Both were selected primarily for convenience,
 given that the authors are familiar with 
 the typical service patterns and geography.
 
-Figure \@ref(Melbourne_map)) shows the areas of interest for which results are presented in this paper, including Greater Melbourne and its SA3 zones (main), SA1 zones in the central part of Melbourne (top-right) and the Mornington Peninsula Railway and SA1 zones within 800 metres (bottom-right) . Stations are shown in 
+Figure \@ref(Melbourne_map)) shows the areas of interest 
+relevant to the code development and testing, 
+and selected railway stations. 
+Statistical Area (SA) zones from the Australian Bureau of Statistics [@ABSmaps] 
+Areas of interest included Greater Melbourne and its SA3 zones (main), 
+SA1 zones in the central part of Melbourne (top-right) 
+and SA1 zones within 800 metres of the Mornington Penninsula railway (bottom-right).
 
 
 ```{r Melbourne_map, fig.cap = "Areas of interest",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -462,19 +360,6 @@ Figure \@ref(Melbourne_map)) shows the areas of interest for which results are p
 knitr::include_graphics("graphics/all_maps.png")
 
 ```
-
-Further cases were selected as 
-leading, 
-representative 
-and contrasting examples 
-for the results reported here. 
-
-
-
-
-
-
-
 ## Mornington Penninsula Tourist Railway
 
 The Morning Peninsula Tourist Railway 
@@ -491,8 +376,6 @@ and absmapsdata packages [@r-strayr].
 The Mornington Peninsular Statistical Area 3 (SA3) zone 
 and the Statistical Area 1 (SA1) zones contained within it 
 were adopted as the areas of interest. 
-These are shown in Figure \@ref(fig:mornington_map_ABS), 
-together with the locations of the three railway stations.  
 
 ```{r mornington_calc, crop = TRUE, fig.cap = "SA1 zones (red), location of Mornington Tourist Railway Stations (black) and boundary of zones within 800m catchment (blue)", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 ### ---------------- get abs data for Mornington Peninsula
@@ -547,9 +430,8 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ## Public Transport Victoria (PTV)
 Larger scale testing was performed using the Victorian GTFS feed, 
-published by Public Transport Victoria (PTV), 
+published by Public Transport Victoria (PTV) and 
 sourced via @transitfeeds_victoria:2023aa for historical feeds. 
-Again, ABS data was used as the areas of interest, focusing on SA1 zones within Greater Melbourne. Data was analysed for the second Tuesday in August each year, so as to match the typical date of the Australian census. 
 
 ```{r fix_ptv_data_Victoria_230804, eval = FALSE, echo = FALSE}
 #eval is false, so as to not overwrite saved file
@@ -1287,50 +1169,44 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 
 ```
 
-<!---
-## Extensions?? 
-Hourly
-"Manhattan- and London-ised Indexes"
-
-
-Tidytransit includes a sample GTFS feed from New York's MTA
-(including the subway!), 
-and so this was used for cod
-e tests were appropriate. 
-<MORE DETAILS ABOUT THIS>
---->
-
 
 # Results
 ## Code structure
+
+
+Developed code is available and documented on github [@gtfssupplyindex_github]. 
+The structure of the package, 
+functions developed, 
+and data tables are shown in Figure \@ref(fig:SI_ERD). 
+This shows  
+how the package takes input from three files: 
+a gtfs feed (gtfs.zip); 
+a sf object describing the geometry of the areas 
+for which the SI is to be calculated; and 
+a csv file (included in the package) 
+defining the buffer zone distances
+for each route type. The ultimate output 
+is a si_by_area_and_hour table (bottom-right), 
+which reports the SI score for each hour of the day 
+across dates specified by the user. 
+
 
 ```{r SI_ERD, crop = TRUE, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 knitr::include_graphics("graphics/SI_data_structure.png")
 
 ```
 
-
-Developed code is available and documented on github [@gtfssupplyindex_github]. 
-The structure of the package, 
-functions developed, 
-and data tables are shown in Figure \@ref(fig:SI_ERD), which shows  
-how the package takes input from three files: 
-a gtfs feed (gtfs.zip); 
-a sf object describing the geometry of the areas 
-for which the SI is to be calculated; and 
-a csv file defining the buffer zone distances (in metres) 
-for each route type^[This file is included in the package.]. The ultimate output 
-is a si_by_area_and_hour table, 
-which reports the SI score for each hour of the day 
-across dates specified by the user. 
-
 ## Mornington Pennisula Tourist Railway
-The various functions and their output 
-and explained in the following, 
-using the Mornington Peninsula GTFS for December 30th, 2018, and SA1 zone boundaries. 
+Various functions and their output 
+are explained in the following, 
+using the Mornington Peninsula GTFS for December 30th, 2018, 
+and SA1 zone boundaries as a worked example. 
 Individual steps are:
 
-(1) loading the gtfs.zip file: the gtfs_by_route_type function loads the gtfs data and splits it into a list (by route_type) of tidygtfs objects, using the filter_by_route_type function from the gtfstools package [@filter_GTFS_by_mode].
+(1) loading the gtfs.zip file: 
+the gtfs_by_route_type function loads the gtfs data 
+and splits it into a list (by route_type) of tidygtfs objects, 
+using the filter_by_route_type function from the gtfstools package [@filter_GTFS_by_mode].
 
 ```{r load_mornington_GTFS data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 #load the revised mornington GTFS data
@@ -1342,8 +1218,16 @@ list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
 
 ```
 
-(2) loading geometry information about the areas of interest: geographical data about the areas of interest are loaded by the load_areas_of_interest.R function into an sf object, using the sf package [@R-sf]. The resultant areas_of_interest table contains each area_id and its associated geometry. 
-Data about buffer zones, specifically the walking distance threshold assigned to each route_type (mode) is then loaded, again through a function (load_buffer_zone.R).
+(2) loading geometry information about the areas of interest: 
+geographical data about the areas of interest are loaded 
+by the load_areas_of_interest.R function into an sf object, 
+using the sf package [@R-sf]. 
+The resultant areas_of_interest table 
+contains each area_id and its associated geometry. 
+Data about buffer zones, 
+specifically the walking distance threshold assigned to each route_type (mode)
+is then loaded, 
+again through a function (load_buffer_zone.R).
 
 ```{r load_ABS data, echo = FALSE, error = FALSE, include = FALSE, results='hide', warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 
@@ -1364,10 +1248,9 @@ buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 #head(buffer_distance) %>% kable(caption = "First six entries in buffer distance definitions")
 ```
 
-(3) calculating which stops are within the catchment walking distance of which areas: using the stops_in_walk_dist function. Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose)) shows an intermediate step in this is function, in which the SA1 areas within the 800 metre catchment of the Mornington stations is identifed. 
-
-<!---However, this is complicated by the need to have different buffer distances for each route_type, and to only include those parts of the walking catchment that are within each area of interest. The calculation involves: (1) looking up the buffer_distance_length specific to each route_type; (2) transforming from latitude and longitude into metres and determining the area; (3) drawing circles around each stop, with the radius equal to the buffer distance, and intersecting these with the areas_of_interest (see Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose)); (4) calculating the $area_{Bn}$ terms are for each combination of stop_id and area_id; and then reporting the overall area terms for each area_of_interest ($Area_{Bn} / Area_{Area}$), as shown in Table \ref@(tab:calculate_stop_in_or_near_areas).
---->
+(3) calculating which stops are within the catchment walking distance of which areas: 
+using the stops_in_walk_dist function. Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose)) shows how this function identified
+SA1 areas within the 800 metre catchment of the three Mornington stations.
 
 
 ```{r calculate_stop_in_or_near_areas_verbose, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.keep = "first", crop = TRUE, fig.cap= "Step 3, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones"}
@@ -1391,12 +1274,14 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 #head(stops_in_or_near_areas[[1]]) %>% kable(caption = "'Rail' element of the stops in or near areas list for the Mornington Pennisula datasets, first six entries")
 ```
 
-<!-- The variables passed to the stop_in_or_near_areas function are list_gtfs^[The list of tidygtfs objects ouput by the gtfs_by_route_type function], the areas_of_interest table^[Which is the output of the load_areas_of_interest function], the buffer_distance table^[Output by the load_buffer_zones function], and an EPSG_for_transform variable. This last variable is the Coordinate Reference System (CRS) value relevant to the geographic location. It is used to project the latitude and longitude values included in the GTFS data and area_of_interest data into metres, in this case relating to the GDA94 / MGA zone 55 relevant to Australia^[https://epsg.io/28355].  
 
---->
-
-
-(4) Calculating SI scores for a given time period: using the si_calc.R function. This adapts code from an article included in the tidytransit package [@tidytransit_departure_timetable] to calculate the number of arrivals in a given time period, and combines this with the calculated area components. The si_total.R and hourly.R functions provided aggregation, giving the results shown in Table \@ref(tab:SI_mornington_20181230_output) and mapped in Figure \@ref(fig:SI_mornington_20181230_output). 
+(4) Calculating SI scores for a given time period: 
+The si_calc.R function calculates the number of arrivals in a given time period, 
+using code adapted from an article included in the tidytransit package
+[@tidytransit_departure_timetable],
+and combines this with the calculated area components. 
+The si_total.R and hourly.R functions provided aggregation, 
+giving the results mapped in Figure \@ref(fig:SI_mornington_20181230_output). 
 
 ```{r arrivals_mornington_20181230, echo = FALSE, eval=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
@@ -1511,8 +1396,7 @@ map_si_by_area_and_hour <- merge(map_areas_of_interest, si_by_area_and_hour)
 map_si_by_area_and_hour <- na.omit(map_si_by_area_and_hour)
 
 ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour %>% 
-            filter(hour(hm(hour_starting)) < 13),
+  geom_sf(data=map_si_by_area_and_hour,
           aes(fill = SI)) +
             facet_wrap(vars(hour_starting)) +
   theme(axis.text.x=element_blank(), #remove x axis labels
@@ -1525,28 +1409,10 @@ ggplot() +
 
 ```
 
-<!--The results meet expectations, with higher scores for SA1 zones closer to the three stations. Hand calculation for SA1 21402159136, which is close to the Mornington Station, to confirm the results is relatively trivial. By inspection, all of SA1 21402159136 (shown in purple in Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose) is within an 800 metre walking distance of Mornington Station, meaning that $Area_{Bn} / Area_{area} = 1$.  The SI scores for each hour are therefore equal to the number of arrivals in each hour.  Table \@ref(tab:mornington_hand_check) shows the scores calculated by the function, which matches the pattern of arrivals at 10:47am, 12:12pm, 2:02pm and 3:27pm^[See  https://transitfeeds.com/p/mornington-railway/806/latest/stops].
-
-```{r mornington_hand_check, crop = TRUE, fig.cap = "Mornington Penninsula Railway GTFS summary", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
-
-
-si_by_area_and_hour_wider %>% 
-  filter(area_id == "21402159136") %>%
-  adorn_rounding() %>%
-  kable(caption = "Mornington Penninsula Tourist Railway hourly SI values for December 30, 2018, for SA1 zone 21402159136")
-
-
-#knitr::include_graphics("graphics/mornington_arrivals.png")
-
-
-
-```
-
---->
 
 ## Central Melbourne
 
-Figure \@ref(Melbourne_CBD_map_230808) shows SI scores for Tuesday August 8, 2023, by hour between 5am and 11am (top) and by mode for the whole day (bottom).  These generally expectations, with higher SI scores shown in the Central Business District (CBD), where there are the five stations that make up the City Loop: Flinders Street Station, Southern Cross Station, Flagstaff Station, Melbourne Central Station and Parliament Station; and where many tram and bus routes converge. The SI scores are highest between 7-9am, reflecting the typical service peaks. Results are also consistent with: the high number for bus services along the Victoria and Queen Street corridors; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
+Figure \@ref(fig:Melbourne_CBD_map_230808) SI scores for Tuesday August 8, 2023 by mode for SA1 zones in Central Melbourne.  SI scores are generally higher in the Central Business District (CBD). Results are consistent with: the high number for bus services along the Victoria and Queen Street corridors; the rail stations surrounding the CBD; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
 
 
 ```{r Melbourne_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
@@ -1564,7 +1430,7 @@ si_by_area_and_hour_230808_wider <- si_by_area_and_hour_230808 %>% pivot_wider(n
 
 ```
 
-```{r Melbourne_CBD_map_230808, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, crop = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by mode"}
+```{r Melbourne_CBD_map_230808, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by mode"}
 
 map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
 
@@ -1620,9 +1486,8 @@ map_si_by_area_and_hour_230808_all_modes <- inner_join(map_areas_of_interest, si
 map_si_by_area_and_hour_230808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_230808_all_modes$hour_starting)
 map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_230808_all_modes$hour_starting)
 
-
 #plot bus, tram and rail
-p2 <- ggplot() + 
+central_melbourne_bus_rail_tram_row <- ggplot() + 
   geom_sf(data=map_si_by_area_and_hour_230808_all_modes,
           aes(fill = SI)) +
             facet_wrap(vars(mode), nrow=1) +
@@ -1631,10 +1496,10 @@ p2 <- ggplot() +
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
-  coord_sf(xlim = xlim, ylim = ylim) 
+  coord_sf(xlim = xlim, ylim = ylim)
 
-# p1 / p2
-p2
+central_melbourne_bus_rail_tram_row
+
 ```
 
 
@@ -1842,10 +1707,9 @@ ggscatterstats(
   xfill = "#CC79A7", ## fill for marginals on the x-axis
   yfill = "#009E73", ## fill for marginals on the y-axis
 ) 
-
 ```
 
-### Location, population and equality of service
+
 
 ```{r gghistostats_greater_melbourne_230808, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
@@ -1952,7 +1816,7 @@ si_by_area_230808_pop <- left_join(si_by_area_230808_pop,
 ```{r Gini_coefficients, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023, Lorenz plot", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
-ggplot(si_by_area_230808_pop %>% 
+gini_plot_greater_melbourne_sa1 <- ggplot(si_by_area_230808_pop %>% 
         select(SI, Population), 
        aes(x = SI, n = Population)) + 
          stat_lorenz()  +
@@ -1990,7 +1854,7 @@ map_si_by_area_230808_sa3 <- inner_join(map_areas_of_interest_sa3,
 my_breaks = c(1, 10, 100, 1000, 10000, 100000, 1000000)
 
 #plot
-p5 <- ggplot() + 
+greater_melbourne_sa3_SI_map <- ggplot() + 
   geom_sf(data=map_si_by_area_230808_sa3,
           aes(fill = SI)) + 
   theme(axis.text.x=element_blank(), #remove x axis labels
@@ -2022,7 +1886,7 @@ my_breaks = c(10, 100, 1000, 10000, 100000, 200000)
 
 
 #plot
-p6 <- ggplot() + 
+greater_melbourne_sa3_population_map <- ggplot() + 
   geom_sf(data=map_si_by_area_230808_sa3,
           aes(fill = Population)) + 
   theme(axis.text.x=element_blank(), #remove x axis labels
@@ -2045,8 +1909,8 @@ p7 <- ggplot() +
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) 
 
-#p5 + p6
-p5
+
+
 
 ```
 
@@ -2054,7 +1918,7 @@ p5
 
 
 
-p8 <- ggscatterstats(
+greater_melbourne_sa3_population_SI_scatter <- ggscatterstats(
   data = map_si_by_area_230808_sa3 %>% st_drop_geometry(), ## data frame from which variables are taken
   x = Population, ## predictor/independent variable
   y = SI, ## dependent variable
@@ -2072,27 +1936,22 @@ p8 <- ggscatterstats(
 #p8 + p7
 
 
-p9 <- ggscatterstats(
-  data = map_si_by_area_230808_sa3 %>% st_drop_geometry(), ## data frame from which variables are taken
-  x = Population, ## predictor/independent variable
-  y = SI, ## dependent variable
-  xlab = "Population", ## label for the x-axis
-  ylab = "SI score", ## label for the y-axis
-  label.var = sa3_name_2021, ## variable to use for labeling data points
-  # label.expression = Population > 15000 & SI < 5000, ## expression for deciding which points to label
-  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
-  xfill = "#CC79A7", ## fill for marginals on the x-axis
-  yfill = "#009E73", ## fill for marginals on the y-axis
-) +
-  scale_y_log10()
+```
 
-p9
+```{r greater_melbourne_230808_by_sa3_population_and_si_plot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population ", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
+
+greater_melbourne_sa3_SI_map / greater_melbourne_sa3_population_map 
+
+```
+
+```{r greater_melbourne_230808_by_gini_and_scatter, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population ", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+greater_melbourne_sa3_population_SI_scatter / gini_plot_greater_melbourne_sa1
 
 
 
 ```
-
 
 
 ## By year
