@@ -1,5 +1,5 @@
 ---
-title: "Leveraging GTFS data to assess transit supply"
+title: "New GTFS tools for benchmarking public tranpsort service levels"
 author:
   - name: James Reynolds
     email: james.reynolds@monash.edu
@@ -92,43 +92,26 @@ library(DescTools)
 
 
 # Introduction
-The Transit Score website [@WalkScore:2023tg] 
-will return a score out of 100 
-reflecting the quantity of transit available.  
-This score is easy to obtain 
-and simple to explain to a non-technical audience. 
-However, the score cannot be calculated independently, 
-which might limit 
-practitioners, researchers, advocates or
-others involved in transit planning, 
-operations or policy-making 
-from reporting score changes 
-associated with new infrastructure, 
-service patterns or 
-improvement options.  
+There appears to be few tools readily available for benchmarking public transport 
+service levels in a manner focused towards a non-technical audience.  Those that 
+are available are either:
 
-In contrast, the Transit Capacity and Quality of Service Manual 
-(TCQSM)[@TCQSM:2013] 
-provides a 700 page guidebook full of indicators, 
-all of which can be calculated independently 
-if the necessary data is available. 
-However, the TCQSM and many other transit service indicators 
-developed in research and practice are 
-focused towards the needs of practitioners and researchers. 
-There is no simple 'overall' metric that might be 
-easily obtained, used and/or understood 
-by those who are not engineers, planners 
-or other technically-minded people.  
+- closed source, such as Walk Score's Transit Score [@WalkScore:2023tg], such that they cannot be used independently by practitioners, advocates or others; 
+
+- complicated and focused towards practitioners, such as Transit Capacity and Quality of Service Manual 
+(TCQSM)[@TCQSM:2013] 700 page guidebook full of indicators, and the extensive annual benchmarking program undertaken yearly by the Transport Strategy Centre in the United Kingdom [@Imperial-College-London:2023aa]; or
+
+- bespoke, having been applied to only a small number (or just one) system, 
+such as the assessment of service levels and change in Melbourne by @Currie2016BoldIdeas.
+
 
 Previous research by @currie2007identifying 
 developed a transit Supply Index (SI), 
-which has the advantage of providing a single score. 
-The SI score is based 
+which has the advantage of providing a single score based 
 on the number of transit arrivals 
 at stops within an area of interest,   
-with an adjustment made to account 
-for how much of the area of interest is
-within walking distance of each stop. 
+adjusted to account 
+the walking distance catchment of each stop. 
 Unfortunately, 
 the SI does not appear to have been widely used,
 perhaps in part because at the time it was first published 
@@ -141,25 +124,27 @@ allows timetable publication in a standardized format,
 with more than 10,000 agencies 
 providing feeds[@GTFS].
 Many visualization, processing and analysis tools 
-that accept GTFS data are now available, 
-and it is this data that provides the input 
-necessary for the Transit Score website to return a result. 
-
-
+that accept GTFS data are now available.
 A gap, however, is that 
 there is not yet a tool to calculate SI scores directly from 
 GTFS datasets.
+
 This provides the motivation 
 for the research reported in this paper, 
 in which a new R package (gtfssupplyindex) 
 specifically developed to calculate SI scores 
 is presented. 
+The paper also explores how these SI scores can be used to assess 
+transit supply across 
+mode, region, level-boarding access, city and apparent policy type.
+
+
 The remainder of this paper is structured as follows:
 the next section outlines the background to this research,
 including the original formulation of the Transit Supply Index, 
 and an explanation of the GTFS. 
 Section 3 then describes the study methodology, 
-followed by a brief presentation of results in Section 4. 
+followed by presentation of results in Section 4. 
 Section 5 discusses the results, 
 outlines directions for future research 
 and provides a brief conclusion. 
@@ -427,14 +412,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ```
 
-
 ## Public Transport Victoria (PTV)
 Larger scale testing was performed using the Victorian GTFS feed, 
 published by Public Transport Victoria (PTV) and 
 sourced via @transitfeeds_victoria:2023aa for historical feeds. 
 
-```{r fix_ptv_data_Victoria_230804, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_230804, eval = TRUE, echo = FALSE}
+
 
 ptv_230804 <- tidytransit::read_gtfs("data/ptv_230804/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -455,8 +439,8 @@ tidytransit::write_gtfs(ptv_230804, "data/ptv_230804/gtfs_duplicate_stops_remove
 
 ```
 
-```{r run_for_all_modes_all_of_Victoria_230808, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r run_for_all_modes_all_of_Victoria_230808, eval = TRUE, echo = FALSE}
+
 
 
 ## convert to list of tidygtfs objects
@@ -466,7 +450,6 @@ list_gtfs = ptv_230804_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
                                               filter(state_name_2021 == "Victoria") %>%
-                                              filter(gcc_name_2021 != "Greater Melbourne") %>%
                                               select(sa1_code_2021),  
                                             area_id_field = "sa1_code_2021")
 
@@ -516,67 +499,8 @@ write.csv(si_by_area_and_hour_230808_bus, "results/Victoria/si_by_SA12021area_an
 
 
 
+```{r fix_ptv_data_Victoria_220804, eval = TRUE, echo = FALSE}
 
-```{r run_for_all_modes_Greater_Melbourne_230808, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
-
-## convert to list of tidygtfs objects
-ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_230804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
-                                              filter(gcc_name_2021 == "Greater Melbourne") %>% 
-                                              select(sa1_code_2021),  
-                                            area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-
-si_by_area_and_hour_230808 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808")
-
-si_by_area_and_hour_230808_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_tram")
-
-si_by_area_and_hour_230808_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_rail")
-
-si_by_area_and_hour_230808_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2023-08-08",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_230808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_bus")
-
-```
-
-```{r fix_ptv_data_Victoria_220804, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
 ptv_220804 <- tidytransit::read_gtfs("data/ptv_220804/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -594,14 +518,14 @@ ptv_220804$stops <- ptv_220804$stops[!duplicated(ptv_220804$stops$stop_id),]
 ptv_220804 <- as_tidygtfs(ptv_220804)
 tidytransit::write_gtfs(ptv_220804, "data/ptv_220804/gtfs_duplicate_stops_removed.zip")
 
+```
+
+```{r run_for_all_modes_Victoria_200809, eval = TRUE, echo = FALSE}
+
 ## convert to list of tidygtfs objects
 ptv_220804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_220804/gtfs_duplicate_stops_removed.zip")
 
 list_gtfs = ptv_220804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -610,18 +534,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_200809, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_200809 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2022-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809")
+write.csv(si_by_area_and_hour_200809, "results/Victoria/si_by_SA12021area_and_hour_200809")
 
 si_by_area_and_hour_200809_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -629,7 +548,7 @@ si_by_area_and_hour_200809_tram <- hourly(
   date_ymd = "2022-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_tram")
+write.csv(si_by_area_and_hour_200809_tram, "results/Victoria/si_by_SA12021area_and_hour_200809_tram")
 
 si_by_area_and_hour_200809_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -637,7 +556,7 @@ si_by_area_and_hour_200809_rail <- hourly(
   date_ymd = "2022-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_rail")
+write.csv(si_by_area_and_hour_200809_rail, "results/Victoria/si_by_SA12021area_and_hour_200809_rail")
 
 si_by_area_and_hour_200809_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -645,12 +564,12 @@ si_by_area_and_hour_200809_bus <- hourly(
   date_ymd = "2022-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_bus")
+write.csv(si_by_area_and_hour_200809_bus, "results/Victoria/si_by_SA12021area_and_hour_200809_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_210805, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_210805, eval = TRUE, echo = FALSE}
+
 
 ptv_210805 <- tidytransit::read_gtfs("data/ptv_210805/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -671,11 +590,11 @@ tidytransit::write_gtfs(ptv_210805, "data/ptv_210805/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
+
+```
+
+```{r run_for_all_modes_Victoria_210810, eval = TRUE, echo = FALSE}
 list_gtfs = ptv_210805_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -684,10 +603,6 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_210810, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
 si_by_area_and_hour_210810 <- hourly(
   list_gtfs = list_gtfs, 
@@ -695,7 +610,7 @@ si_by_area_and_hour_210810 <- hourly(
   date_ymd = "2021-08-10",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_210810, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810")
+write.csv(si_by_area_and_hour_210810, "results/Victoria/si_by_SA12021area_and_hour_210810")
 
 si_by_area_and_hour_210810_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -703,7 +618,7 @@ si_by_area_and_hour_210810_tram <- hourly(
   date_ymd = "2021-08-10",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_210810_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_tram")
+write.csv(si_by_area_and_hour_210810_tram, "results/Victoria/si_by_SA12021area_and_hour_210810_tram")
 
 si_by_area_and_hour_210810_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -711,7 +626,7 @@ si_by_area_and_hour_210810_rail <- hourly(
   date_ymd = "2021-08-10",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_210810_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_rail")
+write.csv(si_by_area_and_hour_210810_rail, "results/Victoria/si_by_SA12021area_and_hour_210810_rail")
 
 si_by_area_and_hour_210810_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -719,12 +634,12 @@ si_by_area_and_hour_210810_bus <- hourly(
   date_ymd = "2021-08-10",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_210810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_bus")
+write.csv(si_by_area_and_hour_210810_bus, "results/Victoria/si_by_SA12021area_and_hour_210810_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_200729, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_200729, eval = TRUE, echo = FALSE}
+
 
 ptv_200729 <- tidytransit::read_gtfs("data/ptv_200729/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -745,11 +660,11 @@ tidytransit::write_gtfs(ptv_200729, "data/ptv_200729/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_200729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_200729/gtfs_duplicate_stops_removed.zip")
 
+```
+
+```{r run_for_all_modes_Victoria_200811, eval = TRUE, echo = FALSE}
+
 list_gtfs = ptv_200729_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -758,18 +673,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_200811, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_200811 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2020-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811")
+write.csv(si_by_area_and_hour_200811, "results/Victoria/si_by_SA12021area_and_hour_200811")
 
 si_by_area_and_hour_200811_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -777,7 +687,7 @@ si_by_area_and_hour_200811_tram <- hourly(
   date_ymd = "2020-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_tram")
+write.csv(si_by_area_and_hour_200811_tram, "results/Victoria/si_by_SA12021area_and_hour_200811_tram")
 
 si_by_area_and_hour_200811_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -785,7 +695,7 @@ si_by_area_and_hour_200811_rail <- hourly(
   date_ymd = "2020-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_rail")
+write.csv(si_by_area_and_hour_200811_rail, "results/Victoria/si_by_SA12021area_and_hour_200811_rail")
 
 si_by_area_and_hour_200811_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -793,13 +703,11 @@ si_by_area_and_hour_200811_bus <- hourly(
   date_ymd = "2020-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_200811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200811_bus")
+write.csv(si_by_area_and_hour_200811_bus, "results/Victoria/si_by_SA12021area_and_hour_200811_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_190802, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
+```{r fix_ptv_data_Victoria_190802, eval = TRUE, echo = FALSE}
 ptv_190802 <- tidytransit::read_gtfs("data/ptv_190802/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
 
@@ -819,11 +727,12 @@ tidytransit::write_gtfs(ptv_190802, "data/ptv_190802/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_190802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_190802/gtfs_duplicate_stops_removed.zip")
 
+
+```
+
+```{r run_for_all_modes_Victoria_190813, eval = TRUE, echo = FALSE}
+
 list_gtfs = ptv_190802_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -832,18 +741,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_190813, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_190813 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2019-08-13",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_190813, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813")
+write.csv(si_by_area_and_hour_190813, "results/Victoria/si_by_SA12021area_and_hour_190813")
 
 si_by_area_and_hour_190813_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -851,7 +755,7 @@ si_by_area_and_hour_190813_tram <- hourly(
   date_ymd = "2019-08-13",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_190813_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_tram")
+write.csv(si_by_area_and_hour_190813_tram, "results/Victoria/si_by_SA12021area_and_hour_190813_tram")
 
 si_by_area_and_hour_190813_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -859,7 +763,7 @@ si_by_area_and_hour_190813_rail <- hourly(
   date_ymd = "2019-08-13",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_190813_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_rail")
+write.csv(si_by_area_and_hour_190813_rail, "results/Victoria/si_by_SA12021area_and_hour_190813_rail")
 
 si_by_area_and_hour_190813_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -867,12 +771,12 @@ si_by_area_and_hour_190813_bus <- hourly(
   date_ymd = "2019-08-13",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_190813_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_190813_bus")
+write.csv(si_by_area_and_hour_190813_bus, "results/Victoria/si_by_SA12021area_and_hour_190813_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_180803, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_180803, eval = TRUE, echo = FALSE}
+
 
 ptv_180803 <- tidytransit::read_gtfs("data/ptv_180803/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -893,11 +797,14 @@ tidytransit::write_gtfs(ptv_180803, "data/ptv_180803/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_180803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_180803/gtfs_duplicate_stops_removed.zip")
 
+
+```
+
+
+```{r run_for_all_modes_Victoria_180814, eval = TRUE, echo = FALSE}
+
+
 list_gtfs = ptv_180803_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -905,20 +812,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   EPSG_for_transform = 28355,
   verbose = FALSE
 )
-
-```
-
-
-```{r run_for_all_modes_Victoria_180814, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_180814 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2018-08-14",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_180814, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814")
+write.csv(si_by_area_and_hour_180814, "results/Victoria/si_by_SA12021area_and_hour_180814")
 
 si_by_area_and_hour_180814_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -926,7 +826,7 @@ si_by_area_and_hour_180814_tram <- hourly(
   date_ymd = "2018-08-14",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_180814_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_tram")
+write.csv(si_by_area_and_hour_180814_tram, "results/Victoria/si_by_SA12021area_and_hour_180814_tram")
 
 si_by_area_and_hour_180814_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -934,7 +834,7 @@ si_by_area_and_hour_180814_rail <- hourly(
   date_ymd = "2018-08-14",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_180814_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_rail")
+write.csv(si_by_area_and_hour_180814_rail, "results/Victoria/si_by_SA12021area_and_hour_180814_rail")
 
 si_by_area_and_hour_180814_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -942,12 +842,12 @@ si_by_area_and_hour_180814_bus <- hourly(
   date_ymd = "2018-08-14",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_180814_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_180814_bus")
+write.csv(si_by_area_and_hour_180814_bus, "results/Victoria/si_by_SA12021area_and_hour_180814_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_170804, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_170804, eval = TRUE, echo = FALSE}
+
 
 ptv_170804 <- tidytransit::read_gtfs("data/ptv_170804/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -968,11 +868,13 @@ tidytransit::write_gtfs(ptv_170804, "data/ptv_170804/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_170804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_170804/gtfs_duplicate_stops_removed.zip")
 
+```
+
+
+```{r run_for_all_modes_Victoria_170808, eval = TRUE, echo = FALSE}
+
+
 list_gtfs = ptv_170804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -981,19 +883,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-
-```{r run_for_all_modes_Victoria_170808, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_170808 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2017-08-08",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_170808, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808")
+write.csv(si_by_area_and_hour_170808, "results/Victoria/si_by_SA12021area_and_hour_170808")
 
 si_by_area_and_hour_170808_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -1001,7 +897,7 @@ si_by_area_and_hour_170808_tram <- hourly(
   date_ymd = "2017-08-08",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_170808_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_tram")
+write.csv(si_by_area_and_hour_170808_tram, "results/Victoria/si_by_SA12021area_and_hour_170808_tram")
 
 si_by_area_and_hour_170808_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -1009,7 +905,7 @@ si_by_area_and_hour_170808_rail <- hourly(
   date_ymd = "2017-08-08",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_170808_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_rail")
+write.csv(si_by_area_and_hour_170808_rail, "results/Victoria/si_by_SA12021area_and_hour_170808_rail")
 
 si_by_area_and_hour_170808_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -1017,12 +913,12 @@ si_by_area_and_hour_170808_bus <- hourly(
   date_ymd = "2017-08-08",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_170808_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_170808_bus")
+write.csv(si_by_area_and_hour_170808_bus, "results/Victoria/si_by_SA12021area_and_hour_170808_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_160804, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_160804, eval = TRUE, echo = FALSE}
+ 
 
 ptv_160804 <- tidytransit::read_gtfs("data/ptv_160804/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -1043,11 +939,10 @@ tidytransit::write_gtfs(ptv_160804, "data/ptv_160804/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
+```
+
+```{r run_for_all_modes_Victoria_160809, eval = TRUE, echo = FALSE}
 list_gtfs = ptv_160804_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -1056,10 +951,6 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_160809, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
 
 si_by_area_and_hour_160809 <- hourly(
   list_gtfs = list_gtfs, 
@@ -1067,7 +958,7 @@ si_by_area_and_hour_160809 <- hourly(
   date_ymd = "2016-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_160809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
+write.csv(si_by_area_and_hour_160809, "results/Victoria/si_by_SA12021area_and_hour_160809")
 
 si_by_area_and_hour_160809_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -1075,7 +966,7 @@ si_by_area_and_hour_160809_tram <- hourly(
   date_ymd = "2016-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_160809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_tram")
+write.csv(si_by_area_and_hour_160809_tram, "results/Victoria/si_by_SA12021area_and_hour_160809_tram")
 
 si_by_area_and_hour_160809_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -1083,7 +974,7 @@ si_by_area_and_hour_160809_rail <- hourly(
   date_ymd = "2016-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_160809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_rail")
+write.csv(si_by_area_and_hour_160809_rail, "results/Victoria/si_by_SA12021area_and_hour_160809_rail")
 
 si_by_area_and_hour_160809_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -1091,12 +982,12 @@ si_by_area_and_hour_160809_bus <- hourly(
   date_ymd = "2016-08-09",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_160809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_bus")
+write.csv(si_by_area_and_hour_160809_bus, "results/Victoria/si_by_SA12021area_and_hour_160809_bus")
 
 ```
 
-```{r fix_ptv_data_Victoria_150729, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
+```{r fix_ptv_data_Victoria_150729, eval = TRUE, echo = FALSE}
+
 
 ptv_150729 <- tidytransit::read_gtfs("data/ptv_150729/gtfs.zip")
 # This results in "Warning: Duplicated ids found in: stops The returned object is not a tidygtfs object, you can use as_tidygtfs() after fixing the issue."
@@ -1117,11 +1008,12 @@ tidytransit::write_gtfs(ptv_150729, "data/ptv_150729/gtfs_duplicate_stops_remove
 ## convert to list of tidygtfs objects
 ptv_150729_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_150729/gtfs_duplicate_stops_removed.zip")
 
+
+```
+
+```{r run_for_all_modes_Victoria_150811, eval = TRUE, echo = FALSE}
+
 list_gtfs = ptv_150729_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(gcc_name_2021 == "Greater Melbourne") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 
 stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   list_gtfs = list_gtfs, 
@@ -1130,18 +1022,13 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
   verbose = FALSE
 )
 
-```
-
-```{r run_for_all_modes_Victoria_150811, eval = FALSE, echo = FALSE}
-#eval is false, so as to not overwrite saved file
-
 si_by_area_and_hour_150811 <- hourly(
   list_gtfs = list_gtfs, 
   stops_in_or_near_areas = stops_in_or_near_areas, 
   date_ymd = "2015-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_150811, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811")
+write.csv(si_by_area_and_hour_150811, "results/Victoria/si_by_SA12021area_and_hour_150811")
 
 si_by_area_and_hour_150811_tram <- hourly(
   list_gtfs = list_gtfs[1], 
@@ -1149,7 +1036,7 @@ si_by_area_and_hour_150811_tram <- hourly(
   date_ymd = "2015-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_150811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_tram")
+write.csv(si_by_area_and_hour_150811_tram, "results/Victoria/si_by_SA12021area_and_hour_150811_tram")
 
 si_by_area_and_hour_150811_rail <- hourly(
   list_gtfs = list_gtfs[2], 
@@ -1157,7 +1044,7 @@ si_by_area_and_hour_150811_rail <- hourly(
   date_ymd = "2015-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_150811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_rail")
+write.csv(si_by_area_and_hour_150811_rail, "results/Victoria/si_by_SA12021area_and_hour_150811_rail")
 
 si_by_area_and_hour_150811_bus <- hourly(
   list_gtfs = list_gtfs[3], 
@@ -1165,13 +1052,13 @@ si_by_area_and_hour_150811_bus <- hourly(
   date_ymd = "2015-08-11",
   verbose = TRUE)
 
-write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_150811_bus")
+write.csv(si_by_area_and_hour_150811_bus, "results/Victoria/si_by_SA12021area_and_hour_150811_bus")
 
 ```
 
 
 # Results
-## Code structure
+## Code structure and functionality
 
 
 Developed code is available and documented on github [@gtfssupplyindex_github]. 
@@ -1196,7 +1083,6 @@ knitr::include_graphics("graphics/SI_data_structure.png")
 
 ```
 
-## Mornington Pennisula Tourist Railway
 Various functions and their output 
 are explained in the following, 
 using the Mornington Peninsula GTFS for December 30th, 2018, 
@@ -1410,63 +1296,25 @@ ggplot() +
 ```
 
 
-## Central Melbourne
 
-Figure \@ref(fig:Melbourne_CBD_map_230808) SI scores for Tuesday August 8, 2023 by mode for SA1 zones in Central Melbourne.  SI scores are generally higher in the Central Business District (CBD). Results are consistent with: the high number for bus services along the Victoria and Queen Street corridors; the rail stations surrounding the CBD; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
-
-
-```{r Melbourne_230808, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
-
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_230808 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808")
-si_by_area_and_hour_230808 <- si_by_area_and_hour_230808[,2:4]
-si_by_area_and_hour_230808$area_id <- as.character(si_by_area_and_hour_230808$area_id)
-
-#pivot to wider for display as table
-si_by_area_and_hour_230808_wider <- si_by_area_and_hour_230808 %>% pivot_wider(names_from = hour_starting, values_from = SI)
-
-#si_by_area_and_hour_230808_wider %>% select(1, 6:25) %>% head() %>% adorn_rounding(digits = 0) %>% kable(caption = "Victorian GTFS and SA1 zones within the Greater Melbourne GCCSA, hourly SI values for October 10, 2023, first 6 SA1 zones, 4am to 11pm only" )
+## Comparing years
 
 
-```
 
-```{r Melbourne_CBD_map_230808, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for October 10, 2023, by mode"}
-
-map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
-
-#Join SI to map data
-map_si_by_area_and_hour_230808 <- inner_join(map_areas_of_interest, si_by_area_and_hour_230808)
-
-#convert hour starting to numeric
-map_si_by_area_and_hour_230808$hour_starting <- hm(map_si_by_area_and_hour_230808$hour_starting)
-map_si_by_area_and_hour_230808$hour_starting <- hour(map_si_by_area_and_hour_230808$hour_starting)
-
-xlim <- c(144.93343289587824,  144.9946369676684)
-ylim <- c(-37.80347733938971, -37.82753754010771)
-
-#plot only 5am to 10am
-p1 <- ggplot() + 
-  geom_sf(data=map_si_by_area_and_hour_230808 %>% filter(hour_starting %in% (8:10)),
-          aes(fill = SI)) +
-            facet_wrap(vars(hour_starting), nrow=1) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  coord_sf(xlim = xlim, ylim = ylim)  
+```{r Victoria_yearly, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values second Tuesday in August, 2015-2022, by mode"}
 
 
 ###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_230808_tram <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_tram")
+
+si_by_area_and_hour_230808_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_230808_tram")
 si_by_area_and_hour_230808_tram <- si_by_area_and_hour_230808_tram[,2:4]
 si_by_area_and_hour_230808_tram$area_id <- as.character(si_by_area_and_hour_230808_tram$area_id)
 
-si_by_area_and_hour_230808_rail <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_rail")
+si_by_area_and_hour_230808_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_230808_rail")
 si_by_area_and_hour_230808_rail <- si_by_area_and_hour_230808_rail[,2:4]
 si_by_area_and_hour_230808_rail$area_id <- as.character(si_by_area_and_hour_230808_rail$area_id)
 
-si_by_area_and_hour_230808_bus <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_230808_bus")
+si_by_area_and_hour_230808_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_230808_bus")
 si_by_area_and_hour_230808_bus <- si_by_area_and_hour_230808_bus[,2:4]
 si_by_area_and_hour_230808_bus$area_id <- as.character(si_by_area_and_hour_230808_bus$area_id)
 
@@ -1486,6 +1334,414 @@ map_si_by_area_and_hour_230808_all_modes <- inner_join(map_areas_of_interest, si
 map_si_by_area_and_hour_230808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_230808_all_modes$hour_starting)
 map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_230808_all_modes$hour_starting)
 
+
+###2020
+si_by_area_and_hour_220809_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_220809_tram")
+si_by_area_and_hour_220809_tram <- si_by_area_and_hour_220809_tram[,2:4]
+si_by_area_and_hour_220809_tram$area_id <- as.character(si_by_area_and_hour_220809_tram$area_id)
+
+si_by_area_and_hour_220809_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_220809_rail")
+si_by_area_and_hour_220809_rail <- si_by_area_and_hour_220809_rail[,2:4]
+si_by_area_and_hour_220809_rail$area_id <- as.character(si_by_area_and_hour_220809_rail$area_id)
+
+si_by_area_and_hour_220809_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_220809_bus")
+si_by_area_and_hour_220809_bus <- si_by_area_and_hour_220809_bus[,2:4]
+si_by_area_and_hour_220809_bus$area_id <- as.character(si_by_area_and_hour_220809_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_220809_tram$mode <- "Tram"
+si_by_area_and_hour_220809_rail$mode <- "Rail"
+si_by_area_and_hour_220809_bus$mode <- "Bus"
+
+si_by_area_and_hour_220809_all_modes <- merge(si_by_area_and_hour_220809_tram, si_by_area_and_hour_220809_rail, all = TRUE)
+si_by_area_and_hour_220809_all_modes <- merge(si_by_area_and_hour_220809_all_modes, si_by_area_and_hour_220809_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_220809_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_220809_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_220809_all_modes$hour_starting <- hm(map_si_by_area_and_hour_220809_all_modes$hour_starting)
+map_si_by_area_and_hour_220809_all_modes$hour_starting <- hour(map_si_by_area_and_hour_220809_all_modes$hour_starting)
+
+
+
+###2021
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_210810_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_210810_tram")
+si_by_area_and_hour_210810_tram <- si_by_area_and_hour_210810_tram[,2:4]
+si_by_area_and_hour_210810_tram$area_id <- as.character(si_by_area_and_hour_210810_tram$area_id)
+
+si_by_area_and_hour_210810_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_210810_rail")
+si_by_area_and_hour_210810_rail <- si_by_area_and_hour_210810_rail[,2:4]
+si_by_area_and_hour_210810_rail$area_id <- as.character(si_by_area_and_hour_210810_rail$area_id)
+
+si_by_area_and_hour_210810_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_210810_bus")
+si_by_area_and_hour_210810_bus <- si_by_area_and_hour_210810_bus[,2:4]
+si_by_area_and_hour_210810_bus$area_id <- as.character(si_by_area_and_hour_210810_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_210810_tram$mode <- "Tram"
+si_by_area_and_hour_210810_rail$mode <- "Rail"
+si_by_area_and_hour_210810_bus$mode <- "Bus"
+
+si_by_area_and_hour_210810_all_modes <- merge(si_by_area_and_hour_210810_tram, si_by_area_and_hour_210810_rail, all = TRUE)
+si_by_area_and_hour_210810_all_modes <- merge(si_by_area_and_hour_210810_all_modes, si_by_area_and_hour_210810_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_210810_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_210810_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_210810_all_modes$hour_starting <- hm(map_si_by_area_and_hour_210810_all_modes$hour_starting)
+map_si_by_area_and_hour_210810_all_modes$hour_starting <- hour(map_si_by_area_and_hour_210810_all_modes$hour_starting)
+
+
+#########Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_200811_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_200811_tram")
+si_by_area_and_hour_200811_tram <- si_by_area_and_hour_200811_tram[,2:4]
+si_by_area_and_hour_200811_tram$area_id <- as.character(si_by_area_and_hour_200811_tram$area_id)
+
+si_by_area_and_hour_200811_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_200811_rail")
+si_by_area_and_hour_200811_rail <- si_by_area_and_hour_200811_rail[,2:4]
+si_by_area_and_hour_200811_rail$area_id <- as.character(si_by_area_and_hour_200811_rail$area_id)
+
+si_by_area_and_hour_200811_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_200811_bus")
+si_by_area_and_hour_200811_bus <- si_by_area_and_hour_200811_bus[,2:4]
+si_by_area_and_hour_200811_bus$area_id <- as.character(si_by_area_and_hour_200811_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_200811_tram$mode <- "Tram"
+si_by_area_and_hour_200811_rail$mode <- "Rail"
+si_by_area_and_hour_200811_bus$mode <- "Bus"
+
+si_by_area_and_hour_200811_all_modes <- merge(si_by_area_and_hour_200811_tram, si_by_area_and_hour_200811_rail, all = TRUE)
+si_by_area_and_hour_200811_all_modes <- merge(si_by_area_and_hour_200811_all_modes, si_by_area_and_hour_200811_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_200811_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_200811_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_200811_all_modes$hour_starting <- hm(map_si_by_area_and_hour_200811_all_modes$hour_starting)
+map_si_by_area_and_hour_200811_all_modes$hour_starting <- hour(map_si_by_area_and_hour_200811_all_modes$hour_starting)
+
+#####
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_190813_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_190813_tram")
+si_by_area_and_hour_190813_tram <- si_by_area_and_hour_190813_tram[,2:4]
+si_by_area_and_hour_190813_tram$area_id <- as.character(si_by_area_and_hour_190813_tram$area_id)
+
+si_by_area_and_hour_190813_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_190813_rail")
+si_by_area_and_hour_190813_rail <- si_by_area_and_hour_190813_rail[,2:4]
+si_by_area_and_hour_190813_rail$area_id <- as.character(si_by_area_and_hour_190813_rail$area_id)
+
+si_by_area_and_hour_190813_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_190813_bus")
+si_by_area_and_hour_190813_bus <- si_by_area_and_hour_190813_bus[,2:4]
+si_by_area_and_hour_190813_bus$area_id <- as.character(si_by_area_and_hour_190813_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_190813_tram$mode <- "Tram"
+si_by_area_and_hour_190813_rail$mode <- "Rail"
+si_by_area_and_hour_190813_bus$mode <- "Bus"
+
+si_by_area_and_hour_190813_all_modes <- merge(si_by_area_and_hour_190813_tram, si_by_area_and_hour_190813_rail, all = TRUE)
+si_by_area_and_hour_190813_all_modes <- merge(si_by_area_and_hour_190813_all_modes, si_by_area_and_hour_190813_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_190813_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_190813_all_modes)
+
+
+#####
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_180814_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_180814_tram")
+si_by_area_and_hour_180814_tram <- si_by_area_and_hour_180814_tram[,2:4]
+si_by_area_and_hour_180814_tram$area_id <- as.character(si_by_area_and_hour_180814_tram$area_id)
+
+si_by_area_and_hour_180814_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_180814_rail")
+si_by_area_and_hour_180814_rail <- si_by_area_and_hour_180814_rail[,2:4]
+si_by_area_and_hour_180814_rail$area_id <- as.character(si_by_area_and_hour_180814_rail$area_id)
+
+si_by_area_and_hour_180814_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_180814_bus")
+si_by_area_and_hour_180814_bus <- si_by_area_and_hour_180814_bus[,2:4]
+si_by_area_and_hour_180814_bus$area_id <- as.character(si_by_area_and_hour_180814_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_180814_tram$mode <- "Tram"
+si_by_area_and_hour_180814_rail$mode <- "Rail"
+si_by_area_and_hour_180814_bus$mode <- "Bus"
+
+si_by_area_and_hour_180814_all_modes <- merge(si_by_area_and_hour_180814_tram, si_by_area_and_hour_180814_rail, all = TRUE)
+si_by_area_and_hour_180814_all_modes <- merge(si_by_area_and_hour_180814_all_modes, si_by_area_and_hour_180814_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_180814_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_180814_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_180814_all_modes$hour_starting <- hm(map_si_by_area_and_hour_180814_all_modes$hour_starting)
+map_si_by_area_and_hour_180814_all_modes$hour_starting <- hour(map_si_by_area_and_hour_180814_all_modes$hour_starting)
+
+#####
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_170808_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_170808_tram")
+si_by_area_and_hour_170808_tram <- si_by_area_and_hour_170808_tram[,2:4]
+si_by_area_and_hour_170808_tram$area_id <- as.character(si_by_area_and_hour_170808_tram$area_id)
+
+si_by_area_and_hour_170808_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_170808_rail")
+si_by_area_and_hour_170808_rail <- si_by_area_and_hour_170808_rail[,2:4]
+si_by_area_and_hour_170808_rail$area_id <- as.character(si_by_area_and_hour_170808_rail$area_id)
+
+si_by_area_and_hour_170808_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_170808_bus")
+si_by_area_and_hour_170808_bus <- si_by_area_and_hour_170808_bus[,2:4]
+si_by_area_and_hour_170808_bus$area_id <- as.character(si_by_area_and_hour_170808_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_170808_tram$mode <- "Tram"
+si_by_area_and_hour_170808_rail$mode <- "Rail"
+si_by_area_and_hour_170808_bus$mode <- "Bus"
+
+si_by_area_and_hour_170808_all_modes <- merge(si_by_area_and_hour_170808_tram, si_by_area_and_hour_170808_rail, all = TRUE)
+si_by_area_and_hour_170808_all_modes <- merge(si_by_area_and_hour_170808_all_modes, si_by_area_and_hour_170808_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_170808_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_170808_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_170808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_170808_all_modes$hour_starting)
+map_si_by_area_and_hour_170808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_170808_all_modes$hour_starting)
+
+#####
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_160809_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_160809_tram")
+si_by_area_and_hour_160809_tram <- si_by_area_and_hour_160809_tram[,2:4]
+si_by_area_and_hour_160809_tram$area_id <- as.character(si_by_area_and_hour_160809_tram$area_id)
+
+si_by_area_and_hour_160809_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_160809_rail")
+si_by_area_and_hour_160809_rail <- si_by_area_and_hour_160809_rail[,2:4]
+si_by_area_and_hour_160809_rail$area_id <- as.character(si_by_area_and_hour_160809_rail$area_id)
+
+si_by_area_and_hour_160809_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_160809_bus")
+si_by_area_and_hour_160809_bus <- si_by_area_and_hour_160809_bus[,2:4]
+si_by_area_and_hour_160809_bus$area_id <- as.character(si_by_area_and_hour_160809_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_160809_tram$mode <- "Tram"
+si_by_area_and_hour_160809_rail$mode <- "Rail"
+si_by_area_and_hour_160809_bus$mode <- "Bus"
+
+si_by_area_and_hour_160809_all_modes <- merge(si_by_area_and_hour_160809_tram, si_by_area_and_hour_160809_rail, all = TRUE)
+si_by_area_and_hour_160809_all_modes <- merge(si_by_area_and_hour_160809_all_modes, si_by_area_and_hour_160809_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_160809_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_160809_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_160809_all_modes$hour_starting <- hm(map_si_by_area_and_hour_160809_all_modes$hour_starting)
+map_si_by_area_and_hour_160809_all_modes$hour_starting <- hour(map_si_by_area_and_hour_160809_all_modes$hour_starting)
+
+
+#####
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_150811_tram <- read.csv("results/Victoria/si_by_SA12021area_and_hour_150811_tram")
+si_by_area_and_hour_150811_tram <- si_by_area_and_hour_150811_tram[,2:4]
+si_by_area_and_hour_150811_tram$area_id <- as.character(si_by_area_and_hour_150811_tram$area_id)
+
+si_by_area_and_hour_150811_rail <- read.csv("results/Victoria/si_by_SA12021area_and_hour_150811_rail")
+si_by_area_and_hour_150811_rail <- si_by_area_and_hour_150811_rail[,2:4]
+si_by_area_and_hour_150811_rail$area_id <- as.character(si_by_area_and_hour_150811_rail$area_id)
+
+si_by_area_and_hour_150811_bus <- read.csv("results/Victoria/si_by_SA12021area_and_hour_150811_bus")
+si_by_area_and_hour_150811_bus <- si_by_area_and_hour_150811_bus[,2:4]
+si_by_area_and_hour_150811_bus$area_id <- as.character(si_by_area_and_hour_150811_bus$area_id)
+
+### merge dataframes
+si_by_area_and_hour_150811_tram$mode <- "Tram"
+si_by_area_and_hour_150811_rail$mode <- "Rail"
+si_by_area_and_hour_150811_bus$mode <- "Bus"
+
+si_by_area_and_hour_150811_all_modes <- merge(si_by_area_and_hour_150811_tram, si_by_area_and_hour_150811_rail, all = TRUE)
+si_by_area_and_hour_150811_all_modes <- merge(si_by_area_and_hour_150811_all_modes, si_by_area_and_hour_150811_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_150811_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_150811_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_150811_all_modes$hour_starting <- hm(map_si_by_area_and_hour_150811_all_modes$hour_starting)
+map_si_by_area_and_hour_150811_all_modes$hour_starting <- hour(map_si_by_area_and_hour_150811_all_modes$hour_starting)
+
+names(si_by_area_and_hour_150811_all_modes) <- 
+  c("area_id", "2015", "hour_starting", "mode")
+names(si_by_area_and_hour_160809_all_modes) <- 
+  c("area_id", "2016", "hour_starting", "mode")
+names(si_by_area_and_hour_170808_all_modes) <- 
+ c("area_id", "2017", "hour_starting", "mode")
+names(si_by_area_and_hour_180814_all_modes) <- 
+  c("area_id", "2018", "hour_starting", "mode")
+names(si_by_area_and_hour_190813_all_modes) <- 
+  c("area_id", "2019", "hour_starting", "mode")
+names(si_by_area_and_hour_200811_all_modes) <- 
+  c("area_id", "2020", "hour_starting", "mode")
+names(si_by_area_and_hour_210810_all_modes) <- 
+  c("area_id", "2021", "hour_starting", "mode")
+names(si_by_area_and_hour_220809_all_modes) <- 
+  c("area_id", "2022", "hour_starting", "mode")
+names(si_by_area_and_hour_230808_all_modes) <- 
+  c("area_id", "2023", "hour_starting", "mode")
+
+si_by_area_and_hour_all_years_all_modes <- left_join(si_by_area_and_hour_150811_all_modes,si_by_area_and_hour_160809_all_modes )
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_160809_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_170808_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_180814_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_190813_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_200811_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_210810_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_220809_all_modes)
+si_by_area_and_hour_all_years_all_modes <- left_join(
+  si_by_area_and_hour_all_years_all_modes, 
+  si_by_area_and_hour_230808_all_modes
+)
+
+#convert to SA3 aggregation
+
+si_by_area_and_hour_all_years_all_modes_sa3 <- 
+  left_join(si_by_area_and_hour_all_years_all_modes, 
+            absmapsdata::sa12021 %>% 
+              filter(gcc_name_2021 == "Greater Melbourne") %>% 
+              select(sa1_code_2021, sa3_code_2021, sa3_name_2021) %>% 
+              st_drop_geometry(), 
+            join_by(area_id == sa1_code_2021)
+  )
+          
+
+
+si_by_area_and_hour_all_years_all_modes_sa3 <- si_by_area_and_hour_all_years_all_modes_sa3 %>%
+  group_by(sa3_name_2021, mode) %>% 
+  summarise(across(c('2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'), list(sum = sum)))
+
+names(si_by_area_and_hour_all_years_all_modes_sa3) <- c('sa3_name_2021', 'mode', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023')
+
+```
+
+```{r Victoria_within_stats_yearly, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values second Tuesday in August, 2015-2022, all modes"}
+
+si_by_area_by_year_sa3 <- si_by_area_and_hour_all_years_all_modes_sa3 %>% 
+  group_by(sa3_name_2021) %>% 
+  summarise(across(c('2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'), list(sum = sum)))
+
+si_by_area_by_year_sa3_longer <- si_by_area_by_year_sa3 %>% 
+  pivot_longer(col=2:10, names_to = "Year", values_to = "SI")
+
+
+si_by_area_by_year_sa3_longer %>%
+  ggwithinstats(
+    x = "Year", 
+    y = "SI"
+  )
+
+
+```
+
+
+```{r Melbourne_central_2015_2023, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for August 11, 2015, and August 8, 2023"}
+
+map_areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% filter(sa4_name_2021 == "Melbourne - Inner") %>% select(sa1_code_2021),  area_id_field = "sa1_code_2021")
+
+#Join SI to map data
+map_si_by_area_2015_2023 <- inner_join(map_areas_of_interest, (si_by_area_by_year_longer %>% filter(Year == "2015" || Year == "2023")))
+
+xlim <- c(144.93343289587824,  144.9946369676684)
+ylim <- c(-37.80347733938971, -37.82753754010771)
+
+ggplot() + 
+  geom_sf(data=map_si_by_area_2015_2023,
+          aes(fill = SI)) +
+            facet_wrap(vars(Year), ncol=1) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  coord_sf(xlim = xlim, ylim = ylim)  
+
+
+
+```
+
+
+
+```{r Melbourne_central_change, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values for August 8, 2023, by mode"}
+
+
+si_by_area_by_year$Change_2023 <- (si_by_area_by_year$'2023' - si_by_area_by_year$'2022') / si_by_area_by_year$'2022'
+si_by_area_by_year$Change_2022 <- (si_by_area_by_year$'2022' - si_by_area_by_year$'2021') / si_by_area_by_year$'2021'
+si_by_area_by_year$Change_2021 <- (si_by_area_by_year$'2021' - si_by_area_by_year$'2020') / si_by_area_by_year$'2020'
+si_by_area_by_year$Change_2020 <- (si_by_area_by_year$'2020' - si_by_area_by_year$'2019') /  si_by_area_by_year$'2019'
+si_by_area_by_year$Change_2019 <- (si_by_area_by_year$'2019' - si_by_area_by_year$'2018') / si_by_area_by_year$'2018'
+si_by_area_by_year$Change_2018 <- (si_by_area_by_year$'2018' - si_by_area_by_year$'2017') / si_by_area_by_year$'2017'
+si_by_area_by_year$Change_2017 <- (si_by_area_by_year$'2017' - si_by_area_by_year$'2016') / 
+  si_by_area_by_year$'2016'
+si_by_area_by_year$Change_2016 <- (si_by_area_by_year$'2016' - si_by_area_by_year$'2015') / si_by_area_by_year$'2015'
+
+
+
+
+```
+
+
+## Comparing modes
+Figure \@ref(fig:Melbourne_CBD_map_230808) SI scores for Tuesday August 8, 2023 by mode for SA1 zones in Central Melbourne.  SI scores are generally higher in the Central Business District (CBD). Results are consistent with: the high number for bus services along the Victoria and Queen Street corridors; the rail stations surrounding the CBD; and tram services that mostly run along the Swanston, Elizabeth, Bourke and Collins Street corridors. 
+
+
+
+
+```{r Greater_Melbourne_within_stats_yearly_bus, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values second Tuesday in August, 2015-2022, bus only"}
+
+
+### merge dataframes
+si_by_area_and_hour_230808_tram$mode <- "Tram"
+si_by_area_and_hour_230808_rail$mode <- "Rail"
+si_by_area_and_hour_230808_bus$mode <- "Bus"
+
+si_by_area_and_hour_230808_all_modes <- merge(si_by_area_and_hour_230808_tram, si_by_area_and_hour_230808_rail, all = TRUE)
+si_by_area_and_hour_230808_all_modes <- merge(si_by_area_and_hour_230808_all_modes, si_by_area_and_hour_230808_bus,  all = TRUE)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_230808_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_230808_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_230808_all_modes$hour_starting)
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_230808_all_modes$hour_starting)
+
+
+#Join SI to map data
+map_si_by_area_and_hour_150811_all_modes <- inner_join(map_areas_of_interest, si_by_area_and_hour_150811_all_modes)
+
+#convert hour starting to numeric
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hm(map_si_by_area_and_hour_230808_all_modes$hour_starting)
+map_si_by_area_and_hour_230808_all_modes$hour_starting <- hour(map_si_by_area_and_hour_230808_all_modes$hour_starting)
+
+
+
 #plot bus, tram and rail
 central_melbourne_bus_rail_tram_row <- ggplot() + 
   geom_sf(data=map_si_by_area_and_hour_230808_all_modes,
@@ -1499,12 +1755,101 @@ central_melbourne_bus_rail_tram_row <- ggplot() +
   coord_sf(xlim = xlim, ylim = ylim)
 
 central_melbourne_bus_rail_tram_row
+ 
+si_by_area_by_year_bus <- si_by_area_and_hour_all_years_all_modes %>% 
+  filter(mode == "bus")
+  group_by(area_id) %>% 
+  summarise(across(c(x2015, x2016, x2017, x2018, x2019, x2020, x2021, x2022, x2023), list(sum = sum)))
+
+names(si_by_area_by_year_bus) <- c("area_id", 
+                                       "2015", 
+                                       "2016", 
+                                       "2017", 
+                                       "2018", 
+                                       "2019", 
+                                       "2020", 
+                                       "2021", 
+                                       "2022", 
+                                       "2023")
+si_by_area_by_year_bus_longer <- si_by_area_by_year_bus %>% 
+  pivot_longer(col=2:10, names_to = "Year", values_to = "SI")
+
+
+si_by_area_by_year_bus %>%
+  ggwithinstats(
+    x = "Year", 
+    y = "SI"
+  )
 
 ```
 
 
+```{r Greater_Melbourne_within_stats_yearly_rail, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values second Tuesday in August, 2015-2022, rail only"}
+
+
  
-## Greater Melbourne 
+si_by_area_by_year_rail <- si_by_area_and_hour_all_years_all_modes %>% 
+  filter(mode == "rail")
+  group_by(area_id) %>% 
+  summarise(across(c(x2015, x2016, x2017, x2018, x2019, x2020, x2021, x2022, x2023), list(sum = sum)))
+
+names(si_by_area_by_year_rail) <- c("area_id", 
+                                       "2015", 
+                                       "2016", 
+                                       "2017", 
+                                       "2018", 
+                                       "2019", 
+                                       "2020", 
+                                       "2021", 
+                                       "2022", 
+                                       "2023")
+si_by_area_by_year_rail_longer <- si_by_area_by_year_rail %>% 
+  pivot_longer(col=2:10, names_to = "Year", values_to = "SI")
+
+
+si_by_area_by_year_rail %>%
+  ggwithinstats(
+    x = "Year", 
+    y = "SI"
+  )
+
+```
+ 
+
+```{r Greater_Melbourne_within_stats_yearly_tram, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="Victorian GTFS and central Melbourne SA1 zones, SI values second Tuesday in August, 2015-2022, tram"}
+
+
+ 
+si_by_area_by_year_tram <- si_by_area_and_hour_all_years_all_modes %>% 
+  filter(mode == "tram")
+  group_by(area_id) %>% 
+  summarise(across(c(x2015, x2016, x2017, x2018, x2019, x2020, x2021, x2022, x2023), list(sum = sum)))
+
+names(si_by_area_by_year_tram) <- c("area_id", 
+                                       "2015", 
+                                       "2016", 
+                                       "2017", 
+                                       "2018", 
+                                       "2019", 
+                                       "2020", 
+                                       "2021", 
+                                       "2022", 
+                                       "2023")
+si_by_area_by_year_tram_longer <- si_by_area_by_year_tram %>% 
+  pivot_longer(col=2:10, names_to = "Year", values_to = "SI")
+
+
+si_by_area_by_year_tram %>%
+  ggwithinstats(
+    x = "Year", 
+    y = "SI"
+  )
+
+```
+  
+ 
+
+## Compating regions 
 
 
 
@@ -1874,13 +2219,13 @@ si_by_area_230808_pop_sa3 <- si_by_area_230808_pop %>%
 map_si_by_area_230808_sa3 <- inner_join(map_si_by_area_230808_sa3,
                                         si_by_area_230808_pop_sa3)
 
-
-map_si_by_area_230808_sa3 %>% 
-  st_drop_geometry() %>%
-  select(Population, SI) %>%
-  tbl_summary(type = all_continuous() ~ "continuous2",
-    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{Skew}", "{mean} ({sd})", "{p10}, {p90}", "{p5}, {p95}", "{p1}, {p99}","{min}, {max}")
-  ) 
+# Statistics
+#map_si_by_area_230808_sa3 %>% 
+#  st_drop_geometry() %>%
+#  select(Population, SI) %>%
+#  tbl_summary(type = all_continuous() ~ "continuous2",
+#    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{Skew}", "{mean} ({sd})", #"{p10}, {p90}", "{p5}, {p95}", "{p1}, {p99}","{min}, {max}")
+#  ) 
 
 my_breaks = c(10, 100, 1000, 10000, 100000, 200000)
 
@@ -1938,30 +2283,47 @@ greater_melbourne_sa3_population_SI_scatter <- ggscatterstats(
 
 ```
 
+
+```{r greater_melbourne_230808_by_gini, crop = TRUE, fig.cap = "Victorian GTFS and SA1 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population, Lorenz plot ", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+
+gini_plot_greater_melbourne_sa1
+
+```
+
+Lorenz curves and the Gini coefficient are commonly used to examine equality. REFERENCES TO  Figure \@ref{fig:greater_melbourne_230808_by_sa3_population_and_si_plot} compares the SI score and
+
+
+Figure \@ref{fig:greater_melbourne_230808_by_sa3_population_and_si_plot} compares the SI score and 
+
 ```{r greater_melbourne_230808_by_sa3_population_and_si_plot, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population ", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
 
-greater_melbourne_sa3_SI_map / greater_melbourne_sa3_population_map 
+greater_melbourne_sa3_SI_map + greater_melbourne_sa3_population_map 
 
 ```
 
 ```{r greater_melbourne_230808_by_gini_and_scatter, crop = TRUE, fig.cap = "Victorian GTFS and SA3 zones within Greater Melbourne, SI values for Tuesday August 8, 2023 and 2021 census population ", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
-greater_melbourne_sa3_population_SI_scatter / gini_plot_greater_melbourne_sa1
+greater_melbourne_sa3_population_SI_scatter
 
 
 
 ```
 
 
-## By year
+### Yearly changes
 
-# Extensions
-## Melbourne CBD Index
+## Comparing accessibility
 
-## New York Index
+### Yearly changes
 
-## London Index
+## Indexes and comparing cities
+
+### Yearly changes
+
+## Purpose of transit in the city's transport policy
+
+### Yearly changes
 
 
 
