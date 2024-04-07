@@ -506,6 +506,196 @@ write.csv(si_by_area_and_hour_230808_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
+```{r run_for_all_modes_all_of_Victoria_230809, eval = FALSE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_230804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Victoria") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_230809_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2023-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230809_tram")
+
+si_by_area_and_hour_230809_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230809_rail")
+
+si_by_area_and_hour_230809_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230809_bus")
+
+```
+
+
+
+```{r run_for_all_modes_all_of_Victoria_230810, eval = FALSE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_230804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Victoria") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_230810_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2023-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230810_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230810_tram")
+
+si_by_area_and_hour_230810_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230810_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230810_rail")
+
+si_by_area_and_hour_230810_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230810_bus")
+
+```
+
+
+```{r run_for_all_modes_all_of_Victoria_230811, eval = FALSE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_230804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Victoria") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_230811_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2023-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230811_tram")
+
+si_by_area_and_hour_230811_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230811_rail")
+
+si_by_area_and_hour_230811_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230811_bus")
+
+```
+
+```{r run_for_all_modes_all_of_Victoria_230812, eval = FALSE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_230804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_230804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_230804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Victoria") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_230812_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2023-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230812_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230812_tram")
+
+si_by_area_and_hour_230812_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2023-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230812_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230812_rail")
+
+si_by_area_and_hour_230812_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2023-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_230812_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_230812_bus")
+
+```
+
 
 ```{r fix_ptv_data_Victoria_220804, eval = FALSE, echo = FALSE}
 
@@ -525,54 +715,6 @@ ptv_220804$stops <- ptv_220804$stops[!duplicated(ptv_220804$stops$stop_id),]
 ## Write gtfs back to file
 ptv_220804 <- as_tidygtfs(ptv_220804)
 tidytransit::write_gtfs(ptv_220804, "data/ptv_220804/gtfs_duplicate_stops_removed.zip")
-
-```
-
-```{r run_for_all_modes_Victoria_200809, eval = FALSE, echo = FALSE}
-
-## convert to list of tidygtfs objects
-ptv_220804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_220804/gtfs_duplicate_stops_removed.zip")
-
-list_gtfs = ptv_220804_list_gtfs
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-si_by_area_and_hour_200809 <- hourly(
-  list_gtfs = list_gtfs, 
-  stops_in_or_near_areas = stops_in_or_near_areas, 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809")
-
-si_by_area_and_hour_200809_tram <- hourly(
-  list_gtfs = list_gtfs[1], 
-  stops_in_or_near_areas = stops_in_or_near_areas[1], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_tram")
-
-si_by_area_and_hour_200809_rail <- hourly(
-  list_gtfs = list_gtfs[2], 
-  stops_in_or_near_areas = stops_in_or_near_areas[2], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_rail")
-
-si_by_area_and_hour_200809_bus <- hourly(
-  list_gtfs = list_gtfs[3], 
-  stops_in_or_near_areas = stops_in_or_near_areas[3], 
-  date_ymd = "2022-08-09",
-  verbose = TRUE)
-
-write.csv(si_by_area_and_hour_200809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_200809_bus")
 
 ```
 
@@ -645,6 +787,248 @@ si_by_area_and_hour_210810_bus <- hourly(
 write.csv(si_by_area_and_hour_210810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210810_bus")
 
 ```
+
+
+```{r run_for_all_modes_Victoria_210811, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210811_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210811_tram")
+
+si_by_area_and_hour_210811_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210811_rail")
+
+si_by_area_and_hour_210811_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210811_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_210812, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210812_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210812_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210812_tram")
+
+si_by_area_and_hour_210812_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210812_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210812_rail")
+
+si_by_area_and_hour_210812_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210812_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210812_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_210813, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210813_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210813_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210813_tram")
+
+si_by_area_and_hour_210813_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210813_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210813_rail")
+
+si_by_area_and_hour_210813_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210813_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210813_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_210814, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210814_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210814_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210814_tram")
+
+si_by_area_and_hour_210814_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210814_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210814_rail")
+
+si_by_area_and_hour_210814_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210814_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210814_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_210815, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210815_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210815_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210815_tram")
+
+si_by_area_and_hour_210815_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210815_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210815_rail")
+
+si_by_area_and_hour_210815_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210815_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210815_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_210816, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_210805_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_210816_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2021-08-16",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210816_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210816_tram")
+
+si_by_area_and_hour_210816_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2021-08-16",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210816_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210816_rail")
+
+si_by_area_and_hour_210816_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2021-08-16",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210816_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_210816_bus")
+
+```
+
+
 
 ```{r fix_ptv_data_Victoria_200729, eval = FALSE, echo = FALSE}
 
@@ -993,6 +1377,247 @@ si_by_area_and_hour_160809_bus <- hourly(
 write.csv(si_by_area_and_hour_160809_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160809_bus")
 
 ```
+
+
+```{r run_for_all_modes_Victoria_160810, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160810_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160810_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160810_tram")
+
+si_by_area_and_hour_160810_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160810_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160810_rail")
+
+si_by_area_and_hour_160810_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160810_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160810_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_160811, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160811_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160811_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160811_tram")
+
+si_by_area_and_hour_160811_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160811_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160811_rail")
+
+si_by_area_and_hour_160811_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-11",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160811_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160811_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_160812, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160812_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160812_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160812_tram")
+
+si_by_area_and_hour_160812_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160812_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160812_rail")
+
+si_by_area_and_hour_160812_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-12",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160812_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160812_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_160813, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160813_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160813_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160813_tram")
+
+si_by_area_and_hour_160813_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160813_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160813_rail")
+
+si_by_area_and_hour_160813_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-13",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160813_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160813_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_160814, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160814_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160814_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160814_tram")
+
+si_by_area_and_hour_160814_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160814_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160814_rail")
+
+si_by_area_and_hour_160814_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-14",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160814_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160814_bus")
+
+```
+
+
+```{r run_for_all_modes_Victoria_160815, eval = TRUE, echo = FALSE}
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+list_gtfs = ptv_160804_list_gtfs
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+si_by_area_and_hour_160815_tram <- hourly(
+  list_gtfs = list_gtfs[1], 
+  stops_in_or_near_areas = stops_in_or_near_areas[1], 
+  date_ymd = "2016-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160815_tram, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160815_tram")
+
+si_by_area_and_hour_160815_rail <- hourly(
+  list_gtfs = list_gtfs[2], 
+  stops_in_or_near_areas = stops_in_or_near_areas[2], 
+  date_ymd = "2016-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160815_rail, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160815_rail")
+
+si_by_area_and_hour_160815_bus <- hourly(
+  list_gtfs = list_gtfs[3], 
+  stops_in_or_near_areas = stops_in_or_near_areas[3], 
+  date_ymd = "2016-08-15",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160815_bus, "results/Greater_Melbourne/si_by_SA12021area_and_hour_160815_bus")
+
+```
+
 
 ```{r fix_ptv_data_Victoria_150729, eval = FALSE, echo = FALSE}
 
