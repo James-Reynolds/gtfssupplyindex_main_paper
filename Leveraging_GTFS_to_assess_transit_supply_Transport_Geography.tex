@@ -45,7 +45,7 @@ authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
-            pdftitle={New GTFS tools for benchmarking public tranpsort service levels},
+            pdftitle={Leveraging GTFS to explore spatial patterns in transit supply with respect to social needs},
             colorlinks=false,
             urlcolor=blue,
             linkcolor=magenta,
@@ -85,8 +85,8 @@ authoryear]{elsarticle} %review=doublespace preprint=single 5p=2 column
 
 \begin{frontmatter}
 
-  \title{New GTFS tools for benchmarking public tranpsort service
-levels}
+  \title{Leveraging GTFS to explore spatial patterns in transit supply
+with respect to social needs}
     \author[Public Transport Research Group (PTRG)]{James Reynolds%
   \corref{cor1}%
   \fnref{1}}
@@ -124,48 +124,52 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-There appears to be few tools readily available for benchmarking public
-transport service levels in a manner focused towards a non-technical
-audience. Those that are available are either:
-
-\begin{itemize}
-\item
-  closed source, such as Walk Score's Transit Score
-  \citep{WalkScore:2023tg}, such that they cannot be used independently
-  by practitioners, advocates or others;
-\item
-  complicated and focused towards practitioners, such as Transit
-  Capacity and Quality of Service Manual (TCQSM)\citep{TCQSM:2013} 700
-  page guidebook full of indicators, and the extensive annual
-  benchmarking program undertaken yearly by the Transport Strategy
-  Centre in the United Kingdom \citep{Imperial-College-London:2023aa};
-  or
-\item
-  bespoke, having been applied to only a small number (or just one)
-  system, such as the assessment of service levels and change in
-  Melbourne by \citet{Currie2016BoldIdeas}.
-\end{itemize}
-
-Previous research by \citet{currie2007identifying} developed a transit
-Supply Index (SI), which has the advantage of providing a single score
+In \emph{Quantifying spatial gaps in public transport supply based on
+social needs} \citet{currie2010identifying} introduced transit Supply
+Index (SI) and demonstrated how it could be used to assess gaps where
+between public transport supply and social need. The SI provides a score
 based on the number of transit arrivals at stops within an area of
 interest,\\
 adjusted to account the walking distance catchment of each stop.
-Unfortunately, the SI does not appear to have been widely used, perhaps
-in part because at the time it was first published timetable data was
-not typically available in a standardized and machine-readable format.\\
-Nowadays, the General Transit Feed Specification (GTFS) allows timetable
-publication in a standardized format, with more than 10,000 agencies
-providing feeds\citep{GTFS}. Many visualization, processing and analysis
+Combining the SI scores with census data, \citet{currie2010identifying}
+mapped areas of Greater Melbourne in Victoria, Australia, where in 2006
+there was a very high social need for transit but very low or zero
+supply.
+
+Unfortunately, this approach does not appear to have been widely used,
+perhaps in part because at the time it was first published calculating
+the transit Supply Index (SI) was not an easy task.\\
+Timetable data was not typically available in a standardized and
+machine-readable format, and the \citet{currie2010identifying} analysis
+was based on combining multiple operator databases and service frequency
+data manually extracted from agency websites. While extending the
+analysis to other cities might have allowed the needs-gap analysis for
+Melbourne to have been compared to other cases, clearly this would have
+been a large task due to the need to obtain and process data for other
+places.
+
+Nowadays, the development of the General Transit Feed Specification
+(GTFS) means that timetable data is widely published in a standardized
+format, with more than 10,000 agencies providing feeds\citep{GTFS}.
+Historical timetable data is now also available (see
+{[}https://transitfeeds.com/{]}), meaning that longitudinal comparisons
+are more readily feasible. Many visualization, processing and analysis
 tools that accept GTFS data are now available. A gap, however, is that
 there is not yet a tool to calculate SI scores directly from GTFS
-datasets.
+datasets. It is also unclear whether the gaps between social needs and
+transit supply identified in \citet{currie2010identifying} in Greater
+Melbourne have gotten better in the almost two decades since the
+original analysis, or whether the spatial patterns in Melbourne are
+representative of other cities.
 
 This provides the motivation for the research reported in this paper, in
 which a new R package (gtfssupplyindex) specifically developed to
-calculate SI scores is presented. The paper also explores how these SI
-scores can be used to assess transit supply across mode, region,
-level-boarding access, city and apparent policy type.
+calculate SI scores is presented. The paper also reports results for
+Greater Melbourne in 2016 and 2021, matching the most recent censuses
+and allowing comparison to the 2006 result reported in
+\citet{currie2010identifying}. Comparisons are also made to other parts
+of Australia, so as to explore whether findings about Greater Melbourne
+can be confidently generalized to other places.
 
 The remainder of this paper is structured as follows: the next section
 outlines the background to this research, including the original
@@ -259,18 +263,19 @@ metrics and compared these across 50 transit operators.
 \hypertarget{the-transit-suppy-index}{%
 \subsection{The Transit Suppy Index}\label{the-transit-suppy-index}}
 
-A generalized form of the Transit Supply Index (SI) from Currie and
-Senbergs (2007) is:
+A generalized form of the Transit Supply Index (SI) , adapted from
+\citet{currie2010identifying} is:
 
 \[SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}\]
 
 where: (1) \(SI_{area, time}\) is the Supply Index for the area of
 interest and a given period of time; (2) \(Area_{Bn}\) is the buffer
-area for each stop (n) within the area of interest. In Currie and
-Senbergs (2007) this was based on a radius of 400 metres for bus and
-tram stops, and 800 metres for railway stations; (3) \(Area_{area}\) is
-the area of the area of interest; and (4) \(SL_{n,time}\) is the number
-of transit arrivals for each stop for a given time period.
+area for each stop (n) within the area of interest. In
+\citet{currie2010identifying} this was based on a radius of 400 metres
+for bus and tram stops, and 800 metres for railway stations; (3)
+\(Area_{area}\) is the area of the area of interest; and (4)
+\(SL_{n,time}\) is the number of transit arrivals for each stop for a
+given time period.
 
 The SI score does not incorporate service span, speed or other elements
 of a transit service. While these can be important to passenger
@@ -278,6 +283,8 @@ experience, they might add complexity. Simplicity is also helped by the
 way that the SI is additive, in that \(SI_{area, time}\) scores can be
 aggregated to calculate an overall score across multiple time periods or
 for a region encompassing multiple areas of interest.
+
+\citet{currie2010identifying} presented
 
 \hypertarget{methodology}{%
 \section{Methodology}\label{methodology}}
@@ -297,14 +304,22 @@ results might be generated for real GTFS data: the Mornington Peninsula
 Tourist Railway GTFS feed and the Public Transport Victoria (PTV) GTFS
 feed, both in Victoria, Australia. Both were selected primarily for
 convenience, given that the authors are familiar with the typical
-service patterns and geography.
+service patterns and geography. The Mornington Peninsula Tourist Railway
+network, consisting of only three stations, also facilitated hand
+calculation of the SI as a cross-check of the results produced by the
+developed package.
 
 Figure @ref(Melbourne\_map)) shows the areas of interest relevant to the
 code development and testing, and selected railway stations. Statistical
 Area (SA) zones from the Australian Bureau of Statistics \citep{ABSmaps}
-Areas of interest included Greater Melbourne and its SA3 zones (main),
-SA1 zones in the central part of Melbourne (top-right) and SA1 zones
-within 800 metres of the Mornington Penninsula railway (bottom-right).
+Areas of interest included Greater Melbourne (main) and SA1 zones within
+800 metres of the Mornington Penninsula railway (right). SA1 zones are
+the smallest geographical areas for which results are reported in the
+Australian census, while the main image of Figure @ref(Melbourne\_map))
+shows the boundary of the Greater Melbourne Greater Capital City (GCC)
+zone and SA3 zone boundaries, which are generally similar to Local
+Government Area (LGA) boundaries (albeit with some LGAs split into two
+zones).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/all_maps} \caption{Areas of interest}\label{fig:Melbourne_map}
@@ -329,9 +344,12 @@ areas of interest.
 \subsection{Public Transport Victoria
 (PTV)}\label{public-transport-victoria-ptv}}
 
-Larger scale testing was performed using the Victorian GTFS feed,
-published by Public Transport Victoria (PTV) and sourced via
-\citet{transitfeeds_victoria:2023aa} for historical feeds.
+The Victorian GTFS feed, published by Public Transport Victoria (PTV)
+and with historical feeds sourced via
+\citet{transitfeeds_victoria:2023aa}, was used for analysis of Victoria.
+SI scores were obtained for the weeks starting on the day of the census
+in 2016 and 2021, which were on Tuesday 9th and 10th of August
+respectively.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -408,24 +426,23 @@ boundaries as a worked example. Individual steps are:
 December 30, 2018}
 \end{figure}
 
-\hypertarget{comparing-years}{%
-\subsection{Comparing years}\label{comparing-years}}
+\hypertarget{si-scores}{%
+\subsection{SI scores}\label{si-scores}}
 
 \begin{figure}
 \centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Victoria_within_stats_yearly-1.pdf}
-\caption{Victorian GTFS and central Melbourne SA1 zones, SI values
-second Tuesday in August, 2015-2022, all modes}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_2021-1.pdf}
+\caption{SI scores, census day 2016 and 2021}
 \end{figure}
-
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_map-1.pdf}
-\#\#\# Population and equality
 
 \hypertarget{imrad}{%
 \subsubsection{IMRAD}\label{imrad}}
 
-\hypertarget{comparing-modes}{%
-\subsection{Comparing modes}\label{comparing-modes}}
+\hypertarget{comparing-cases}{%
+\subsection{Comparing cases}\label{comparing-cases}}
+
+\hypertarget{population-and-equality}{%
+\subsubsection{Population and equality}\label{population-and-equality}}
 
 \hypertarget{purpose-of-transit-in-the-citys-transport-policy}{%
 \subsection{Purpose of transit in the city's transport
