@@ -85,6 +85,8 @@ library(readabs)
 library(gglorenz)
 library(DescTools)
 library(RColorBrewer)
+library(lsr)
+
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
 
@@ -789,7 +791,7 @@ write.csv(si_by_area_and_hour_210810_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210811, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210811, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -829,7 +831,7 @@ write.csv(si_by_area_and_hour_210811_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210812, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210812, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -869,7 +871,7 @@ write.csv(si_by_area_and_hour_210812_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210813, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210813, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -909,7 +911,7 @@ write.csv(si_by_area_and_hour_210813_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210814, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210814, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -949,7 +951,7 @@ write.csv(si_by_area_and_hour_210814_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210815, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210815, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -989,7 +991,7 @@ write.csv(si_by_area_and_hour_210815_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_210816, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210816, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
 
@@ -1379,7 +1381,7 @@ write.csv(si_by_area_and_hour_160809_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160810, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160810, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1419,7 +1421,7 @@ write.csv(si_by_area_and_hour_160810_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160811, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160811, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1459,7 +1461,7 @@ write.csv(si_by_area_and_hour_160811_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160812, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160812, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1499,7 +1501,7 @@ write.csv(si_by_area_and_hour_160812_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160813, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160813, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1539,7 +1541,7 @@ write.csv(si_by_area_and_hour_160813_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160814, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160814, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1579,7 +1581,7 @@ write.csv(si_by_area_and_hour_160814_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-```{r run_for_all_modes_Victoria_160815, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160815, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
@@ -1998,6 +2000,7 @@ si_by_area_2016_2021 <- left_join(
 )
   
 
+
 plot_2016_2021_comparison <- ggplot() + 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
           aes(fill = SI), lwd=0) +
@@ -2079,23 +2082,60 @@ plot_2016_2021_percent_difference_more_than_2x <- ggplot() +
 #plot_2016_2021_percent_difference_less_than_2x 
 #plot_2016_2021_percent_difference_more_than_2x
 
-si_by_area_2016_2021 <- si_by_area_2016_2021 %>% 
-  na.omit() %>% 
-  mutate( = cut(variable_name, breaks=c(0, 10, 20, 30)))
-###7 BINS PLUS ZERO BIN
+
+cuts <- si_by_area_2016_2021 %>% 
+  st_drop_geometry() %>% 
+  filter(SI != 0) %>% 
+  select(SI) %>% 
+  unlist()  %>% 
+  as.vector() %>% 
+  quantileCut(6)
+
+
+cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
+  unique() %>% 
+  as.numeric() %>% 
+  sort()
+  
+ si_by_area_2016_2021$SI_binned <- ifelse(
+   si_by_area_2016_2021$SI == 0, NA, ifelse(
+     si_by_area_2016_2021$SI < cuts[1], "Very low", ifelse(
+       si_by_area_2016_2021$SI < cuts[2], "Low", ifelse(
+         si_by_area_2016_2021$SI < cuts[3], "Below median", ifelse(
+           si_by_area_2016_2021$SI < cuts[4], "Above median", ifelse(
+             si_by_area_2016_2021$SI < cuts[5], "High", ifelse(
+               si_by_area_2016_2021$SI >= cuts[5], "Very high", NA)
+             )
+           )
+         )
+       )
+     )
+   ) 
+
+si_by_area_2016_2021$SI_binned <- factor(si_by_area_2016_2021$SI_binned, 
+                                         levels = c(
+                                           "Zero", 
+                                           "Very low", 
+                                           "Low", 
+                                           "Below median",
+                                           "Above median", 
+                                           "High", 
+                                           "Very high"
+                                         ))
 
 
 plot_2016_2021_comparison <- ggplot() + 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
-          aes(fill = SI), lwd=0) +
-  facet_wrap(vars(Year), ncol = 1) +
+          aes(fill = SI_binned), colour=NA) +
+  facet_wrap(vars(Year), nrow = 1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Spectral", trans = "log10", direction = 1)
+  ) + 
+  scale_fill_brewer(palette = "RdYlGn")
 
+plot_2016_2021_comparison
 
 ```
 
