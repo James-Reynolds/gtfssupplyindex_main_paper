@@ -86,6 +86,7 @@ library(gglorenz)
 library(DescTools)
 library(RColorBrewer)
 library(lsr)
+library(ggpubr)
 
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
@@ -95,49 +96,35 @@ library(lsr)
 
 
 # Introduction
-In *Quantifying spatial gaps in public transport supply based on social needs* 
-@currie2010identifying introduced transit Supply Index (SI) 
-and demonstrated how it could be used to assess gaps where
-between public transport supply and social need. 
-The SI provides a score based 
-on the number of transit arrivals 
-at stops within an area of interest,   
-adjusted to account 
-the walking distance catchment of each stop. 
-Combining the SI scores 
-with census data, 
-@currie2010identifying mapped areas of 
-Greater Melbourne in Victoria, Australia, 
-where in 2006 there was a very high social need for transit 
+@currie2010identifying introduced a transit Supply Index (SI) 
+and demonstrated how it could be used to assess spatial gaps between the social need for public transport and what is supplied.
+The SI is based on calculating a score, for each area of interest, based on the rate of transit arrivals at nearby stops, adjusted for the amount of each area that is within a typical walking distance. 
+@currie2010identifying calculated scores for areas within Greater Melbourne in Victoria, Australia, combined these with census data to map locations with very high social needs for transit 
 but very low or zero supply.  
 
 Unfortunately, 
 this approach does not appear to have been widely used,
 perhaps in part because at the time it was first published
-calculating the transit Supply Index (SI) 
-was not an easy task.  
-Timetable data was not typically available 
-in a standardized 
-and machine-readable format, 
-and the @currie2010identifying 
+the transit Supply Index (SI) 
+was not easy to calculate.
+The @currie2010identifying 
 analysis was based on combining 
 multiple operator databases and
-service frequency data manually extracted from 
-agency websites. 
-While extending the analysis to other cities might have allowed the needs-gap analysis for Melbourne to have been compared to other cases, clearly this would have been a large task due to the need to obtain and process data for other places. 
+service frequency data 
+that had been manually extracted from 
+transit agency websites. 
 
-Nowadays, 
-the development of the General Transit Feed Specification (GTFS) 
-means that timetable data is widely published in a standardized format, 
-with more than 10,000 agencies 
-providing feeds[@GTFS]. 
-Historical timetable data is now also available (see [https://transitfeeds.com/]), meaning that longitudinal comparisons are more readily feasible. 
-Many visualization, processing and analysis tools 
-that accept GTFS data are now available.
-A gap, however, is that 
+Nowadays, however, 
+the General Transit Feed Specification (GTFS)
+allows timetable data to be published in a standardized format, 
+and more than 10,000 agencies 
+provide feeds[@GTFS]. 
+Tools for analysing GTFS data are widely available,
+but there is a gap as 
 there is not yet a tool to calculate SI scores directly from 
 GTFS datasets. 
-It is also unclear whether the gaps between social needs and transit supply identified in @currie2010identifying in Greater Melbourne have gotten better in the almost two decades since the original analysis, or whether the spatial patterns in Melbourne are representative of other cities. 
+It is also unclear whether the gaps between social needs and transit supply identified in @currie2010identifying in Greater Melbourne have gotten better in the almost two decades since the original analysis. 
+Nor is it clear whether the spatial patterns of transit need, supply and gap in Melbourne are representative of other cities. 
 
 This provides the motivation 
 for the research reported in this paper, 
@@ -146,16 +133,13 @@ specifically developed to calculate SI scores
 is presented. 
 The paper also reports results for Greater Melbourne in 2016 and 2021, matching the most recent censuses and allowing comparison to the 2006 result reported in  @currie2010identifying.  Comparisons are also made to other parts of Australia, so as to explore whether findings about Greater Melbourne can be confidently generalized to other places. 
 
-
 The remainder of this paper is structured as follows:
 the next section outlines the background to this research,
 including the original formulation of the Transit Supply Index, 
 and an explanation of the GTFS. 
 Section 3 then describes the study methodology, 
 followed by presentation of results in Section 4. 
-Section 5 discusses the results, 
-outlines directions for future research 
-and provides a brief conclusion. 
+Section 5 discusses the results and the limitations of this stud, and outlines directions for future research. A brief conclusion is provided in Section 6. 
 
 # Background
 
@@ -219,41 +203,42 @@ introduced street space allocation metrics
 based around 10 ethical principles 
 
 However, 
-many of these metrics appear difficult to calculate, 
+many transit metrics may be difficult to calculate, 
 complex to explain or understand, 
 and likely not well suited to communication 
-with those who are not planners or engineers, 
+with those who are not planners, engineers 
 or other technical specialists. 
 Where pre-calculated metrics 
 are immediately available 
 it may not be possible for practitioners, 
 researchers 
 or advocates 
-to independently generate metrics 
-for proposed system changes. 
+to independently generate scores 
+so as to test proposed system changes. 
 Sometimes it is not even possible 
 to know precisely how scores for the existing services levels are calculated. 
-For example, 
-Transit Scores 
-for locations with a published GTFS feed 
-are readily available on the @WalkScore:2023tg website, 
+The Transit Score metric, which is readily available on the @WalkScore:2023tg website, provides an example. It is available for locations with a published GTFS feed, 
 eliminating the need for any calculations. 
 The meaning of these Transit Scores 
-appears easy to explain, 
-as the highest possible score of 100 
-represents what might be experienced in the centre of New York. 
+also appears easy to explain, 
+with the highest possible score of 100 
+representing what might be experienced in the center of New York. 
 However, 
 the Transit Score algorithm 
-is patented 
+is unpublished, 
 and effectively a black box. 
-Transit Scores cannot be calculated independently
+It does not appear that Transit Scores can be calculated independently
 or generated 
 for proposed changes to networks. 
 
-## GTFS
-The General Transit Feed Specification (GTFS)
+A contrasting example is the Transit Capacity and Quality of Service Manual (TCQSM), which provides a wealth of metrics for measuring different aspects of a transit system. The TCQSM scores themselves are easy to understand or explain, ranging from A to F, although the number of metrics is very large, which might limit the practicality of using the TCQSM in practice for communicating wiht non-technical audiences. All of these can be calculated independently, given sufficient data, and @Wong:2013aa provides an example reporting various TCQSM metrics 
+across 50 transit operators. 
+The @Wong:2013aa analysis is made possible by the availability of General Transit Feed Specification (GTFS) datasets for each of the transit systems
+
+
+The GTFS
 is an open, 
-text-based format 
+text-based format, 
 developed originally to allow transit 
 to be included in the Google Maps navigation platform [@GTFS]. 
 Figure \@ref(fig:GTFS_ERD) shows 
@@ -271,16 +256,11 @@ knitr::include_graphics("graphics/GTFS.png")
 
 ```
 
-GTFS allows individual transit systems 
-to be included in many online products and analysis, 
-including the Transit Score metric itself. 
-@Wong:2013aa provides another example of what can be done with GTFS data, 
-having developed code to calculate of some of the TCQSM metrics 
-and compared these
-across 50 transit operators.
+GTFS software tools are available for performing various analyses, creating visulizations or other purposes. However, software to calculate the Transit Suppy Index (SI) is not yet available. 
+
 
 ## The Transit Suppy Index
-A generalized form of the Transit Supply Index (SI) , adapted from @currie2010identifying is: 
+A generalized form of the SI equation , adapted from @currie2010identifying, is: 
 
   $$SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}$$
 
@@ -295,22 +275,53 @@ and 800 metres for railway stations;
 (4) $SL_{n,time}$ is the number of transit arrivals for each stop 
 for a given time period.
 
-The SI score does not incorporate 
-service span, 
-speed 
-or other elements of a transit service. 
-While these can be important 
-to passenger experience, 
-they might add complexity. 
-Simplicity is also helped 
-by the way 
-that the SI is additive, 
+
+The SI is additive, 
 in that $SI_{area, time}$ scores can be aggregated 
 to calculate an overall score 
 across multiple time periods 
 or for a region encompassing multiple areas of interest. 
 
-@currie2010identifying presented 
+
+```{r Currie_map_SI, fig.cap = "Distribution of supply measure scores – Metropolitan Melbourne (2006), Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+
+knitr::include_graphics("graphics/Currie2010SI.png")
+
+```
+
+
+Figure \ref{fig:Currie_map_SI} shows a map of SI scores across Greater Melbourne, from @currie2010identifying. The general pattern appears to be higher levels of transit supply closer to the Central Business District (CBD) and passenger railway lines, and large areas wth very low SI scores or no transit supply at all in outer areas. @currie2010identifying also assess the social need for transit across Greater Melbourne, based on the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD), a transport needs index derived by @currie2010identifying from eight weighted indicators, and a combination of the two. The indicators used in the derived transport needs index were: 
+
+- Adults without cars (weight 0.19); 
+- Accessibility, being the distance from the Melbourne CBD (weight 0.15); 
+- Persons aged over 60 years (0.14); 
+- Persons on a disability pension (0.12); 
+- Low income households (0.10);
+- Adults not in the labour force (0.09); 
+- Students (0.09); and 
+- Persons 5-9 years old (0.12). 
+
+Data was sourced from census information, except for the accessibility variable and for the disability pension variable, which came from Centrelink, the federal government agency that manages income support payments.  Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce a chart comparing transport needs and transit supply, and a map of areas with very high social needs but zero or very low transit supply. 
+
+
+```{r Currie_chart_gap, fig.cap = "Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+
+knitr::include_graphics("graphics/Currie2010chart.png")
+
+```
+
+
+```{r Currie_map_gap, fig.cap = "Melbourne needs-gap – very high transport need areas with zero or very low public transport supply, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+
+knitr::include_graphics("graphics/Currie2010gap.png")
+
+```
+
+The results indicated that that there were
+<<<<<PICK UP HERE>>>>
+
+
+However, it doesn't appear that there have been similar analyses undertaken since then, so it is unclear whether gaps between transit needs and supply have improved, remained similar or become worse.  Nor does it appear that this methodology has been applied to other places, except for similar studies of Hobart and Adelaide discussed in @currie2010identifying. Hence, it is unclear whether the patterns in Melbourne, where areas with very high transport needs but zero or very low transit supply tend to be in middle and outer areas of the city serviced by buses, is consistent with patterns in other cities.  Comparing current conditions and other locations to the findings of @currie2010identifying, therefore, is an aim of the research discussed in this paper. 
 
 
 # Methodology
@@ -1691,6 +1702,9 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 
 ```
 
+## Social disadvantage measurement approach   
+This paper adopts the same approach to social disadvantage measurement as in @currie2010identifying
+
 
 # Results
 ## Code structure and functionality
@@ -2124,17 +2138,18 @@ si_by_area_2016_2021$SI_binned <- factor(si_by_area_2016_2021$SI_binned,
                                          ))
 
 
-plot_2016_2021_comparison <- ggplot() + 
+plot_2016_2021_comparison <- ggplot()+ 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
           aes(fill = SI_binned), colour=NA) +
   facet_wrap(vars(Year), nrow = 1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) + 
-  scale_fill_brewer(palette = "RdYlGn")
-
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+      
+            
 plot_2016_2021_comparison
 
 ```
@@ -2156,10 +2171,11 @@ plot_2016_2021_comparison
 ## Indexes and comparing cities
 
 
-# Discussion and conclusions
+# Discussion
 
+## Limitations and directions for furture research
 
-
+# Conclusions
 
 # References {-}
 
