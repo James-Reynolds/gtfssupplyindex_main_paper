@@ -98,13 +98,24 @@ library(ggpubr)
 
 # Introduction
 
-In \emph{Quantifying spatial gaps in public transport supply based on
-social needs}, @currie2010identifying introduced a transit Supply Index (SI),
-based on the rate of transit arrivals within an area of interest. 
-These were calculated for Greater Melbourne in Victoria, Australia, 
-and combined these with census data to map locations 
-with very high social needs for transit, 
-but very low or zero supply.  
+Spatial patterns and the distributions of 
+transportation equity, 
+social exclusion related to transport disadvantage, 
+gaps in transit supply and 
+accessibility, and related issues 
+have previously received attention from researchers. 
+This includes studies of spatial gaps in transport supply 
+when accounting for social needs 
+[@Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying];
+transport disadvantage, well-being,
+social exclusion 
+and equity with respect to accessibility 
+[@Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
+@Delbosc2011Thespatial; 
+@Engels2011Social], 
+transit speeds [@Pavkova2016]
+
+
 
 Unfortunately, 
 this approach does not appear to have been widely used,
@@ -1533,6 +1544,14 @@ write.csv(si_by_area_and_hour_160811_bus, "results/Greater_Melbourne/si_by_SA120
 ```{r run_for_all_modes_Victoria_160812, eval = FALSE, echo = FALSE}
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Victoria") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
 
 list_gtfs = ptv_160804_list_gtfs
 
