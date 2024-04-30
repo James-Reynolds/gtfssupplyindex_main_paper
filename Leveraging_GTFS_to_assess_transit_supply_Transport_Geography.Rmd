@@ -28,7 +28,7 @@ footnote:
   - code: 1
     text: "Research Fellow"
   - code: 2
-    text: "PhD Strudent"
+    text: "PhD Student"
   - code: 3
     text: "Professor"
 abstract: |
@@ -98,28 +98,103 @@ library(ggpubr)
 
 # Introduction
 
-Spatial patterns and the distributions of 
-transportation equity, 
-social exclusion related to transport disadvantage, 
+The spatial distribution 
+of transport disadvantage, 
 gaps in transit supply and 
 accessibility, and related issues 
-have previously received attention from researchers. 
-This includes studies of spatial gaps in transport supply 
-when accounting for social needs 
-[@Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying];
-transport disadvantage, well-being,
+have been the topics of much previous research. 
+This has included studies of: 
+
+- geographic gaps in transport supply
+when accounting for social needs; 
+
+- transport disadvantage, well-being,
 social exclusion 
-and equity with respect to accessibility 
-[@Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
+and equity with respect to accessibility;
+
+- the use of
+Lorenz curves to explore how equitably transit speeds  or accessibility is distributed; 
+and various other 
+similar approaches^[See for example
+@Ricciardi2015
+@Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying;
+@Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
 @Delbosc2011Thespatial; 
-@Engels2011Social], 
-transit speeds [@Pavkova2016]
+@Engels2011Social;
+@Pavkova2016; @Delbosc2011Using; 
+@Murray2001; @Currie2010Modeling;
+@Currie2007Investigating;
+@Currie2007Identifying;
+@Yigitcanlar2007;
+@Wu2003; 
+@Currie2013Exploring;
+@Preston2007Accessibility;
+@Hurni2005; 
+@Mamun2011; 
+@El_geneidy2016;
+@Kaplan2014;
+@Martens2012;
+@Lucas2016AMethod;
+@Liu2012Accessibility;
+@Lucas2012Transport_and_social;
+@Lei2010Mapping;
+@Mavoa2012GIS;
+@Delmelle2012Evaluating;
+@Foth2014Toward; 
+@Welch2013Equity; 
+@Bell2007Travel;
+@Jaramillob2011Urban;
+@Guzman2017Assessing; 
+@Wee2011Discussing;
+@Currie2004Gap;
+@Engels2011Social; 
+@Litman2002Evaluation;
+@Parolin2017Identifying;
+@Xia2016AMulti;
+@Welch2013AMeasure;
+@Jang2017Assessing.].
 
+Much of this literature outlines approaches 
+and methodologies for calculating 
+the extent of transport need and 
+transit supply, 
+and then comparing the two across some geographic area.
+However, such methodologies do 
+not appear to often be used again 
+in further research 
+to study other cases. 
+In part this may be because there is not as much that is 
+'new' research knowledge that is created when applying the same methods to a different location. 
+Instead, such efforts may be more likely to be done by practitioners than researchers. 
+As well, presenting an approach or methodology 
+in a research paper might only require an outline 
+and presentation of some limited 'proof of concept' 
+results for one geographic area.  
+Such results might be generated through 
+bespoke, rather than generalised, methods 
+given that there may be little need 
+for the researchers in question 
+to generate results 
+for different places 
+or again after some time has passed. 
 
-
-Unfortunately, 
-this approach does not appear to have been widely used,
-perhaps in part because at the time it was first published
+An example is provided by 
+the @Currie2003Hobart @Currie2004Gap, @Currie2007Identifying, @currie2010identifying
+studies on spatial gaps between the social need for transport and the supplied transit levels. 
+This work presented a transit Supply Index (SI) 
+and compared it to measures of social need for transport 
+in Melbourne, Hobart and elsewhere in Australia.
+However, it is unclear whether the 
+problems relating to social needs and transit supply 
+identified this previous research 
+in the almost two decades since the original analysis. 
+Nor is it clear whether the identified spatial patterns 
+of transit need, supply and gap in these cities 
+are generalizable to other places 
+as the @currie2010identifying 
+approach does not appear to have been widely used since those studies.
+This is perhaps in part because
+at the time it was first published
 the transit Supply Index (SI) 
 was not easy to calculate.
 The @currie2010identifying 
@@ -128,20 +203,25 @@ multiple operator databases and
 service frequency data 
 that had been manually extracted from 
 transit agency websites. 
+
 Nowadays, however, 
 the General Transit Feed Specification (GTFS)
 allows timetable data to be published in a standardized format, 
 with more than 10,000 agencies releasing data 
-this way [@GTFS]. 
-Tools for analysing GTFS data are widely available,
-but not yet one for calculating SI scores directly from 
-GTFS datasets. 
-Another research gap is that it is unclear whether the 
-problems relating to social needs and transit supply 
-identified in @currie2010identifying in Greater Melbourne 
-have gotten better in the almost two decades since the original analysis. 
-Nor is it clear whether the spatial patterns of 
-transit need, supply and gap in Melbourne are representative of other cities. 
+this way [@GTFS]. Various tools for analysing GTFS data are now available,
+but there does not appear to have been 
+many developed to allow the analysis of 
+spatial gaps between the social need for transport and 
+the amount of transit that is supplied.  
+While the previous literature provides a 
+wealth of methodologies, 
+the availability of tools 
+that might be used by researchers, 
+practitioners 
+and advocates to 
+easily use these 
+approaches with GTFS data 
+appears to be limited.  
 
 These gaps provide the motivation 
 for the research reported in this paper, 
