@@ -98,24 +98,11 @@ library(ggpubr)
 
 # Introduction
 
-The spatial distribution 
+Spatial distribution 
 of transport disadvantage, 
 gaps in transit supply and 
 accessibility, and related issues 
-have been the topics of much previous research. 
-This has included studies of: 
-
-- geographic gaps in transport supply
-when accounting for social needs; 
-
-- transport disadvantage, well-being,
-social exclusion 
-and equity with respect to accessibility;
-
-- the use of
-Lorenz curves to explore how equitably transit speeds  or accessibility is distributed; 
-and various other 
-similar approaches^[See for example
+have been addressed in much previous research^[See for example
 @Ricciardi2015
 @Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying;
 @Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
@@ -152,39 +139,37 @@ similar approaches^[See for example
 @Parolin2017Identifying;
 @Xia2016AMulti;
 @Welch2013AMeasure;
-@Jang2017Assessing.].
-
-Much of this literature outlines approaches 
-and methodologies for calculating 
-the extent of transport need and 
+@Jang2017Assessing.]. 
+Much of this literature persents
+methods for calculating 
+transport need and 
 transit supply, 
 and then comparing the two across some geographic area.
-However, such methodologies do 
-not appear to often be used again 
-in further research 
-to study other cases. 
-In part this may be because there is not as much that is 
-'new' research knowledge that is created when applying the same methods to a different location. 
-Instead, such efforts may be more likely to be done by practitioners than researchers. 
-As well, presenting an approach or methodology 
-in a research paper might only require an outline 
-and presentation of some limited 'proof of concept' 
-results for one geographic area.  
-Such results might be generated through 
-bespoke, rather than generalised, methods 
-given that there may be little need 
-for the researchers in question 
-to generate results 
-for different places 
-or again after some time has passed. 
+However, such methodologies rarely 
+appear to have been used again, 
+in further research, 
+to study other cases 
+or time periods. 
+This may in part be because 
+applying an existing methodology 
+to another location or time period 
+may not generate sufficient 
+'new' knowledge for publication, 
+or be more practice that research. 
+As well, describing a new methodology 
+in a research paper might only require 
+presentation of 
+enough results to demonstrate the concepts, 
+rather than widespread application to multiple 
+geographic contexts 
+and development of software tools to facilitate 
+broader use.  
 
 An example is provided by 
 the @Currie2003Hobart @Currie2004Gap, @Currie2007Identifying, @currie2010identifying
 studies on spatial gaps between the social need for transport and the supplied transit levels. 
 This work presented a transit Supply Index (SI) 
-and compared it to measures of social need for transport 
-in Melbourne, Hobart and elsewhere in Australia.
-However, it is unclear whether the 
+and compared it to measures of social need for transport, but it is unclear whether the 
 problems relating to social needs and transit supply 
 identified this previous research 
 in the almost two decades since the original analysis. 
@@ -195,14 +180,22 @@ as the @currie2010identifying
 approach does not appear to have been widely used since those studies.
 This is perhaps in part because
 at the time it was first published
-the transit Supply Index (SI) 
-was not easy to calculate.
+the data needed to calculate the
+transit Supply Index (SI) for a particular location 
+was not typically readily available.
 The @currie2010identifying 
-analysis was based on combining 
+analysis of Melbourne was based on combining 
 multiple operator databases and
 service frequency data 
 that had been manually extracted from 
 transit agency websites. 
+Similar studies in Hobart, Perth and
+elsewhere in Australia [@Currie2003Hobart @Currie2004Gap, @Currie2007Identifying, @currie2010identifying] 
+appear likely 
+to have required bespoke 
+data collection, cleaning and analysis 
+efforts, given that different oppoerators 
+used different scheduling software. 
 
 Nowadays, however, 
 the General Transit Feed Specification (GTFS)
@@ -219,8 +212,9 @@ the availability of tools
 that might be used by researchers, 
 practitioners 
 and advocates to 
-easily use these 
+use these 
 approaches with GTFS data 
+relativey easily 
 appears to be limited.  
 
 These gaps provide the motivation 
@@ -232,11 +226,11 @@ The paper also reports results for Greater Melbourne in 2016 and 2021,
 matching the most recent censuses 
 and allowing comparison to the 2006 result reported in  @currie2010identifying.  
 Comparisons are also made to other parts of Australia, 
-so as to explore whether the findings about Greater Melbourne are generalizable. 
+so as to explore whether findings about Greater Melbourne are generalizable. 
 
 The remainder of this paper is structured as follows:
 the next section outlines the background to this research,
-including the original formulation of the Transit Supply Index, 
+including the formulation of the Transit Supply Index (SI), 
 and an explanation of the GTFS. 
 Section 3 then describes the study methodology, 
 followed by presentation of results in Section 4. 
@@ -250,20 +244,13 @@ A brief conclusion is provided in Section 6.
 Even a brief search reveals 
 many metrics 
 available for benchmarking transit services. 
-Examples include: 
-(1) those in the Transit Cooperative Research Program (TCRP) Report 88, 
-which is an extensive guidebook 
-on developing a performance-measurement system [@Ryus:2003aa]; 
-(2) online databases provided by 
-the Florida Transit Information System (FTIS) 
-[@Florida-Transit-Information-System:2018aa] 
-and @UITP:2015aa; 
-(3) those used in the extensive benchmarking program
-undertaken yearly by the Transport Strategy Centre in the United Kingdom, 
-[@Imperial-College-London:2023aa]; and
-(4) a recently developed methodology to calculate 'blank spots', 
-beyond typical walking access distances 
-to/from transit stops [@AlamriSultan2023GAoA]. 
+Examples include those in: 
+the extensive Transit Cooperative Research Program (TCRP) Report 88 guidebook 
+on developing performance-measurement systems, 
+[@Ryus:2003aa]; 
+and those used across
+benchmarking databases and programs  
+[@Florida-Transit-Information-System:2018aa; @UITP:2015aa; @Imperial-College-London:2023aa]; and
 The Fielding Triangle [@FieldingGordonJ1987Mpts] 
 provides a framework 
 for combining indicators of 
@@ -273,9 +260,7 @@ and consumption
 to describe cost efficiency, 
 cost effectiveness and
 service effectiveness. 
-More broadly: 
-
-- @Litman:2003ab 
+More broadly: @Litman:2003ab 
 and @Litman:2016aa 
 discuss some of the traffic, 
 mobility, 
@@ -283,43 +268,38 @@ accessibility,
 social equity, 
 strategic planning 
 and other rational decision-making-based
-perspectives underling transport indicators;
-
-- @Reynolds:2017ah extends 
+perspectives underling transport indicators; 
+@Reynolds:2017ah extends 
 these into models of how 
 institutionalism, 
 incrementalism 
 and other public policy analysis concepts 
 might apply to decision-making processes 
 relating to transit prioritization; 
-
-- @GuzmanLuisA.2017Aeit, 
+@GuzmanLuisA.2017Aeit, 
 developed a measure of accessibility 
 in the context of policy development 
 and social equity 
 for Latin American Bus Rapid Transit (BRT) networks; and 
-
-- @Creutzig2020streetspaceallocation
+@Creutzig2020streetspaceallocation
 introduced street space allocation metrics 
 based around 10 ethical principles 
 
 However, 
 many of these, and other, transit metrics 
-may be difficult to calculate and
-complex to explain or understand. 
-It is also unclear how well suited transit metrics are 
-to communication with those who are not planners, engineers 
-or other technical specialists, 
-especially political representatives and the general public. 
+may be difficult to calculate, and/or
+complex to explain or understand, 
+especially for those who are not planners, engineers 
+or other technical specialists. 
 Where pre-calculated metrics 
 are immediately available 
 it may not be possible for practitioners, 
 researchers 
 or advocates 
 to independently generate scores 
-so as to test proposed system changes. 
-Sometimes it is not even possible 
-to know precisely how scores for the existing services levels are calculated. 
+so as to test proposed system changes, 
+or demonstrate impacts to politicans, 
+the general public or others. 
 
 Contrasting examples are provided by the metrics in the 
 Transit Capacity and Quality of Service Manual (TCQSM) 
@@ -367,7 +347,7 @@ with primary and foreign keys (agency_id, route_id, trip_id etc.)
 providing links.
 While there are many software tools for 
 analyzing, visualizing or otherwise manipulating GTFS data, 
-one to calculate Transit Supply Index scores is not yet available.
+one to calculate Transit Supply Index (SI) scores is not yet available.
 
 
 
@@ -383,14 +363,18 @@ A generalized form of the SI equation, adapted from @currie2010identifying, is:
   $$SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}$$
 
 where:
-(1) $SI_{area, time}$ is the Supply Index for the area of interest 
+
+- $SI_{area, time}$ is the Supply Index for the area of interest 
 and a given period of time;
-(2) $Area_{Bn}$ is the buffer area for each stop (n) within the area of interest 
+
+- $Area_{Bn}$ is the buffer area for each stop (n) within the area of interest 
 (in @currie2010identifying this was based on 
 a radius of 400 metres for bus and tram stops, 
 and 800 metres for railway stations);
-(3) $Area_{area}$ is the area of the area of interest; and
-(4) $SL_{n,time}$ is the number of transit arrivals for each stop 
+
+- $Area_{area}$ is the area of the area of interest; and
+
+- $SL_{n,time}$ is the number of transit arrivals for each stop 
 for a given time period.
 
 ```{r Currie_map_SI, fig.cap = "Distribution of supply measure scores – Metropolitan Melbourne (2006), Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -400,11 +384,27 @@ knitr::include_graphics("graphics/Currie2010SI.png")
 ```
 
 
-Figure \ref{fig:Currie_map_SI} shows a map of SI scores across Greater Melbourne in 2006, which was included in @currie2010identifying. The general pattern appears to be higher levels of transit supply closer to the Central Business District (CBD) and passenger railway lines, and large areas wth very low SI scores or no transit supply at all in outer areas. 
+Figure \ref{fig:Currie_map_SI} shows 
+a map of SI scores across Greater Melbourne in 2006, 
+which was included in @currie2010identifying. 
+The general patterns appear to be 
+higher levels of transit supply closer to 
+the city's centre 
+and along passenger railway lines, 
+and outer areas with very low SI scores 
+or no transit supply at all. 
 
 ## Social need and needs gap
 
-@currie2010identifying also assessed the social need for transit across Greater Melbourne using: the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD); a transport needs index derived by @currie2010identifying from eight weighted indicators; and a combination of the two. The indicators used in the derived transport needs index were: 
+@currie2010identifying also 
+assessed the social need for transit 
+across Greater Melbourne using: 
+the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD); 
+a transport needs index derived by @currie2010identifying
+from eight weighted indicators; 
+and a combination of the two. 
+
+<!--The indicators used in the derived transport needs index were: 
 
 - Adults without cars (weight 0.19); 
 - Accessibility, being the distance from the Melbourne CBD (weight 0.15); 
@@ -415,7 +415,10 @@ Figure \ref{fig:Currie_map_SI} shows a map of SI scores across Greater Melbourne
 - Students (0.09); and 
 - Persons 5-9 years old (0.12). 
 
-Data was sourced from census information, except for the accessibility variable and for the disability pension variable, which came from Centrelink, the federal government agency that manages income support payments.  Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce a chart comparing transport needs and transit supply, and a map of areas with very high social needs but zero or very low transit supply. 
+Data was sourced from census information, except for the accessibility variable and for the disability pension variable, which came from Centrelink, the federal government agency that manages income support payments.  
+---->
+
+Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce a chart comparing transport needs and transit supply, and a map of areas with very high social needs but zero or very low transit supply. 
 
 
 ```{r Currie_chart_gap, fig.cap = "Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -431,7 +434,7 @@ knitr::include_graphics("graphics/Currie2010gap.png")
 
 ```
 
-The results indicated that that there were service gaps of concern, 
+The results indicated service gaps of concern, 
 especially in outer parts of Melbourne 
 where low density development patterns 
 make provision of transit more challenging. 
@@ -439,23 +442,24 @@ make provision of transit more challenging.
 "(o)verall, 8.2% of Melbourne residents have ‘very high’ needs 
 but ‘zero’, ‘low’ or ‘very low’ public transport supply.", and
 suggested that this approach was 
-"substantially more useful than the presentation of anecdotal evidence 
-which is the most common means of identifying transport needs 
+"substantially more useful than the presentation of anecdotal evidence, 
+which is the most common means 
+of identifying transport needs 
 in local transport studies throughout the world."
 
 However, it doesn't appear that this approach has been widely adopted 
 in practice or academia.  
-Nor does it appear to have been applied to other places, 
-except for related studies 
-of Hobart and Adelaide that preceded @currie2010identifying. 
 Our suspicion is that while the SI has a relatively simple formula 
 and requires only geographic and timetable data, 
 the lack of a software tool to perform these calculations 
-may be part of the reason that it has not been more widely adopted 
-and why formal needs-supply-gap analysis appear uncommon.  
+may be part of the reason 
+that it has not been more widely adopted 
+and why formal needs-supply-gap analysis may still be uncommon.  
+
 It is also unclear whether the patterns in Melbourne, 
-where areas with very high transport needs but zero or very low transit supply 
-tend to be in outer areas of the city serviced by buses, 
+where areas with very high transport needs 
+but zero or very low transit supply 
+tend to be in outer areas serviced by buses, 
 are similar to patterns in other cities. 
 Nor is it clear whether the patterns in Melbourne itself have changed 
 since the 2006 analysis. 
@@ -468,13 +472,10 @@ therefore, is the primary aim of this paper.
 
 # Methodology
 This study 
-developed a package 
-with tools for calculating the SI from GTFS data. 
-The R programming language [@R-base] 
-was adopted for code development. 
-Package development setup and workflow 
-as described by @wickham2023r 
-was adopted. 
+developed a R programming language [@R-base] package 
+of tools for calculating the SI from GTFS data 
+@wickham2023r informed the package setup and 
+development approach. 
 Various existing packages 
 were relied upon including: 
 the sf package [@R-sf] for geospatial analysis; 
@@ -483,17 +484,21 @@ gtfstools [@R-gtfstools]; and
 tidytransit [@R-tidytransit]. 
 Some code was adapted from 
 examples, vignettes and other documentation 
-in the tidytransit, gtfstools and other packages.
+in these and other packages.
 
-Two cases were used during the code development and testing, 
+Two cases were used 
+during the code development and testing, 
 such that results might be generated for real GTFS data: 
-the Mornington Peninsula Tourist Railway GTFS feed 
+the Mornington Peninsula Tourist Railway GTFS feed; 
 and the Public Transport Victoria (PTV) GTFS feed, 
 both in Victoria, Australia. 
 Both were selected primarily for convenience, 
 given that the authors are familiar with 
 the typical service patterns and geography.
-The Mornington Peninsula Tourist Railway network, consisting of only three stations, also facilitated hand calculation of the SI as a cross-check of the results produced by the developed package. 
+Adopting the Mornington Peninsula Tourist Railway network, which consists of only three stations, 
+also facilitated hand calculation of the SI 
+as a cross-check of the results 
+produced by the developed package. 
 
 Figure \@ref(Melbourne_map)) shows the areas of interest 
 relevant to the code development and testing, 
@@ -501,14 +506,12 @@ and selected railway stations.
 Statistical Area (SA) zones were adopted 
 from the Australian Bureau of Statistics [@ABSmaps] 
 as the areas of interest, and 
-included SA3 zones across Greater Melbourne (main) 
-and SA1 zones within 800 metres of the Mornington Penninsula railway (right). 
-SA1 zones are the smallest geographical areas 
-for which results are reported in the Australian census.  
-The census also reports results across the
-Greater Melbourne Greater Capital City (GCC) zone and SA3 zone boundaries, 
-which are generally similar to Local Government Area (LGA) boundaries. 
-
+included SA3 zones^[These are generally similar to Local Government Area (LGA) boundaries.]
+across the Greater Melbourne Greater Capital City 
+statistical area (main); 
+and SA1 zones^[SA1 zones are the smallest geographical areas 
+for which results are reported in the Australian census.] within 800 metres of the Mornington Penninsula railway (right). 
+  
 
 ```{r Melbourne_map, fig.cap = "Areas of interest",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
@@ -2333,7 +2336,9 @@ plot_2016_2021_comparison
 
 # Discussion
 
-## Limitations and directions for furture research
+## Limitations 
+
+## Directions for furture research
 
 # Conclusions
 
