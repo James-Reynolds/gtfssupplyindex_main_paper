@@ -98,11 +98,11 @@ library(ggpubr)
 
 # Introduction
 
-Spatial distribution 
+The spatial distribution 
 of transport disadvantage, 
 gaps in transit supply and 
 accessibility, and related issues 
-have been addressed in much previous research^[See for example
+have been a focus of previous research^[See for example
 @Ricciardi2015
 @Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying;
 @Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
@@ -140,33 +140,39 @@ have been addressed in much previous research^[See for example
 @Xia2016AMulti;
 @Welch2013AMeasure;
 @Jang2017Assessing.]. 
-Much of this literature persents
-methods for calculating 
-transport need and 
-transit supply, 
-and then comparing the two across some geographic area.
-However, such methodologies rarely 
-appear to have been used again, 
+Much of this presents
+methodologies for calculating 
+transport needs and 
+transit supply 
+so as 
+to compare the two across geographic areas.
+However, such methodologies 
+do not appear to have often 
+been used again
 in further research, 
-to study other cases 
+such as to examine other cases 
 or time periods. 
 This may in part be because 
 applying an existing methodology 
 to another location or time period 
-may not generate sufficient 
+might not generate sufficient 
 'new' knowledge for publication, 
-or be more practice that research. 
+and so might be more an activity of 
+practitioner than researchers. 
 As well, describing a new methodology 
 in a research paper might only require 
 presentation of 
 enough results to demonstrate the concepts, 
 rather than widespread application to multiple 
 geographic contexts 
-and development of software tools to facilitate 
+and the development 
+of software tools to facilitate 
 broader use.  
 
 An example is provided by 
-the @Currie2003Hobart @Currie2004Gap, @Currie2007Identifying, @currie2010identifying
+the @Currie2003Hobart, 
+@Currie2004Gap, 
+@Currie2007Identifying, @currie2010identifying
 studies on spatial gaps between the social need for transport and the supplied transit levels. 
 This work presented a transit Supply Index (SI) 
 and compared it to measures of social need for transport, but it is unclear whether the 
