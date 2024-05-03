@@ -110,7 +110,7 @@ have been a focus of previous research^[See for example
 @Engels2011Social;
 @Pavkova2016; @Delbosc2011Using; 
 @Murray2001; @Currie2010Modeling;
-@Currie2007Investigating;
+@Currie2007Investigating; 
 @Currie2007Identifying;
 @Yigitcanlar2007;
 @Wu2003; 
@@ -142,32 +142,35 @@ have been a focus of previous research^[See for example
 @Jang2017Assessing.]. 
 Much of this presents
 methodologies for calculating 
-transport needs and 
+social needs and 
 transit supply 
 so as 
-to compare the two across geographic areas.
+to locate areas where
+people who most need 
+public transportation 
+are not getting it.
 However, such methodologies 
-do not appear to have often 
-been used again
-in further research, 
-such as to examine other cases 
-or time periods. 
+appear to only rarely be revisited, 
+reused or otherwise 
+applied to other cases 
+or time periods in subsequent research. 
 This may in part be because 
 applying an existing methodology 
 to another location or time period 
 might not generate sufficient 
 'new' knowledge for publication, 
-and so might be more an activity of 
-practitioner than researchers. 
+and/or be more an activity for 
+practitioners than for researchers. 
 As well, describing a new methodology 
 in a research paper might only require 
 presentation of 
 enough results to demonstrate the concepts, 
 rather than widespread application to multiple 
-geographic contexts 
-and the development 
+geographic contexts, 
+which might necessitate 
+the development 
 of software tools to facilitate 
-broader use.  
+broader usage.  
 
 An example is provided by 
 the @Currie2003Hobart, 
@@ -175,15 +178,18 @@ the @Currie2003Hobart,
 @Currie2007Identifying, @currie2010identifying
 studies on spatial gaps between the social need for transport and the supplied transit levels. 
 This work presented a transit Supply Index (SI) 
-and compared it to measures of social need for transport, but it is unclear whether the 
-problems relating to social needs and transit supply 
-identified this previous research 
+and compared it to measures of social need for transport across a few Australian cities.  
+But there does not appear to have been much further use 
+of this approach in research or practice. 
+It is unclear whether the 
+gaps identified in this previous research 
+have become narrower or being resolved 
 in the almost two decades since the original analysis. 
 Nor is it clear whether the identified spatial patterns 
-of transit need, supply and gap in these cities 
-are generalizable to other places 
-as the @currie2010identifying 
-approach does not appear to have been widely used since those studies.
+of transit need, supply and gaps 
+are generalizable to other places, 
+beyond Hobart [@Currie2003Hobart; @Currie2004Gap] 
+and Melbourne [@Currie2007Identifying; @currie2010identifying].  
 This is perhaps in part because
 at the time it was first published
 the data needed to calculate the
@@ -195,23 +201,20 @@ multiple operator databases and
 service frequency data 
 that had been manually extracted from 
 transit agency websites. 
-Similar studies in Hobart, Perth and
-elsewhere in Australia [@Currie2003Hobart @Currie2004Gap, @Currie2007Identifying, @currie2010identifying] 
-appear likely 
-to have required bespoke 
-data collection, cleaning and analysis 
-efforts, given that different oppoerators 
-used different scheduling software. 
-
-Nowadays, however, 
+To apply the methodology elsewhere 
+would appear likely to have required 
+a bespoke data collection, 
+cleaning and analysis effort. Nowadays, however, 
 the General Transit Feed Specification (GTFS)
-allows timetable data to be published in a standardized format, 
-with more than 10,000 agencies releasing data 
-this way [@GTFS]. Various tools for analysing GTFS data are now available,
+allows timetable data to be published in a standardized format. 
+More than 10,000 transit agencies release data 
+this way [@GTFS]. 
+
+Various tools for analysing GTFS data are now available,
 but there does not appear to have been 
 many developed to allow the analysis of 
 spatial gaps between the social need for transport and 
-the amount of transit that is supplied.  
+the amount of transit that is supplied. 
 While the previous literature provides a 
 wealth of methodologies, 
 the availability of tools 
@@ -220,17 +223,17 @@ practitioners
 and advocates to 
 use these 
 approaches with GTFS data 
-relativey easily 
-appears to be limited.  
+relatively easily 
+appears limited.  
 
-These gaps provide the motivation 
+This gap provides the motivation 
 for the research reported in this paper, 
 in which a new R package (gtfssupplyindex) 
 specifically developed to calculate SI scores 
 is presented. 
 The paper also reports results for Greater Melbourne in 2016 and 2021, 
 matching the most recent censuses 
-and allowing comparison to the 2006 result reported in  @currie2010identifying.  
+and allowing comparison to the 2006 result reported in  @currie2010identifying.
 Comparisons are also made to other parts of Australia, 
 so as to explore whether findings about Greater Melbourne are generalizable. 
 
@@ -252,11 +255,9 @@ many metrics
 available for benchmarking transit services. 
 Examples include those in: 
 the extensive Transit Cooperative Research Program (TCRP) Report 88 guidebook 
-on developing performance-measurement systems, 
-[@Ryus:2003aa]; 
+on developing performance-measurement systems [@Ryus:2003aa]; 
 and those used across
-benchmarking databases and programs  
-[@Florida-Transit-Information-System:2018aa; @UITP:2015aa; @Imperial-College-London:2023aa]; and
+benchmarking databases and programs [@Florida-Transit-Information-System:2018aa; @UITP:2015aa; @Imperial-College-London:2023aa].
 The Fielding Triangle [@FieldingGordonJ1987Mpts] 
 provides a framework 
 for combining indicators of 
@@ -289,7 +290,7 @@ and social equity
 for Latin American Bus Rapid Transit (BRT) networks; and 
 @Creutzig2020streetspaceallocation
 introduced street space allocation metrics 
-based around 10 ethical principles 
+based around 10 ethical principles. 
 
 However, 
 many of these, and other, transit metrics 
@@ -306,37 +307,28 @@ to independently generate scores
 so as to test proposed system changes, 
 or demonstrate impacts to politicans, 
 the general public or others. 
-
 Contrasting examples are provided by the metrics in the 
 Transit Capacity and Quality of Service Manual (TCQSM) 
-and the Transit Score metric, readily available on the @WalkScore:2023tg website, 
-A Transit Score is available for locations with a published GTFS feed, 
-eliminating the need for any calculations. 
+and the Transit Score metric [@WalkScore:2023tg]. 
+Transit Scores are readily available on the Transit Score website for locations with a published GTFS feed. 
 The meaning of these Transit Scores 
 also appears easy to explain, 
 with the highest possible score of 100 
-representing what might be experienced in the center of New York. 
+representing the sort of transit accessibility that might be xperienced in the center of New York. 
 However, 
 the Transit Score algorithm 
-is unpublished, 
-and effectively a black box. 
-It does not appear that Transit Scores can be calculated independently
+is a black box, 
+and cannot be calculated independently
 or generated 
 for proposed changes to networks. 
 In contrast, the TCQSM provides a wide range of metrics 
 for measuring different aspects of a transit system. 
 The TCQSM scores themselves appear easy to understand or explain, 
-ranging from A to F, 
-although the number of metrics is very large 
-and this might limit the practicality of using the TCQSM in practice 
-for communicating with non-technical audiences. 
-All of these can be calculated independently, given sufficient data, 
-and @Wong:2013aa provides an example reporting various TCQSM metrics 
-across 50 transit operators. 
-This analysis by @Wong:2013aa is made possible 
-by the availability of General Transit Feed Specification (GTFS) datasets 
-for each of the transit systems
-
+ranging from A (good) to F (bad), 
+and these can be calculated independently, given sufficient data. 
+@Wong:2013aa provides an example of what can be done 
+combining GTFS data with metrics that can be independently calculating, 
+reporting TCQSM scores across 50 transit operators. 
 
 The GTFS
 is an open, 
@@ -345,12 +337,11 @@ developed originally to allow transit
 to be included in the Google Maps navigation platform [@GTFS]. 
 Figure \@ref(fig:GTFS_ERD) shows 
 an Entity Relationship Diagram (ERD) 
-of the GTFS data structure, 
-indicatating how GTFS data 
+of the GTFS structure, 
+indicatating how data 
 is stored as a series of tables 
-(agency, routes, trips etc.)
-with primary and foreign keys (agency_id, route_id, trip_id etc.) 
-providing links.
+(agency, routes, trips etc.) 
+linked by primary and foreign keys (agency_id, route_id, trip_id etc.).
 While there are many software tools for 
 analyzing, visualizing or otherwise manipulating GTFS data, 
 one to calculate Transit Supply Index (SI) scores is not yet available.
@@ -389,42 +380,25 @@ knitr::include_graphics("graphics/Currie2010SI.png")
 
 ```
 
-
-Figure \ref{fig:Currie_map_SI} shows 
-a map of SI scores across Greater Melbourne in 2006, 
-which was included in @currie2010identifying. 
+@currie2010identifying reported SI scores across Greater Melbourne in 2006, as shown in 
+Figure \ref{fig:Currie_map_SI}.
 The general patterns appear to be 
-higher levels of transit supply closer to 
-the city's centre 
-and along passenger railway lines, 
-and outer areas with very low SI scores 
+higher levels of transit supply 
+in the middle and inner suburbs
+and along passenger railway lines. 
+Outer areas tend to have very low SI scores 
 or no transit supply at all. 
 
 ## Social need and needs gap
 
-@currie2010identifying also 
+As well as measuring transit supply, @currie2010identifying also 
 assessed the social need for transit 
 across Greater Melbourne using: 
 the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD); 
 a transport needs index derived by @currie2010identifying
 from eight weighted indicators; 
-and a combination of the two. 
-
-<!--The indicators used in the derived transport needs index were: 
-
-- Adults without cars (weight 0.19); 
-- Accessibility, being the distance from the Melbourne CBD (weight 0.15); 
-- Persons aged over 60 years (0.14); 
-- Persons on a disability pension (0.12); 
-- Low income households (0.10);
-- Adults not in the labour force (0.09); 
-- Students (0.09); and 
-- Persons 5-9 years old (0.12). 
-
-Data was sourced from census information, except for the accessibility variable and for the disability pension variable, which came from Centrelink, the federal government agency that manages income support payments.  
----->
-
-Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce a chart comparing transport needs and transit supply, and a map of areas with very high social needs but zero or very low transit supply. 
+and a combination of the two. Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce the resultant chart and map 
+combining needs and supply to identify gaps. 
 
 
 ```{r Currie_chart_gap, fig.cap = "Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -446,41 +420,45 @@ where low density development patterns
 make provision of transit more challenging. 
 @currie2010identifying found that 
 "(o)verall, 8.2% of Melbourne residents have ‘very high’ needs 
-but ‘zero’, ‘low’ or ‘very low’ public transport supply.", and
-suggested that this approach was 
+but ‘zero’, ‘low’ or ‘very low’ public transport supply."  
+They also suggested that 
+planning for transit service provision 
+using this approach would be
 "substantially more useful than the presentation of anecdotal evidence, 
 which is the most common means 
 of identifying transport needs 
 in local transport studies throughout the world."
-
 However, it doesn't appear that this approach has been widely adopted 
-in practice or academia.  
+in practice or academia. 
 Our suspicion is that while the SI has a relatively simple formula 
 and requires only geographic and timetable data, 
-the lack of a software tool to perform these calculations 
+the lack of a software tool to perform these calculations
 may be part of the reason 
 that it has not been more widely adopted 
 and why formal needs-supply-gap analysis may still be uncommon.  
 
-It is also unclear whether the patterns in Melbourne, 
+It is also unclear whether the patterns in Melbourne 
+identified in @currie2010identifying, 
 where areas with very high transport needs 
 but zero or very low transit supply 
 tend to be in outer areas serviced by buses, 
 are similar to patterns in other cities. 
 Nor is it clear whether the patterns in Melbourne itself have changed 
 since the 2006 analysis. 
-
-Developing a software tool, 
+Developing a software tool 
+to calculate SI tools from GTFS data, 
 and then using it to comparing current conditions and other locations 
 to the findings of @currie2010identifying, 
 therefore, is the primary aim of this paper.  
 
 
 # Methodology
-This study 
-developed a R programming language [@R-base] package 
-of tools for calculating the SI from GTFS data 
-@wickham2023r informed the package setup and 
+This study developed
+a package of tools 
+for calculating the SI from GTFS data 
+using the R programming language [@R-base].
+The recommendations of @wickham2023r 
+informed the package setup and 
 development approach. 
 Various existing packages 
 were relied upon including: 
@@ -488,6 +466,8 @@ the sf package [@R-sf] for geospatial analysis;
 the tidyverse [@tidyverse2019]; 
 gtfstools [@R-gtfstools]; and 
 tidytransit [@R-tidytransit]. 
+Australian Bureau of Statistics (ABS) data was also used, sourced via the strayr 
+and absmapsdata packages [@r-strayr].
 Some code was adapted from 
 examples, vignettes and other documentation 
 in these and other packages.
@@ -514,9 +494,9 @@ from the Australian Bureau of Statistics [@ABSmaps]
 as the areas of interest, and 
 included SA3 zones^[These are generally similar to Local Government Area (LGA) boundaries.]
 across the Greater Melbourne Greater Capital City 
-statistical area (main); 
+statistical area (Figure \@ref(Melbourne_map), left); 
 and SA1 zones^[SA1 zones are the smallest geographical areas 
-for which results are reported in the Australian census.] within 800 metres of the Mornington Penninsula railway (right). 
+for which results are reported in the Australian census.] within 800 metres of the Mornington Penninsula railway (Figure \@ref(Melbourne_map), right). 
   
 
 ```{r Melbourne_map, fig.cap = "Areas of interest",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -530,16 +510,10 @@ The Morning Peninsula Tourist Railway
 is in the outer south-east of Melbourne, 
 running on Sundays and Wednesdays 
 between Mornington and Moorooduc, 
-with an intermediate stop at Tanti Park 
-(see https://transitfeeds.com/p/mornington-railway/806/latest/stops). 
+with an intermediate stop at Tanti Park^[see https://transitfeeds.com/p/mornington-railway/806/latest/stops].
 A GTFS feed from 2018 
-was selected for the purposes of tests and demonstrating the code and output.
-Australian Bureau of Statistics (ABS) data was also used, 
-sources via the strayr 
-and absmapsdata packages [@r-strayr].
-The Mornington Peninsular Statistical Area 3 (SA3) zone 
-and the Statistical Area 1 (SA1) zones contained within it 
-were adopted as the areas of interest. 
+was selected for the purposes of tests,
+and for demonstrating the code and outputs reported here.
 
 ```{r mornington_calc, crop = TRUE, fig.cap = "SA1 zones (red), location of Mornington Tourist Railway Stations (black) and boundary of zones within 800m catchment (blue)", fig.width = 3, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 ### ---------------- get abs data for Mornington Peninsula
@@ -594,7 +568,7 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 ## Public Transport Victoria (PTV)
 The Victorian GTFS feed, 
 published by Public Transport Victoria (PTV) and 
-with historical feeds sourced via @transitfeeds_victoria:2023aa, was used for analysis of Victoria. SI scores were obtained for the weeks starting on the day of the census in 2016 and 2021, which were on Tuesday 9th and 10th of August respectively. 
+with historical feeds sourced via @transitfeeds_victoria:2023aa, was used for analysis of Greater Melbourne and Victoria. SI scores were obtained for the weeks starting on the day of the census in 2016 and 2021, which were on Tuesday 9th and 10th of August respectively. 
 
 ```{r fix_ptv_data_Victoria_230804, eval = FALSE, echo = FALSE}
 
@@ -1868,32 +1842,30 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 
 ```
 
-## Social disadvantage measurement approach   
-This paper adopts the same approach 
-to social disadvantage measurement as in @currie2010identifying. 
-
->>>>>>Continue from here>>>>>>
-
-
 # Results
 ## Code structure and functionality
 
 
-Developed code is available and documented on github [@gtfssupplyindex_github]. 
+Developed code is available and documented on github (see @gtfssupplyindex_github). 
 The structure of the package, 
 functions developed, 
-and data tables are shown in Figure \@ref(fig:SI_ERD). 
-This shows  
+and data tables are shown in Figure \@ref(fig:SI_ERD), 
+which indicates
 how the package takes input from three files: 
 a gtfs feed (gtfs.zip); 
-a sf object describing the geometry of the areas 
+a sf object 
+describing the geometry 
+of the areas of interest 
 for which the SI is to be calculated; and 
-a csv file (included in the package) 
+a csv file 
+(included in the package) 
 defining the buffer zone distances
-for each route type. The ultimate output 
-is a si_by_area_and_hour table (bottom-right), 
-which reports the SI score for each hour of the day 
-across dates specified by the user. 
+for each route type. 
+The ultimate output 
+is a si_by_area_and_hour table 
+(Figure \@ref(fig:SI_ERD), bottom-right), 
+which reports the SI score for each hour 
+of a day specified by the user. 
 
 
 ```{r SI_ERD, crop = TRUE, fig.cap = "Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
@@ -1901,15 +1873,20 @@ knitr::include_graphics("graphics/SI_data_structure.png")
 
 ```
 
-Various functions and their output 
+The various functions 
+included in the package 
+and their output 
 are explained in the following, 
-using the Mornington Peninsula GTFS for December 30th, 2018, 
-and SA1 zone boundaries as a worked example. 
-Individual steps are:
+using the Mornington Peninsula GTFS 
+as a worked example^[This paper itself 
+was prepared in Rmarkdown and is available at https://github.com/James-Reynolds/gtfssupplyindex_main_paper. 
+Code snippets used to produce the outputs 
+of the worked example can be viewed there.]
+Individual steps are as follows:
 
-(1) loading the gtfs.zip file: 
-the gtfs_by_route_type function loads the gtfs data 
-and splits it into a list (by route_type) of tidygtfs objects, 
+(1) The GTFS data is loaded using  
+the gtfs_by_route_type function 
+which also splits it into a list (by route_type) of tidygtfs objects, 
 using the filter_by_route_type function from the gtfstools package [@filter_GTFS_by_mode].
 
 ```{r load_mornington_GTFS data, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
@@ -1922,16 +1899,12 @@ list_gtfs = gtfssupplyindex:::gtfs_by_route_type(system.file(
 
 ```
 
-(2) loading geometry information about the areas of interest: 
-geographical data about the areas of interest are loaded 
-by the load_areas_of_interest.R function into an sf object, 
-using the sf package [@R-sf]. 
+(2) Geometry information about the areas of interest is loaded by the load_areas_of_interest
+function using the sf package [@R-sf]. 
 The resultant areas_of_interest table 
-contains each area_id and its associated geometry. 
-Data about buffer zones, 
-specifically the walking distance threshold assigned to each route_type (mode)
-is then loaded, 
-again through a function (load_buffer_zone.R).
+
+(3) The walking distance threshold assigned to each route_type (mode)
+is then loaded, using the load_buffer_zone function.
 
 ```{r load_ABS data, echo = FALSE, error = FALSE, include = FALSE, results='hide', warning=FALSE, message=FALSE, cache=TRUE, out.width='100%'}
 
@@ -1952,9 +1925,7 @@ buffer_distance <- gtfssupplyindex:::load_buffer_zones()
 #head(buffer_distance) %>% kable(caption = "First six entries in buffer distance definitions")
 ```
 
-(3) calculating which stops are within the catchment walking distance of which areas: 
-using the stops_in_walk_dist function. Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose)) shows how this function identified
-SA1 areas within the 800 metre catchment of the three Mornington stations.
+(4) Stops within the catchment walking distance of each area_of_interest are then identified using the stops_in_walk_dist function. Figure \@ref(fig:calculate_stop_in_or_near_areas_verbose) shows how this functions identifies the SA1 areas within the 800 metre catchment of all three of the Mornington stations.
 
 
 ```{r calculate_stop_in_or_near_areas_verbose, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width='100%', fig.keep = "first", crop = TRUE, fig.cap= "Step 3, stop catchments for the Mornington Penninsula Tourist Railway, showing intersections with SA1 zones"}
@@ -1967,13 +1938,16 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ```
 
-(4) Calculating SI scores for a given time period: 
-The si_calc.R function calculates the number of arrivals in a given time period, 
+(5) SI scores are calculated for a given time period using the si_calc function, 
+which first identifies the 
+number of arrivals in a given time period 
+at each stop 
 using code adapted from an article included in the tidytransit package
-[@tidytransit_departure_timetable],
-and combines this with the calculated area components. 
-The si_total.R and hourly.R functions provided aggregation, 
-giving the results mapped in Figure \@ref(fig:SI_mornington_20181230_output). 
+[@tidytransit_departure_timetable]. 
+The area terms of the SI value are calculated,
+with the si_total and hourly functions providing aggregation by area or by area and hour.
+Figure \@ref(fig:SI_mornington_20181230_output) shows the hourly output for the Mornington Peninsula Railway, 
+adopting December 30, 2018 as the date of analysis. 
 
 ```{r arrivals_mornington_20181230, echo = FALSE, eval=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 
@@ -2103,7 +2077,8 @@ ggplot() +
 
 
 
-## SI scores
+## SI scores 
+### Greater Melbourne 
 ```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2016 and 2021"}
 
 
@@ -2168,12 +2143,6 @@ si_by_area_2016_2021_sa3 <- si_by_area_2016_2021_wider_sa3 %>%
   )
 
 
-#si_by_area_2016_2021_sa3 %>% ggwithinstats( 
-#  x = Year, 
-#  y = SI,
-#  ) + 
-#  scale_y_continuous(trans = "log", breaks = c(1000, 10000, 100000, 1000000))
-
 
 si_by_area_2016_2021 <- left_join(
   absmapsdata::sa12021 %>% 
@@ -2221,7 +2190,7 @@ plot_2016_2021_difference_increase <- ggplot() +
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
-  scale_fill_distiller(palette = "Spectral", trans = "log10", direction = 1)
+  scale_fill_distiller(palette = "Greens", trans = "log10", direction = 1)
 
 plot_2016_2021_difference_decrease <- ggplot() + 
   geom_sf(data=(si_by_area_2016_2021_wider %>% na.omit() %>% filter(Difference < 0)),
@@ -2231,7 +2200,7 @@ plot_2016_2021_difference_decrease <- ggplot() +
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
   ) +
-  scale_fill_distiller(palette = "Spectral", trans = "log10", direction = -1)
+  scale_fill_distiller(palette = "Reds", trans = "log10", direction = 1)
 
 
 
@@ -2323,6 +2292,127 @@ plot_2016_2021_comparison
 
 ```
 
+Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for Greater Melbourne in 2016 and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that:
+
+- The Greater Melbourne Greater Capital City Statistical Area now covers a larger area than it did in 2006, with the northern boundary having shifted northwards by up to around 40 kilometres ^[See https://maps.abs.gov.au/?xmin=15884115.813179802&ymin=-4689558.173698483&xmax=16551869.692279067&ymax=-4397262.977535984&bottomlayer=ASGS2021:GCCSA&toplayer=ASGC2006:SD].
+- There are still many areas, typically in the outer parts of Melbourne, where there is very low or zero transit supply. 
+- A similar pattern of higher transit supply near railway lines is evident, but there appears to be more areas with above average or better service levels further out from the centre of the city.
+- In general, above average, high and very high service levels appear to be more spread out, especially into the middle suburbs. 
+- Comparing 2016 and 2021 suggests that the geographic spread of service levels has remained largely the same, albeit with some areas that had little to no transit service appearing to have new services 
+
+
+```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+
+si_by_area_2016_2021 <- si_by_area_2016_2021 %>%
+  st_drop_geometry()
+
+si_by_area_2016_2021 %>% 
+  ggwithinstats( 
+  x = Year, 
+  y = SI,
+  ) + 
+  scale_y_continuous(trans = "log", breaks = c(1000, 10000, 100000, 1000000))
+
+
+```
+
+```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+
+si_by_area_2016_2021 <- si_by_area_2016_2021 %>%
+  st_drop_geometry()
+
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>%
+  na.omit() %>%
+  ggscatterstats( 
+  x = "2016", 
+  y = "2021",
+  ) + 
+  scale_y_continuous(trans = "log", breaks = c(1000, 10000, 100000, 1000000))
+
+
+```
+
+
+
+
+
+```{r Greater_Melbourne_2016_2021_change_in_bin, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, change in level between 2016 and 2021"}
+
+si_by_area_2016_2021$SI_binned_numeric <- si_by_area_2016_2021$SI_binned %>%
+  fct_recode("Very low" = "1", 
+             "Low" = "2", 
+             "Below median" = "3", 
+             "Above meidan" = "4", 
+             "High" = "5", 
+             "Very high" = "6") %>%
+  as.numeric()
+
+
+
+si_by_area_2016_2021 <- si_by_area_2016_2021 %>% mutate(SI_binned_numeric = ifelse(is.na(SI_binned_numeric), 0, SI_binned_numeric))
+
+
+si_by_area_2016_2021_bins_wider <- si_by_area_2016_2021 %>% 
+  select(sa1_code_2021, Year, SI_binned_numeric) %>% 
+  pivot_wider(
+    names_from = "Year",
+    values_from = "SI_binned_numeric"
+  )
+
+si_by_area_2016_2021_bins_wider$SI_bin_numeric_change <- 
+  si_by_area_2016_2021_bins_wider$`2021` -
+  si_by_area_2016_2021_bins_wider$`2016`
+  
+si_by_area_2016_2021_bins_wider$SI_bin_numeric_change %>%
+  tabyl() %>%
+  adorn_totals("row") %>%
+  adorn_pct_formatting() %>%
+    kable(caption = "Change is SI score level, frequency distribution")
+
+  
+```
+
+
+```{r Greater_Melbourne_2016_2021_change_in_bin, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, change in level between 2016 and 2021"}
+
+si_by_area_2016_2021_bins_wider <- left_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne"),
+  si_by_area_2016_2021_bins_wider)
+
+ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021_bins_wider,
+          aes(fill = SI_bin_numeric_change), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") +
+  scale_fill_distiller(palette = "RdBu", direction = 1)
+  
+ggplot() + 
+  geom_sf(data=(si_by_area_2016_2021_wider),
+          aes(fill = Difference), lwd=0) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  ) +
+  scale_fill_distiller(palette = "RdBu", direction = 1)
+
+
+```
+
+
+
+
+```{r Greater_Melbourne_2016_2021_increases_decreases, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, changes between 2016 and 2021, raw scores"}
+
+plot_2016_2021_difference_increase 
+plot_2016_2021_difference_decrease 
+
+```
 
 
 

@@ -124,8 +124,8 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Spatial distribution of transport disadvantage, gaps in transit supply
-and accessibility, and related issues have been addressed in much
+The spatial distribution of transport disadvantage, gaps in transit
+supply and accessibility, and related issues have been a focus of
 previous research\footnote{See for example \citet{Ricciardi2015}
   \citet{Currie2003Hobart}; \citet{currie2010identifying};
   \citet{Fransen2015Identifying}; \citet{Guzman2017Assessing};
@@ -148,60 +148,61 @@ previous research\footnote{See for example \citet{Ricciardi2015}
   \citet{Engels2011Social}; \citet{Litman2002Evaluation};
   \citet{Parolin2017Identifying}; \citet{Xia2016AMulti};
   \citet{Welch2013AMeasure}; \citet{Jang2017Assessing}.}. Much of this
-literature persents methods for calculating transport need and transit
-supply, and then comparing the two across some geographic area. However,
-such methodologies rarely appear to have been used again, in further
-research, to study other cases or time periods. This may in part be
-because applying an existing methodology to another location or time
-period may not generate sufficient `new' knowledge for publication, or
-be more practice that research. As well, describing a new methodology in
-a research paper might only require presentation of enough results to
-demonstrate the concepts, rather than widespread application to multiple
-geographic contexts and development of software tools to facilitate
-broader use.
+presents methodologies for calculating social needs and transit supply
+so as to locate areas where people who most need public transportation
+are not getting it. However, such methodologies appear to only rarely be
+revisited, reused or otherwise applied to other cases or time periods in
+subsequent research. This may in part be because applying an existing
+methodology to another location or time period might not generate
+sufficient `new' knowledge for publication, and/or be more an activity
+for practitioners than for researchers. As well, describing a new
+methodology in a research paper might only require presentation of
+enough results to demonstrate the concepts, rather than widespread
+application to multiple geographic contexts, which might necessitate the
+development of software tools to facilitate broader usage.
 
-An example is provided by the \citet{Currie2003Hobart}
+An example is provided by the \citet{Currie2003Hobart},
 \citet{Currie2004Gap}, \citet{Currie2007Identifying},
 \citet{currie2010identifying} studies on spatial gaps between the social
 need for transport and the supplied transit levels. This work presented
 a transit Supply Index (SI) and compared it to measures of social need
-for transport, but it is unclear whether the problems relating to social
-needs and transit supply identified this previous research in the almost
-two decades since the original analysis. Nor is it clear whether the
-identified spatial patterns of transit need, supply and gap in these
-cities are generalizable to other places as the
-\citet{currie2010identifying} approach does not appear to have been
-widely used since those studies. This is perhaps in part because at the
-time it was first published the data needed to calculate the transit
-Supply Index (SI) for a particular location was not typically readily
-available. The \citet{currie2010identifying} analysis of Melbourne was
-based on combining multiple operator databases and service frequency
-data that had been manually extracted from transit agency websites.
-Similar studies in Hobart, Perth and elsewhere in Australia \citep[
-\citet{Currie2004Gap}, \citet{Currie2007Identifying},
-\citet{currie2010identifying}]{Currie2003Hobart} appear likely to have
-required bespoke data collection, cleaning and analysis efforts, given
-that different oppoerators used different scheduling software.
+for transport across a few Australian cities.\\
+But there does not appear to have been much further use of this approach
+in research or practice. It is unclear whether the gaps identified in
+this previous research have become narrower or being resolved in the
+almost two decades since the original analysis. Nor is it clear whether
+the identified spatial patterns of transit need, supply and gaps are
+generalizable to other places, beyond Hobart
+\citep{Currie2003Hobart, Currie2004Gap} and Melbourne
+\citep{Currie2007Identifying, currie2010identifying}.\\
+This is perhaps in part because at the time it was first published the
+data needed to calculate the transit Supply Index (SI) for a particular
+location was not typically readily available. The
+\citet{currie2010identifying} analysis of Melbourne was based on
+combining multiple operator databases and service frequency data that
+had been manually extracted from transit agency websites. To apply the
+methodology elsewhere would appear likely to have required a bespoke
+data collection, cleaning and analysis effort. Nowadays, however, the
+General Transit Feed Specification (GTFS) allows timetable data to be
+published in a standardized format. More than 10,000 transit agencies
+release data this way \citep{GTFS}.
 
-Nowadays, however, the General Transit Feed Specification (GTFS) allows
-timetable data to be published in a standardized format, with more than
-10,000 agencies releasing data this way \citep{GTFS}. Various tools for
-analysing GTFS data are now available, but there does not appear to have
-been many developed to allow the analysis of spatial gaps between the
-social need for transport and the amount of transit that is supplied.\\
-While the previous literature provides a wealth of methodologies, the
-availability of tools that might be used by researchers, practitioners
-and advocates to use these approaches with GTFS data relativey easily
-appears to be limited.
+Various tools for analysing GTFS data are now available, but there does
+not appear to have been many developed to allow the analysis of spatial
+gaps between the social need for transport and the amount of transit
+that is supplied. While the previous literature provides a wealth of
+methodologies, the availability of tools that might be used by
+researchers, practitioners and advocates to use these approaches with
+GTFS data relatively easily appears limited.
 
-These gaps provide the motivation for the research reported in this
+This gap provides the motivation for the research reported in this
 paper, in which a new R package (gtfssupplyindex) specifically developed
 to calculate SI scores is presented. The paper also reports results for
 Greater Melbourne in 2016 and 2021, matching the most recent censuses
 and allowing comparison to the 2006 result reported in
-\citet{currie2010identifying}.\\
-Comparisons are also made to other parts of Australia, so as to explore
-whether findings about Greater Melbourne are generalizable.
+\citet{currie2010identifying}. Comparisons are also made to other parts
+of Australia, so as to explore whether findings about Greater Melbourne
+are generalizable.
 
 The remainder of this paper is structured as follows: the next section
 outlines the background to this research, including the formulation of
@@ -220,10 +221,10 @@ A brief conclusion is provided in Section 6.
 Even a brief search reveals many metrics available for benchmarking
 transit services. Examples include those in: the extensive Transit
 Cooperative Research Program (TCRP) Report 88 guidebook on developing
-performance-measurement systems, \citep{Ryus:2003aa}; and those used
-across benchmarking databases and programs\\
-\citep{Florida-Transit-Information-System:2018aa, UITP:2015aa, Imperial-College-London:2023aa};
-and The Fielding Triangle \citep{FieldingGordonJ1987Mpts} provides a
+performance-measurement systems \citep{Ryus:2003aa}; and those used
+across benchmarking databases and programs
+\citep{Florida-Transit-Information-System:2018aa, UITP:2015aa, Imperial-College-London:2023aa}.
+The Fielding Triangle \citep{FieldingGordonJ1987Mpts} provides a
 framework for combining indicators of service inputs, outputs and
 consumption to describe cost efficiency, cost effectiveness and service
 effectiveness. More broadly: \citet{Litman:2003ab} and
@@ -237,7 +238,7 @@ prioritization; \citet{GuzmanLuisA.2017Aeit}, developed a measure of
 accessibility in the context of policy development and social equity for
 Latin American Bus Rapid Transit (BRT) networks; and
 \citet{Creutzig2020streetspaceallocation} introduced street space
-allocation metrics based around 10 ethical principles
+allocation metrics based around 10 ethical principles.
 
 However, many of these, and other, transit metrics may be difficult to
 calculate, and/or complex to explain or understand, especially for those
@@ -245,39 +246,33 @@ who are not planners, engineers or other technical specialists. Where
 pre-calculated metrics are immediately available it may not be possible
 for practitioners, researchers or advocates to independently generate
 scores so as to test proposed system changes, or demonstrate impacts to
-politicans, the general public or others.
-
-Contrasting examples are provided by the metrics in the Transit Capacity
-and Quality of Service Manual (TCQSM) and the Transit Score metric,
-readily available on the \citet{WalkScore:2023tg} website, A Transit
-Score is available for locations with a published GTFS feed, eliminating
-the need for any calculations. The meaning of these Transit Scores also
-appears easy to explain, with the highest possible score of 100
-representing what might be experienced in the center of New York.
-However, the Transit Score algorithm is unpublished, and effectively a
-black box. It does not appear that Transit Scores can be calculated
-independently or generated for proposed changes to networks. In
-contrast, the TCQSM provides a wide range of metrics for measuring
-different aspects of a transit system. The TCQSM scores themselves
-appear easy to understand or explain, ranging from A to F, although the
-number of metrics is very large and this might limit the practicality of
-using the TCQSM in practice for communicating with non-technical
-audiences. All of these can be calculated independently, given
-sufficient data, and \citet{Wong:2013aa} provides an example reporting
-various TCQSM metrics across 50 transit operators. This analysis by
-\citet{Wong:2013aa} is made possible by the availability of General
-Transit Feed Specification (GTFS) datasets for each of the transit
-systems
+politicans, the general public or others. Contrasting examples are
+provided by the metrics in the Transit Capacity and Quality of Service
+Manual (TCQSM) and the Transit Score metric \citep{WalkScore:2023tg}.
+Transit Scores are readily available on the Transit Score website for
+locations with a published GTFS feed. The meaning of these Transit
+Scores also appears easy to explain, with the highest possible score of
+100 representing the sort of transit accessibility that might be
+xperienced in the center of New York. However, the Transit Score
+algorithm is a black box, and cannot be calculated independently or
+generated for proposed changes to networks. In contrast, the TCQSM
+provides a wide range of metrics for measuring different aspects of a
+transit system. The TCQSM scores themselves appear easy to understand or
+explain, ranging from A (good) to F (bad), and these can be calculated
+independently, given sufficient data. \citet{Wong:2013aa} provides an
+example of what can be done combining GTFS data with metrics that can be
+independently calculating, reporting TCQSM scores across 50 transit
+operators.
 
 The GTFS is an open, text-based format, developed originally to allow
 transit to be included in the Google Maps navigation platform
 \citep{GTFS}. Figure @ref(fig:GTFS\_ERD) shows an Entity Relationship
-Diagram (ERD) of the GTFS data structure, indicatating how GTFS data is
-stored as a series of tables (agency, routes, trips etc.) with primary
-and foreign keys (agency\_id, route\_id, trip\_id etc.) providing links.
-While there are many software tools for analyzing, visualizing or
-otherwise manipulating GTFS data, one to calculate Transit Supply Index
-(SI) scores is not yet available.
+Diagram (ERD) of the GTFS structure, indicatating how data is stored as
+a series of tables (agency, routes, trips etc.) linked by primary and
+foreign keys (agency\_id, route\_id, trip\_id etc.). While there are
+many software tools for analyzing, visualizing or otherwise manipulating
+GTFS data, one to calculate Transit Supply Index (SI) scores is not yet
+available.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/GTFS} \caption{GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).}\label{fig:GTFS_ERD}
@@ -313,25 +308,23 @@ where:
 \includegraphics[width=1\linewidth]{graphics/Currie2010SI} \caption{Distribution of supply measure scores – Metropolitan Melbourne (2006), Source: Currie (2010)}\label{fig:Currie_map_SI}
 \end{figure}
 
-Figure \ref{fig:Currie_map_SI} shows a map of SI scores across Greater
-Melbourne in 2006, which was included in \citet{currie2010identifying}.
-The general patterns appear to be higher levels of transit supply closer
-to the city's centre and along passenger railway lines, and outer areas
-with very low SI scores or no transit supply at all.
+\citet{currie2010identifying} reported SI scores across Greater
+Melbourne in 2006, as shown in Figure \ref{fig:Currie_map_SI}. The
+general patterns appear to be higher levels of transit supply in the
+middle and inner suburbs and along passenger railway lines. Outer areas
+tend to have very low SI scores or no transit supply at all.
 
 \hypertarget{social-need-and-needs-gap}{%
 \subsection{Social need and needs gap}\label{social-need-and-needs-gap}}
 
-\citet{currie2010identifying} also assessed the social need for transit
-across Greater Melbourne using: the Australian Bureaus of Statistics'
-Index of Related Socio-Economic Advantage/Disadvantage (IRSAD); a
-transport needs index derived by \citet{currie2010identifying} from
-eight weighted indicators; and a combination of the two.
-
-Figures \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap}
-reproduce a chart comparing transport needs and transit supply, and a
-map of areas with very high social needs but zero or very low transit
-supply.
+As well as measuring transit supply, \citet{currie2010identifying} also
+assessed the social need for transit across Greater Melbourne using: the
+Australian Bureaus of Statistics' Index of Related Socio-Economic
+Advantage/Disadvantage (IRSAD); a transport needs index derived by
+\citet{currie2010identifying} from eight weighted indicators; and a
+combination of the two. Figures \ref{fig:Currie_chart_gap} and
+\ref{fig:Currie_map_gap} reproduce the resultant chart and map combining
+needs and supply to identify gaps.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/Currie2010chart} \caption{Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)}\label{fig:Currie_chart_gap}
@@ -345,41 +338,41 @@ The results indicated service gaps of concern, especially in outer parts
 of Melbourne where low density development patterns make provision of
 transit more challenging. \citet{currie2010identifying} found that
 ``(o)verall, 8.2\% of Melbourne residents have `very high' needs but
-`zero', `low' or `very low' public transport supply.'', and suggested
-that this approach was ``substantially more useful than the presentation
+`zero', `low' or `very low' public transport supply.''\\
+They also suggested that planning for transit service provision using
+this approach would be ``substantially more useful than the presentation
 of anecdotal evidence, which is the most common means of identifying
 transport needs in local transport studies throughout the world.''
-
 However, it doesn't appear that this approach has been widely adopted in
-practice or academia.\\
-Our suspicion is that while the SI has a relatively simple formula and
-requires only geographic and timetable data, the lack of a software tool
-to perform these calculations may be part of the reason that it has not
-been more widely adopted and why formal needs-supply-gap analysis may
-still be uncommon.
+practice or academia. Our suspicion is that while the SI has a
+relatively simple formula and requires only geographic and timetable
+data, the lack of a software tool to perform these calculations may be
+part of the reason that it has not been more widely adopted and why
+formal needs-supply-gap analysis may still be uncommon.
 
-It is also unclear whether the patterns in Melbourne, where areas with
-very high transport needs but zero or very low transit supply tend to be
-in outer areas serviced by buses, are similar to patterns in other
-cities. Nor is it clear whether the patterns in Melbourne itself have
-changed since the 2006 analysis.
-
-Developing a software tool, and then using it to comparing current
-conditions and other locations to the findings of
-\citet{currie2010identifying}, therefore, is the primary aim of this
-paper.
+It is also unclear whether the patterns in Melbourne identified in
+\citet{currie2010identifying}, where areas with very high transport
+needs but zero or very low transit supply tend to be in outer areas
+serviced by buses, are similar to patterns in other cities. Nor is it
+clear whether the patterns in Melbourne itself have changed since the
+2006 analysis. Developing a software tool to calculate SI tools from
+GTFS data, and then using it to comparing current conditions and other
+locations to the findings of \citet{currie2010identifying}, therefore,
+is the primary aim of this paper.
 
 \hypertarget{methodology}{%
 \section{Methodology}\label{methodology}}
 
-This study developed a R programming language \citep{R-base} package of
-tools for calculating the SI from GTFS data \citet{wickham2023r}
-informed the package setup and development approach. Various existing
-packages were relied upon including: the sf package \citep{R-sf} for
-geospatial analysis; the tidyverse \citep{tidyverse2019}; gtfstools
-\citep{R-gtfstools}; and tidytransit \citep{R-tidytransit}. Some code
-was adapted from examples, vignettes and other documentation in these
-and other packages.
+This study developed a package of tools for calculating the SI from GTFS
+data using the R programming language \citep{R-base}. The
+recommendations of \citet{wickham2023r} informed the package setup and
+development approach. Various existing packages were relied upon
+including: the sf package \citep{R-sf} for geospatial analysis; the
+tidyverse \citep{tidyverse2019}; gtfstools \citep{R-gtfstools}; and
+tidytransit \citep{R-tidytransit}. Australian Bureau of Statistics (ABS)
+data was also used, sourced via the strayr and absmapsdata packages
+\citep{r-strayr}. Some code was adapted from examples, vignettes and
+other documentation in these and other packages.
 
 Two cases were used during the code development and testing, such that
 results might be generated for real GTFS data: the Mornington Peninsula
@@ -397,10 +390,10 @@ Area (SA) zones were adopted from the Australian Bureau of Statistics
 \citep{ABSmaps} as the areas of interest, and included SA3
 zones\footnote{These are generally similar to Local Government Area
   (LGA) boundaries.} across the Greater Melbourne Greater Capital City
-statistical area (main); and SA1 zones\footnote{SA1 zones are the
-  smallest geographical areas for which results are reported in the
-  Australian census.} within 800 metres of the Mornington Penninsula
-railway (right).
+statistical area (Figure @ref(Melbourne\_map), left); and SA1
+zones\footnote{SA1 zones are the smallest geographical areas for which
+  results are reported in the Australian census.} within 800 metres of
+the Mornington Penninsula railway (Figure @ref(Melbourne\_map), right).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/all_maps} \caption{Areas of interest}\label{fig:Melbourne_map}
@@ -412,14 +405,10 @@ Railway}\label{mornington-penninsula-tourist-railway}}
 
 The Morning Peninsula Tourist Railway is in the outer south-east of
 Melbourne, running on Sundays and Wednesdays between Mornington and
-Moorooduc, with an intermediate stop at Tanti Park (see
-https://transitfeeds.com/p/mornington-railway/806/latest/stops). A GTFS
-feed from 2018 was selected for the purposes of tests and demonstrating
-the code and output. Australian Bureau of Statistics (ABS) data was also
-used, sources via the strayr and absmapsdata packages \citep{r-strayr}.
-The Mornington Peninsular Statistical Area 3 (SA3) zone and the
-Statistical Area 1 (SA1) zones contained within it were adopted as the
-areas of interest.
+Moorooduc, with an intermediate stop at Tanti Park\footnote{see
+  https://transitfeeds.com/p/mornington-railway/806/latest/stops}. A
+GTFS feed from 2018 was selected for the purposes of tests, and for
+demonstrating the code and outputs reported here.
 
 \hypertarget{public-transport-victoria-ptv}{%
 \subsection{Public Transport Victoria
@@ -427,32 +416,10 @@ areas of interest.
 
 The Victorian GTFS feed, published by Public Transport Victoria (PTV)
 and with historical feeds sourced via
-\citet{transitfeeds_victoria:2023aa}, was used for analysis of Victoria.
-SI scores were obtained for the weeks starting on the day of the census
-in 2016 and 2021, which were on Tuesday 9th and 10th of August
-respectively.
-
-\hypertarget{social-disadvantage-measurement-approach}{%
-\subsection{Social disadvantage measurement
-approach}\label{social-disadvantage-measurement-approach}}
-
-This paper adopts the same approach to social disadvantage measurement
-as in \citet{currie2010identifying}.
-
-\begin{quote}
-\begin{quote}
-\begin{quote}
-\begin{quote}
-\begin{quote}
-\begin{quote}
-Continue from
-here\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{}
-\end{quote}
-\end{quote}
-\end{quote}
-\end{quote}
-\end{quote}
-\end{quote}
+\citet{transitfeeds_victoria:2023aa}, was used for analysis of Greater
+Melbourne and Victoria. SI scores were obtained for the weeks starting
+on the day of the census in 2016 and 2021, which were on Tuesday 9th and
+10th of August respectively.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -461,24 +428,28 @@ here\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{}
 \subsection{Code structure and
 functionality}\label{code-structure-and-functionality}}
 
-Developed code is available and documented on github
-\citep{gtfssupplyindex_github}. The structure of the package, functions
-developed, and data tables are shown in Figure @ref(fig:SI\_ERD). This
-shows\\
-how the package takes input from three files: a gtfs feed (gtfs.zip); a
-sf object describing the geometry of the areas for which the SI is to be
-calculated; and a csv file (included in the package) defining the buffer
-zone distances for each route type. The ultimate output is a
-si\_by\_area\_and\_hour table (bottom-right), which reports the SI score
-for each hour of the day across dates specified by the user.
+Developed code is available and documented on github (see
+\citet{gtfssupplyindex_github}). The structure of the package, functions
+developed, and data tables are shown in Figure @ref(fig:SI\_ERD), which
+indicates how the package takes input from three files: a gtfs feed
+(gtfs.zip); a sf object describing the geometry of the areas of interest
+for which the SI is to be calculated; and a csv file (included in the
+package) defining the buffer zone distances for each route type. The
+ultimate output is a si\_by\_area\_and\_hour table (Figure
+@ref(fig:SI\_ERD), bottom-right), which reports the SI score for each
+hour of a day specified by the user.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{graphics/SI_data_structure} \caption{Entity Relationship Diagram (ERD) showing the data structure and functions related to the gtfssupplyindex package}\label{fig:SI_ERD}
 \end{figure}
 
-Various functions and their output are explained in the following, using
-the Mornington Peninsula GTFS for December 30th, 2018, and SA1 zone
-boundaries as a worked example. Individual steps are:
+The various functions included in the package and their output are
+explained in the following, using the Mornington Peninsula GTFS as a
+worked example\footnote{This paper itself was prepared in Rmarkdown and
+  is available at
+  https://github.com/James-Reynolds/gtfssupplyindex\_main\_paper. Code
+  snippets used to produce the outputs of the worked example can be
+  viewed there.} Individual steps are:
 
 \begin{enumerate}
 \def\labelenumi{(\arabic{enumi})}
@@ -490,12 +461,12 @@ boundaries as a worked example. Individual steps are:
 \item
   loading geometry information about the areas of interest: geographical
   data about the areas of interest are loaded by the
-  load\_areas\_of\_interest.R function into an sf object, using the sf
+  load\_areas\_of\_interest function into an sf object, using the sf
   package \citep{R-sf}. The resultant areas\_of\_interest table contains
   each area\_id and its associated geometry. Data about buffer zones,
   specifically the walking distance threshold assigned to each
-  route\_type (mode) is then loaded, again through a function
-  (load\_buffer\_zone.R).
+  route\_type (mode) is then loaded, again through another function
+  (load\_buffer\_zone).
 \item
   calculating which stops are within the catchment walking distance of
   which areas: using the stops\_in\_walk\_dist function. Figure
