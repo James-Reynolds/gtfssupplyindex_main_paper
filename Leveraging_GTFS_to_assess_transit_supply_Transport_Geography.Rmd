@@ -88,6 +88,7 @@ library(DescTools)
 library(RColorBrewer)
 library(lsr)
 library(ggpubr)
+library(viridis)
 
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
@@ -98,62 +99,29 @@ library(ggpubr)
 
 # Introduction
 
-The spatial distribution 
-of transport disadvantage, 
-gaps in transit supply and 
-accessibility, and related issues 
-have been a focus of previous research^[See for example
-@Ricciardi2015
-@Currie2003Hobart; @currie2010identifying; @Fransen2015Identifying;
-@Guzman2017Assessing; @Jaramillo2012; @Preston2007; @Delbosc2011Transportproblems; 
-@Delbosc2011Thespatial; 
-@Engels2011Social;
-@Pavkova2016; @Delbosc2011Using; 
-@Murray2001; @Currie2010Modeling;
-@Currie2007Investigating; 
-@Currie2007Identifying;
-@Yigitcanlar2007;
-@Wu2003; 
-@Currie2013Exploring;
-@Preston2007Accessibility;
-@Hurni2005; 
-@Mamun2011; 
-@El_geneidy2016;
-@Kaplan2014;
-@Martens2012;
-@Lucas2016AMethod;
-@Liu2012Accessibility;
-@Lucas2012Transport_and_social;
-@Lei2010Mapping;
-@Mavoa2012GIS;
-@Delmelle2012Evaluating;
-@Foth2014Toward; 
-@Welch2013Equity; 
-@Bell2007Travel;
-@Jaramillob2011Urban;
-@Guzman2017Assessing; 
-@Wee2011Discussing;
-@Currie2004Gap;
-@Engels2011Social; 
-@Litman2002Evaluation;
-@Parolin2017Identifying;
-@Xia2016AMulti;
-@Welch2013AMeasure;
-@Jang2017Assessing.]. 
-Much of this presents
-methodologies for calculating 
-social needs and 
-transit supply 
-so as 
-to locate areas where
-people who most need 
-public transportation 
-are not getting it.
-However, such methodologies 
-appear to only rarely be revisited, 
-reused or otherwise 
-applied to other cases 
-or time periods in subsequent research. 
+@Currie2003Hobart, 
+@Currie2004Gap, 
+@Currie2007Identifying 
+and @currie2010identifying
+explored
+spatial gaps between the social need for transport 
+and what transit is supplied. 
+This work presented a transit Supply Index (SI) 
+and compared it to 
+measures of social need for transport 
+across a few Australian cities.  
+
+However, in almost two decades since the SI was developed
+there does not appear to have been much further use 
+of this approach. 
+It is unclear whether
+gaps between social needs and transit supply 
+have increased or reduced. 
+Nor is it clear whether the spatial patterns 
+identified in Hobart [@Currie2003Hobart; @Currie2004Gap] 
+and Melbourne [@Currie2007Identifying; @currie2010identifying],
+are similar in other places
+ 
 This may in part be because 
 applying an existing methodology 
 to another location or time period 
@@ -161,55 +129,15 @@ might not generate sufficient
 'new' knowledge for publication, 
 and/or be more an activity for 
 practitioners than for researchers. 
-As well, describing a new methodology 
-in a research paper might only require 
-presentation of 
-enough results to demonstrate the concepts, 
-rather than widespread application to multiple 
-geographic contexts, 
-which might necessitate 
-the development 
-of software tools to facilitate 
-broader usage.  
-
-An example is provided by 
-the @Currie2003Hobart, 
-@Currie2004Gap, 
-@Currie2007Identifying, @currie2010identifying
-studies on spatial gaps between the social need for transport and the supplied transit levels. 
-This work presented a transit Supply Index (SI) 
-and compared it to measures of social need for transport across a few Australian cities.  
-But there does not appear to have been much further use 
-of this approach in research or practice. 
-It is unclear whether the 
-gaps identified in this previous research 
-have become narrower or being resolved 
-in the almost two decades since the original analysis. 
-Nor is it clear whether the identified spatial patterns 
-of transit need, supply and gaps 
-are generalizable to other places, 
-beyond Hobart [@Currie2003Hobart; @Currie2004Gap] 
-and Melbourne [@Currie2007Identifying; @currie2010identifying].  
-This is perhaps in part because
-at the time it was first published
-the data needed to calculate the
-transit Supply Index (SI) for a particular location 
-was not typically readily available.
-The @currie2010identifying 
-analysis of Melbourne was based on combining 
-multiple operator databases and
-service frequency data 
-that had been manually extracted from 
-transit agency websites. 
-To apply the methodology elsewhere 
+As well, at the time applying such methodologies elsewhere 
 would appear likely to have required 
 a bespoke data collection, 
-cleaning and analysis effort. Nowadays, however, 
+cleaning and analysis effort. 
+Nowadays, however, 
 the General Transit Feed Specification (GTFS)
 allows timetable data to be published in a standardized format. 
 More than 10,000 transit agencies release data 
 this way [@GTFS]. 
-
 Various tools for analysing GTFS data are now available,
 but there does not appear to have been 
 many developed to allow the analysis of 
@@ -233,7 +161,8 @@ specifically developed to calculate SI scores
 is presented. 
 The paper also reports results for Greater Melbourne in 2016 and 2021, 
 matching the most recent censuses 
-and allowing comparison to the 2006 result reported in  @currie2010identifying.
+and allowing comparison 
+to the 2006 result reported in @currie2010identifying.
 Comparisons are also made to other parts of Australia, 
 so as to explore whether findings about Greater Melbourne are generalizable. 
 
@@ -397,13 +326,15 @@ across Greater Melbourne using:
 the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD); 
 a transport needs index derived by @currie2010identifying
 from eight weighted indicators; 
-and a combination of the two. Figures  \ref{fig:Currie_chart_gap} and \ref{fig:Currie_map_gap} reproduce the resultant chart and map 
-combining needs and supply to identify gaps. 
+and a combination of the two. Figure  \ref{fig:Currie_map_gap} 
+reproduces the resultant map 
+identifying areas with very high transport needs, 
+but very low or no transit supply. 
 
 
 ```{r Currie_chart_gap, fig.cap = "Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
-knitr::include_graphics("graphics/Currie2010chart.png")
+#knitr::include_graphics("graphics/Currie2010chart.png")
 
 ```
 
@@ -414,7 +345,8 @@ knitr::include_graphics("graphics/Currie2010gap.png")
 
 ```
 
-The results indicated service gaps of concern, 
+The results indicated various areas 
+where service gaps might be of concern, 
 especially in outer parts of Melbourne 
 where low density development patterns 
 make provision of transit more challenging. 
@@ -2079,7 +2011,7 @@ ggplot() +
 
 ## SI scores 
 ### Greater Melbourne 
-```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2016 and 2021"}
+```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
 
 
 ###2021
@@ -2182,58 +2114,6 @@ si_by_area_2016_2021_wider <- left_join(
   
 
 
-plot_2016_2021_difference_increase <- ggplot() + 
-  geom_sf(data=(si_by_area_2016_2021_wider %>% na.omit() %>% filter(Difference > 0)),
-          aes(fill = Difference), lwd=0) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Greens", trans = "log10", direction = 1)
-
-plot_2016_2021_difference_decrease <- ggplot() + 
-  geom_sf(data=(si_by_area_2016_2021_wider %>% na.omit() %>% filter(Difference < 0)),
-          aes(fill = -Difference), lwd=0) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Reds", trans = "log10", direction = 1)
-
-
-
-
-plot_2016_2021_percent_difference_less_than_2x <- ggplot() + 
-  geom_sf(data=(si_by_area_2016_2021_wider %>% na.omit() %>% filter(`2016` != 0) %>% filter(`Percent Difference` < 2)),
-          aes(fill = `Percent Difference`), lwd=0) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Spectral", direction = 1, labels = scales::percent_format())
-
-
-
-plot_2016_2021_percent_difference_more_than_2x <- ggplot() + 
-  geom_sf(data=(si_by_area_2016_2021_wider %>% na.omit() %>% filter(`2016` != 0) %>% filter(`Percent Difference` >= 2)),
-          aes(fill = `Percent Difference`), lwd=0) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Spectral", direction = 1, labels = scales::percent_format())
-
-
-#plot_2016_2021_comparison 
-#plot_2016_2021_difference_increase 
-#plot_2016_2021_difference_decrease 
-#plot_2016_2021_percent_difference_less_than_2x 
-#plot_2016_2021_percent_difference_more_than_2x
-
 
 cuts <- si_by_area_2016_2021 %>% 
   st_drop_geometry() %>% 
@@ -2286,9 +2166,24 @@ plot_2016_2021_comparison <- ggplot()+
         axis.ticks.y=element_blank(),
         legend.position="bottom") + #remove y axis ticks
   scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+
+plot_2021 <- ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021 %>% 
+            filter(Year == 2021) %>% 
+            na.omit(),
+          aes(fill = SI_binned), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+      
       
             
-plot_2016_2021_comparison
+#plot_2016_2021_comparison
+plot_2021
+
 
 ```
 
@@ -2297,122 +2192,75 @@ Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for G
 - The Greater Melbourne Greater Capital City Statistical Area now covers a larger area than it did in 2006, with the northern boundary having shifted northwards by up to around 40 kilometres ^[See https://maps.abs.gov.au/?xmin=15884115.813179802&ymin=-4689558.173698483&xmax=16551869.692279067&ymax=-4397262.977535984&bottomlayer=ASGS2021:GCCSA&toplayer=ASGC2006:SD].
 - There are still many areas, typically in the outer parts of Melbourne, where there is very low or zero transit supply. 
 - A similar pattern of higher transit supply near railway lines is evident, but there appears to be more areas with above average or better service levels further out from the centre of the city.
-- In general, above average, high and very high service levels appear to be more spread out, especially into the middle suburbs. 
-- Comparing 2016 and 2021 suggests that the geographic spread of service levels has remained largely the same, albeit with some areas that had little to no transit service appearing to have new services 
+- In general, above average, high and very high service levels appear to be more spread out, especially into the middle suburbs.
+
+Comparing 2016 and 2021 suggests that the geographic spread of service levels has remained largely the same, albeit with some areas that had little to no transit service appearing to have new services.
 
 
-```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+```{r Greater_Melbourne_2016_2021_year_SI, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
 si_by_area_2016_2021 <- si_by_area_2016_2021 %>%
   st_drop_geometry()
 
 si_by_area_2016_2021 %>% 
   ggwithinstats( 
-  x = Year, 
-  y = SI,
-  ) + 
-  scale_y_continuous(trans = "log", breaks = c(1000, 10000, 100000, 1000000))
+ x = Year, 
+  y = SI, 
+ type = "nonparametric"
+  ) 
+#+   
+#  scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000))
+
+
+si_by_area_2016_2021 %>% 
+  select(SI, Year) %>% 
+  tbl_summary(
+    by = Year,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c(
+      "{mean} ({sd})", 
+      "{median} ({p25},{p75})", 
+      "{min}, {max}"
+    ), 
+    missing = "no"
+  ) %>% 
+  kable()
+
 
 
 ```
 
-```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
-si_by_area_2016_2021 <- si_by_area_2016_2021 %>%
-  st_drop_geometry()
+Figure \ref{fig:Greater_Melbourne_2016_2021_year_SI} compares SI scores 
+for Greater Melbourne across 2016 and 2021. 
+Results indicate a statistically significant difference, 
+but there does not appear to have been much change 
+across median, mean, interquartile range or overall range (See table) 
+
+
+```{r Greater_Melbourne_2016_2021_scatterplot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
 si_by_area_2016_2021_wider %>% 
   st_drop_geometry() %>%
-  na.omit() %>%
+  na.omit() %>% 
   ggscatterstats( 
   x = "2016", 
-  y = "2021",
-  ) + 
-  scale_y_continuous(trans = "log", breaks = c(1000, 10000, 100000, 1000000))
-
-
-```
-
-
-
-
-
-```{r Greater_Melbourne_2016_2021_change_in_bin, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, change in level between 2016 and 2021"}
-
-si_by_area_2016_2021$SI_binned_numeric <- si_by_area_2016_2021$SI_binned %>%
-  fct_recode("Very low" = "1", 
-             "Low" = "2", 
-             "Below median" = "3", 
-             "Above meidan" = "4", 
-             "High" = "5", 
-             "Very high" = "6") %>%
-  as.numeric()
-
-
-
-si_by_area_2016_2021 <- si_by_area_2016_2021 %>% mutate(SI_binned_numeric = ifelse(is.na(SI_binned_numeric), 0, SI_binned_numeric))
-
-
-si_by_area_2016_2021_bins_wider <- si_by_area_2016_2021 %>% 
-  select(sa1_code_2021, Year, SI_binned_numeric) %>% 
-  pivot_wider(
-    names_from = "Year",
-    values_from = "SI_binned_numeric"
-  )
-
-si_by_area_2016_2021_bins_wider$SI_bin_numeric_change <- 
-  si_by_area_2016_2021_bins_wider$`2021` -
-  si_by_area_2016_2021_bins_wider$`2016`
-  
-si_by_area_2016_2021_bins_wider$SI_bin_numeric_change %>%
-  tabyl() %>%
-  adorn_totals("row") %>%
-  adorn_pct_formatting() %>%
-    kable(caption = "Change is SI score level, frequency distribution")
-
-  
-```
-
-
-```{r Greater_Melbourne_2016_2021_change_in_bin, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, change in level between 2016 and 2021"}
-
-si_by_area_2016_2021_bins_wider <- left_join(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne"),
-  si_by_area_2016_2021_bins_wider)
-
-ggplot()+ 
-  geom_sf(data=si_by_area_2016_2021_bins_wider,
-          aes(fill = SI_bin_numeric_change), colour=NA) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(),
-        legend.position="bottom") +
-  scale_fill_distiller(palette = "RdBu", direction = 1)
-  
-ggplot() + 
-  geom_sf(data=(si_by_area_2016_2021_wider),
-          aes(fill = Difference), lwd=0) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "RdBu", direction = 1)
-
+  y = "2021", 
+  type = "nonparametric",
+  ) 
+#+   
+#  scale_x_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
+#  scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000))
 
 ```
 
 
+Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} compares the 2016 and 2021
+SI scores for SA1 zones across Greater Melbourne. 
+Results indicate a statistically significant relationship, 
+and for most SA1 zones it appears that SI scores have remained largely the same in 2021 as they were in 2016. 
+Of interest, however, may be a group of SA1s that had SI scores  in the range of 3-4,000 in 2016, but only around 2,500 in 2021.  
 
-
-```{r Greater_Melbourne_2016_2021_increases_decreases, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores, changes between 2016 and 2021, raw scores"}
-
-plot_2016_2021_difference_increase 
-plot_2016_2021_difference_decrease 
-
-```
 
 
 
