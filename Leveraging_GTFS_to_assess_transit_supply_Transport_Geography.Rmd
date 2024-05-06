@@ -1774,6 +1774,584 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 
 ```
 
+
+## Australian Capital Territory 
+
+
+```{r run_for_all_modes_ACT_bus_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+act_160803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/act_160803/gtfs.zip")
+
+list_gtfs = act_160803_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Australian Capital Territory") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/Action_buses/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_ACT_bus_2021_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+act_210701_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/act_210701/gtfs.zip")
+
+list_gtfs = act_210701_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Australian Capital Territory") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/Action_buses/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+```{r run_for_all_modes_ACT_LRT_2021_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+clr_210709_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/clr_210709/gtfs.zip")
+
+list_gtfs = clr_2107091_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Australian Capital Territory") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/Canberra_Light_Rail/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+## Adelaide
+
+
+
+```{r run_for_all_modes_Adelaide_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+ade_160802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ade_160802/gtfs.zip")
+
+list_gtfs = ade_160802_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "South Australia") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/Adelaide/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_Adelaide_2021_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+ade_210716_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ade_210716/gtfs.zip")
+
+list_gtfs = ade_210716_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "South Australia") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/Adelaide/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+## Metro Tasmania Burnie
+
+
+
+```{r run_for_all_modes_Tassie_Burnie_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+metro_tas_burnie_160620_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_burnie_160620/gtfs.zip")
+
+list_gtfs = metro_tas_burnie_160620_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/metro_tas_burnie/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_Tassie_Burnie_2021_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+metro_tas_burnie_210601_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_burnie_210601/gtfs.zip")
+
+list_gtfs = metro_tas_burnie_210601_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/metro_tas_burnie/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+
+## Metro Tasmania Hobart
+
+
+
+```{r run_for_all_modes_Tassie_Hobart_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+metro_tas_hobart_160713_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_hobart_160713/gtfs.zip")
+
+list_gtfs = metro_tas_burnie_160620_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/metro_tas_hobart/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_Tassie_Hobart_2021_census_day, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+metro_tas_hobart_210726_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_hobart_210726/gtfs.zip")
+
+list_gtfs = metro_tas_hobart_210726_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/metro_tas_hobart/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+## Metro Tasmania Launceston
+
+
+
+```{r run_for_all_modes_Tassie_Launceston_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+metro_tas_launceston_160620_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_launceston_160620/gtfs.zip")
+
+list_gtfs = metro_tas_launceston_160620_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/metro_tas_launceston_160620/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_Tassie_Launceston_2021_census_day, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+metro_tas_launceston_210726_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_launceston_210726/gtfs.zip")
+
+list_gtfs = metro_tas_launceston_210726_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Tasmania") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/metro_tas_launceston/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+## Translink South East Queensland
+
+
+
+```{r run_for_all_modes_SEQ_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+translink_seq_160808_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_160808/gtfs.zip")
+
+list_gtfs = translink_seq_160808_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Queensland") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/translink_seq/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_SEQ_2021_census_day, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+translink_seq_210806_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_launceston_210726/gtfs.zip")
+
+list_gtfs = translink_seq_210806_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Queensland") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/translink_seq_210806/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+## Transperth
+
+
+
+```{r run_for_all_modes_Perth_2016_census_day, eval = TRUE, echo = FALSE}
+
+
+
+## convert to list of tidygtfs objects
+transperth_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_160804/gtfs.zip")
+
+list_gtfs = transperth_160804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Queensland") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_160809 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2016-08-09",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_160809, "results/transperth/si_by_SA12021area_and_hour_160809")
+
+
+```
+
+
+```{r run_for_all_modes_transperth_2021_census_day, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+transperth_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_210805/gtfs.zip")
+
+list_gtfs = transperth_210805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(absmapsdata::sa12021 %>% 
+                                              filter(state_name_2021 == "Queensland") %>%
+                                              select(sa1_code_2021),  
+                                            area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_by_area_and_hour_210810 <- hourly(
+  list_gtfs = list_gtfs, 
+  stops_in_or_near_areas = stops_in_or_near_areas, 
+  date_ymd = "2021-08-10",
+  verbose = TRUE)
+
+write.csv(si_by_area_and_hour_210810, "results/transperth_210805/si_by_SA12021area_and_hour_210810")
+
+
+```
+
+
+
+
+
+
+
 # Results
 ## Code structure and functionality
 
