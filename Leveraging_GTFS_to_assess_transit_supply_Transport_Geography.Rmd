@@ -1778,7 +1778,7 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 ## Australian Capital Territory 
 
 
-```{r run_for_all_modes_ACT_bus_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_ACT_bus_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -1814,7 +1814,7 @@ write.csv(si_by_area_and_hour_160809, "results/Action_buses/si_by_SA12021area_an
 ```
 
 
-```{r run_for_all_modes_ACT_bus_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_ACT_bus_2021_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -1851,7 +1851,7 @@ write.csv(si_by_area_and_hour_210810, "results/Action_buses/si_by_SA12021area_an
 
 
 
-```{r run_for_all_modes_ACT_LRT_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_ACT_LRT_2021_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -1892,7 +1892,7 @@ write.csv(si_by_area_and_hour_210810, "results/Canberra_Light_Rail/si_by_SA12021
 
 
 
-```{r run_for_all_modes_Adelaide_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Adelaide_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -1928,7 +1928,7 @@ write.csv(si_by_area_and_hour_160809, "results/Adelaide/si_by_SA12021area_and_ho
 ```
 
 
-```{r run_for_all_modes_Adelaide_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Adelaide_2021_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -1970,7 +1970,7 @@ write.csv(si_by_area_and_hour_210810, "results/Adelaide/si_by_SA12021area_and_ho
 
 
 
-```{r run_for_all_modes_Tassie_Burnie_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Burnie_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2006,7 +2006,7 @@ write.csv(si_by_area_and_hour_160809, "results/metro_tas_burnie/si_by_SA12021are
 ```
 
 
-```{r run_for_all_modes_Tassie_Burnie_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Burnie_2021_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2049,7 +2049,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_burnie/si_by_SA12021are
 
 
 
-```{r run_for_all_modes_Tassie_Hobart_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Hobart_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2085,7 +2085,7 @@ write.csv(si_by_area_and_hour_160809, "results/metro_tas_hobart/si_by_SA12021are
 ```
 
 
-```{r run_for_all_modes_Tassie_Hobart_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Hobart_2021_census_day, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 metro_tas_hobart_210726_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_hobart_210726/gtfs.zip")
@@ -2125,7 +2125,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_hobart/si_by_SA12021are
 
 
 
-```{r run_for_all_modes_Tassie_Launceston_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Launceston_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2161,7 +2161,7 @@ write.csv(si_by_area_and_hour_160809, "results/metro_tas_launceston_160620/si_by
 ```
 
 
-```{r run_for_all_modes_Tassie_Launceston_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Tassie_Launceston_2021_census_day, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 metro_tas_launceston_210726_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_launceston_210726/gtfs.zip")
@@ -2201,7 +2201,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_launceston/si_by_SA1202
 
 
 
-```{r run_for_all_modes_SEQ_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_SEQ_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2237,7 +2237,7 @@ write.csv(si_by_area_and_hour_160809, "results/translink_seq/si_by_SA12021area_a
 ```
 
 
-```{r run_for_all_modes_SEQ_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_SEQ_2021_census_day, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 translink_seq_210806_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metro_tas_launceston_210726/gtfs.zip")
@@ -2277,7 +2277,7 @@ write.csv(si_by_area_and_hour_210810, "results/translink_seq_210806/si_by_SA1202
 
 
 
-```{r run_for_all_modes_Perth_2016_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Perth_2016_census_day, eval = FALSE, echo = FALSE}
 
 
 
@@ -2313,7 +2313,7 @@ write.csv(si_by_area_and_hour_160809, "results/transperth/si_by_SA12021area_and_
 ```
 
 
-```{r run_for_all_modes_transperth_2021_census_day, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_transperth_2021_census_day, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 transperth_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_210805/gtfs.zip")
@@ -2839,11 +2839,19 @@ Results indicate a statistically significant relationship,
 and for most SA1 zones it appears that SI scores have remained largely the same in 2021 as they were in 2016. 
 Of interest, however, may be a group of SA1s that had SI scores  in the range of 3-4,000 in 2016, but only around 2,500 in 2021.  
 
+  
 
 
+### IRSAD
 
-### IMRAD
+```{r read_IRSA, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
+sa1_irsad_2021 <- read_excel("data/Statistical Area Level 1, Indexes, SEIFA 2021.xlsx", 
+    sheet = "Table 3", skip = 5)
+
+sa1_irsad_2021 <- sa1_irsad_2021 %>% filter(row_number() <= n()-3)
+
+```
 
 
 ## Comparing cases
