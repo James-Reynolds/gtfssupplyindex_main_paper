@@ -79,6 +79,7 @@ library(lubridate)
 library(kableExtra)
 library(knitr)
 library(readxl)
+library(readr)
 library(dplyr)
 library(devtools)
 library(gtfssupplyindex)
@@ -89,6 +90,8 @@ library(RColorBrewer)
 library(lsr)
 library(ggpubr)
 library(viridis)
+library(geosphere)
+
 
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
@@ -385,6 +388,8 @@ therefore, is the primary aim of this paper.
 
 
 # Methodology
+
+## Transit Supply Index
 This study developed
 a package of tools 
 for calculating the SI from GTFS data 
@@ -436,7 +441,8 @@ for which results are reported in the Australian census.] within 800 metres of t
 knitr::include_graphics("graphics/all_maps.png")
 
 ```
-## Mornington Penninsula Tourist Railway
+
+### Mornington Penninsula Tourist Railway
 
 The Morning Peninsula Tourist Railway 
 is in the outer south-east of Melbourne, 
@@ -497,7 +503,7 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 
 ```
 
-## Public Transport Victoria (PTV)
+### Public Transport Victoria (PTV)
 The Victorian GTFS feed, 
 published by Public Transport Victoria (PTV) and 
 with historical feeds sourced via @transitfeeds_victoria:2023aa, was used for analysis of Greater Melbourne and Victoria. SI scores were obtained for the weeks starting on the day of the census in 2016 and 2021, which were on Tuesday 9th and 10th of August respectively. 
@@ -1775,7 +1781,7 @@ write.csv(si_by_area_and_hour_150811_bus, "results/Greater_Melbourne/si_by_SA120
 ```
 
 
-## Australian Capital Territory 
+### Australian Capital Territory 
 
 
 ```{r run_for_all_modes_ACT_bus_2016_census_day, eval = FALSE, echo = FALSE}
@@ -1888,7 +1894,7 @@ write.csv(si_by_area_and_hour_210810, "results/Canberra_Light_Rail/si_by_SA12021
 
 
 
-## Adelaide
+### Adelaide
 
 
 
@@ -1966,7 +1972,7 @@ write.csv(si_by_area_and_hour_210810, "results/Adelaide/si_by_SA12021area_and_ho
 
 
 
-## Metro Tasmania Burnie
+### Metro Tasmania Burnie
 
 
 
@@ -2045,7 +2051,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_burnie/si_by_SA12021are
 
 
 
-## Metro Tasmania Hobart
+### Metro Tasmania Hobart
 
 
 
@@ -2121,7 +2127,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_hobart/si_by_SA12021are
 
 
 
-## Metro Tasmania Launceston
+### Metro Tasmania Launceston
 
 
 
@@ -2197,7 +2203,7 @@ write.csv(si_by_area_and_hour_210810, "results/metro_tas_launceston/si_by_SA1202
 
 
 
-## Translink South East Queensland
+### Translink South East Queensland
 
 
 
@@ -2273,7 +2279,7 @@ write.csv(si_by_area_and_hour_210810, "results/translink_seq_210806/si_by_SA1202
 
 
 
-## Transperth
+### Transperth
 
 
 
@@ -2348,8 +2354,168 @@ write.csv(si_by_area_and_hour_210810, "results/transperth_210805/si_by_SA12021ar
 
 
 
+## Measuring social disadvantage
+This study adopts the same approach to measuring social disadvantage 
+as @currie2010identifying, 
+using: the Australian Bureau of Statistics Index of Relative Socio-Economic
+Advantage/Disadvantage (IRSAD); and
+a transport needs index, which included the same need indicators and weightings 
+as used in @currie2010identifying^[Indicators: Adults without cars (weighting 0.19); accessibility (distance to Central Buisness District, 0.15); persons aged over 60 years (0.14); persons on a disability pension (0.12); low income families (0.10); adults not in the labour force (0.09); students (0.09); and persons aged 5-9 years (0.12). Data was extracted from the 2021 census, including the disability pension data which is now available through the ABS rather than Centrelink. A income of $799 or lower per week was adopted as the  threshold for low income households, based on updating the $499 figure used in @currie2010identifying to account for inflation, using the Reserve Bank of Australia's online inflation calculator. Note also that the 2021 census reported low-income families rather than households, as was used in @currie2010identifying.]
+
+```{r read_ABS_data, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+
+#read IRSAD 2021 and remove non-data rows
+sa1_irsad_2021 <- read_excel("data/Statistical Area Level 1, Indexes, SEIFA 2021.xlsx", 
+    sheet = "Table 3", skip = 5)
+sa1_irsad_2021 <- sa1_irsad_2021 %>% filter(row_number() <= n()-3)
+sa1_irsad_2021 <- sa1_irsad_2021 %>% 
+  clean_names()
+
+#read students 2021 and remove non-data rows
+sa1_students_2021 <- read_csv("data/sa1_students.csv", 
+    skip = 8)
+sa1_students_2021 <- sa1_students_2021[-1,]
+sa1_students_2021 <- sa1_students_2021 %>% filter(row_number() <= n()-5)
+
+#read not in labour force in 2021 and remove non-data rows
+#this dataset contains a single 'wafer', 
+# being those people not in the labour force, separated by age and sa1
+sa1_not_in_labour_force_2021 <- read_csv("data/sa1_not_in_labour_force_2021.csv", 
+    skip = 10)
+sa1_not_in_labour_force_2021 <- sa1_not_in_labour_force_2021[-1,]
+sa1_not_in_labour_force_2021 <- sa1_not_in_labour_force_2021 %>% filter(row_number() <= n()-5)
+#calculate number of adults not in labour force (ie 18+)
+sa1_not_in_labour_force_2021$adult_not_labour_force <- rowSums (sa1_not_in_labour_force_2021[,20:117])
+  
 
 
+
+#read no car in 2021 and remove non-data rows
+#this dataset contains a single 'wafer', 
+# being those people living in a household with no car, separated by age and sa1
+sa1_no_car_2021 <- read_csv("data/sa1_no_car_2021.csv", 
+    skip = 8)
+sa1_no_car_2021 <- sa1_no_car_2021[-1,]
+sa1_no_car_2021 <- sa1_no_car_2021 %>% filter(row_number() <= n()-5)
+#calculate number of adults with no car (ie 18+)
+sa1_no_car_2021$adult_no_car <- rowSums(sa1_no_car_2021[,20:117])
+
+
+#read low income in 2021 and remove non-data rows
+sa1_low_income_2021 <- read_csv("data/sa1_low_income.csv", 
+    skip = 8)
+sa1_low_income_2021 <- sa1_low_income_2021[-1,]
+sa1_low_income_2021 <- sa1_low_income_2021 %>% filter(row_number() <= n()-5)
+
+#read disability support pension in 2021 and remove non-data rows
+sa1_disability_support_pension_2021 <- read_csv("data/sa1_disability_2021.csv", 
+    skip = 8)
+sa1_disability_support_pension_2021 <- sa1_disability_support_pension_2021[-1,]
+sa1_disability_support_pension_2021 <- sa1_disability_support_pension_2021 %>% filter(row_number() <= n()-5)
+
+
+
+
+#read age in 2021 and remove non-data rows
+sa1_age_2021 <- read_csv("data/sa1_age.csv", 
+    skip = 8)
+sa1_age_2021 <- sa1_age_2021[-1,]
+sa1_age_2021 <- sa1_age_2021 %>% filter(row_number() <= n()-5)
+
+#calculate number of people over 60.
+sa1_age_2021$over_60 <- rowSums(sa1_age_2021[,63:117])
+
+#calculate number of persons 5 to 9 years old.
+sa1_age_2021$persons_5_to_9 <- rowSums(sa1_age_2021[,7:11]) 
+#move age-related indicators into social indicators table. 
+social_2021_sa1 <- sa1_age_2021 %>% 
+  select(`AGEP Age`, over_60, persons_5_to_9)
+names(social_2021_sa1) <- c("sa1_code_2021", "over_60", "five_to_nine")
+
+#join Adults without Cars
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_no_car_2021 %>% 
+                               select("AGEP Age", "adult_no_car"), 
+                             by = join_by( "sa1_code_2021" == "AGEP Age"))
+
+#join disability pension 
+sa1_disability_support_pension_2021 <-  sa1_disability_support_pension_2021 %>% 
+  clean_names()
+  
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_disability_support_pension_2021 %>% 
+                               select(
+                                 "igap_main_type_of_personal_government_benefit_payment_administrative_data", 
+                                      "disability_support_pension"),
+                             by = join_by(
+                               "sa1_code_2021" == "igap_main_type_of_personal_government_benefit_payment_administrative_data"))
+
+
+
+#join low income households
+sa1_low_income_2021$low_income_families <- rowSums(sa1_low_income_2021[,2:9])
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_low_income_2021 %>% 
+                               select("FINASF Total Family Income as Stated (weekly)", "low_income_families"), 
+                             by = join_by( "sa1_code_2021" == "FINASF Total Family Income as Stated (weekly)"))
+
+
+#join adults not in labour force
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_not_in_labour_force_2021 %>% 
+                               select("AGEP Age", "adult_not_labour_force"), 
+                             by = join_by( "sa1_code_2021" == "AGEP Age"))
+
+#join students
+sa1_students_2021$students <- sa1_students_2021$Total
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_students_2021 %>% 
+                               select("STUP Full-Time/Part-Time Student Status", "students"), 
+                             by = join_by( "sa1_code_2021" == "STUP Full-Time/Part-Time Student Status"))
+
+#join IRSAD scores
+sa1_irsad_2021$x2021_statistical_area_level_1_sa1 <- sa1_irsad_2021$x2021_statistical_area_level_1_sa1 %>% 
+  as.character()
+names(sa1_irsad_2021) <- c("sa1_code_2021", 
+                           "usual_resident_population",
+                           "ISRAD", 
+                           "x4", 
+                           "rank_in_australia", 
+                           "decile_in_australia",
+                           "percentile_in_australia", 
+                           "x8", 
+                           "state", 
+                           "rank_in_state",
+                           "decile_in_state",
+                           "percentile_in_state")
+
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_irsad_2021 %>% 
+                               select("sa1_code_2021", "ISRAD"))
+
+
+#join SA1 enumerated population
+social_2021_sa1 <- full_join(social_2021_sa1, 
+                             sa1_age_2021 %>% 
+                               select("AGEP Age", "Total"), 
+                             by = join_by( "sa1_code_2021" == "AGEP Age"))
+
+names(social_2021_sa1) <- c("sa1_code_2021", 
+                            "over_60", "age_five_to_nine", 
+                            "adult_no_car", 
+                            "disability_support_pension",
+                            "low_income_families",
+                            "adult_not_labour_force",
+                            "students", 
+                            "ISRAD", 
+                            "population")
+
+##Rescaling to 0-100 and adding the accessibility indicator needs to be done on a areas_of_interest by areas_of_interest bias, as which areas are included will matter. 
+
+```
+
+This study also adopts the same approach as @currie2010identifying 
+for deriving a single combined indicator of social need, based combining the ABS' IRSAD and the transport needs index^[See @currie2010identifying, page 34]. However, @currie2010identifying included indexes weighted for both total population within each area of interest, and for relative need based on the proportion of the population within each social need component group. Currently, however, ABS census data is not available to a level such that the number of people in a SA1 zone who are within at least one social need component group can be identified. As such, only a total need IRSAD index and a total transport need index are computed in this study for each SA1 zone, which were then added and standardised as per the @currie2010identifying approach.  
 
 
 # Results
@@ -2587,8 +2753,9 @@ ggplot() +
 
 
 
-## SI scores 
-### Greater Melbourne 
+## Greater Melbourne 
+
+### SI scores
 ```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
 
 
@@ -2839,17 +3006,111 @@ Results indicate a statistically significant relationship,
 and for most SA1 zones it appears that SI scores have remained largely the same in 2021 as they were in 2016. 
 Of interest, however, may be a group of SA1s that had SI scores  in the range of 3-4,000 in 2016, but only around 2,500 in 2021.  
 
+### Social needs
+
+```{r Greater_Melbourne_2021_social_needs, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
+
+#join to sa1 data, including lat and long of each sa1
+social_2021_sa1_greater_melbourne <- left_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021, sa3_name_2021, cent_lat, cent_long) %>%
+    st_drop_geometry(),
+  social_2021_sa1 
+)
+
+# from https://stackoverflow.com/questions/36817423/how-to-efficiently-calculate-distance-between-pair-of-coordinates-using-data-tab/42014364#42014364
+dt.haversine <- function(lat_from, lon_from, lat_to, lon_to, r = 6378137){
+  radians <- pi/180
+  lat_to <- lat_to * radians
+  lat_from <- lat_from * radians
+  lon_to <- lon_to * radians
+  lon_from <- lon_from * radians
+  dLat <- (lat_to - lat_from)
+  dLon <- (lon_to - lon_from)
+  a <- (sin(dLat/2)^2) + (cos(lat_from) * cos(lat_to)) * (sin(dLon/2)^2)
+  return(2 * atan2(sqrt(a), sqrt(1 - a)) * r)
+}
+
+social_2021_sa1_greater_melbourne$distance_m_to_GPO <- 
+ dt.haversine(-37.813840, 
+              144.963028,
+              social_2021_sa1_greater_melbourne$cent_lat,
+              social_2021_sa1_greater_melbourne$cent_long)
+
+
+
+
+
+cuts <- social_2021_sa1_greater_melbourne %>% 
+  st_drop_geometry() %>% 
+  filter(SI != 0) %>% 
+  select(SI) %>% 
+  unlist()  %>% 
+  as.vector() %>% 
+  quantileCut(6)
+
+
+cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
+  unique() %>% 
+  as.numeric() %>% 
+  sort()
   
+ si_by_area_2016_2021$SI_binned <- ifelse(
+   si_by_area_2016_2021$SI == 0, NA, ifelse(
+     si_by_area_2016_2021$SI < cuts[1], "Very low", ifelse(
+       si_by_area_2016_2021$SI < cuts[2], "Low", ifelse(
+         si_by_area_2016_2021$SI < cuts[3], "Below median", ifelse(
+           si_by_area_2016_2021$SI < cuts[4], "Above median", ifelse(
+             si_by_area_2016_2021$SI < cuts[5], "High", ifelse(
+               si_by_area_2016_2021$SI >= cuts[5], "Very high", NA)
+             )
+           )
+         )
+       )
+     )
+   ) 
+
+si_by_area_2016_2021$SI_binned <- factor(si_by_area_2016_2021$SI_binned, 
+                                         levels = c(
+                                           "Zero", 
+                                           "Very low", 
+                                           "Low", 
+                                           "Below median",
+                                           "Above median", 
+                                           "High", 
+                                           "Very high"
+                                         ))
 
 
-### IRSAD
+plot_2016_2021_comparison <- ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
+          aes(fill = SI_binned), colour=NA) +
+  facet_wrap(vars(Year), nrow = 1) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
 
-```{r read_IRSA, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+plot_2021 <- ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021 %>% 
+            filter(Year == 2021) %>% 
+            na.omit(),
+          aes(fill = SI_binned), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+      
+      
+            
+#plot_2016_2021_comparison
+plot_2021
 
-sa1_irsad_2021 <- read_excel("data/Statistical Area Level 1, Indexes, SEIFA 2021.xlsx", 
-    sheet = "Table 3", skip = 5)
-
-sa1_irsad_2021 <- sa1_irsad_2021 %>% filter(row_number() <= n()-3)
 
 ```
 
@@ -2858,10 +3119,6 @@ sa1_irsad_2021 <- sa1_irsad_2021 %>% filter(row_number() <= n()-3)
 
 
 ### Population and equality
-
-## Purpose of transit in the city's transport policy
-
-## Indexes and comparing cities
 
 
 # Discussion
