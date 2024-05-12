@@ -121,8 +121,7 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
   
  \end{frontmatter}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
 \citet{Currie2003Hobart}, \citet{Currie2004Gap},
 \citet{Currie2007Identifying} and \citet{currie2010identifying} explored
@@ -172,11 +171,9 @@ results in Section 4. Section 5 discusses the results and the
 limitations of this study, and outlines directions for future research.
 A brief conclusion is provided in Section 6.
 
-\hypertarget{background}{%
-\section{Background}\label{background}}
+\section{Background}\label{background}
 
-\hypertarget{transit-metrics}{%
-\subsection{Transit metrics}\label{transit-metrics}}
+\subsection{Transit metrics}\label{transit-metrics}
 
 Even a brief search reveals many metrics available for benchmarking
 transit services. Examples include those in: the extensive Transit
@@ -238,8 +235,7 @@ available.
 \includegraphics[width=1\linewidth]{graphics/GTFS} \caption{GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).}\label{fig:GTFS_ERD}
 \end{figure}
 
-\hypertarget{the-transit-suppy-index}{%
-\subsection{The Transit Suppy Index}\label{the-transit-suppy-index}}
+\subsection{The Transit Suppy Index}\label{the-transit-suppy-index}
 
 A generalized form of the SI equation, adapted from
 \citet{currie2010identifying}, is:
@@ -274,8 +270,7 @@ general patterns appear to be higher levels of transit supply in the
 middle and inner suburbs and along passenger railway lines. Outer areas
 tend to have very low SI scores or no transit supply at all.
 
-\hypertarget{social-need-and-needs-gap}{%
-\subsection{Social need and needs gap}\label{social-need-and-needs-gap}}
+\subsection{Social need and needs gap}\label{social-need-and-needs-gap}
 
 As well as measuring transit supply, \citet{currie2010identifying} also
 assessed the social need for transit across Greater Melbourne using: the
@@ -317,8 +312,7 @@ GTFS data, and then using it to comparing current conditions and other
 locations to the findings of \citet{currie2010identifying}, therefore,
 is the primary aim of this paper.
 
-\hypertarget{methodology}{%
-\section{Methodology}\label{methodology}}
+\section{Methodology}\label{methodology}
 
 This study developed a package of tools for calculating the SI from GTFS
 data using the R programming language \citep{R-base}. The
@@ -356,9 +350,8 @@ the Mornington Penninsula railway (Figure @ref(Melbourne\_map), right).
 \includegraphics[width=1\linewidth]{graphics/all_maps} \caption{Areas of interest}\label{fig:Melbourne_map}
 \end{figure}
 
-\hypertarget{mornington-penninsula-tourist-railway}{%
 \subsection{Mornington Penninsula Tourist
-Railway}\label{mornington-penninsula-tourist-railway}}
+Railway}\label{mornington-penninsula-tourist-railway}
 
 The Morning Peninsula Tourist Railway is in the outer south-east of
 Melbourne, running on Sundays and Wednesdays between Mornington and
@@ -367,9 +360,8 @@ Moorooduc, with an intermediate stop at Tanti Park\footnote{see
 GTFS feed from 2018 was selected for the purposes of tests, and for
 demonstrating the code and outputs reported here.
 
-\hypertarget{public-transport-victoria-ptv}{%
 \subsection{Public Transport Victoria
-(PTV)}\label{public-transport-victoria-ptv}}
+(PTV)}\label{public-transport-victoria-ptv}
 
 The Victorian GTFS feed, published by Public Transport Victoria (PTV)
 and with historical feeds sourced via
@@ -378,12 +370,26 @@ Melbourne and Victoria. SI scores were obtained for the weeks starting
 on the day of the census in 2016 and 2021, which were on Tuesday 9th and
 10th of August respectively.
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
+\subsection{Australian Capital
+Territory}\label{australian-capital-territory}
 
-\hypertarget{code-structure-and-functionality}{%
+\subsection{Adelaide}\label{adelaide}
+
+\subsection{Metro Tasmania Burnie}\label{metro-tasmania-burnie}
+
+\subsection{Metro Tasmania Hobart}\label{metro-tasmania-hobart}
+
+\subsection{Metro Tasmania Launceston}\label{metro-tasmania-launceston}
+
+\subsection{Translink South East
+Queensland}\label{translink-south-east-queensland}
+
+\subsection{Transperth}\label{transperth}
+
+\section{Results}\label{results}
+
 \subsection{Code structure and
-functionality}\label{code-structure-and-functionality}}
+functionality}\label{code-structure-and-functionality}
 
 Developed code is available and documented on github (see
 \citet{gtfssupplyindex_github}). The structure of the package, functions
@@ -458,11 +464,9 @@ worked example\footnote{This paper itself was prepared in Rmarkdown and
 December 30, 2018}
 \end{figure}
 
-\hypertarget{si-scores}{%
-\subsection{SI scores}\label{si-scores}}
+\subsection{SI scores}\label{si-scores}
 
-\hypertarget{greater-melbourne}{%
-\subsubsection{Greater Melbourne}\label{greater-melbourne}}
+\subsubsection{Greater Melbourne}\label{greater-melbourne}
 
 \begin{figure}
 \centering
@@ -537,35 +541,26 @@ as they were in 2016. Of interest, however, may be a group of SA1s that
 had SI scores in the range of 3-4,000 in 2016, but only around 2,500 in
 2021.
 
-\hypertarget{imrad}{%
-\subsubsection{IMRAD}\label{imrad}}
+\subsubsection{IMRAD}\label{imrad}
 
-\hypertarget{comparing-cases}{%
-\subsection{Comparing cases}\label{comparing-cases}}
+\subsection{Comparing cases}\label{comparing-cases}
 
-\hypertarget{population-and-equality}{%
-\subsubsection{Population and equality}\label{population-and-equality}}
+\subsubsection{Population and equality}\label{population-and-equality}
 
-\hypertarget{purpose-of-transit-in-the-citys-transport-policy}{%
 \subsection{Purpose of transit in the city's transport
-policy}\label{purpose-of-transit-in-the-citys-transport-policy}}
+policy}\label{purpose-of-transit-in-the-citys-transport-policy}
 
-\hypertarget{indexes-and-comparing-cities}{%
 \subsection{Indexes and comparing
-cities}\label{indexes-and-comparing-cities}}
+cities}\label{indexes-and-comparing-cities}
 
-\hypertarget{discussion}{%
-\section{Discussion}\label{discussion}}
+\section{Discussion}\label{discussion}
 
-\hypertarget{limitations}{%
-\subsection{Limitations}\label{limitations}}
+\subsection{Limitations}\label{limitations}
 
-\hypertarget{directions-for-furture-research}{%
 \subsection{Directions for furture
-research}\label{directions-for-furture-research}}
+research}\label{directions-for-furture-research}
 
-\hypertarget{conclusions}{%
-\section{Conclusions}\label{conclusions}}
+\section{Conclusions}\label{conclusions}
 
 \renewcommand\refname{References}
 \bibliography{References.bib, packages.bib}
