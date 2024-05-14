@@ -2775,12 +2775,84 @@ si_by_area_and_hour_210810 <- read.csv("results/Greater_Melbourne/si_by_SA12021a
 si_by_area_and_hour_210810 <- si_by_area_and_hour_210810[,2:4]
 si_by_area_and_hour_210810$area_id <- as.character(si_by_area_and_hour_210810$area_id)
 
-
 si_by_area_210810 <- si_by_area_and_hour_210810 %>% 
            group_by(area_id) %>%    
            summarize(SI = sum(SI))
 
+##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
+# that have no SI score
+si_by_area_210810 <- full_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021) %>%
+    st_drop_geometry(),
+  si_by_area_210810, 
+  by = join_by(sa1_code_2021  == area_id))
+si_by_area_210810[is.na(si_by_area_210810)] <- 0
+
+names(si_by_area_210810) <- c("area_id", "SI")
 si_by_area_210810$Year <- 2021
+
+## Function to define thresholds and return Very High, High etc. as per 
+# Currie2010
+set_thresholds <-function(sa_by_area_dataframe){ 
+## Define Very High, High etc thresholds
+cuts <- sa_by_area_dataframe %>% 
+  filter(SI != 0) %>% 
+  select(SI) %>% 
+  unlist()  %>% 
+  as.vector() %>% 
+  quantileCut(6)
+
+cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
+  unique() %>% 
+  as.numeric() %>% 
+  sort()
+  
+ sa_by_area_dataframe$SI_binned <- ifelse(
+   sa_by_area_dataframe$SI == 0, "Zero", ifelse(
+     sa_by_area_dataframe$SI < cuts[1], "Very low", ifelse(
+       sa_by_area_dataframe$SI < cuts[2], "Low", ifelse(
+         sa_by_area_dataframe$SI < cuts[3], "Below average", ifelse(
+           sa_by_area_dataframe$SI < cuts[4], "Above average", ifelse(
+             sa_by_area_dataframe$SI < cuts[5], "High", ifelse(
+               sa_by_area_dataframe$SI >= cuts[5], "Very high", NA)
+             )
+           )
+         )
+       )
+     )
+   ) 
+
+sa_by_area_dataframe$SI_binned <- factor(sa_by_area_dataframe$SI_binned, 
+                                         levels = c(
+                                           "Zero", 
+                                           "Very low", 
+                                           "Low", 
+                                           "Below average",
+                                           "Above average", 
+                                           "High", 
+                                           "Very high"
+                                         ))
+si_by_area_dataframe_and_cuts_dataframe <- list(
+  sa_by_area_dataframe,
+  cuts
+  )
+
+return(si_by_area_dataframe_and_cuts_dataframe)
+}
+
+
+si_by_area_210810_thresholds <- set_thresholds(sa_by_area_dataframe = si_by_area_210810)
+si_by_area_210810 <- si_by_area_210810_thresholds[[1]]
+
+
+
+
+
+
+
+
 
 ###2016
 ###Load results from CSV (Precalculated above) and make first column character
@@ -2793,123 +2865,36 @@ si_by_area_160809 <- si_by_area_and_hour_160809 %>%
            summarize(SI = sum(SI))
 
 
+##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
+# that have no SI score
+si_by_area_160809  <- full_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021) %>%
+    st_drop_geometry(),
+  si_by_area_160809 , 
+  by = join_by(sa1_code_2021  == area_id))
+si_by_area_160809[is.na(si_by_area_160809)] <- 0
+
+names(si_by_area_160809) <- c("area_id", "SI")
+
 si_by_area_160809$Year <- 2016
 
+si_by_area_160809_thresholds <- set_thresholds(sa_by_area_dataframe = si_by_area_160809)
+si_by_area_160809 <- si_by_area_160809_thresholds[[1]]
+
+```
+
+
+```{r Greater_Melbourne_2016_2021_comparison, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
 si_by_area_2016_2021 <- add_row(si_by_area_160809, si_by_area_210810)
+names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "Year", "SI_binned")
 
-names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "Year")
-
-si_by_area_2016_2021_wider <- si_by_area_2016_2021 %>% 
-  pivot_wider( 
-              names_from = "Year", 
-              values_from = "SI")
-
-si_by_area_2016_2021_wider <- left_join(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne") %>% 
-    select(sa1_code_2021, sa3_name_2021) %>%
-    st_drop_geometry(),
-  si_by_area_2016_2021_wider 
-)
-  
-
-
-si_by_area_2016_2021_wider_sa3 <- si_by_area_2016_2021_wider %>% 
-  na.omit() %>% 
-   group_by(sa3_name_2021) %>%    
-           summarize(sum(`2016`), sum(`2021`))
-
-names(si_by_area_2016_2021_wider_sa3) <- c("sa3_name_2021", "2016", "2021")
-
-
-si_by_area_2016_2021_sa3 <- si_by_area_2016_2021_wider_sa3 %>%
-  pivot_longer(
-    cols = 2:3, 
-    names_to = "Year",
-    values_to = "SI"
-  )
-
-
-
-si_by_area_2016_2021 <- left_join(
+si_by_area_2016_2021  <- left_join(
   absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021),
-  si_by_area_2016_2021 
-)
-  
-
-
-plot_2016_2021_comparison <- ggplot() + 
-  geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
-          aes(fill = SI), lwd=0) +
-  facet_wrap(vars(Year), ncol = 1) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()  #remove y axis ticks
-  ) +
-  scale_fill_distiller(palette = "Spectral", trans = "log10", direction = 1)
-
-#Calculate difference
-si_by_area_2016_2021_wider <- si_by_area_2016_2021_wider %>% na.omit()
-si_by_area_2016_2021_wider$Difference <- si_by_area_2016_2021_wider$`2021` - si_by_area_2016_2021_wider$`2016`
-
-si_by_area_2016_2021_wider$`Percent Difference` <- si_by_area_2016_2021_wider$Difference / si_by_area_2016_2021_wider$`2016`
-
-si_by_area_2016_2021_wider <- si_by_area_2016_2021_wider %>% na.omit()
-
-
-si_by_area_2016_2021_wider <- left_join(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne") %>% 
-    select(sa1_code_2021),
-  si_by_area_2016_2021_wider 
-)
-  
-
-
-
-cuts <- si_by_area_2016_2021 %>% 
-  st_drop_geometry() %>% 
-  filter(SI != 0) %>% 
-  select(SI) %>% 
-  unlist()  %>% 
-  as.vector() %>% 
-  quantileCut(6)
-
-
-cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
-  unique() %>% 
-  as.numeric() %>% 
-  sort()
-  
- si_by_area_2016_2021$SI_binned <- ifelse(
-   si_by_area_2016_2021$SI == 0, NA, ifelse(
-     si_by_area_2016_2021$SI < cuts[1], "Very low", ifelse(
-       si_by_area_2016_2021$SI < cuts[2], "Low", ifelse(
-         si_by_area_2016_2021$SI < cuts[3], "Below median", ifelse(
-           si_by_area_2016_2021$SI < cuts[4], "Above median", ifelse(
-             si_by_area_2016_2021$SI < cuts[5], "High", ifelse(
-               si_by_area_2016_2021$SI >= cuts[5], "Very high", NA)
-             )
-           )
-         )
-       )
-     )
-   ) 
-
-si_by_area_2016_2021$SI_binned <- factor(si_by_area_2016_2021$SI_binned, 
-                                         levels = c(
-                                           "Zero", 
-                                           "Very low", 
-                                           "Low", 
-                                           "Below median",
-                                           "Above median", 
-                                           "High", 
-                                           "Very high"
-                                         ))
-
+  si_by_area_2016_2021)
 
 plot_2016_2021_comparison <- ggplot()+ 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
@@ -2920,27 +2905,17 @@ plot_2016_2021_comparison <- ggplot()+
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(),
         legend.position="bottom") + #remove y axis ticks
-  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
 
-plot_2021 <- ggplot()+ 
-  geom_sf(data=si_by_area_2016_2021 %>% 
-            filter(Year == 2021) %>% 
-            na.omit(),
-          aes(fill = SI_binned), colour=NA) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(),
-        legend.position="bottom") + #remove y axis ticks
-  scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
-      
-      
-            
-#plot_2016_2021_comparison
-plot_2021
+plot_2016_2021_comparison
+
 
 
 ```
+
+#PICK UP FROM HERE
+NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE, OUTER boundaries.  CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE BOUNDARY
+
 
 Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for Greater Melbourne in 2016 and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that:
 
@@ -3015,6 +2990,87 @@ SI scores for SA1 zones across Greater Melbourne.
 Results indicate a statistically significant relationship, 
 and for most SA1 zones it appears that SI scores have remained largely the same in 2021 as they were in 2016. 
 Of interest, however, may be a group of SA1s that had SI scores  in the range of 3-4,000 in 2016, but only around 2,500 in 2021.  
+
+
+@currie2010identifying also reported the distribution of SI scores by category across the number of CCDs and the resident population.  
+
+
+```{r Greater_Melbourne_2016_2021_sa1_population, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+
+Greater_Melbourne_2006_SI_population <- tibble(
+  "Supply index category" = c(
+    "Zero", 
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"), 
+  "Number of areas" = 
+    c(189, 1314, 1310, 1294, 608, 535, 589),
+  "Population" = 
+    c(85423, 793046, 865330, 774521, 324546, 260411, 263832)
+)
+
+
+Greater_Melbourne_2016_2021_SI_count <- si_by_area_2016_2021 %>% 
+  tabyl(SI_binned, Year)
+
+Greater_Melbourne_2006_2016_2021_SI_count <- 
+  Greater_Melbourne_2006_SI_population %>% select(`Supply index category`, `Number of areas`)
+names(Greater_Melbourne_2006_2016_2021_SI_count) <- c(
+  "Supply index category", 
+  "2016"
+)
+
+
+#### NEED TO RESOLVE NA VERSUS ZERO ISSUES
+Greater_Melbourne_2006_2016_2021_SI_count$`2016` <- Greater_Melbourne_2016_2021_SI_count$`2016`
+
+Greater_Melbourne_2006_2016_2021_SI_count$`2021` <- Greater_Melbourne_2016_2021_SI_count$`2021`
+
+Greater_Melbourne_2021_SI_count <- si_by_area_2016_2021 %>% 
+  filter (Year == 2021) %>% 
+  tabyl(SI_binned
+            )
+
+Greater_Melbourne_2021_SI_count  %>% 
+  adorn_totals() %>%
+  adorn_pct_formatting() %>%
+  kable(caption = "Distribution of supply index categories, by number of SA1 zones for 2021")
+
+
+
+
+
+
+### NEED TO OBTAIN 2016 POPULATION VALUES
+
+
+
+si_by_areas_and_pop_2021 <- si_by_area_2016_2021 %>% 
+  filter (Year == 2021) %>% 
+  select(sa1_code_2021, SI, SI_binned)
+
+si_by_areas_and_pop_2021 <- full_join(
+  si_by_areas_and_pop_2021, 
+  sa1_age_2021 %>% select(`AGEP Age`, Total), 
+                          by = join_by(sa1_code_2021 == `AGEP Age`)
+)
+            
+
+
+
+
+
+Greater_Melbourne_2021_SI_population <- si_by_area_2016_2021 %>% 
+  filter (Year == 2021) %>% 
+  tabyl(SI_binned
+            )
+
+
+```
+
 
 ### Social needs
 
@@ -3122,8 +3178,8 @@ cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x)
    combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index == 0, NA, ifelse(
       combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[1], "Very low", ifelse(
         combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[2], "Low", ifelse(
-          combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[3], "Below median", ifelse(
-            combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[4], "Above median", ifelse(
+          combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[3], "Below average", ifelse(
+            combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[4], "Above average", ifelse(
               combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[5], "High", ifelse(
                 combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index >= cuts[5], "Very high", NA)
              )
@@ -3137,8 +3193,8 @@ cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x)
                                          levels = c(
                                            "Very low", 
                                            "Low", 
-                                           "Below median",
-                                           "Above median", 
+                                           "Below average",
+                                           "Above average", 
                                            "High", 
                                            "Very high"
                                          ))
@@ -3187,12 +3243,22 @@ combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned <-
 
 Greater_Melbourne_2021_needs_gap_SA1_count <- tabyl(combined_needs_index_2021_sa1_greater_melbourne, SI_binned, combined_needs_index_binned)
 
-Greater_Melbourne_2021_needs_gap_SA1_count %>% 
-  adorn_totals(where = c("row", "col")) %>% 
-  adorn_percentages(denominator = "all") %>% 
-  adorn_pct_formatting() %>%
-  adorn_ns() %>% 
-  kable(caption = "Number of SA1 zones by social/transport need and public transport supply category")
+#Greater_Melbourne_2021_needs_gap_SA1_count %>% 
+#  adorn_totals(where = c("row", "col")) %>% 
+#  adorn_percentages(denominator = "all") %>% 
+#  adorn_pct_formatting() %>%
+#  adorn_ns() %>% 
+#  kable(caption = "Number of SA1 zones by social/transport need and public transport supply category")
+
+
+Greater_Melbourne_2021_needs_gap_SA1_count_longer <- Greater_Melbourne_2021_needs_gap_SA1_count %>% 
+  pivot_longer( 
+    cols = 2:7, 
+    values_to = "Zones",
+    names_to = "Social/transport needs"
+  )
+
+Greater_Melbourne_2021_needs_gap_SA1_count_longer$Year <- 2021
 
 ```
 
@@ -3202,21 +3268,204 @@ Greater_Melbourne_2021_needs_gap_SA1_population <- tapply(combined_needs_index_2
        list(combined_needs_index_2021_sa1_greater_melbourne$SI_binned, combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned), 
        sum) %>% 
   as.data.frame() %>%
-  rownames_as_column() 
+  rownames_to_column() 
 
-names(Greater_Melbourne_2021_needs_gap_SA1_population) <- c("Supply Index", "Very high", "High", "Above median", "Below median", 
-                "Low", "Very Low")
+names(Greater_Melbourne_2021_needs_gap_SA1_population) <- c("Supply Index category", "Very high", "High", "Above average", "Below average", 
+                "Low", "Very low")
 
-Greater_Melbourne_2021_needs_gap_SA1_population %>%
-  adorn_totals(where = c("row", "col")) %>%
-  adorn_percentages(denominator = "all") %>% 
-  adorn_pct_formatting() %>%
-  adorn_ns() %>% 
-  kable(caption = "Population of SA1 zones by social/transport need and public transport supply category")
+#Greater_Melbourne_2021_needs_gap_SA1_population %>%
+#  adorn_totals(where = c("row", "col")) %>%
+#  adorn_percentages(denominator = "all") %>% 
+#  adorn_pct_formatting() %>%
+#  adorn_ns() %>% 
+#  kable(caption = "Population of SA1 zones by social/transport need and public transport supply category")
+
+
+Greater_Melbourne_2021_needs_gap_SA1_population_longer <- Greater_Melbourne_2021_needs_gap_SA1_population %>% 
+  pivot_longer( 
+    cols = 2:7, 
+    values_to = "Population",
+    names_to = "Social/transport needs"
+  )
+
+Greater_Melbourne_2021_needs_gap_SA1_population_longer$Year <- 2021
           
 ```
 
-Tables \ref{tab:Greater_Melbourne_2021_needs_gap} and \ref{tab:Greater_Melbourne_2021_needs_gap_percentage} indicate that `r Greater_Melbourne_2021_needs_gap_SA1_population[1,2]` SA1 zones, representing `r Greater_Melbourne_2021_needs_gap_SA1_population[1,2] %>% formatC(big.mark = ",", format = "d")`(`r label_percent(accuracy = 0.1)(Greater_Melbourne_2021_needs_gap_SA1_population[1,2]/ sum(Greater_Melbourne_2021_needs_gap_SA1_population[,2:7]))` of the population) live in areas with no public transport but have 'very high' social/transport needs. 
+
+
+```{r Greater_Melbourne_2006_2021_needs_gap_zones, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Number of areas by SI and social/transport need category, comparison between 2006 and 2021"}
+
+Greater_Melbourne_2006_needs_gap_SA1_count <- tibble(
+  "Supply Index category" = c(
+    "Zero", 
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"), 
+  "Very high" = c(89, 190, 209, 189, 74, 53, 53),
+  "High" = c(32, 212, 214, 205, 61, 66, 39), 
+  "Above average" = c(16, 230, 256, 191, 81, 62, 43), 
+  "Below average" = c(18, 245, 221, 261, 121, 92, 75), 
+  "Low" = c(25, 218, 217, 237, 116, 98, 146), 
+  "Very low" = c(6, 164, 176, 206, 147, 161, 205)
+)
+
+#Greater_Melbourne_2006_needs_gap_SA1_count %>% 
+#  adorn_totals(where = c("row", "col")) %>%
+#  kable()
+
+Greater_Melbourne_2006_needs_gap_SA1_count_longer <- Greater_Melbourne_2006_needs_gap_SA1_count %>% 
+  pivot_longer( 
+    cols = 2:7, 
+    values_to = "Zones",
+    names_to = "Social/transport needs"
+  )
+
+
+Greater_Melbourne_2006_needs_gap_SA1_count_longer$Year <- 2006
+
+names(Greater_Melbourne_2021_needs_gap_SA1_count_longer) <- c(
+  "Supply Index category",
+  "Social/transport needs", 
+  "Zones", 
+  "Year")
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer  <- 
+  add_row(
+    Greater_Melbourne_2006_needs_gap_SA1_count_longer,
+    Greater_Melbourne_2021_needs_gap_SA1_count_longer)
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$`Supply Index` <- Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$`Supply Index category` %>% 
+  factor(levels = c(
+    "Zero", 
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"
+  ))
+
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$`Social/transport needs` <- Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$`Social/transport needs` %>% 
+  factor(levels = c(
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"
+  ))
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$`Social/transport needs`
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$Year <- Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer$Year %>% as_factor()
+
+grouped_ggbarstats(
+  data = Greater_Melbourne_2006_2021_needs_gap_SA1_count_longer,
+  x = `Social/transport needs`,
+  y = Year,
+  counts = Zones,
+  grouping.var = `Supply Index category`
+)
+
+```
+
+
+```{r Greater_Melbourne_2006_2021_needs_gap_population, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Population by SI and social/transport need category, comparison between 2006 and 2021"}
+
+
+Greater_Melbourne_2006_needs_gap_SA1_population <- tibble(
+  "Supply Index category" = c(
+    "Zero", 
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"), 
+  "Very high" = c(37699, 101305, 137735, 120934, 41702, 27149, 24691),
+  "High" = c(14338, 131554, 141273, 119981, 33000, 33314, 16563), 
+  "Above average" = c(7985, 140757, 169648, 113281, 43622, 30694, 20393), 
+  "Below average" = c(9416, 154876, 146209, 153874, 62783, 42802, 35865), 
+  "Low" = c(13263, 140874, 148078, 140390, 60952, 48912, 61719), 
+  "Very low" = c(2722, 118926, 119906, 126061, 79117, 76597, 90181)
+)
+
+
+
+#Greater_Melbourne_2006_needs_gap_SA1_population %>% 
+#  adorn_totals(where = c("row", "col")) %>%
+#  adorn_percentages(denominator = "all") %>%
+#  adorn_pct_formatting() %>% 
+#  adorn_ns() %>%
+#  kable()
+
+
+Greater_Melbourne_2006_needs_gap_SA1_population_longer <- Greater_Melbourne_2006_needs_gap_SA1_population %>% 
+  pivot_longer( 
+    cols = 2:7, 
+    values_to = "Population",
+    names_to = "Social/transport needs"
+  )
+
+Greater_Melbourne_2006_needs_gap_SA1_population_longer$Year <- 2006
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer  <- 
+  add_row(
+    Greater_Melbourne_2006_needs_gap_SA1_population_longer,
+    Greater_Melbourne_2021_needs_gap_SA1_population_longer)
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$`Supply Index category` <- Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$`Supply Index category` %>% 
+  factor(levels = c(
+    "Zero", 
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"
+  ))
+
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$`Social/transport needs` <- Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$`Social/transport needs` %>% 
+  factor(levels = c(
+    "Very low", 
+    "Low", 
+    "Below average", 
+    "Above average",  
+    "High",
+    "Very high"
+  ))
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$`Social/transport needs`
+
+Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$Year <- Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer$Year %>% as_factor()
+
+grouped_ggbarstats(
+  data = Greater_Melbourne_2006_2021_needs_gap_SA1_population_longer,
+  x = `Social/transport needs`,
+  y = Year,
+  counts = population,
+  grouping.var = `Supply Index category`
+)
+
+
+```
+
+
+Figure \ref{fig:Greater_Melbourne_2006_2021_needs_gap_zones} compares the number of zones^[SA1s in 2021, versus CCD in 2006.] by SI and social/transport need category between 2006 and 2021. Population is compared in Figure \ref{fig:Greater_Melbourne_2006_2021_needs_gap_population} 
+
+These results indicate that, in 2021, `r Greater_Melbourne_2021_needs_gap_SA1_count[1,2]` SA1 zones, (representing `r label_percent(accuracy = 0.1)(Greater_Melbourne_2021_needs_gap_SA1_count[1,2]/ sum(Greater_Melbourne_2021_needs_gap_SA1_count[,2:7]))`of the total `r sum(Greater_Melbourne_2021_needs_gap_SA1_count[,2:7]) %>% formatC(big.mark = ",", format = "d")`SA1 zones in Greater Melbourne) had no public transport, but very 'very high' social/transport needs.  These zones have a combined population of 
+
+
+`r Greater_Melbourne_2021_needs_gap_SA1_population[1,2]` SA1 zones, representing `r Greater_Melbourne_2021_needs_gap_SA1_population[1,2] %>% formatC(big.mark = ",", format = "d")`(`r label_percent(accuracy = 0.1)(Greater_Melbourne_2021_needs_gap_SA1_population[1,2]/ sum(Greater_Melbourne_2021_needs_gap_SA1_population[,2:7]))` of the total `r sum(Greater_Melbourne_2021_needs_gap_SA1_population[,2:7]) %>% formatC(big.mark = ",", format = "d")  ` population) live in areas with no public transport but have 'very high' social/transport needs. This compares to the 89 CCDs (1.6% of the 5,720 total), representing 37,699 Melbourne residents (1.1% of the population) living in areas with no public transport, but very high social/transport needs reported for 2006 in @currie2010identifying. 
+
+
+
 
 
 ## Comparing cases
