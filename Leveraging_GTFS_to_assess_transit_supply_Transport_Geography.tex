@@ -123,117 +123,119 @@ Campus},city={Melbourne},postcode={3800},state={Victoria},country={Australia},}
 
 \section{Introduction}\label{introduction}
 
-\citet{Currie2003Hobart}, \citet{Currie2004Gap},
-\citet{Currie2007Identifying} and \citet{currie2010identifying} explored
-spatial gaps between the social need for transport and what transit is
-supplied. This work presented a transit Supply Index (SI) and compared
-it to measures of social need for transport across a few Australian
-cities.
+Approaches for assessing spatial gaps between social needs for transport
+and what transit is supplied have been reported in previous research,
+including in \citet{Currie2003Hobart}, \citet{Currie2004Gap},
+\citet{Currie2007Identifying} and \citet{currie2010identifying}. These
+publications presented a transit Supply Index (SI) and used to identify
+geographic areas in a few Australian cities where there were very high
+social needs for transport, but very little transit service, or no
+transit at all. This approach suggested a new way for transit planners
+to identify and prioritise locations, targetted towards improving
+mobility for populations who might not have sufficient mobility to meet
+their basic needs or fully participate in society.
 
 However, in almost two decades since the SI was developed there does not
-appear to have been much further use of this approach. It is unclear
-whether gaps between social needs and transit supply have increased or
-reduced. Nor is it clear whether the spatial patterns identified in
-Hobart \citep{Currie2003Hobart, Currie2004Gap} and Melbourne
-\citep{Currie2007Identifying, currie2010identifying}, are similar in
-other places
+appear to have been much further use of this approach. It is also
+unclear whether gaps between social needs and transit supply have
+increased or reduced in Australian cities; or if the spatial patterns
+identified in Hobart \citep{Currie2003Hobart, Currie2004Gap} and
+Melbourne \citep{Currie2007Identifying, currie2010identifying}, are
+similar in other places This may in part be because applying such
+methodologies elsewhere would, at the time, appear likely to have
+required a bespoke data collection, cleaning and analysis effort.
+Transit timetables were typically publicly available in paper and/or PDF
+formats, while the analyses reported in \citet{Currie2003Hobart},
+\citet{Currie2004Gap}, \citet{Currie2007Identifying} and
+\citet{currie2010identifying} appear to have been mostly based on
+special data provided directly to the research by transit operators and
+authorities in each location.
 
-This may in part be because applying an existing methodology to another
-location or time period might not generate sufficient `new' knowledge
-for publication, and/or be more an activity for practitioners than for
-researchers. As well, at the time applying such methodologies elsewhere
-would appear likely to have required a bespoke data collection, cleaning
-and analysis effort. Nowadays, however, the General Transit Feed
-Specification (GTFS) allows timetable data to be published in a
-standardized format. More than 10,000 transit agencies release data this
-way \citep{GTFS}. Various tools for analysing GTFS data are now
-available, but there does not appear to have been many developed to
-allow the analysis of spatial gaps between the social need for transport
-and the amount of transit that is supplied. While the previous
-literature provides a wealth of methodologies, the availability of tools
-that might be used by researchers, practitioners and advocates to use
-these approaches with GTFS data relatively easily appears limited.
+Nowadays, the General Transit Feed Specification (GTFS) allows timetable
+data to be published in a standardized format. More than 10,000 transit
+agencies publically release data this way. Various tools for maniulating
+GTFS data are now available, including validation, analysis and
+visualization tools. As GTFS data is typically published online, free to
+the user, and without usage restrictions, it appears widely used in
+transport research and practice, and amongst actors in the technology
+sectors, notably to provide transit directions on the Google Maps
+platform, being the use case for which it was originally developed
+\citep{GTFS}.
 
-This gap provides the motivation for the research reported in this
-paper, in which a new R package (gtfssupplyindex) specifically developed
-to calculate SI scores is presented. The paper also reports results for
-Greater Melbourne in 2016 and 2021, matching the most recent censuses
-and allowing comparison to the 2006 result reported in
-\citet{currie2010identifying}. Comparisons are also made to other parts
-of Australia, so as to explore whether findings about Greater Melbourne
-are generalizable.
+However, the availability of tools that might be used by researchers,
+practitioners and advocates use GTFS data to examine spatial patterns in
+transit supply and social needs for transport appears limited.\\
+This gap and the lack of direct follow up to \citet{Currie2003Hobart},
+\citet{Currie2004Gap}, \citet{Currie2007Identifying} and
+\citet{currie2010identifying} provide the motivation for the research
+reported in this paper.\\
+The research included the developement of a new R package
+(gtfssupplyindex) that can be used to calculate SI scores Also presented
+in this paper are results for Greater Melbourne in 2016 and 2021,
+matching the most recent censuses, that are comparable\\
+to the 2006 results reported in \citet{currie2010identifying}.
+Comparisons are also made to other parts of Australia, so as to explore
+whether findings about Greater Melbourne are generalizable.
 
 The remainder of this paper is structured as follows: the next section
 outlines the background to this research, including the formulation of
-the Transit Supply Index (SI), and an explanation of the GTFS. Section 3
+the Transit Supply Index (SI) and an explanation of the GTFS. Section 3
 then describes the study methodology, followed by presentation of
-results in Section 4. Section 5 discusses the results and the
-limitations of this study, and outlines directions for future research.
-A brief conclusion is provided in Section 6.
+results in Section 4. Section 5 discusses the findings. Limitations of
+this study, directions for future research and a brief conclusion are
+provided in Section 6.
 
 \section{Background}\label{background}
 
 \subsection{Transit metrics}\label{transit-metrics}
 
 Even a brief search reveals many metrics available for benchmarking
-transit services. Examples include those in: the extensive Transit
+transit services. Examples include: those in the extensive Transit
 Cooperative Research Program (TCRP) Report 88 guidebook on developing
-performance-measurement systems \citep{Ryus:2003aa}; and those used
-across benchmarking databases and programs
-\citep{Florida-Transit-Information-System:2018aa, UITP:2015aa, Imperial-College-London:2023aa}.
-The Fielding Triangle \citep{FieldingGordonJ1987Mpts} provides a
-framework for combining indicators of service inputs, outputs and
-consumption to describe cost efficiency, cost effectiveness and service
-effectiveness. More broadly: \citet{Litman:2003ab} and
-\citet{Litman:2016aa} discuss some of the traffic, mobility,
-accessibility, social equity, strategic planning and other rational
-decision-making-based perspectives underling transport indicators;
-\citet{Reynolds:2017ah} extends these into models of how
-institutionalism, incrementalism and other public policy analysis
+performance-measurement systems \citep{Ryus:2003aa}; those used across
+benchmarking databases and programs
+\citep{Florida-Transit-Information-System:2018aa, UITP:2015aa, Imperial-College-London:2023aa};
+and the Transit Score website \citep{WalkScore:2023tg}. The Fielding
+Triangle \citep{FieldingGordonJ1987Mpts} provides a framework for
+combining indicators of service inputs, outputs and consumption to
+describe cost efficiency, cost effectiveness and service effectiveness.
+More broadly: \citet{Litman:2003ab} and \citet{Litman:2016aa} discuss
+some of the traffic, mobility, accessibility, social equity, strategic
+planning and other rational decision-making-based perspectives underling
+transport indicators; \citet{Reynolds:2017ah} extends these into models
+of how institutionalism, incrementalism and other public policy analysis
 concepts might apply to decision-making processes relating to transit
-prioritization; \citet{GuzmanLuisA.2017Aeit}, developed a measure of
-accessibility in the context of policy development and social equity for
-Latin American Bus Rapid Transit (BRT) networks; and
-\citet{Creutzig2020streetspaceallocation} introduced street space
-allocation metrics based around 10 ethical principles.
+prioritization; \citet{GuzmanLuisA.2017Aeit}\\
+developed a measure of accessibility in the context of policy
+development and social equity for Latin American Bus Rapid Transit (BRT)
+networks; and \citet{Creutzig2020streetspaceallocation} introduced
+street space allocation metrics based around ten ethical principles.
 
-However, many of these, and other, transit metrics may be difficult to
-calculate, and/or complex to explain or understand, especially for those
-who are not planners, engineers or other technical specialists. Where
-pre-calculated metrics are immediately available it may not be possible
-for practitioners, researchers or advocates to independently generate
-scores so as to test proposed system changes, or demonstrate impacts to
-politicans, the general public or others. Contrasting examples are
-provided by the metrics in the Transit Capacity and Quality of Service
-Manual (TCQSM) and the Transit Score metric \citep{WalkScore:2023tg}.
-Transit Scores are readily available on the Transit Score website for
-locations with a published GTFS feed. The meaning of these Transit
-Scores also appears easy to explain, with the highest possible score of
-100 representing the sort of transit accessibility that might be
-xperienced in the center of New York. However, the Transit Score
-algorithm is a black box, and cannot be calculated independently or
-generated for proposed changes to networks. In contrast, the TCQSM
-provides a wide range of metrics for measuring different aspects of a
-transit system. The TCQSM scores themselves appear easy to understand or
-explain, ranging from A (good) to F (bad), and these can be calculated
-independently, given sufficient data. \citet{Wong:2013aa} provides an
-example of what can be done combining GTFS data with metrics that can be
-independently calculating, reporting TCQSM scores across 50 transit
-operators.
+However, many such metrics may be difficult to calculate, explain or
+understand, especially for those who are not planners, engineers or
+other technical specialists. Where pre-calculated transit metrics are
+immediately available, such as on a website or other online platform, it
+may not be possible for practitioners, researchers or advocates to
+independently generate scores, for instance to assess proposed system
+changes.
 
-The GTFS is an open, text-based format, developed originally to allow
-transit to be included in the Google Maps navigation platform
-\citep{GTFS}. Figure @ref(fig:GTFS\_ERD) shows an Entity Relationship
-Diagram (ERD) of the GTFS structure, indicatating how data is stored as
-a series of tables (agency, routes, trips etc.) linked by primary and
-foreign keys (agency\_id, route\_id, trip\_id etc.). While there are
-many software tools for analyzing, visualizing or otherwise manipulating
-GTFS data, one to calculate Transit Supply Index (SI) scores is not yet
-available.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{graphics/GTFS} \caption{GTFS entity relationship diagram. Source: adapted by author from Alamri et al (2023) and the GTFS Schedule Reference (16/11/2023 revision).}\label{fig:GTFS_ERD}
-\end{figure}
+Contrasting examples are provided by the metrics in the TCQSM and the
+Transit Score metric \citep{WalkScore:2023tg}. Transit Scores are
+readily available on the Transit Score website for locations with a
+published GTFS feed. The meaning of these Transit Scores also appears
+easy to explain, with the highest possible score of 100 representing the
+sort of transit accessibility that might be xperienced in the center of
+New York. However, the Transit Score algorithm is a black box, and
+scores cannot be calculated independently or generated for proposed
+changes to networks. In contrast, the TCQSM provides a wide range of
+metrics for measuring different aspects of a transit system. The TCQSM
+scores themselves appear easy to understand or explain, ranging from A
+(good) to F (bad), although the large number of metrics might be
+somewhat overwhelming for some users. The scores, however, can be
+calculated independently, given sufficient data. \citet{Wong:2013aa}
+provides an example of what can be done with GTFS data, open metrics and
+coding by reporting the distribution of various TCQSM metrics across 50
+USA transit operators.
 
 \subsection{The Transit Suppy Index}\label{the-transit-suppy-index}
 
@@ -282,6 +284,10 @@ resultant map identifying areas with very high transport needs, but very
 low or no transit supply.
 
 \begin{figure}
+\includegraphics[width=1\linewidth]{graphics/Currie2010Needs} \caption{Distribution of categories of composite social need index scores, Source: Currie (2010)}\label{fig:Currie_map_needs}
+\end{figure}
+
+\begin{figure}
 \includegraphics[width=1\linewidth]{graphics/Currie2010gap} \caption{Melbourne needs-gap – very high transport need areas with zero or very low public transport supply, Source: Currie (2010)}\label{fig:Currie_map_gap}
 \end{figure}
 
@@ -313,6 +319,8 @@ locations to the findings of \citet{currie2010identifying}, therefore,
 is the primary aim of this paper.
 
 \section{Methodology}\label{methodology}
+
+\subsection{Transit Supply Index}\label{transit-supply-index}
 
 This study developed a package of tools for calculating the SI from GTFS
 data using the R programming language \citep{R-base}. The
@@ -350,7 +358,7 @@ the Mornington Penninsula railway (Figure @ref(Melbourne\_map), right).
 \includegraphics[width=1\linewidth]{graphics/all_maps} \caption{Areas of interest}\label{fig:Melbourne_map}
 \end{figure}
 
-\subsection{Mornington Penninsula Tourist
+\subsubsection{Mornington Penninsula Tourist
 Railway}\label{mornington-penninsula-tourist-railway}
 
 The Morning Peninsula Tourist Railway is in the outer south-east of
@@ -360,7 +368,7 @@ Moorooduc, with an intermediate stop at Tanti Park\footnote{see
 GTFS feed from 2018 was selected for the purposes of tests, and for
 demonstrating the code and outputs reported here.
 
-\subsection{Public Transport Victoria
+\subsubsection{Public Transport Victoria
 (PTV)}\label{public-transport-victoria-ptv}
 
 The Victorian GTFS feed, published by Public Transport Victoria (PTV)
@@ -370,21 +378,58 @@ Melbourne and Victoria. SI scores were obtained for the weeks starting
 on the day of the census in 2016 and 2021, which were on Tuesday 9th and
 10th of August respectively.
 
-\subsection{Australian Capital
+\subsubsection{Australian Capital
 Territory}\label{australian-capital-territory}
 
-\subsection{Adelaide}\label{adelaide}
+\subsubsection{Adelaide}\label{adelaide}
 
-\subsection{Metro Tasmania Burnie}\label{metro-tasmania-burnie}
+\subsubsection{Metro Tasmania Burnie}\label{metro-tasmania-burnie}
 
-\subsection{Metro Tasmania Hobart}\label{metro-tasmania-hobart}
+\subsubsection{Metro Tasmania Hobart}\label{metro-tasmania-hobart}
 
-\subsection{Metro Tasmania Launceston}\label{metro-tasmania-launceston}
+\subsubsection{Metro Tasmania
+Launceston}\label{metro-tasmania-launceston}
 
-\subsection{Translink South East
+\subsubsection{Translink South East
 Queensland}\label{translink-south-east-queensland}
 
-\subsection{Transperth}\label{transperth}
+\subsubsection{Transperth}\label{transperth}
+
+\subsection{Measuring social
+disadvantage}\label{measuring-social-disadvantage}
+
+This study adopts the same approach to measuring social disadvantage as
+\citet{currie2010identifying}, using: the Australian Bureau of
+Statistics Index of Relative Socio-Economic Advantage/Disadvantage
+(IRSAD); and a transport needs index, which included the same need
+indicators and weightings as used in
+\citet{currie2010identifying}\footnote{Indicators: Adults without cars
+  (weighting 0.19); accessibility (distance to Central Buisness
+  District, 0.15); persons aged over 60 years (0.14); persons on a
+  disability pension (0.12); low income families (0.10); adults not in
+  the labour force (0.09); students (0.09); and persons aged 5-9 years
+  (0.12). Data was extracted from the 2021 census, including the
+  disability pension data which is now available through the ABS rather
+  than Centrelink. A income of \$799 or lower per week was adopted as
+  the threshold for low income households, based on updating the \$499
+  figure used in \citet{currie2010identifying} to account for inflation,
+  using the Reserve Bank of Australia's online inflation calculator.
+  Note also that the 2021 census reported low-income families rather
+  than households, as was used in \citet{currie2010identifying}.}
+
+This study also adopts the same approach as
+\citet{currie2010identifying} for deriving a single combined indicator
+of social need, based combining the ABS' IRSAD and the transport needs
+index\footnote{See \citet{currie2010identifying}, page 34}. However,
+\citet{currie2010identifying} included indexes weighted for both total
+population within each area of interest, and for relative need based on
+the proportion of the population within each social need component
+group. Currently, however, ABS census data is not available to a level
+such that the number of people in a SA1 zone who are within at least one
+social need component group can be identified. As such, only a total
+need IRSAD index and a total transport need index are computed in this
+study for each SA1 zone, which were then added and standardised as per
+the \citet{currie2010identifying} approach.
 
 \section{Results}\label{results}
 
@@ -464,15 +509,19 @@ worked example\footnote{This paper itself was prepared in Rmarkdown and
 December 30, 2018}
 \end{figure}
 
-\subsection{SI scores}\label{si-scores}
+\subsection{Greater Melbourne}\label{greater-melbourne}
 
-\subsubsection{Greater Melbourne}\label{greater-melbourne}
+\subsubsection{SI scores}\label{si-scores}
 
 \begin{figure}
 \centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_2021-1.pdf}
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_2021_comparison-1.pdf}
 \caption{SI scores, census day 2021}
 \end{figure}
+
+\#PICK UP FROM HERE NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE,
+OUTER boundaries. CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE
+BOUNDARY
 
 Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census
 day for Greater Melbourne in 2016 and 2021. Comparison to Figure
@@ -527,12 +576,6 @@ statistically significant difference, but there does not appear to have
 been much change across median, mean, interquartile range or overall
 range (See table)
 
-\begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_2021_scatterplot-1.pdf}
-\caption{SI scores by SA3, census day 2016 and 2021}
-\end{figure}
-
 Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} compares the
 2016 and 2021 SI scores for SA1 zones across Greater Melbourne. Results
 indicate a statistically significant relationship, and for most SA1
@@ -541,17 +584,127 @@ as they were in 2016. Of interest, however, may be a group of SA1s that
 had SI scores in the range of 3-4,000 in 2016, but only around 2,500 in
 2021.
 
-\subsubsection{IMRAD}\label{imrad}
+\citet{currie2010identifying} also reported the distribution of SI
+scores by category across the number of CCDs and the resident
+population.
+
+\begin{table}
+
+\caption{\label{tab:Greater_Melbourne_2016_2021_sa1_population}Distribution of supply index categories, by number of SA1 zones for 2021}
+\centering
+\begin{tabular}[t]{l|r|l|l}
+\hline
+SI\_binned & n & percent & valid\_percent\\
+\hline
+Zero & 0 & 0.0\% & 0.0\%\\
+\hline
+Very low & 1803 & 16.4\% & 16.4\%\\
+\hline
+Low & 1794 & 16.3\% & 16.3\%\\
+\hline
+Below median & 1838 & 16.7\% & 16.7\%\\
+\hline
+Above median & 1888 & 17.2\% & 17.2\%\\
+\hline
+High & 1851 & 16.8\% & 16.8\%\\
+\hline
+Very high & 1821 & 16.6\% & 16.6\%\\
+\hline
+NA & 4 & 0.0\% & -\\
+\hline
+Total & 10999 & 100.0\% & 100.0\%\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Social needs}\label{social-needs}
+
+Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the
+distribution of categories of social need index scores across Greater
+Melbourne for 2021. This figure is analogous to the 2006 value from
+\citet{currie2010identifying} shown in Figure \ref{fig:Currie_map_needs}
+although, as discussed in the methodology section above, it was not
+possible to exactly replicate the \citet{currie2010identifying} approach
+as the total number of people within one or more of social need
+component groups (necessary to calculate the two relative need
+indicators) are not reported in the 2021 census.
+
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf}
+Figure \ref{fig:Greater_Melbourne_2021_social_needs} appears to indicate
+that there is no clear spatial pattern to the distribution of the
+categories of the composite need index scores. This appears to contrast
+to trend, albeit with some exceptions, towards very high social needs
+scores in outer areas identified by \citet{currie2010identifying}
+(Figure \ref{fig:Currie_map_needs}). This may, however, be an artifact
+of either the differences in the composite needs scores used in this
+analysis (due to the lack of data to assess relative needs) compared to
+the \citet{currie2010identifying} analysis. As well, the 2021 census SA1
+zones generally appear to smalller than the 2006 Census Collection
+Districts (CCDs) used in \citet{currie2010identifying}, especially in
+outer areas. This will be associated with the growth of Greater
+Melbourne's population and spatial dispersment, with many of the large
+outer `Very High' CCDs shown in the 2006 map now split into many more
+SA1 zones.
+
+\subsubsection{Needs-gap analysis}\label{needs-gap-analysis}
+
+\begin{verbatim}
+##  [1] Very high     High          Above average Below average Low          
+##  [6] Very low      Very high     High          Above average Below average
+## [11] Low           Very low      Very high     High          Above average
+## [16] Below average Low           Very low      Very high     High         
+## [21] Above average Below average Low           Very low      Very high    
+## [26] High          Above average Below average Low           Very low     
+## [31] Very high     High          Above average Below average Low          
+## [36] Very low      Very high     High          Above average Below average
+## [41] Low           Very low      Very high     High          Above average
+## [46] Below average Low           Very low      Very high     High         
+## [51] Above average Below average Low           Very low      Very high    
+## [56] High          Above average Below average Low           Very low     
+## [61] Very high     High          Above average Below average Low          
+## [66] Very low      Very high     High          Above average Below average
+## [71] Low           Very low      Very high     High          Above average
+## [76] Below average Low           Very low      Very high     High         
+## [81] Above average Below average Low           Very low     
+## Levels: Very low Low Below average Above average High Very high
+\end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2006_2021_needs_gap_zones-1.pdf}
+\caption{Number of areas by SI and social/transport need category,
+comparison between 2006 and 2021}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2006_2021_needs_gap_population-1.pdf}
+\caption{Population by SI and social/transport need category, comparison
+between 2006 and 2021}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_2006_2021_needs_gap_zones} compares
+the number of zones\footnote{SA1s in 2021, versus CCD in 2006.} by SI
+and social/transport need category between 2006 and 2021. Population is
+compared in Figure
+\ref{fig:Greater_Melbourne_2006_2021_needs_gap_population}
+
+These results indicate that, in 2021, 66 SA1 zones, (representing
+0.6\%of the total 11,138SA1 zones in Greater Melbourne) had no public
+transport, but very `very high' social/transport needs. These zones have
+a combined population of
+
+\ensuremath{4.5074\times 10^{4}} SA1 zones, representing 45,074(0.9\% of
+the total 4,885,773 population) live in areas with no public transport
+but have `very high' social/transport needs. This compares to the 89
+CCDs (1.6\% of the 5,720 total), representing 37,699 Melbourne residents
+(1.1\% of the population) living in areas with no public transport, but
+very high social/transport needs reported for 2006 in
+\citet{currie2010identifying}.
 
 \subsection{Comparing cases}\label{comparing-cases}
 
 \subsubsection{Population and equality}\label{population-and-equality}
-
-\subsection{Purpose of transit in the city's transport
-policy}\label{purpose-of-transit-in-the-citys-transport-policy}
-
-\subsection{Indexes and comparing
-cities}\label{indexes-and-comparing-cities}
 
 \section{Discussion}\label{discussion}
 
