@@ -2469,8 +2469,7 @@ This study adopts the same approach to measuring social disadvantage
 as @currie2010identifying, 
 using: the Australian Bureau of Statistics Index of Relative Socio-Economic
 Advantage/Disadvantage (IRSAD); and
-a transport needs index, which included the same need indicators and weightings 
-as used in @currie2010identifying^[Indicators: Adults without cars (weighting 0.19); accessibility (distance to Central Buisness District, 0.15); persons aged over 60 years (0.14); persons on a disability pension (0.12); low income families (0.10); adults not in the labour force (0.09); students (0.09); and persons aged 5-9 years (0.12). Data was extracted from the 2021 census, including the disability pension data which is now available through the ABS rather than Centrelink. A income of $799 or lower per week was adopted as the  threshold for low income households, based on updating the $499 figure used in @currie2010identifying to account for inflation, using the Reserve Bank of Australia's online inflation calculator. Note also that the 2021 census reported low-income families rather than households, as was used in @currie2010identifying.]
+a transport needs index^[The same need indicators and weightings were adopted. These are: adults without cars (weighting 0.19); accessibility (distance to Central Buisness District, 0.15); persons aged over 60 years (0.14); persons on a disability pension (0.12); low income families (0.10); adults not in the labour force (0.09); students (0.09); and persons aged 5-9 years (0.12). Data was extracted from the 2021 census, including the disability pension data which is now available through the ABS rather than Centrelink. A income of $799 or lower per week was adopted as the  threshold for low income households, based on updating the $499 figure used in @currie2010identifying to account for inflation, using the Reserve Bank of Australia's online inflation calculator. Note also that the 2021 census reported low-income families rather than households, as was used in @currie2010identifying.]
 
 ```{r read_ABS_data, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
@@ -2628,8 +2627,8 @@ names(social_2021_sa1) <- c("sa1_code_2021",
 
 ```
 
-This study also adopts the same approach as @currie2010identifying 
-for deriving a single combined indicator of social need, based combining the ABS' IRSAD and the transport needs index^[See @currie2010identifying, page 34]. However, @currie2010identifying included indexes weighted for both total population within each area of interest, and for relative need based on the proportion of the population within each social need component group. Currently, however, ABS census data is not available to a level such that the number of people in a SA1 zone who are within at least one social need component group can be identified. As such, only a total need IRSAD index and a total transport need index are computed in this study for each SA1 zone, which were then added and standardised as per the @currie2010identifying approach.  
+This study also adopts a similar approach to @currie2010identifying 
+for deriving a single combined indicator of social need^[@currie2010identifying combined four weighted measures: (1) the IRSAD and (2) the derived transport need index, both weighted for total population within each area of interest; (3) the IRSAD and (2) the dervied transport need index (again), but weighted for relative need based on the proportion of the population within each social need component group.] Currently, however, ABS census data is not available to a level such that the number of people in a SA1 zone who are within at least one social need component group can be identified. As such, in this study only the IRSAD index and thetransport need index were weighted based on the total population of each SA1 zone, then added and standardised.  
 
 
 # Results
