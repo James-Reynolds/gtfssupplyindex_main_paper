@@ -529,6 +529,8 @@ as the areas of interest.
 SA1 zones are the smallest geographical areas 
 for which results are reported in the Australian census.
 SA3 zones, which are generally similar to Local Government Area (LGA) boundaries, where used when aggregating. 
+Where comparisons are made to the @currie2010identifying results 
+the same Census Collection Districts (CCDs) are used. 
 
 The Victorian GTFS feed, 
 published by Public Transport Victoria (PTV) and 
@@ -557,7 +559,7 @@ ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtf
 
 ```
 
-```{r run_for_all_modes_Victoria_210810, eval = FALSE, echo = FALSE}
+```{r run_for_all_modes_Victoria_210810_SA1, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_210805_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(
@@ -594,6 +596,52 @@ si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week %>%
            summarize(SI = sum(SI))
 
 write.csv(si_SA12021_21_census_week_aggregated, "results/si_SA12021_21_census_week_aggregated.csv")
+
+
+```
+
+```{r run_for_all_modes_Victoria_210810_CCD, eval = FALSE, echo = FALSE}
+list_gtfs = ptv_210805_list_gtfs
+
+#ccd_vic_2006 <- st_read("data/1259030002_cd06avic_shape/CD06aVIC.shp")
+
+asgc2006 <- st_read("data/asgc2006.gpkg", layer = "census_collection_district_2006")
+st_geometry(asgc2006) <- "geometry"
+
+melbourne <- asgc2006 %>% 
+  filter(MSR_NAME_2006 == "Melbourne") %>%
+  select(CD_CODE_2006)
+
+#Load Greater Melbourne CCD codes
+areas_of_interest <- load_areas_of_interest(melbourne,  
+  area_id_field = "CD_CODE_2006")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_CCD2006_21_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2021-08-10", 
+ end_date_ymd = "2021-08-16",
+verbose = TRUE)
+
+write.csv(si_CCD2006_21_census_week, "results/Greater_Melbourne/si_CCD2006_21_census_week.csv")
+
+si_CCD2006_21_census_week <- read_csv("results/Greater_Melbourne/si_CCD2006_21_census_week.csv")
+
+si_CCD2006_21_census_week_aggregated <- si_CCD2006_21_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(si_CCD2006_21_census_week_aggregated, "results/si_CCD2006_21_census_week_aggregated.csv")
 
 
 ```
@@ -908,7 +956,7 @@ sa_by_area_dataframe$cuts <- sa_by_area_dataframe$cuts %>%
   fct_explicit_na(na_level = "Zero Supply") %>% 
   fct_shift(n = -1)
 
-names(sa_by_area_dataframe) <- c("sa1_code_2021", "SI", "Transport Supply")
+names(sa_by_area_dataframe) <- c("sa1_code_2021", "SI", "Transit Supply")
 
 #return dataframe and information about level cut offs
 si_by_area_dataframe_and_cuts_dataframe <- list(
@@ -961,7 +1009,7 @@ si_by_area_2016_2021  <- left_join(
 
 plot_2016_2021_comparison <- ggplot()+ 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
-          aes(fill = `Transport Supply`), colour=NA) +
+          aes(fill = `Transit Supply`), colour=NA) +
   facet_wrap(vars(Year), nrow = 1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
@@ -979,12 +1027,9 @@ plot_2016_2021_comparison
 
 
 
-Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for Greater Melbourne in 2016 and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that:
+Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for Greater Melbourne in 2016 and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that. The transit network and the Greater Melbourne Greater Capital City Statistical Area (GCCSA) both cover more area than they did in 2006. However, there are still many areas, especially in the outer suburbs, with very low or zero transit supply. 
 
-- The Greater Melbourne Greater Capital City Statistical Area now covers a larger area than it did in 2006, with the northern boundary having shifted northwards by up to around 40 kilometres ^[See https://maps.abs.gov.au/?xmin=15884115.813179802&ymin=-4689558.173698483&xmax=16551869.692279067&ymax=-4397262.977535984&bottomlayer=ASGS2021:GCCSA&toplayer=ASGC2006:SD].
-- There are still many areas, typically in the outer parts of Melbourne, where there is very low or zero transit supply. 
-- A similar pattern of higher transit supply near railway lines is evident, but there appears to be more areas with above average or better service levels further out from the centre of the city.
-- In general, above average, high and very high service levels appear to be more spread out, especially into the middle suburbs.
+Higher levels of transit continue to be mostly in the inner and middle suburbs, and along railway corridors. However, there appears to be higher levels of service further out, especially close to the ends of most of the train lines.  As well, there are new isolated clusters of above average, high and very high levels of service, for example in the south-west (around Werribee area). However, some caution may be required in directly comparing the 2016 and 2021 maps with the 2006 map, due to the 
 
 Comparing 2016 and 2021 suggests that the geographic spread of service levels has remained largely the same, albeit with some areas that had little to no transit service appearing to have new services.
 
