@@ -585,7 +585,16 @@ stops_in_or_near_areas = stops_in_or_near_areas,
  end_date_ymd = "2021-08-16",
 verbose = TRUE)
 
-write.csv(si_SA12021_21_census_week, "results/Greater_Melbourne/si_SA12021_21_census_week")
+write.csv(si_SA12021_21_census_week, "results/Greater_Melbourne/si_SA12021_21_census_week.csv")
+
+si_SA12021_21_census_week <- read_csv("results/Greater_Melbourne/si_SA12021_21_census_week.csv")
+
+si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(si_SA12021_21_census_week_aggregated, "results/si_SA12021_21_census_week_aggregated.csv")
+
 
 ```
 
@@ -840,135 +849,109 @@ and comparison to results from calculating the SI scores by hand.
 ## Greater Melbourne 
 
 ### SI scores
-```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
-
-
-si_SA12021_16_census_week <- read.csv( "results/Greater_Melbourne/si_SA12021_16_census_week")
-
-
-si_SA12021_16_census_week <- read.csv( "results/Greater_Melbourne/si_SA12021_16_census_week")
-
+```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transport Supply by SA1, weeks starting the dates of the 2016 and 2021 censuses"}
 
 ###2021
 ###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_210810 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_210810")
-si_by_area_and_hour_210810 <- si_by_area_and_hour_210810[,2:4]
-si_by_area_and_hour_210810$area_id <- as.character(si_by_area_and_hour_210810$area_id)
+si_SA12021_21_census_week_aggregated <- read.csv( "results/si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week_aggregated[,2:3]
 
-si_by_area_210810 <- si_by_area_and_hour_210810 %>% 
-           group_by(area_id) %>%    
-           summarize(SI = sum(SI))
+si_SA12021_21_census_week_aggregated$area_id <- si_SA12021_21_census_week_aggregated$area_id %>% 
+  as.character()
 
 ##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
 # that have no SI score
-si_by_area_210810 <- full_join(
+si_SA12021_21_census_week_aggregated <- full_join(
   absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021) %>%
     st_drop_geometry(),
-  si_by_area_210810, 
+  si_SA12021_21_census_week_aggregated, 
   by = join_by(sa1_code_2021  == area_id))
-si_by_area_210810[is.na(si_by_area_210810)] <- 0
+si_SA12021_21_census_week_aggregated[is.na(si_SA12021_21_census_week_aggregated)] <- 0
 
-names(si_by_area_210810) <- c("area_id", "SI")
-si_by_area_210810$Year <- 2021
-
-## Function to define thresholds and return Very High, High etc. as per 
-# Currie2010
+## FUNCTION to define thresholds and return Very High, High etc. 
+# as per Currie2010
 set_thresholds <-function(sa_by_area_dataframe){ 
+
 ## Define Very High, High etc thresholds
 cuts <- sa_by_area_dataframe %>% 
   filter(SI != 0) %>% 
   select(SI) %>% 
   unlist()  %>% 
   as.vector() %>% 
-  quantileCut(6)
+  quantileCut(6) 
 
-cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
-  unique() %>% 
-  as.numeric() %>% 
-  sort()
-  
- sa_by_area_dataframe$SI_binned <- ifelse(
-   sa_by_area_dataframe$SI == 0, "Zero", ifelse(
-     sa_by_area_dataframe$SI < cuts[1], "Very low", ifelse(
-       sa_by_area_dataframe$SI < cuts[2], "Low", ifelse(
-         sa_by_area_dataframe$SI < cuts[3], "Below average", ifelse(
-           sa_by_area_dataframe$SI < cuts[4], "Above average", ifelse(
-             sa_by_area_dataframe$SI < cuts[5], "High", ifelse(
-               sa_by_area_dataframe$SI >= cuts[5], "Very high", NA)
-             )
-           )
-         )
-       )
-     )
-   ) 
-
-sa_by_area_dataframe$SI_binned <- factor(sa_by_area_dataframe$SI_binned, 
-                                         levels = c(
-                                           "Zero", 
-                                           "Very low", 
-                                           "Low", 
-                                           "Below average",
-                                           "Above average", 
-                                           "High", 
-                                           "Very high"
-                                         ))
-si_by_area_dataframe_and_cuts_dataframe <- list(
-  sa_by_area_dataframe,
-  cuts
+# Recode factors
+cuts <- cuts %>% fct_recode(
+  "Very low" = levels(cuts)[1], 
+  "Low" = levels(cuts)[2], 
+  "Below average" = levels(cuts)[3],
+  "Above average" = levels(cuts)[4],
+  "High" = levels(cuts)[5],
+  "Very high" = levels(cuts)[6]
   )
 
+# Connected levels back to area_id
+sa_by_area_dataframe_non_zero <- cbind(
+  sa_by_area_dataframe %>% 
+    filter(SI != 0), 
+  cuts)
+
+#join back to dataframe, and put "Zero" in N/A
+sa_by_area_dataframe <- full_join(
+  sa_by_area_dataframe, 
+  sa_by_area_dataframe_non_zero[,-2]
+)
+sa_by_area_dataframe$cuts <- sa_by_area_dataframe$cuts %>% 
+  fct_explicit_na(na_level = "Zero Supply") %>% 
+  fct_shift(n = -1)
+
+names(sa_by_area_dataframe) <- c("sa1_code_2021", "SI", "Transport Supply")
+
+#return dataframe and information about level cut offs
+si_by_area_dataframe_and_cuts_dataframe <- list(
+  sa_by_area_dataframe,
+  levels(cuts)
+  )
 return(si_by_area_dataframe_and_cuts_dataframe)
 }
+# END FUNCTION
 
-
-si_by_area_210810_thresholds <- set_thresholds(sa_by_area_dataframe = si_by_area_210810)
-si_by_area_210810 <- si_by_area_210810_thresholds[[1]]
-
-
-
-
-
-
-
+si_SA12021_21_census_week_aggregated_thresholds <- set_thresholds(sa_by_area_dataframe = si_SA12021_21_census_week_aggregated)
+si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week_aggregated_thresholds[[1]]
+si_SA12021_21_census_week_aggregated$Year <- 2021
 
 
 ###2016
 ###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_160809 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
-si_by_area_and_hour_160809 <- si_by_area_and_hour_160809[,2:4]
-si_by_area_and_hour_160809$area_id <- as.character(si_by_area_and_hour_160809$area_id)
+########USE 2021 AS PLACE HOLDER
+si_SA12021_16_census_week_aggregated <- read.csv( "results/si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_SA12021_16_census_week_aggregated <- si_SA12021_16_census_week_aggregated[,2:3]
 
-si_by_area_160809 <- si_by_area_and_hour_160809 %>% 
-           group_by(area_id) %>%    
-           summarize(SI = sum(SI))
-
+si_SA12021_16_census_week_aggregated$area_id <- si_SA12021_16_census_week_aggregated$area_id %>% 
+  as.character()
 
 ##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
 # that have no SI score
-si_by_area_160809  <- full_join(
+si_SA12021_16_census_week_aggregated <- full_join(
   absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021) %>%
     st_drop_geometry(),
-  si_by_area_160809 , 
+  si_SA12021_16_census_week_aggregated, 
   by = join_by(sa1_code_2021  == area_id))
-si_by_area_160809[is.na(si_by_area_160809)] <- 0
-
-names(si_by_area_160809) <- c("area_id", "SI")
-
-si_by_area_160809$Year <- 2016
-
-si_by_area_160809_thresholds <- set_thresholds(sa_by_area_dataframe = si_by_area_160809)
-si_by_area_160809 <- si_by_area_160809_thresholds[[1]]
-
-```
+si_SA12021_16_census_week_aggregated[is.na(si_SA12021_16_census_week_aggregated)] <- 0
 
 
-```{r Greater_Melbourne_2016_2021_comparison, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
-si_by_area_2016_2021 <- add_row(si_by_area_160809, si_by_area_210810)
-names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "Year", "SI_binned")
+si_SA12021_16_census_week_aggregated_thresholds <- set_thresholds(sa_by_area_dataframe = si_SA12021_16_census_week_aggregated)
+si_SA12021_16_census_week_aggregated <- si_SA12021_16_census_week_aggregated_thresholds[[1]]
+si_SA12021_16_census_week_aggregated$Year <- 2016
+
+#Combine and plot
+si_by_area_2016_2021 <- add_row(si_SA12021_16_census_week_aggregated, si_SA12021_21_census_week_aggregated)
 
 si_by_area_2016_2021  <- left_join(
   absmapsdata::sa12021 %>% 
@@ -978,7 +961,7 @@ si_by_area_2016_2021  <- left_join(
 
 plot_2016_2021_comparison <- ggplot()+ 
   geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
-          aes(fill = SI_binned), colour=NA) +
+          aes(fill = `Transport Supply`), colour=NA) +
   facet_wrap(vars(Year), nrow = 1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
@@ -989,12 +972,11 @@ plot_2016_2021_comparison <- ggplot()+
 
 plot_2016_2021_comparison
 
+###NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE, OUTER boundaries.  CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE BOUNDARY
 
 
 ```
 
-#PICK UP FROM HERE
-NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE, OUTER boundaries.  CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE BOUNDARY
 
 
 Figure \ref{fig:Greater_Melbourne_2016_2021} shows SI values on census day for Greater Melbourne in 2016 and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that:
