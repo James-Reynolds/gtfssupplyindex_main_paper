@@ -513,13 +513,19 @@ and that the feed covers
 a small number of trips across 
 just three stations.  
 
-Statistical Area 1 (SA1) zones  
-were adopted 
-from the Australian Bureau of Statistics [@ABSmaps] 
-as the areas of interest. 
-SA1 zones are the smallest geographical areas 
-for which results are reported in the Australian census.
-SA3 zones, which are generally similar to Local Government Area (LGA) boundaries, where used when aggregating. 
+## Changes since 2006: Greater Melbourne
+Much has changed since 2006, 
+including the spatial geography used by the 
+Australian Bureau of Statistics (ABS) to collect census data. 
+To allow direct comparison between 2006 and now, therefore, 
+this study first calculated SI scores 
+for the week starting the day of the 2021 census
+using the same 
+Census Collection Districts (CCDs) used by 
+@currie2010identifying. 
+The Victorian GTFS feed, 
+published by Public Transport Victoria (PTV), 
+was used, with historical feeds sourced via @transitfeeds_victoria:2023aa. 
 
 
 ```{r fix_ptv_data_Victoria_210805, eval = FALSE, echo = FALSE}
@@ -542,47 +548,6 @@ tidytransit::write_gtfs(ptv_210805, "data/ptv_210805/gtfs_duplicate_stops_remove
 
 ## convert to list of tidygtfs objects
 ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
-
-```
-
-```{r run_for_all_modes_Victoria_210810_SA1, eval = FALSE, echo = FALSE}
-list_gtfs = ptv_210805_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne") %>%
-    select(sa1_code_2021),  
-  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-
-si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
-     list_gtfs = list_gtfs, 
-stops_in_or_near_areas = stops_in_or_near_areas,
- start_date_ymd = "2021-08-10", 
- end_date_ymd = "2021-08-16",
-verbose = TRUE)
-
-write.csv(si_SA12021_21_census_week, "results/Greater_Melbourne/si_SA12021_21_census_week.csv")
-
-si_SA12021_21_census_week <- read_csv("results/Greater_Melbourne/si_SA12021_21_census_week.csv")
-
-si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week %>% 
-           group_by(area_id) %>%    
-           summarize(SI = sum(SI))
-
-write.csv(si_SA12021_21_census_week_aggregated, "results/si_SA12021_21_census_week_aggregated.csv")
-
 
 ```
 
@@ -632,6 +597,136 @@ write.csv(si_CCD2006_21_census_week_aggregated, "results/si_CCD2006_21_census_we
 
 ```
 
+
+Unfortunately, it is not possible to obtain 
+2016 or 2021 social disadvantage data for 
+CCDs, as the ABS now releases data for SA zones only. 
+SA1 zones, therefore, are adopted for the comparison of 
+social needs-gaps in 2016 and 2021, 
+as discussed in the following. 
+
+## Variation in spatial patterns across location. 
+SI scores were also calculated  
+for the weeks 
+starting the day of the 2016 and 2021 censuses 
+in Greater Melbourne, 
+Greater Brisbane, 
+Greater Perth, 
+Greater Adelaide and
+Greater Hobart. 
+Historical GTFS data was again sourced via the Transit Feeds website, 
+Unfortunately it was not possible to locate 
+historical data for Greater Sydney, 
+so the latest data set was sourced directly from Transport for NSW. 
+
+
+Statistical Area 1 (SA1) zones  
+were adopted 
+from the Australian Bureau of Statistics [@ABSmaps] 
+as the areas of interest,
+so as to allow direct comparison 
+to ABS-reported values for social needs, 
+transport needs, 
+population 
+and other census data. 
+SA3 zones, which are generally similar to Local Government Area (LGA) boundaries, where used when aggregating. 
+
+
+```{r run_for_all_modes_Greater_Melbourne_210810_SA1, eval = FALSE, echo = FALSE}
+list_gtfs = ptv_210805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2021-08-10", 
+ end_date_ymd = "2021-08-16",
+verbose = TRUE)
+
+write.csv(si_SA12021_21_census_week, "results/Greater_Melbourne/si_SA12021_21_census_week.csv")
+
+si_SA12021_21_census_week <- read_csv("results/Greater_Melbourne/si_SA12021_21_census_week.csv")
+
+si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(si_SA12021_21_census_week_aggregated, "results/si_SA12021_21_census_week_aggregated.csv")
+
+
+```
+
+
+```{r run_for_all_modes_Greater_Brisbane_210810_SA1, eval = FALSE, echo = FALSE}
+
+###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
+
+## convert to list of tidygtfs objects
+translink_seq_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_210805/gtfs_edited.zip")
+
+
+
+list_gtfs = translink_seq_210805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Brisbane") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+brisbane_si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2021-08-10", 
+ end_date_ymd = "2021-08-16",
+verbose = TRUE)
+
+write.csv(brisbane_si_SA12021_21_census_week, "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week.csv")
+
+brisbane_si_SA12021_21_census_week <- read_csv("results/Greater_Brisbane/brisbane_si_SA12021_21_census_week")
+
+brisbane_si_SA12021_21_census_week_aggregated <- brisbane_si_SA12021_21_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(brisbane_si_SA12021_21_census_week_aggregated, "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv")
+
+
+```
+
+
+
+
+## Variation in time
+
+SHOULD THIS BE RUN FOR ALL YEARS AS FAR BACK AS THE GTFS DATA GOES??
+
+
 ```{r fix_ptv_data_Victoria_160804, eval = FALSE, echo = FALSE}
  
 
@@ -655,6 +750,7 @@ tidytransit::write_gtfs(ptv_160804, "data/ptv_160804/gtfs_duplicate_stops_remove
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
 ```
+
 
 ```{r run_for_all_modes_Victoria_160809, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_160804_list_gtfs
@@ -685,46 +781,6 @@ write.csv(si_SA12021_16_census_week, "results/Greater_Melbourne/si_SA12021_16_ce
 
 ```
 
-## Changes since 2006: Greater Melbourne
-Much has changed since 2006, 
-including the spatial geography used by the 
-Australian Bureau of Statistics (ABS) to collect census data. 
-To allow direct comparison between 2006 and now, therefore, 
-this study first calculated SI scores 
-for the week starting the day of the 2021 census
-using the same 
-Census Collection Districts (CCDs) used by 
-@currie2010identifying. 
-The Victorian GTFS feed, 
-published by Public Transport Victoria (PTV), 
-was used, with historical feeds sourced via @transitfeeds_victoria:2023aa. 
-
-Unfortunately, it is not possible to obtain 
-2016 or 2021 social disadvantage data for 
-CCDs, as the ABS now releases data for SA zones only. 
-SA1 zones, therefore, are adopted for the comparison of 
-social needs-gaps in 2016 and 2021, 
-as discussed in the following. 
-
-## Variation in spatial patterns across location. 
-SI scores were also calculated  
-for the weeks 
-starting the day of the 2016 and 2021 censuses 
-in Greater Melbourne, 
-Greater Brisbane, 
-Greater Perth, 
-Greater Adelaide and
-Greater Hobart. 
-Historical GTFS data was again sourced via the Transit Feeds website, 
-Unfortunately it was not possible to locate 
-historical data for Greater Sydney, 
-so the latest data set was sourced directly from Transport for NSW. 
-SA1 zones were adopted as the areas of interest 
-so as to allow direct comparison 
-to ABS-reported values for social needs, 
-transport needs, 
-population 
-and other census data. 
 
 ## Measuring social disadvantage
 This study adopts a similar approach to measuring social disadvantage 
