@@ -666,7 +666,7 @@ si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week %>%
            group_by(area_id) %>%    
            summarize(SI = sum(SI))
 
-write.csv(si_SA12021_21_census_week_aggregated, "results/si_SA12021_21_census_week_aggregated.csv")
+write.csv(si_SA12021_21_census_week_aggregated, "results/Greater_Melbourne/si_SA12021_21_census_week_aggregated.csv")
 
 
 ```
@@ -1023,11 +1023,123 @@ and comparison to SI scores calculated manually.
 
 ```{r Greater_Melbourne_CCD_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transport Supply by CCD, weeks starting the dates of the 2016 and 2021 censuses"}
 
+
+###2021 Greater Melbourne CCD
+###Load results from CSV (Precalculated above) and make first column character
+si_CCD2006_21_census_week_aggregated <- read.csv( "results/Greater_Melbourne/si_CCD2006_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_CCD2006_21_census_week_aggregated <- si_CCD2006_21_census_week_aggregated[,2:3]
+
+si_CCD2006_21_census_week_aggregated$area_id <- si_CCD2006_21_census_week_aggregated$area_id %>% 
+  as.character()
+
+
+asgc2006 <- st_read("data/asgc2006.gpkg", layer = "census_collection_district_2006")
+st_geometry(asgc2006) <- "geometry"
+
+melbourne_CCD <- asgc2006 %>% 
+  filter(MSR_NAME_2006 == "Melbourne") %>%
+  select(CD_CODE_2006)
+
+
+##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
+# that have no SI score
+si_CCD2006_21_census_week_aggregated <- full_join(
+  melbourne_CCD,
+  si_CCD2006_21_census_week_aggregated, 
+  by = join_by(CD_CODE_2006  == area_id))
+si_CCD2006_21_census_week_aggregated[is.na(si_CCD2006_21_census_week_aggregated)] <- 0
+
+## FUNCTION to define thresholds and return Very High, High etc. 
+# as per Currie2010
+set_thresholds <-function(si_by_area_dataframe){ 
+
+## Define Very High, High etc thresholds
+cuts <- si_by_area_dataframe %>% 
+  st_drop_geometry() %>% 
+  filter(SI != 0) %>% 
+  select(SI) %>% unlist() %>% 
+  as.vector() %>% 
+  quantileCut(6)
+
+# Recode factors
+allocation <- cuts %>% fct_recode(
+  "Very low" = levels(cuts)[1], 
+  "Low" = levels(cuts)[2], 
+  "Below average" = levels(cuts)[3],
+  "Above average" = levels(cuts)[4],
+  "High" = levels(cuts)[5],
+  "Very high" = levels(cuts)[6]
+  )
+
+# Connected levels back to area_id
+si_by_area_dataframe_non_zero <- cbind(
+  si_by_area_dataframe %>% 
+    st_drop_geometry() %>% 
+    filter(SI != 0), 
+  allocation)
+
+#join back to dataframe, and put "Zero" in N/A
+si_by_area_dataframe <- full_join(
+  si_by_area_dataframe %>% 
+    st_drop_geometry(), 
+  si_by_area_dataframe_non_zero[,-2]
+)
+si_by_area_dataframe$allocation <- si_by_area_dataframe$allocation %>% 
+  fct_explicit_na(na_level = "Zero Supply") %>% 
+  fct_shift(n = -1)
+
+names(si_by_area_dataframe) <- c("area_of_interest", "SI", "Transit Supply")
+
+#return dataframe and information about level cut offs
+si_by_area_dataframe_and_cuts_dataframe <- list(
+  si_by_area_dataframe,
+  levels(cuts)
+  )
+return(si_by_area_dataframe_and_cuts_dataframe)
+}
+# END FUNCTION
+
+si_CCD2006_21_census_week_aggregated_thresholds <- set_thresholds(si_by_area_dataframe = si_CCD2006_21_census_week_aggregated)
+si_CCD2006_21_census_week_aggregated <- si_CCD2006_21_census_week_aggregated_thresholds[[1]]
+si_CCD2006_21_census_week_aggregated$Year <- 2021
+
+si_CCD2006_21_census_week_aggregated <- left_join(
+  melbourne_CCD, 
+  si_CCD2006_21_census_week_aggregated, 
+  join_by(CD_CODE_2006 == area_of_interest))
+
+plot_2021_Melbourne_CCD <- ggplot()+ 
+  geom_sf(data=si_CCD2006_21_census_week_aggregated %>% na.omit(),
+          aes(fill = `Transit Supply`), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+
+
+
+###NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE, OUTER boundaries.  CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE BOUNDARY
+
+plot_2021_Melbourne_CCD
 ```
 
 
+
+
 Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores  
-for Melbourne in the week of the 2021 census and using the same 2006 CCD boundaries as in Figure \ref{fig:Currie_map_SI}.
+for Melbourne in the week of the 2021 census, 
+using the same (2006) CCD boundaries as in Figure \ref{fig:Currie_map_SI}. 
+In general, the 2021 spatial patterns appear similar to those in 2006, 
+with higher levels of transit supply in inner areas and close to railway lines. 
+There are still some areas with zero transit supply in outer areas, 
+although fewer than in 2006.  
+Transit supply also appears to be more spread out in 2021 than in 2006, 
+with higher levels of transit supply provided in many middle 
+and outer locations. 
+
 
 ## Variation in spatial patterns across Australian cities
 
@@ -1037,7 +1149,7 @@ for Melbourne in the week of the 2021 census and using the same 2006 CCD boundar
 
 ###2021 Greater Melbourne
 ###Load results from CSV (Precalculated above) and make first column character
-si_SA12021_21_census_week_aggregated <- read.csv( "results/si_SA12021_21_census_week_aggregated.csv") %>% 
+si_SA12021_21_census_week_aggregated <- read.csv( "results/Greater_Melbourne/si_SA12021_21_census_week_aggregated.csv") %>% 
   as_tibble()
 si_SA12021_21_census_week_aggregated <- si_SA12021_21_census_week_aggregated[,2:3]
 
@@ -1302,15 +1414,15 @@ combined_needs_index_2021_sa1_greater_melbourne <-
   left_join(combined_needs_index_2021_sa1_greater_melbourne %>% 
               st_drop_geometry() %>%
               na.omit(), 
-            si_by_area_2016_2021 %>% 
-              st_drop_geometry() %>% filter(Year == 2021))
+            si_SA12021_21_census_week_aggregated %>% 
+              st_drop_geometry())
 
 combined_needs_index_2021_sa1_greater_melbourne[is.na(combined_needs_index_2021_sa1_greater_melbourne)] <- "Zero" 
 
 combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned <- 
   fct_rev(combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned)
 
-Greater_Melbourne_2021_needs_gap_SA1_count <- tabyl(combined_needs_index_2021_sa1_greater_melbourne, SI_binned, combined_needs_index_binned)
+Greater_Melbourne_2021_needs_gap_SA1_count <- tabyl(combined_needs_index_2021_sa1_greater_melbourne, `Transit Supply`,  combined_needs_index_binned)
 
 #Greater_Melbourne_2021_needs_gap_SA1_count %>% 
 #  adorn_totals(where = c("row", "col")) %>% 
@@ -1334,7 +1446,7 @@ Greater_Melbourne_2021_needs_gap_SA1_count_longer$Year <- 2021
 ```{r Greater_Melbourne_2021_needs_gap_percentage, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of categories of composite social need index scores"}
 
 Greater_Melbourne_2021_needs_gap_SA1_population <- tapply(combined_needs_index_2021_sa1_greater_melbourne$population,
-       list(combined_needs_index_2021_sa1_greater_melbourne$SI_binned, combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned), 
+       list(combined_needs_index_2021_sa1_greater_melbourne$`Transit Supply`, combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned), 
        sum) %>% 
   as.data.frame() %>%
   rownames_to_column() 
