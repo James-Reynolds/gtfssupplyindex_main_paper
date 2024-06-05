@@ -438,9 +438,34 @@ example and comparison to SI scores calculated manually.
 \subsection{Changes since 2006: Greater
 Melbourne}\label{changes-since-2006-greater-melbourne-1}
 
+\begin{verbatim}
+## Reading layer `census_collection_district_2006' from data source 
+##   `/Users/jreynold/Documents/0001_project/gtfssupplyindex_main_paper/data/asgc2006.gpkg' 
+##   using driver `GPKG'
+## Simple feature collection with 38612 features and 41 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 96.81677 ymin: -43.74051 xmax: 159.1092 ymax: -9.142176
+## Geodetic CRS:  GDA94
+\end{verbatim}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021-1.pdf}
+\caption{Transport Supply by CCD, weeks starting the dates of the 2016
+and 2021 censuses}
+\end{figure}
+
 Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores\\
-for Melbourne in the week of the 2021 census and using the same 2006 CCD
-boundaries as in Figure \ref{fig:Currie_map_SI}.
+for Melbourne in the week of the 2021 census, using the same (2006) CCD
+boundaries as in Figure \ref{fig:Currie_map_SI}. In general, the 2021
+spatial patterns appear similar to those in 2006, with higher levels of
+transit supply in inner areas and close to railway lines. There are
+still some areas with zero transit supply in outer areas, although fewer
+than in 2006.\\
+Transit supply also appears to be more spread out in 2021 than in 2006,
+with higher levels of transit supply provided in many middle and outer
+locations.
 
 \subsection{Variation in spatial patterns across Australian
 cities}\label{variation-in-spatial-patterns-across-australian-cities}
@@ -456,83 +481,9 @@ TURN\textgreater{}
 \end{figure}
 
 Figure \ref{fig:Australian_cities_2021} shows SI values for the week
-starting on the day of the 2021 census day for Greater Melbourne in 2016
-and 2021. Comparison to Figure \ref{fig:Currie_map_SI} indicates that.
-The transit network and the Greater Melbourne Greater Capital City
-Statistical Area (GCCSA) both cover more area than they did in 2006.
-However, there are still many areas, especially in the outer suburbs,
-with very low or zero transit supply.
-
-Comparing 2016 and 2021 suggests that the geographic spread of service
-levels has remained largely the same, albeit with some areas that had
-little to no transit service appearing to have new services.
-
-\begin{tabular}{l|l|l}
-\hline
-**Characteristic** & **2016**, N = 10,723 & **2021**, N = 10,999\\
-\hline
-SI & NA & NA\\
-\hline
-Mean (SD) & 489 (1,019) & 486 (982)\\
-\hline
-Median (25\%,75\%) & 229 (92,524) & 237 (95,523)\\
-\hline
-Range & 0, 15,781 & 0, 15,346\\
-\hline
-\end{tabular}
-
-\begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_2021_year_SI-1.pdf}
-\caption{SI scores by SA3, census day 2016 and 2021}
-\end{figure}
-
-Figure \ref{fig:Greater_Melbourne_2016_2021_year_SI} compares SI scores
-for Greater Melbourne across 2016 and 2021. Results indicate a
-statistically significant difference, but there does not appear to have
-been much change across median, mean, interquartile range or overall
-range (See table)
-
-Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} compares the
-2016 and 2021 SI scores for SA1 zones across Greater Melbourne. Results
-indicate a statistically significant relationship, and for most SA1
-zones it appears that SI scores have remained largely the same in 2021
-as they were in 2016. Of interest, however, may be a group of SA1s that
-had SI scores in the range of 3-4,000 in 2016, but only around 2,500 in
-2021.
-
-\citet{currie2010identifying} also reported the distribution of SI
-scores by category across the number of CCDs and the resident
-population.
-
-\begin{table}
-
-\caption{\label{tab:Greater_Melbourne_2016_2021_sa1_population}Distribution of supply index categories, by number of SA1 zones for 2021}
-\centering
-\begin{tabular}[t]{l|r|l|l}
-\hline
-SI\_binned & n & percent & valid\_percent\\
-\hline
-Zero & 0 & 0.0\% & 0.0\%\\
-\hline
-Very low & 1803 & 16.4\% & 16.4\%\\
-\hline
-Low & 1794 & 16.3\% & 16.3\%\\
-\hline
-Below median & 1838 & 16.7\% & 16.7\%\\
-\hline
-Above median & 1888 & 17.2\% & 17.2\%\\
-\hline
-High & 1851 & 16.8\% & 16.8\%\\
-\hline
-Very high & 1821 & 16.6\% & 16.6\%\\
-\hline
-NA & 4 & 0.0\% & -\\
-\hline
-Total & 10999 & 100.0\% & 100.0\%\\
-\hline
-\end{tabular}
-\end{table}
+starting on the day of the 2021 census for all Australian Capital Cities
+except Greater Sydney, for which the SI values are calculated for the
+week starting .
 
 \subsubsection{Social needs}\label{social-needs}
 
@@ -606,12 +557,12 @@ and social/transport need category between 2006 and 2021. Population is
 compared in Figure
 \ref{fig:Greater_Melbourne_2006_2021_needs_gap_population}
 
-These results indicate that, in 2021, 66 SA1 zones, (representing
+These results indicate that, in 2021, 65 SA1 zones, (representing
 0.6\%of the total 11,138SA1 zones in Greater Melbourne) had no public
 transport, but very `very high' social/transport needs. These zones have
 a combined population of
 
-\ensuremath{4.5074\times 10^{4}} SA1 zones, representing 45,074(0.9\% of
+\ensuremath{4.4232\times 10^{4}} SA1 zones, representing 44,232(0.9\% of
 the total 4,885,773 population) live in areas with no public transport
 but have `very high' social/transport needs. This compares to the 89
 CCDs (1.6\% of the 5,720 total), representing 37,699 Melbourne residents
