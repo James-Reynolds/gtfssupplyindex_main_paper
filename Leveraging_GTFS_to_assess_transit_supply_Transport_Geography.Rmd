@@ -720,6 +720,52 @@ write.csv(brisbane_si_SA12021_21_census_week_aggregated, "results/Greater_Brisba
 ```
 
 
+```{r run_for_all_modes_Greater_Brisbane_210810_SA1, eval = FALSE, echo = FALSE}
+
+###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
+
+## convert to list of tidygtfs objects
+translink_seq_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_210805/gtfs_edited.zip")
+
+
+
+list_gtfs = translink_seq_210805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Brisbane") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+brisbane_si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2021-08-10", 
+ end_date_ymd = "2021-08-16",
+verbose = TRUE)
+
+write.csv(brisbane_si_SA12021_21_census_week, "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week.csv")
+
+brisbane_si_SA12021_21_census_week <- read_csv("results/Greater_Brisbane/brisbane_si_SA12021_21_census_week")
+
+brisbane_si_SA12021_21_census_week_aggregated <- brisbane_si_SA12021_21_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(brisbane_si_SA12021_21_census_week_aggregated, "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv")
+
+
+```
 
 
 ## Variation in time
