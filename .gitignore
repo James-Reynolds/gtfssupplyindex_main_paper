@@ -44,6 +44,7 @@ literature/
 # Large result files that won't fit on github
 results/Greater_Melbourne/si_SA12021_21_census_week.csv
 results/Greater_Melbourne/si_SA12021_16_census_week.csv
+results/Greater_Melbourne/si_CCD2006_21_census_week.csv
 results/Greater_Brisbane/brisbane_si_SA12021_21_census_week.csv
 results/Great_Adelaide/adelaide_si_SA12021_21_census_week.csv
 results/Greater_Hobart/hobart_si_SA12021_21_census_week.csv
