@@ -91,7 +91,7 @@ library(lsr)
 library(ggpubr)
 library(viridis)
 library(geosphere)
-library(ggsn)
+
 
 # invalidate cache when the tufte version changes
 #knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
@@ -881,7 +881,7 @@ list_gtfs = canberra_merged_2107_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(
   absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Canberra") %>%
+    filter(state_name_2021 == "Australian Capital Territory") %>%
     select(sa1_code_2021),  
   area_id_field = "sa1_code_2021")
 
