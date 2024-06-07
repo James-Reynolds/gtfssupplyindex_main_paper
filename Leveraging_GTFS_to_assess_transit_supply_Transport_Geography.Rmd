@@ -864,11 +864,18 @@ write.csv(perth_si_SA12021_21_census_week_aggregated, "results/Greater_Perth/per
 
 ```{r run_for_all_modes_Greater_Canberra_210810_SA1, eval = FALSE, echo = FALSE}
 
-#Load gtfs for bus
+#Load gtfs for bus and LRT and merge
+action_buses_210701 <- gtfstools::read_gtfs("data/action_buses_210701/gtfs.zip") 
+canberra_light_rail_210709 <- gtfstools::read_gtfs("data/canberra_light_rail_210709/gtfs.zip") 
+
+canberra_gtfs_merged_2107 <- gtfstools::merge_gtfs(action_buses_210701, canberra_light_rail_210709)
+
 gtfstools::write_gtfs(canberra_gtfs_merged_2107, "data/canberra_gtfs_merge_2107/gtfs.zip")
 
 ## convert to list of tidygtfs objects
-action_buses_210701_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/action_buses_210701/gtfs.zip")
+canberra_merged_2107_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/canberra_gtfs_merge_2107/gtfs.zip")
+
+
 
 list_gtfs = canberra_merged_2107_list_gtfs
 
@@ -888,52 +895,16 @@ stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
 )
 
 
-action_buses_si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
+canberra_si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
      list_gtfs = list_gtfs, 
 stops_in_or_near_areas = stops_in_or_near_areas,
  start_date_ymd = "2021-08-10", 
  end_date_ymd = "2021-08-16",
 verbose = TRUE)
 
-write.csv(action_buses_si_SA12021_21_census_week, "results/Greater_Canberra/action_buses_si_SA12021_21_census_week.csv")
+write.csv(canberra_si_SA12021_21_census_week, "results/Greater_Canberra/canberra_si_SA12021_21_census_week.csv")
 
-#action_buses_si_SA12021_21_census_week <- read_csv("results/Greater_Canberra/action_buses_si_SA12021_21_census_week")
-
-
-###Load gtfs for LRT 
-## convert to list of tidygtfs objects
-canberra_light_rail_210701_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/canberra_light_rail_210709/gtfs.zip")
-
-list_gtfs = canberra_light_rail_210701_list_gtfs
-
-areas_of_interest <- load_areas_of_interest(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Canberra") %>%
-    select(sa1_code_2021),  
-  area_id_field = "sa1_code_2021")
-
-buffer_distance <- gtfssupplyindex:::load_buffer_zones()
-
-stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
-  list_gtfs = list_gtfs, 
-  areas_of_interest = areas_of_interest,
-  EPSG_for_transform = 28355,
-  verbose = FALSE
-)
-
-canberra_light_rail_si_SA12021_21_census_week <- SI_by_day_hour_and_route_type(
-     list_gtfs = list_gtfs, 
-stops_in_or_near_areas = stops_in_or_near_areas,
- start_date_ymd = "2021-08-10", 
- end_date_ymd = "2021-08-16",
-verbose = TRUE)
-
-write.csv(canberra_light_rail_si_SA12021_21_census_week, "results/Greater_Canberra/canberra_light_rail_si_SA12021_21_census_week.csv")
-
-#action_buses_si_SA12021_21_census_week <- read_csv("results/Greater_Canberra/action_buses_si_SA12021_21_census_week")
-
-###Combine bus and LRT
-canberra_si_SA12021_21_census_week %>% add_row(canberra_light_rail_si_SA12021_21_census_week, action_buses_si_SA12021_21_census_week)
+#canberra_si_SA12021_21_census_week <- read_csv("results/Greater_Canberra/canberra_si_SA12021_21_census_week")
 
 canberra_si_SA12021_21_census_week_aggregated <- canberra_si_SA12021_21_census_week %>% 
            group_by(area_id) %>%    
