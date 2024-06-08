@@ -963,9 +963,28 @@ write.csv(darwin_si_SA12021_240806_week_aggregated, "results/Greater_Darwin/darw
 ```
 
 ```{r run_for_all_modes_Sydney_240806_SA1, eval = FALSE, echo = FALSE}
+# Revise routes.txt to remove extended route types
+# Outside of R extracted the gtfs.zip
+routes <- read_csv("data/sydney_240607/full_greater_sydney_gtfs_static_0/routes.csv")
+
+routes_revised <- routes %>% 
+    mutate(route_type = replace(route_type, route_type == 714, 3)) %>% 
+    mutate(route_type = replace(route_type, route_type == 700, 3)) %>% 
+    mutate(route_type = replace(route_type, route_type == 712, 3)) %>% 
+    mutate(route_type = replace(route_type, route_type == 401, 1)) %>% 
+    mutate(route_type = replace(route_type, route_type == 204, 3)) %>% 
+    mutate(route_type = replace(route_type, route_type == 106, 2)) %>% 
+    mutate(route_type = replace(route_type, route_type == 205, 3)) %>% 
+    mutate(route_type = replace(route_type, route_type == 900, 0)) 
+
+
+write.csv(routes_revised, "data/sydney_240607/full_greater_sydney_gtfs_static_0/routes.csv")
+
+# Outside of R renamed routes.csv to routes.txt and zipped the gtfs feed back up again
+  
 
 ## convert to list of tidygtfs objects
-sydney_240607_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/sydney_240607/gtfs.zip")
+sydney_240607_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/sydney_240607/gtfs_revised.zip")
 
 
 
