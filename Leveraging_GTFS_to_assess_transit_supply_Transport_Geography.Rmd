@@ -1237,9 +1237,10 @@ as a worked example
 and comparison to SI scores calculated manually.  
 
 ## Changes since 2006: Greater Melbourne
+### 2021 SI scores - CCDs 
 
 
-```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Transport Supply by CCD, week starting the day of the 2021 census"}
+```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census"}
 
 ## FUNCTION to define thresholds and return Very High, High etc. 
 # as per Currie2010 Table 3 and page 34. 
@@ -1267,7 +1268,7 @@ cuts_upper_groups <- si_by_area_dataframe %>%
 
 # Recode lower_group factors
 allocation_lower_groups <- cuts_lower_groups %>% fct_recode(
-  "Very low" = levels(cuts_lower_groups)[1], 
+  "Very Low" = levels(cuts_lower_groups)[1], 
   "Low" = levels(cuts_lower_groups)[2], 
   "Below average" = levels(cuts_lower_groups)[3])
 
@@ -1275,7 +1276,7 @@ allocation_lower_groups <- cuts_lower_groups %>% fct_recode(
 allocation_upper_groups <- cuts_upper_groups %>% fct_recode(
   "Above average" = levels(cuts_upper_groups)[1], 
   "High" = levels(cuts_upper_groups)[2], 
-  "Very high" = levels(cuts_upper_groups)[3])
+  "Very High" = levels(cuts_upper_groups)[3])
 
 
 # Join back to lower_group SIs and areas_of_interest
@@ -1380,38 +1381,28 @@ si_CCD2006_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_ar
 
 si_CCD2006_21_census_week_aggregated[["output_plot"]]
 
+si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% 
+  filter(`Transit Supply` == "Zero Supply") %>% 
+  nrow() 
+
 ```
 
 Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores 
 for Melbourne in the week of the 2021 census, 
-using the same (2006) CCD boundaries as shown in Figure \ref{fig:Currie_map_SI}. 
-
-
-
+using the same (2006) CCD boundaries as shown in Figure \ref{fig:Currie_map_SI}.
 Comparing Figures \ref{fig:Currie_map_SI} 
 and \ref{fig:Greater_Melbourne_CCD_2021} suggests: 
 
-- Overall spatial patterns appear generally similar in 2021 as in 2006,  
-with higher levels of transit supply in inner areas and close to most railway lines.
-- There are still many areas with very low or zero transit supply, especially in outer areas. 
-However, .  
-Transit supply also appears to be more spread out in 2021 than in 2006, 
-with higher levels of transit supply provided in many middle 
-and outer locations. 
+- Overall spatial patterns appear generally similar in 2021 as in 2006, with higher levels of transit supply in inner areas and close to most railway lines.
+- There are still many areas with very low or zero transit supply, especially in outer areas. However, only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(`Transit Supply` == "Zero Supply") %>%   nrow()` CCDs have Zero Supply in 2021, compared to the 186 in 2006 reported in @currie2010identifying. 
+  There are, however, slightly more CCDs included in this 2021 analysis (`r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()` compared to the 5,720 in 2006), meaning that the percentage of CCDs with Zero Supply has fallen to `r percent_format(accuracy = 0.01)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(`Transit Supply` == "Zero Supply") %>%  nrow()) / (si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))` from the 3.25% in 2006. The average SI value has also increased to `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digts = 5)` from its value of 2,886.9 in 2006, indicating that the overall transit service supply score has increased by approximately `r percent_format(accuracy = 1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist() %>% mean() * si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()) / (2886.9 * 5839)-1)`.
 
+```{r Greater_Melbourne_SA1_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1, weeks starting the date of 2021 census"}
 
-
-
-Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores  
-for Melbourne in the week of the 2021 census and using the same 2006 CCD boundaries as in Figure \ref{fig:Currie_map_SI}.
-
-## Variation in spatial patterns across Australian cities
-
-```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
 
 ## 2021 Greater Melbourne
 si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble(
+  as_tibble()
 si_by_area <- si_by_area[,2:3]
 
 areas_of_interest <-  absmapsdata::sa12021 %>% 
@@ -1419,6 +1410,16 @@ areas_of_interest <-  absmapsdata::sa12021 %>%
     select(sa1_code_2021)
 
 melbourne_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+melbourne_si_SA12021_21_census_week_aggregated[["output plot"]]
+
+```
+
+
+
+## Variation in spatial patterns across Australian cities
+
+```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
 
 ## 2021 Greater Adelaide
 si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
