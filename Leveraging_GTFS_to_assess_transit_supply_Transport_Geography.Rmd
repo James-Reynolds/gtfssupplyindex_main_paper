@@ -18,9 +18,7 @@ author:
   
 address:
   - code: Public Transport Research Group (PTRG)
-    organization: Public Transport Research Group (PTRG), 
-    Institute of Transport Studies, 
-    Department of Civil Engineering Engineering, Monash University
+    organization: Public Transport Research Group (PTRG), Institute of Transport Studies, Department of Civil Engineering Engineering, Monash University
     addressline: Clayton Campus
     city: Melbourne 
     state: Victoria
@@ -1228,66 +1226,92 @@ names(social_2021_sa1) <- c("sa1_code_2021",
 # Results
 ## The gtfssupplyindex Package
 Code developed to calculate SI scores 
-is available as an R package on github as @gtfssupplyindex_github. 
+is available as an R package on github (see @gtfssupplyindex_github).
 Included in the package 
 is a vignette that outlines 
 the structure of the calculations, 
 the developed functions (LINK HERE), 
-The vignette also includes step-by-step calculations for the 
+and step-by-step calculations for the 
 Mornington Peninsula Railway 
-that provide a worked example 
+as a worked example 
 and comparison to SI scores calculated manually.  
 
 ## Changes since 2006: Greater Melbourne
 
 
-```{r Greater_Melbourne_CCD_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transport Supply by CCD, weeks starting the dates of the 2016 and 2021 censuses"}
+```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Transport Supply by CCD, week starting the day of the 2021 census"}
 
 ## FUNCTION to define thresholds and return Very High, High etc. 
-# as per Currie2010
+# as per Currie2010 Table 3 and page 34. 
+# the approach appears to be to first identify zones that have zero supply 
+# the remainder are then split into those above and below the average SI value
+# these two groups are then each split into three groups of roughly equal size. 
 set_thresholds <-function(si_by_area_dataframe){ 
 
 ## Define Very High, High etc thresholds
-cuts <- si_by_area_dataframe %>% 
+cuts_lower_groups <- si_by_area_dataframe %>% 
   st_drop_geometry() %>% 
-  filter(SI != 0) %>% 
+  filter(SI !=0) %>%
+  filter(SI <= SI %>% mean()) %>% 
   select(SI) %>% unlist() %>% 
   as.vector() %>% 
-  quantileCut(6)
+  quantileCut(3)
 
-# Recode factors
-allocation <- cuts %>% fct_recode(
-  "Very low" = levels(cuts)[1], 
-  "Low" = levels(cuts)[2], 
-  "Below average" = levels(cuts)[3],
-  "Above average" = levels(cuts)[4],
-  "High" = levels(cuts)[5],
-  "Very high" = levels(cuts)[6]
-  )
+cuts_upper_groups <- si_by_area_dataframe %>% 
+  st_drop_geometry() %>% 
+  filter(SI !=0) %>%
+  filter(SI > SI %>% mean()) %>%
+  select(SI) %>% unlist() %>% 
+  as.vector() %>% 
+  quantileCut(3)
 
-# Connected levels back to area_id
-si_by_area_dataframe_non_zero <- cbind(
-  si_by_area_dataframe %>% 
-    st_drop_geometry() %>% 
-    filter(SI != 0), 
-  allocation)
+# Recode lower_group factors
+allocation_lower_groups <- cuts_lower_groups %>% fct_recode(
+  "Very low" = levels(cuts_lower_groups)[1], 
+  "Low" = levels(cuts_lower_groups)[2], 
+  "Below average" = levels(cuts_lower_groups)[3])
+
+# Recode upper_group factors
+allocation_upper_groups <- cuts_upper_groups %>% fct_recode(
+  "Above average" = levels(cuts_upper_groups)[1], 
+  "High" = levels(cuts_upper_groups)[2], 
+  "Very high" = levels(cuts_upper_groups)[3])
+
+
+# Join back to lower_group SIs and areas_of_interest
+si_by_area_dataframe_below_average <- si_by_area_dataframe %>% 
+  st_drop_geometry() %>% 
+  filter(SI !=0) %>%
+  filter(SI <= SI %>% mean()) 
+si_by_area_dataframe_below_average$`Transit Supply` <- allocation_lower_groups
+
+# Join back to upper_group SIs and areas_of_interest
+si_by_area_dataframe_above_average <- si_by_area_dataframe %>% 
+  st_drop_geometry() %>% 
+  filter(SI !=0) %>%
+  filter(SI > SI %>% mean()) 
+si_by_area_dataframe_above_average$`Transit Supply` <- allocation_upper_groups
+
+# combine upper and lower groups
+  
+si_by_area_dataframe_non_zero <- add_row(si_by_area_dataframe_below_average, 
+                                         si_by_area_dataframe_above_average)
 
 #join back to dataframe, and put "Zero" in N/A
 si_by_area_dataframe <- full_join(
   si_by_area_dataframe %>% 
     st_drop_geometry(), 
-  si_by_area_dataframe_non_zero[,-2]
+  si_by_area_dataframe_non_zero
 )
-si_by_area_dataframe$allocation <- si_by_area_dataframe$allocation %>% 
+
+si_by_area_dataframe$`Transit Supply` <- si_by_area_dataframe$`Transit Supply` %>% 
   fct_explicit_na(na_level = "Zero Supply") %>% 
   fct_shift(n = -1)
-
-names(si_by_area_dataframe) <- c("area_id", "SI", "Transit Supply")
 
 #return dataframe and information about level cut offs
 si_by_area_dataframe_and_cuts_dataframe <- list(
   si_by_area_dataframe,
-  levels(cuts)
+  c(levels(cuts_lower_groups), levels(cuts_upper_groups))
   )
 return(si_by_area_dataframe_and_cuts_dataframe)
 }
@@ -1325,9 +1349,11 @@ output_plot <- ggplot()+
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(),
-        legend.position="bottom") + #remove y axis ticks
-  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) #remove y axis ticks
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="bottom",
+        legend.text = element_text(size = 4), 
+        legend.title = element_text(size = 5)) + 
+  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
 ###NEED TO ADD SCALE, NORTH ARROW AND INNER, MIDDLE, OUTER boundaries.  CONSIDER ADDING TRAIN LINES AND 2006 GREATER MELBOURNE BOUNDARY
@@ -1342,7 +1368,7 @@ si_by_area <- read.csv("results/Greater_Melbourne/si_CCD2006_21_census_week_aggr
   as_tibble()
 si_by_area <- si_by_area[,2:3]
 
-asgc2006 <- st_read("data/asgc2006.gpkg", layer = "census_collection_district_2006")
+asgc2006 <- st_read("data/asgc2006.gpkg", layer = "census_collection_district_2006", quiet = TRUE)
 st_geometry(asgc2006) <- "geometry"
 
 melbourne_CCD <- asgc2006 %>% 
@@ -1356,13 +1382,19 @@ si_CCD2006_21_census_week_aggregated[["output_plot"]]
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores  
+Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores 
 for Melbourne in the week of the 2021 census, 
-using the same (2006) CCD boundaries as in Figure \ref{fig:Currie_map_SI}. 
-In general, the 2021 spatial patterns appear similar to those in 2006, 
-with higher levels of transit supply in inner areas and close to railway lines. 
-There are still some areas with zero transit supply in outer areas, 
-although fewer than in 2006.  
+using the same (2006) CCD boundaries as shown in Figure \ref{fig:Currie_map_SI}. 
+
+
+
+Comparing Figures \ref{fig:Currie_map_SI} 
+and \ref{fig:Greater_Melbourne_CCD_2021} suggests: 
+
+- Overall spatial patterns appear generally similar in 2021 as in 2006,  
+with higher levels of transit supply in inner areas and close to most railway lines.
+- There are still many areas with very low or zero transit supply, especially in outer areas. 
+However, .  
 Transit supply also appears to be more spread out in 2021 than in 2006, 
 with higher levels of transit supply provided in many middle 
 and outer locations. 
@@ -1379,7 +1411,7 @@ for Melbourne in the week of the 2021 census and using the same 2006 CCD boundar
 
 ## 2021 Greater Melbourne
 si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
+  as_tibble(
 si_by_area <- si_by_area[,2:3]
 
 areas_of_interest <-  absmapsdata::sa12021 %>% 
