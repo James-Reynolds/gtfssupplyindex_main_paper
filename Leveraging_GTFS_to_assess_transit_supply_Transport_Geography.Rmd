@@ -1284,14 +1284,14 @@ si_by_area_dataframe_below_average <- si_by_area_dataframe %>%
   st_drop_geometry() %>% 
   filter(SI !=0) %>%
   filter(SI <= SI %>% mean()) 
-si_by_area_dataframe_below_average$`Transit Supply` <- allocation_lower_groups
+si_by_area_dataframe_below_average$transit_supply <- allocation_lower_groups
 
 # Join back to upper_group SIs and areas_of_interest
 si_by_area_dataframe_above_average <- si_by_area_dataframe %>% 
   st_drop_geometry() %>% 
   filter(SI !=0) %>%
   filter(SI > SI %>% mean()) 
-si_by_area_dataframe_above_average$`Transit Supply` <- allocation_upper_groups
+si_by_area_dataframe_above_average$transit_supply <- allocation_upper_groups
 
 # combine upper and lower groups
   
@@ -1305,7 +1305,7 @@ si_by_area_dataframe <- full_join(
   si_by_area_dataframe_non_zero
 )
 
-si_by_area_dataframe$`Transit Supply` <- si_by_area_dataframe$`Transit Supply` %>% 
+si_by_area_dataframe$transit_supply <- si_by_area_dataframe$transit_supply %>% 
   fct_explicit_na(na_level = "Zero Supply") %>% 
   fct_shift(n = -1)
 
@@ -1346,7 +1346,7 @@ si_by_area <- left_join(
 
 output_plot <- ggplot()+ 
   geom_sf(data=si_by_area %>% na.omit(),
-          aes(fill = `Transit Supply`), colour=NA) +
+          aes(fill = transit_supply), colour=NA) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
@@ -1381,9 +1381,6 @@ si_CCD2006_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_ar
 
 si_CCD2006_21_census_week_aggregated[["output_plot"]]
 
-si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% 
-  filter(`Transit Supply` == "Zero Supply") %>% 
-  nrow() 
 
 ```
 
@@ -1393,9 +1390,11 @@ using the same (2006) CCD boundaries as shown in Figure \ref{fig:Currie_map_SI}.
 Comparing Figures \ref{fig:Currie_map_SI} 
 and \ref{fig:Greater_Melbourne_CCD_2021} suggests: 
 
+
 - Overall spatial patterns appear generally similar in 2021 as in 2006, with higher levels of transit supply in inner areas and close to most railway lines.
-- There are still many areas with very low or zero transit supply, especially in outer areas. However, only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(`Transit Supply` == "Zero Supply") %>%   nrow()` CCDs have Zero Supply in 2021, compared to the 186 in 2006 reported in @currie2010identifying. 
-  There are, however, slightly more CCDs included in this 2021 analysis (`r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()` compared to the 5,720 in 2006), meaning that the percentage of CCDs with Zero Supply has fallen to `r percent_format(accuracy = 0.01)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(`Transit Supply` == "Zero Supply") %>%  nrow()) / (si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))` from the 3.25% in 2006. The average SI value has also increased to `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digts = 5)` from its value of 2,886.9 in 2006, indicating that the overall transit service supply score has increased by approximately `r percent_format(accuracy = 1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist() %>% mean() * si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()) / (2886.9 * 5839)-1)`.
+- There are still many areas with very low or zero transit supply, especially in outer areas. However, only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()` CCDs have Zero Supply in 2021, compared to the 186 in 2006 reported in @currie2010identifying. 
+- There are, however, slightly more CCDs included in this 2021 analysis (`r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow() %>% format(big.mark = ",")` compared to the 5,720 in 2006), meaning that the percentage of CCDs with Zero Supply has fallen to `r percent_format(accuracy = 0.01)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>%  nrow()) / (si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))` from the 3.25% in 2006. The average SI value has also increased to `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digits = 5)` from its value of 2,886.9 in 2006, indicating that the overall transit service supply score has increased by approximately `r percent_format(accuracy = 1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist() %>% mean() * si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()) / (2886.9 * 5839)-1)`.
+
 
 ```{r Greater_Melbourne_SA1_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1, weeks starting the date of 2021 census"}
 
