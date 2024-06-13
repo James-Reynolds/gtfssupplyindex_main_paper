@@ -1379,7 +1379,7 @@ areas_of_interest <- melbourne_CCD
 
 si_CCD2006_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
-si_CCD2006_21_census_week_aggregated[["output_plot"]]
+si_CCD2006_21_census_week_aggregated$output_plot
 
 
 ```
@@ -1396,7 +1396,11 @@ and \ref{fig:Greater_Melbourne_CCD_2021} suggests:
 - There are, however, slightly more CCDs included in this 2021 analysis (`r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow() %>% format(big.mark = ",")` compared to the 5,720 in 2006), meaning that the percentage of CCDs with Zero Supply has fallen to `r percent_format(accuracy = 0.01)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>%  nrow()) / (si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))` from the 3.25% in 2006. The average SI value has also increased to `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digits = 5)` from its value of 2,886.9 in 2006, indicating that the overall transit service supply score has increased by approximately `r percent_format(accuracy = 1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist() %>% mean() * si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()) / (2886.9 * 5839)-1)`.
 
 
-```{r Greater_Melbourne_SA1_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1, weeks starting the date of 2021 census"}
+### 2021 SI scores - SA1s
+The 2006 census was the last one that used CCDs, and population and other census data is now available from the ABS for SA1 zones instead. Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows
+
+
+```{r Greater_Melbourne_SA1_2021_table, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of supply index scores, 2006 CCDs, 2021 CCDs and 2021 SA1s"}
 
 
 ## 2021 Greater Melbourne
@@ -1410,7 +1414,166 @@ areas_of_interest <-  absmapsdata::sa12021 %>%
 
 melbourne_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
-melbourne_si_SA12021_21_census_week_aggregated[["output plot"]]
+# create comparison table
+melbourne_comparison_2006_2021 <- si_CCD2006_21_census_week_aggregated$si_by_area %>% 
+  st_drop_geometry() %>%
+  tabyl(transit_supply) %>%
+  select(transit_supply)
+
+melbourne_comparison_2006_2021$ccds_2006 <- c(
+  189, 
+  1314, 
+  1310,
+  1294,
+  608,
+  535,
+  589)
+
+melbourne_comparison_2006_2021$population_2006 <- c(
+  85423,
+  793046,
+  865330, 
+  774521,
+  324546,
+  260411,
+  263832)
+  
+melbourne_comparison_2006_2021$ccds_2021 <- 
+  si_CCD2006_21_census_week_aggregated$si_by_area %>% 
+  st_drop_geometry() %>% 
+  select(transit_supply) %>% 
+  table() %>% 
+  as_tibble() %>%
+  select(n) %>%
+  unlist() %>%
+  as.numeric()
+  
+names(melbourne_comparison_2006_2021) <- c(
+"transit_supply",
+"ccds_2006", 
+"population_2006", 
+"ccds_2021")
+
+melbourne_comparison_2006_2021$sa1s_2021 <- melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
+  st_drop_geometry() %>% 
+  select(transit_supply) %>% 
+  table() %>% 
+  as_tibble() %>%
+  select(n) %>%
+  unlist() %>%
+  as.numeric()
+
+names(melbourne_comparison_2006_2021) <- c(
+"transit_supply",
+"ccds_2006", 
+"population_2006", 
+"ccds_2021", 
+"sa1s_2021")
+
+# load and cleanup 2021 population by sa1
+sa1_ur_agep_2021 <- read_csv("data/sa1_ur_agep_2021.csv", 
+    skip = 8)
+sa1_ur_agep_2021 <- sa1_ur_agep_2021[-1,]
+sa1_ur_agep_2021 <- sa1_ur_agep_2021[1:61845,1:118] 
+sa1_ur_agep_2021 <- sa1_ur_agep_2021%>% type.convert(as.is = T)
+sa1_ur_agep_2021 <- sa1_ur_agep_2021 %>% clean_names()
+colnames(sa1_ur_agep_2021)[colnames(sa1_ur_agep_2021) == "agep_age"] <- "sa1_code_2021"
+#check variable types
+#lapply(sa1_ur_agep_2021, class) %>% as_vector() %>% tabyl()
+
+# connect population to transit supply
+population_sa1_greater_melbourne <- left_join(
+  areas_of_interest %>% st_drop_geometry(), 
+  sa1_ur_agep_2021 %>% select(sa1_code_2021, total))
+
+population_sa1_greater_melbourne <- left_join(
+  melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
+    st_drop_geometry() %>%
+    select(area_id, transit_supply), 
+  population_sa1_greater_melbourne, 
+  join_by(area_id == sa1_code_2021)
+  )
+names(population_sa1_greater_melbourne) <- c("sa1_code_2021", 
+                                             "transit_supply", 
+                                             "population")
+
+
+# add to comparison table
+melbourne_comparison_2006_2021$population_2021 <- population_sa1_greater_melbourne %>% aggregate(population ~ transit_supply, sum) %>% 
+  select(population) %>% 
+  as_tibble() %>%
+  unlist() %>%
+  as.numeric()
+
+names(melbourne_comparison_2006_2021) <- c(
+"transit_supply",
+"ccds_2006", 
+"population_2006", 
+"ccds_2021", 
+"sa1s_2021", 
+"population_2021")
+
+
+melbourne_comparison_2006_2021 %>% 
+  select(transit_supply, ccds_2006, ccds_2021, sa1s_2021, population_2006, population_2021) %>%
+  as_tibble() %>% 
+  adorn_totals() %>%
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns() %>% 
+  kable( 
+      caption = "Greater Melbourne: Distribution of supply index scores and resident population. Sources: 2006 values (Currie 2010), 2021 values (authors)",
+      align = "lrrrrr",
+      col.names = c("category", 
+                   "2006", "2021", "2021",
+                   "2006", "2021")
+      ) %>% 
+  add_header_above(c("Supply Index" =1, "CCDs" = 2, "SA1s" = 1, "Population" = 2))
+
+ggbarstats(melbourne_comparison_2006_2021 %>% 
+             select(transit_supply, ccds_2006, ccds_2021, sa1s_2021) %>% 
+             pivot_longer(
+    cols = 2:4,
+    names_to = "areas_of_interest", 
+    values_to = "counts"),
+  x = transit_supply, 
+  y = areas_of_interest, 
+  counts = "counts")
+  
+  
+    
+```
+
+
+
+
+```{r Greater_Melbourne_population_figure, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: population distribution of supply index scores. Sources: 2006 values (Currie2010), 2021 values (authors)" "}
+
+names(melbourne_comparison_2006_2021) <- c("transit_supply", 
+                                           "ccds_2006", 
+                                           "2006", 
+                                           "ccds_2021", 
+                                           "sa1s_2021", 
+                                           "2021")
+
+ggbarstats(melbourne_comparison_2006_2021 %>% 
+             select(transit_supply, `2006`, `2021`) %>% 
+             pivot_longer(
+    cols = 2:3,
+    names_to = "year", 
+    values_to = "population"),
+  x = transit_supply, 
+  y = year, 
+  counts = population)
+
+names(melbourne_comparison_2006_2021) <- c("transit_supply", 
+                                           "ccds_2006", 
+                                           "population_2006", 
+                                           "ccds_2021", 
+                                           "sa1s_2021", 
+                                           "population_2021")
+ 
+  
 
 ```
 
@@ -1881,5 +2044,13 @@ grouped_ggbarstats(
 
 ```{r, include=FALSE}
 knitr::write_bib(file = 'packages.bib')
+```
+
+# Appendix A - GCCSA maps by SA1
+
+```{r Greater_Melbourne_SA1_2021_plot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1, week starting the date of 2021 census"}
+
+melbourne_si_SA12021_21_census_week_aggregated[["output plot"]]
+
 ```
 
