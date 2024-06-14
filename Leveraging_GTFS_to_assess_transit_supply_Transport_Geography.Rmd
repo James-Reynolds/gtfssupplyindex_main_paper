@@ -53,6 +53,7 @@ output:
     keep_tex: true
     citation_package: natbib
     extra_dependencies: "subfig"
+    fig_caption: true
 ---
 
 
@@ -1236,11 +1237,11 @@ Mornington Peninsula Railway
 as a worked example 
 and comparison to SI scores calculated manually.  
 
-## Changes since 2006: Greater Melbourne
+## Greater Melbourne: changes since 2006 
 ### 2021 SI scores - CCDs 
 
 
-```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census"}
+```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census"}
 
 ## FUNCTION to define thresholds and return Very High, High etc. 
 # as per Currie2010 Table 3 and page 34. 
@@ -1397,7 +1398,7 @@ and \ref{fig:Greater_Melbourne_CCD_2021} suggests:
 
 
 ### 2021 SI scores - SA1s
-The 2006 census was the last one that used CCDs, and population and other census data is now available from the ABS for SA1 zones instead. Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows
+The 2006 census was the last one that used CCDs, and population and other census data is now available from the ABS for SA1 zones instead. Figure \ref{fig:Greater_Melbourne_SA1_2021_plot}(Appendix A) shows 2021 SI scores for Greater Melbourne, but using SA1 zones and the 2021 Greater Melbourne GCCSA boundary. Table \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure \ref{fig:Greater_Melbourne_SA1_2021_table} compare number of CCD and SA1 zones in each category in 2006 and 2021. 
 
 
 ```{r Greater_Melbourne_SA1_2021_table, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of supply index scores, 2006 CCDs, 2021 CCDs and 2021 SA1s"}
@@ -1544,10 +1545,10 @@ ggbarstats(melbourne_comparison_2006_2021 %>%
     
 ```
 
+A smaller proportion of CCDs have Zero Supply in 2021 than 2006, suggesting that transit now covers more of city. However, Greater Melbourne now covers a larger spatial area than it did in 2006, and most of the new additions appear to have Zero or Very Low transit supply. Hence, looking at the overall picture for 2021 the proportion of SA1s with Zero Supply or with supply below the average is larger than was the case for CCDs in 2006.  
 
 
-
-```{r Greater_Melbourne_population_figure, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: population distribution of supply index scores. Sources: 2006 values (Currie2010), 2021 values (authors)" "}
+```{r Greater_Melbourne_population_figure, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne: population distribution of supply index scores. Sources: 2006 values (Currie2010), 2021 values (authors)"}
 
 names(melbourne_comparison_2006_2021) <- c("transit_supply", 
                                            "ccds_2006", 
@@ -1566,87 +1567,17 @@ ggbarstats(melbourne_comparison_2006_2021 %>%
   y = year, 
   counts = population)
 
-names(melbourne_comparison_2006_2021) <- c("transit_supply", 
-                                           "ccds_2006", 
-                                           "population_2006", 
-                                           "ccds_2021", 
-                                           "sa1s_2021", 
-                                           "population_2021")
+names(melbourne_comparison_2006_2021) <- c("transit_supply", "ccds_2006", "population_2006", "ccds_2021", "sa1s_2021", "population_2021")
  
-  
-
 ```
 
 
+Table \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure \ref{fig:Greater_Melbourne_population_figure} show that the proportion of the population in zones with Zero Supply was higher in 2021 than in 2006.  but a slightly larger share of the population are in zones with SI scores above the average. 
 
-## Variation in spatial patterns across Australian cities
+### 2021 Social needs
+Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach due to changes in the way census results are reported. 
 
-```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
-
-## 2021 Greater Adelaide
-si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Adelaide") %>% 
-    select(sa1_code_2021)
-
-adelaide_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Brisbane
-si_by_area <-  read.csv( "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Brisbane") %>% 
-    select(sa1_code_2021)
-
-brisbane_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Hobart
-si_by_area <-  read.csv( "results/Greater_Hobart/hobart_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Hobart") %>% 
-    select(sa1_code_2021)
-
-hobart_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Perth
-si_by_area <-  read.csv( "results/Greater_Perth/perth_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Perth") %>% 
-    select(sa1_code_2021)
-
-perth_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-
-
-melbourne_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-adelaide_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-brisbane_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-hobart_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-perth_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-
-```
-
-
-
-Figure \ref{fig:Australian_cities_2021} shows SI values for the week starting on the day of the 2021 census for all Australian Capital Cities except Greater Sydney, for which the SI values are calculated for the week starting <INSERT WEEK HERE>. 
-
-
-### Social needs
-
-Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach as the total number of people within one or more of social need component groups (necessary to calculate the two relative need indicators) are not reported in the 2021 census.    
-
-```{r Greater_Melbourne_2021_social_needs, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of categories of composite social need index scores"}
+```{r Greater_Melbourne_2021_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores. Source: authors analysis of ABS data"}
 
 #join to sa1 data, including lat and long of each sa1
 social_2021_sa1_greater_melbourne <- left_join(
@@ -1730,68 +1661,41 @@ calculate_IRSAD_and_need_index <- function(social_dataset) {
 combined_needs_index_2021_sa1_greater_melbourne <- calculate_IRSAD_and_need_index(
   social_2021_sa1_greater_melbourne)
 
+# Reuse the set thresholds function (but cheat by switching name of column two to SIs)
+thresholds_holding <- combined_needs_index_2021_sa1_greater_melbourne %>%
+  st_drop_geometry() %>% 
+  select(sa1_code_2021, combined_needs_index) 
+names(thresholds_holding) <- c("area_id", "SI")  
 
-cuts <- combined_needs_index_2021_sa1_greater_melbourne %>% 
-  na.omit() %>% 
-  select(combined_needs_index) %>% 
-  unlist()  %>% 
-  as.vector() %>% 
-  quantileCut(6)
+thresholds_holding <- set_thresholds(thresholds_holding)
+names(thresholds_holding[[1]]) <- c("sa1_code_2021", "combined_needs_index", "composite_needs")
+thresholds_holding[[1]]$composite_needs <- thresholds_holding[[1]]$composite_needs %>% fct_other(keep = c("Very Low", "Low", "Below average", "Above average", "High", "Very High"), other_level = "NA")
 
-
-cuts <- sapply(str_extract_all(cuts, "-?[0-9.]+"), function(x) max(as.numeric(x))) %>%
-  unique() %>% 
-  as.numeric() %>% 
-  sort()
-  
- combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned <- ifelse(
-   combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index == 0, NA, ifelse(
-      combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[1], "Very low", ifelse(
-        combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[2], "Low", ifelse(
-          combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[3], "Below average", ifelse(
-            combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[4], "Above average", ifelse(
-              combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index < cuts[5], "High", ifelse(
-                combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index >= cuts[5], "Very high", NA)
-             )
-           )
-         )
-       )
-     )
-   ) 
-
- combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned <- factor( combined_needs_index_2021_sa1_greater_melbourne$combined_needs_index_binned, 
-                                         levels = c(
-                                           "Very low", 
-                                           "Low", 
-                                           "Below average",
-                                           "Above average", 
-                                           "High", 
-                                           "Very high"
-                                         ))
-
- 
 #join to sa1 geometry data
 combined_needs_index_2021_sa1_greater_melbourne <- left_join(
   absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021),
-  combined_needs_index_2021_sa1_greater_melbourne 
+  thresholds_holding[[1]] 
 )
 
- 
 
 ggplot()+ 
   geom_sf(data=combined_needs_index_2021_sa1_greater_melbourne %>% na.omit(),
-          aes(fill =  combined_needs_index_binned), colour=NA) +
+          aes(fill =  composite_needs), colour=NA) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(),
-        legend.position="bottom") + #remove y axis ticks
-  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) #remove y axis ticks
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="bottom",
+        legend.text = element_text(size = 4), 
+        legend.title = element_text(size = 5)) + 
+  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) 
 
 
 ```
+
+
 Figure \ref{fig:Greater_Melbourne_2021_social_needs} appears to indicate that there is no clear spatial pattern to the distribution of the categories of the composite need index scores. This appears to contrast to trend, albeit with some exceptions, towards very high social needs scores in outer areas identified by @currie2010identifying (Figure \ref{fig:Currie_map_needs}). This may, however, be an artifact of either the differences in the composite needs scores used in this analysis (due to the lack of data to assess relative needs) compared to the @currie2010identifying analysis. As well, the 2021 census SA1 zones generally appear to smalller than the 2006 Census Collection Districts (CCDs) used in @currie2010identifying, especially in outer areas. This will be associated with the growth of Greater Melbourne's population and spatial dispersment, with many of the large outer 'Very High' CCDs shown in the 2006 map now split into many more SA1 zones.  
 
 ### Needs-gap analysis
@@ -1831,6 +1735,8 @@ Greater_Melbourne_2021_needs_gap_SA1_count_longer <- Greater_Melbourne_2021_need
 Greater_Melbourne_2021_needs_gap_SA1_count_longer$Year <- 2021
 
 ```
+
+
 
 ```{r Greater_Melbourne_2021_needs_gap_percentage, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of categories of composite social need index scores"}
 
@@ -1945,6 +1851,7 @@ grouped_ggbarstats(
 ```
 
 
+
 ```{r Greater_Melbourne_2006_2021_needs_gap_population, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Population by SI and social/transport need category, comparison between 2006 and 2021"}
 
 
@@ -2030,6 +1937,72 @@ grouped_ggbarstats(
 ```
 
 
+
+## Variation in spatial patterns across Australian cities
+
+```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
+
+## 2021 Greater Adelaide
+si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Adelaide") %>% 
+    select(sa1_code_2021)
+
+adelaide_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Brisbane
+si_by_area <-  read.csv( "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Brisbane") %>% 
+    select(sa1_code_2021)
+
+brisbane_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Hobart
+si_by_area <-  read.csv( "results/Greater_Hobart/hobart_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Hobart") %>% 
+    select(sa1_code_2021)
+
+hobart_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Perth
+si_by_area <-  read.csv( "results/Greater_Perth/perth_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Perth") %>% 
+    select(sa1_code_2021)
+
+perth_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+
+
+melbourne_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+adelaide_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+brisbane_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+hobart_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+perth_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+
+```
+
+
+
+Figure \ref{fig:Australian_cities_2021} shows SI values for the week starting on the day of the 2021 census for all Australian Capital Cities except Greater Sydney, for which the SI values are calculated for the week starting <INSERT WEEK HERE>. 
+
+
+
+
 # Discussion
 
 ## Limitations 
@@ -2050,7 +2023,7 @@ knitr::write_bib(file = 'packages.bib')
 
 ```{r Greater_Melbourne_SA1_2021_plot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1, week starting the date of 2021 census"}
 
-melbourne_si_SA12021_21_census_week_aggregated[["output plot"]]
+melbourne_si_SA12021_21_census_week_aggregated$output_plot 
 
 ```
 
