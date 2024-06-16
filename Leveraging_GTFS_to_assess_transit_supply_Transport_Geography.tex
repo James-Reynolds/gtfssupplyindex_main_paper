@@ -415,6 +415,28 @@ scores calculated manually.
 
 \subsubsection{2021 SI scores - CCDs}\label{si-scores---ccds}
 
+\begin{verbatim}
+## Reading layer `SD07aAUST_region' from data source 
+##   `/Users/julianreynolds/Documents/0001 projects/gtfssupplyindex_main_paper/data/1259030001sd07 aust' 
+##   using driver `ESRI Shapefile'
+## Simple feature collection with 61 features and 3 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 96.81677 ymin: -43.74051 xmax: 159.1092 ymax: -9.142176
+## Geodetic CRS:  GDA94
+\end{verbatim}
+
+\begin{verbatim}
+## Reading layer `LGA07aAUST_region' from data source 
+##   `/Users/julianreynolds/Documents/0001 projects/gtfssupplyindex_main_paper/data/1259030001lga07 aust' 
+##   using driver `ESRI Shapefile'
+## Simple feature collection with 674 features and 3 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 96.81677 ymin: -43.74051 xmax: 159.1092 ymax: -9.142176
+## Geodetic CRS:  GDA94
+\end{verbatim}
+
 \begin{figure}
 \includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021-1} \caption{Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census}\label{fig:Greater_Melbourne_CCD_2021}
 \end{figure}
@@ -445,6 +467,54 @@ suggests:
   score has increased by approximately 24\%.
 \end{itemize}
 
+\begin{table}
+
+\caption{\label{tab:Greater_Melbourne_CCD_2021_by_suburbs}Distribtuion of Transit Supply grouping across inner, middle and outer suburbs}
+\centering
+\begin{tabular}[t]{l|r|r|r|l}
+\hline
+transit\_supply & inner & middle & outer & Total\\
+\hline
+Zero Supply & 0.0\%   (0) & 8.6\%     (7) & 91.4\%    (74) & 100.0\%    (81)\\
+\hline
+Very Low & 0.7\%  (11) & 20.5\%   (303) & 78.8\% (1,166) & 100.0\% (1,480)\\
+\hline
+Low & 1.6\%  (24) & 47.1\%   (701) & 51.3\%   (764) & 100.0\% (1,489)\\
+\hline
+Below average & 3.7\%  (55) & 69.4\% (1,038) & 26.9\%   (402) & 100.0\% (1,495)\\
+\hline
+Above average & 8.8\%  (55) & 80.6\%   (506) & 10.7\%    (67) & 100.0\%   (628)\\
+\hline
+High & 21.9\% (146) & 76.0\%   (506) & 2.1\%    (14) & 100.0\%   (666)\\
+\hline
+Very High & 54.9\% (371) & 45.0\%   (304) & 0.1\%     (1) & 100.0\%   (676)\\
+\hline
+Total & 10.2\% (662) & 51.7\% (3,365) & 38.2\% (2,488) & 100.0\% (6,515)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs-1} \caption{Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs}
+\end{figure}
+
+Table \ref{tab:Greater_Melbourne_CCD_2021_by_suburbs} and Figure
+\ref{fig:Greater_Melbourne_CCD_2021_by_suburbs} compares the
+distribution of Transport Supply groupings across the inner, middle and
+outer suburbs. In general, the results meet expectations, with a greater
+proportion of CCDs having higher transit supply in inner and (then)
+middle surburbs.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs_SI_scores-1} \caption{Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores} compare
+SI scores for CCDs across the inner, middle and outer suburbs. SI scores
+average 12,275.7, 3,409.1 and 998.6 for the inner, middle and outer
+suburbs respectively, compared to scores of 10,922.7, 2,694.9 and 764.3
+for 2006 \citep{currie2010identifying}.
+
 \subsubsection{2021 SI scores - SA1s}\label{si-scores---sa1s}
 
 The 2006 census was the last one that used CCDs, and population and
@@ -466,21 +536,21 @@ zones in each category in 2006 and 2021.
 \cline{1-1} \cline{2-3} \cline{4-4} \cline{5-6}
 category & 2006 & 2021 & 2021 & 2006 & 2021\\
 \hline
-Zero Supply & 3.2\%   (189) & 1.3\%    (81) & 4.3\%    (489) & 2.5\%    (85,423) & 3.8\%   (186,829)\\
+Zero Supply & 3.2\%   (189) & 1.2\%    (81) & 4.3\%    (489) & 2.5\%    (85,423) & 3.8\%   (186,829)\\
 \hline
-Very Low & 22.5\% (1,314) & 23.3\% (1,474) & 23.4\%  (2,692) & 23.6\%   (793,046) & 23.0\% (1,132,967)\\
+Very Low & 22.5\% (1,314) & 22.7\% (1,480) & 23.4\%  (2,692) & 23.6\%   (793,046) & 23.0\% (1,132,967)\\
 \hline
-Low & 22.4\% (1,310) & 23.3\% (1,473) & 23.4\%  (2,691) & 25.7\%   (865,330) & 23.7\% (1,163,358)\\
+Low & 22.4\% (1,310) & 22.9\% (1,489) & 23.4\%  (2,691) & 25.7\%   (865,330) & 23.7\% (1,163,358)\\
 \hline
-Below average & 22.2\% (1,294) & 23.3\% (1,474) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
+Below average & 22.2\% (1,294) & 22.9\% (1,495) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
 \hline
-Above average & 10.4\%   (608) & 9.6\%   (608) & 8.5\%    (975) & 9.6\%   (324,546) & 8.7\%   (426,892)\\
+Above average & 10.4\%   (608) & 9.6\%   (628) & 8.5\%    (975) & 9.6\%   (324,546) & 8.7\%   (426,892)\\
 \hline
-High & 9.2\%   (535) & 9.6\%   (608) & 8.5\%    (974) & 7.7\%   (260,411) & 8.7\%   (425,779)\\
+High & 9.2\%   (535) & 10.2\%   (666) & 8.5\%    (974) & 7.7\%   (260,411) & 8.7\%   (425,779)\\
 \hline
-Very High & 10.1\%   (589) & 9.6\%   (608) & 8.5\%    (975) & 7.8\%   (263,832) & 8.6\%   (422,025)\\
+Very High & 10.1\%   (589) & 10.4\%   (676) & 8.5\%    (975) & 7.8\%   (263,832) & 8.6\%   (422,025)\\
 \hline
-Total & 100.0\% (5,839) & 100.0\% (6,326) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
+Total & 100.0\% (5,839) & 100.0\% (6,515) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
 \hline
 \end{tabular}
 \end{table}
@@ -524,7 +594,7 @@ possible to exactly replicate the \citet{currie2010identifying} approach
 due to changes in the way census results are reported.
 
 \begin{figure}
-\includegraphics[width=0.9\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_social_needs-1} \caption{Distribution of categories of composite social need index scores. Source: authors analysis of ABS data}\label{fig:Greater_Melbourne_2021_social_needs}
+\includegraphics[width=0.9\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_social_needs-1} \caption{Distribution of categories of composite social need index scores, with 2006 Melbourne boundary shown in black. Source: authors analysis of ABS data}\label{fig:Greater_Melbourne_2021_social_needs}
 \end{figure}
 
 Figure \ref{fig:Greater_Melbourne_2021_social_needs} appears to indicate
@@ -578,7 +648,7 @@ SA1}\label{appendix-a---gccsa-maps-by-sa1}
 \centering
 \includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_plot-1.pdf}
 \caption{Greater Melbourne, Transit Supply by SA1, week starting the
-date of 2021 census}
+date of 2021 census, with 2006 Melbourne boundary shown in black}
 \end{figure}
 
 \bibliography{References.bib, packages.bib}
