@@ -413,28 +413,82 @@ scores calculated manually.
 \subsection{Greater Melbourne: changes since
 2006}\label{greater-melbourne-changes-since-2006}
 
-\subsubsection{2021 SI scores - CCDs}\label{si-scores---ccds}
-
 \begin{figure}
-\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021-1} \caption{Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census}\label{fig:Greater_Melbourne_CCD_2021}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_plot-1} \caption{Greater Melbourne, Transit Supply by SA1 for week starting the date of 2021 census, overlayed with 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries}\label{fig:Greater_Melbourne_SA1_2021_plot}
 \end{figure}
 
-Figure \ref{fig:Greater_Melbourne_CCD_2021} shows SI scores for
-Melbourne in the week of the 2021 census, using the same (2006) CCD
-boundaries as in Figure \ref{fig:Currie_map_SI}. Comparing Figures
-\ref{fig:Currie_map_SI} and \ref{fig:Greater_Melbourne_CCD_2021}
-suggests that overall spatial patterns are generally similar in 2021 as
-they were in 2006, with higher levels of transit supply in inner areas
-and close to most railway lines. There are still many areas with very
-low or zero transit supply, especially in outer areas. However, only 81
-CCDs have Zero Supply in 2021, compared to the 186 reported in
-\citet{currie2010identifying} for 2006. There are, however, slightly
-more CCDs included in this 2021 analysis (6,326 compared to the 5,720 in
-2006), meaning that the percentage of CCDs with Zero Supply has fallen
-to 1.28\% from the 3.25\% in 2006. The average SI value has also
-increased to 3,299.8 from its value of 2,886.9 in 2006, indicating that
-the overall transit service supply score has increased by approximately
-24\%.
+Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows Transit Supply
+groupings based on SI scores for SA1 zones within Greater Melbourne for
+the week starting the day of the 2021 census. The 2006 boundary of
+Greater Melbourne and the inner, middle and outer suburban boundaries
+used by \citet{currie2010identifying} so as to facilitate comparison to
+Figure \ref{fig:Currie_map_SI}. The overall spatial patterns appear
+generally similar in 2021 as they were in 2006, with higher levels of
+transit supply in inner areas and close to most railway lines. Greater
+Melbourne, however, now covers a larger spatial area than it did in
+2006, and the SA1 zones now used by the ABS are different to the CCDs
+used by \citet{currie2010identifying}. To allow direct comparison of the
+2006 and 2021 results, 2021 SI scores were also generated for Greater
+Melbourne using the 2006 CCDs and boundary. Table
+\ref{tab:Greater_Melbourne_SA1_2021_table} and Figure
+\ref{fig:Greater_Melbourne_SA1_2021_table} compare these results as well
+as the distribution of population to Transit Supply groups.
+
+\begin{table}
+
+\caption{\label{tab:Greater_Melbourne_SA1_2021_table}Greater Melbourne: Distribution of supply index scores and resident population. Sources: 2006 values - Currie (2010), 2021 values - authors}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r}
+\hline
+\multicolumn{1}{c|}{Transit Supply} & \multicolumn{2}{c|}{CCDs} & \multicolumn{1}{c|}{SA1s} & \multicolumn{2}{c}{Population} \\
+\cline{1-1} \cline{2-3} \cline{4-4} \cline{5-6}
+category & 2006 & 2021 & 2021 & 2006 & 2021\\
+\hline
+Zero Supply & 3.2\%   (189) & 1.3\%    (81) & 4.3\%    (489) & 2.5\%    (85,423) & 3.8\%   (186,829)\\
+\hline
+Very Low & 22.5\% (1,314) & 23.3\% (1,474) & 23.4\%  (2,692) & 23.6\%   (793,046) & 23.0\% (1,132,967)\\
+\hline
+Low & 22.4\% (1,310) & 23.3\% (1,473) & 23.4\%  (2,691) & 25.7\%   (865,330) & 23.7\% (1,163,358)\\
+\hline
+Below average & 22.2\% (1,294) & 23.3\% (1,474) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
+\hline
+Above average & 10.4\%   (608) & 9.6\%   (608) & 8.5\%    (975) & 9.6\%   (324,546) & 8.7\%   (426,892)\\
+\hline
+High & 9.2\%   (535) & 9.6\%   (608) & 8.5\%    (974) & 7.7\%   (260,411) & 8.7\%   (425,779)\\
+\hline
+Very High & 10.1\%   (589) & 9.6\%   (608) & 8.5\%    (975) & 7.8\%   (263,832) & 8.6\%   (422,025)\\
+\hline
+Total & 100.0\% (5,839) & 100.0\% (6,326) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_table-1.pdf}
+\caption{Greater Melbourne: distribution of Transit Supply, 2006 CCDs,
+2021 CCDs and 2021 SA1s, population 2006 and 2021. Sources: 2006 values
+- Currie (2010), 2021 values - authors}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows that there are
+still many areas with very low or zero transit supply, especially in
+outer areas. Within the 2006 Greater Melbourne boundary there are only
+81 CCDs with Zero Supply in 2021, compared to the 186 reported in
+\citet{currie2010identifying} for 2006. When including the new parts of
+Greater Melbourne, however, there are 489 SA1s with Zero Supply in 2021,
+making up 4.3\% of the total number of SA1s in Greater Melbourne,
+compared to the 3.2\% of CCDs with Zero Supply in 2006 reported in
+\citet{currie2010identifying}. Table
+\ref{tab:Greater_Melbourne_SA1_2021_table} and Figure
+\textbackslash ref\{fig:Greater\_Melbourne\_SA1\_2021\_table) also show
+that more of the population of Greater Melbourne are within areas with
+Zero Supply in 2021 (3.8\%) than in 2006 (2.5\%)
+
+The average SI value has also increased to 3,299.8 from the value of
+2,886.9 in 2006 reported in \citet{currie2010identifying}, indicating
+that the overall transit service supply score has increased by
+approximately 24\%.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs_SI_scores-1} \caption{Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores}
@@ -451,122 +505,6 @@ middle and outer suburbs respectively\footnote{The same grouping of LGAs
   LGA to the inner group.}. These compare to the scores of 10,922.7,
 2,694.9 and 764.3, respectively, reported for 2006 in
 \citet{currie2010identifying}.
-
-\begin{table}
-
-\caption{\label{tab:Greater_Melbourne_CCD_2021_by_suburbs}Distribtuion of CCDs by Transit Supply grouping across inner, middle and outer suburbs}
-\centering
-\begin{tabular}[t]{l|r|r|r|l}
-\hline
-transit\_supply & inner & middle & outer & Total\\
-\hline
-Zero Supply & 0.0\%   (0) & 8.6\%     (7) & 91.4\%    (74) & 100.0\%    (81)\\
-\hline
-Very Low & 0.7\%  (11) & 20.5\%   (303) & 78.8\% (1,166) & 100.0\% (1,480)\\
-\hline
-Low & 1.6\%  (24) & 47.1\%   (701) & 51.3\%   (764) & 100.0\% (1,489)\\
-\hline
-Below average & 3.7\%  (55) & 69.4\% (1,038) & 26.9\%   (402) & 100.0\% (1,495)\\
-\hline
-Above average & 8.8\%  (55) & 80.6\%   (506) & 10.7\%    (67) & 100.0\%   (628)\\
-\hline
-High & 21.9\% (146) & 76.0\%   (506) & 2.1\%    (14) & 100.0\%   (666)\\
-\hline
-Very High & 54.9\% (371) & 45.0\%   (304) & 0.1\%     (1) & 100.0\%   (676)\\
-\hline
-Total & 10.2\% (662) & 51.7\% (3,365) & 38.2\% (2,488) & 100.0\% (6,515)\\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs-1} \caption{Greater Melbourne (2006 extents), Distribution of CCDs by Transit Supply grouping, week starting the day of the 2021 census, for the inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs}
-\end{figure}
-
-Table \ref{tab:Greater_Melbourne_CCD_2021_by_suburbs} and Figure
-\ref{fig:Greater_Melbourne_CCD_2021_by_suburbs} compares the
-distribution of Transport Supply groupings across the inner, middle and
-outer suburbs. In general, the results meet expectations, with a greater
-proportion of CCDs having higher transit supply in inner and (then)
-middle suburbs.
-
-\subsubsection{2021 SI scores - SA1s}\label{si-scores---sa1s}
-
-The 2006 census was the last to use CCDs. Population and other data was
-instead reported for SA1s in 2021, and Figure
-\ref{fig:Greater_Melbourne_SA1_2021_plot} shows the 2021 Transit Supply
-groupings using these zones. Greater Melbourne now covers a larger
-spatial area, and so Figure \ref{fig:Greater_Melbourne_SA1_2021_plot}
-shows includes all SA1 zones within the 2021 GCCSA boundary. The 2006
-GCCSA boundary is also shown for comparison purposes. Table
-\ref{tab:Greater_Melbourne_SA1_2021_table} and Figure
-\ref{fig:Greater_Melbourne_SA1_2021_table} compare number of CCD and SA1
-zones in each category in 2006 and 2021, as well as the share of Greater
-Melbourne's population living in zones within each category.
-
-\begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_plot-1.pdf}
-\caption{Greater Melbourne, Transit Supply by SA1, week starting the
-date of 2021 census, with 2006 Melbourne boundary shown in black}
-\end{figure}
-
-\begin{table}
-
-\caption{\label{tab:Greater_Melbourne_SA1_2021_table}Greater Melbourne: Distribution of supply index scores and resident population. Sources: 2006 values (Currie 2010), 2021 values (authors)}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r}
-\hline
-\multicolumn{1}{c|}{Supply Index} & \multicolumn{2}{c|}{CCDs} & \multicolumn{1}{c|}{SA1s} & \multicolumn{2}{c}{Population} \\
-\cline{1-1} \cline{2-3} \cline{4-4} \cline{5-6}
-category & 2006 & 2021 & 2021 & 2006 & 2021\\
-\hline
-Zero Supply & 3.2\%   (189) & 1.2\%    (81) & 4.3\%    (489) & 2.5\%    (85,423) & 3.8\%   (186,829)\\
-\hline
-Very Low & 22.5\% (1,314) & 22.7\% (1,480) & 23.4\%  (2,692) & 23.6\%   (793,046) & 23.0\% (1,132,967)\\
-\hline
-Low & 22.4\% (1,310) & 22.9\% (1,489) & 23.4\%  (2,691) & 25.7\%   (865,330) & 23.7\% (1,163,358)\\
-\hline
-Below average & 22.2\% (1,294) & 22.9\% (1,495) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
-\hline
-Above average & 10.4\%   (608) & 9.6\%   (628) & 8.5\%    (975) & 9.6\%   (324,546) & 8.7\%   (426,892)\\
-\hline
-High & 9.2\%   (535) & 10.2\%   (666) & 8.5\%    (974) & 7.7\%   (260,411) & 8.7\%   (425,779)\\
-\hline
-Very High & 10.1\%   (589) & 10.4\%   (676) & 8.5\%    (975) & 7.8\%   (263,832) & 8.6\%   (422,025)\\
-\hline
-Total & 100.0\% (5,839) & 100.0\% (6,515) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_table-1.pdf}
-\caption{Greater Melbourne: distribution of supply index scores, 2006
-CCDs, 2021 CCDs and 2021 SA1s}
-\end{figure}
-
-A smaller proportion of CCDs have Zero Supply in 2021 than 2006,
-suggesting that transit now covers more of city. However, Greater
-Melbourne now covers a larger spatial area than it did in 2006, and most
-of the new additions appear to have Zero or Very Low transit supply.
-Hence, looking at the overall picture for 2021 the proportion of SA1s
-with Zero Supply or with supply below the average is larger than was the
-case for CCDs in 2006.
-
-\begin{figure}
-\centering
-\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_population_figure-1.pdf}
-\caption{Greater Melbourne: population distribution of supply index
-scores. Sources: 2006 values (Currie2010), 2021 values (authors)}
-\end{figure}
-
-Table \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure
-\ref{fig:Greater_Melbourne_population_figure} show that the proportion
-of the population in zones with Zero Supply was higher in 2021 than in
-2006. but a slightly larger share of the population are in zones with SI
-scores above the average.
 
 \subsubsection{2021 Social needs}\label{social-needs}
 
