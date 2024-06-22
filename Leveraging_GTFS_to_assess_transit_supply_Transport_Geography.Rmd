@@ -118,17 +118,16 @@ might make someone
 reliant on 
 transit services 
 for some or all of their travel. 
-Approaches for identifying 
-spatial gaps in transit supply,     
+An approach for identifying 
+spatial gaps in transit supply, 
 where is a high or very high social need 
-yet little or no service, have 
-been reported in previous research [@Currie2003Hobart; 
-@Currie2004Gap;
-@Currie2007Identifying; @currie2010identifying].
-
-However, in the almost two decades since
-there does not appear to have been much further use or development 
-of these approach. 
+yet little or no service, was reported in
+@Currie2003Hobart, 
+@Currie2004Gap,
+@Currie2007Identifying and @currie2010identifying. 
+However, there does not appear to have been 
+much further use or development 
+of this approach. 
 As well, it is unclear if
 the spatial patterns 
 identified in this previous research 
@@ -136,49 +135,42 @@ are representative of
 transit supply and social need 
 in other places,
 or whether the location of gaps have changed in the intervening years.
-This may in part be because 
-at the time transit schedule data 
+
+This may in part be because until recently schedule data 
 was not readily available in 
-a consistent, electronic formats. 
-
-Nowadays, however, 
+consistent, electronic formats, 
+meaning that assessing transit supply was a 
+large task. 
+Nowadays, 
 more than 10,000 transit agencies 
-publicly release schedule data 
+publicly release data 
 in the General Transit Feed Specification (GTFS)
-format. 
-Various tools for manipulating such datasets 
-are also now available, 
-including software for 
-validating, 
-analysing 
-and visualizating GTFS, 
-as well as a separate standard 
-(GTFS-Realtime) for sharing 
-live vehicle locations [@GTFS].
-
+format [@GTFS].
 However, software tools
 for examining spatial 
 patterns and gaps 
 in transit supply 
 with respect to 
 social needs for transport
-appears limited.
-This gap and the lack of 
+do not appear to be readily available.
+This gap, and the lack of 
 direct follow up 
 to @Currie2003Hobart, 
 @Currie2004Gap, 
 @Currie2007Identifying 
-and @currie2010identifying 
+and @currie2010identifying, 
 provide the motivation 
 for this paper.
-The three main objectives of the research are: 
+
+The three main objectives of this research are: 
 (1) to develop tools for undertaking needs-gap analysis 
 using GTFS datasets; 
-(2) to explore whether such gaps have changed in the intervening years; 
+(2) to explore whether such gaps in Melbourne have changed since the publication 
+of @Currie2007Identifying 
+and @currie2010identifying; 
 and (3) to better understand whether spatial patterns in 
 Melbourne are representative of those in other places.
-
-This research included 
+Outcomes of this research reported in this paper include 
 the development of a new R package (gtfssupplyindex) 
 with software tools 
 that facilitate the 
@@ -211,13 +203,12 @@ a brief conclusion are provided in Section 6.
 ## Transit metrics
 There are 
 many metrics 
-available for benchmarking transit services, 
-including those in 
-the Transit Cooperative Research Program (TCRP) Report 88 guidebook 
-on developing performance-measurement systems [@Ryus:2003aa]; 
+available for benchmarking transit services. 
+These include those in 
+the Transit Cooperative Research Program (TCRP) Report 88, a guidebook 
+for developing performance-measurement systems [@Ryus:2003aa]; 
 and those
-used across benchmarking databases and programs 
-(e.g. @Florida-Transit-Information-System:2018aa, @UITP:2015aa @Imperial-College-London:2023aa;
+used across benchmarking databases and programs such as @Florida-Transit-Information-System:2018aa, @UITP:2015aa and @Imperial-College-London:2023aa.
 The Fielding Triangle [@FieldingGordonJ1987Mpts] 
 provides a framework 
 for combining indicators of 
@@ -235,7 +226,7 @@ accessibility,
 social equity, 
 strategic planning 
 and other rational decision-making-based
-perspectives underling transport indicators; 
+perspectives underlying many transport indicators; 
 @Reynolds:2017ah extends 
 these into models of how 
 institutionalism, 
@@ -264,11 +255,10 @@ other online platform,
 it may not be possible
 to independently generate scores, 
 for instance to assess proposed system changes. 
-Contrasting examples are provided by the metrics in the 
-Transit Capacity and Quality of Service Manual (TCQSM) 
-and the Transit Score website [@WalkScore:2023tg]:
+Contrasting examples are provided by:
 
-- Transit Scores are readily available online 
+- Transit Scores[@WalkScore:2023tg], which 
+are readily available online 
 for locations with a published GTFS feed. 
 The meaning of the metric
 also appears easy to explain, 
@@ -282,7 +272,8 @@ and scores cannot be calculated independently
 or generated 
 for proposed changes to networks. 
 
-- The TCQSM provides a wide range of metrics 
+- The Transit Capacity and Quality of Service Manual (TCQSM),
+whic provides a wide range of metrics 
 for measuring different aspects of a transit system. 
 The TCQSM scores themselves appear easy to understand or explain, 
 ranging from A (good) to F (bad), 
@@ -307,7 +298,10 @@ is available
 for those who might wish 
 to produce a similar study 
 for other locations and systems. 
-
+Developing a similar code base, but 
+for calculating metrics associated with 
+spatial gaps in transit supply based on social needs, 
+is the subject of this paper. 
 
 ## The Transit Suppy Index
 An objective of this study is to 
@@ -345,10 +339,10 @@ knitr::include_graphics("graphics/Currie2010SI.png")
 for Census Collection Districts (CCDs) 
 across Greater Melbourne in 2006, 
 as shown in 
-Figure \ref{fig:Currie_map_SI}.  
-They identified general patterns of
+Figure \ref{fig:Currie_map_SI}.
+General patterns were identified, being:
 more transit supply 
-in the middle and inner suburbs
+in the middle and inner suburbs,
 and along passenger railway lines; and 
 outer areas tending to have very low SI scores 
 or no transit supply at all. 
@@ -363,13 +357,13 @@ or no transit supply at all.
 ```
 
 
-```{r Currie_map_needs, fig.cap = "Distribution of categories of composite social need index scores in 2006, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+```{r Currie_map_needs, fig.cap = "Distribution of categories of composite social need index scores in 2006. Source: Currie (2010.)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
 knitr::include_graphics("graphics/Currie2010Needs.png")
 
 ```
 
-As well as measuring transit supply, @currie2010identifying also 
+As well as measuring transit supply, @currie2010identifying 
 assessed the social need for transit 
 across Greater Melbourne using: 
 the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD) and 
@@ -378,7 +372,7 @@ from eight weighted indicators.
 The spatial distribution of this 
 composite social needs index in 2006, 
 reproduced in Figure \ref{fig:Currie_map_needs), 
-indicates areas of 
+showed that areas of 
 above average, 
 high and
 very high 
@@ -389,6 +383,21 @@ particularly in the east and south-east;
 and in some middle areas in the south-east,
 north and west. 
 
+As the final step in the spatial needs-gap analysis, 
+@currie2010identifying identified 
+areas with very high transport needs, 
+but very low or no transit supply,
+as reproduced in Figure \ref{fig:Currie_map_gap}. 
+These areas were identified as being those where service gaps 
+might be of particular concern. 
+Most of these were located in outer parts of Melbourne 
+in the north-east, south-east and south, 
+although there were also some pockets 
+in the middle suburbs in the west, north and south east.
+Overall, @currie2010identifying found that 
+"8.2% of Melbourne residents have ‘very high’ needs 
+but ‘zero’, ‘low’ or ‘very low’ public transport supply."
+
 
 ```{r Currie_map_gap, fig.cap = "Melbourne needs-gap in 2006 – very high transport need areas with zero or very low public transport supply, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
@@ -397,33 +406,17 @@ knitr::include_graphics("graphics/Currie2010gap.png")
 ```
  
 
-As the final step in the spatial needs-gap analysis, 
-@currie2010identifying identified 
-areas with very high transport needs, 
-but very low or no transit supply,  
-as reproduced in Figure \ref{fig:Currie_map_gap}. 
-This indicated areas 
-where service gaps might be of particular concern, 
-Most of these were located in outer parts of Melbourne 
-in the north-east, south-east and south, 
-although there were also some pockets 
-in the middle suburbs in the west, north and south east.
-Overall, @currie2010identifying found that 
-"8.2% of Melbourne residents have ‘very high’ needs 
-but ‘zero’, ‘low’ or ‘very low’ public transport supply."
 Using this methodology in transit planning 
-was also suggested as
+was suggested as
 "substantially more useful than the presentation of anecdotal evidence, 
 which is the most common means 
 of identifying transport needs 
-in local transport studies throughout the world."[@currie2010identifying]
-
+in local transport studies throughout the world"[@currie2010identifying].
 However, it does not appear that this approach 
 has been widely adopted 
-in practice 
-or further developed by researchers. 
+in practice or by researchers. 
 Our suspicion is that while the SI has a relatively simple formula 
-and requires only geographic and timetable data, 
+and requires only geographic and timetable data to calculate, 
 the lack of software tools 
 may be partly why it has not been more widely adopted.
 
@@ -478,10 +471,10 @@ To allow direct comparison between 2006 and the most recent census, therefore,
 this study calculated SI scores 
 using the same 
 Census Collection Districts (CCDs) used by 
-@currie2010identifying for the week starting the day of the 2021 census
+@currie2010identifying for the week starting the day of the 2021 census.
 The Victorian GTFS feed, 
 published by Public Transport Victoria (PTV), 
-was used, with historical feeds sourced via @transitfeeds_victoria:2023aa. 
+was used with historical feeds sourced via @transitfeeds_victoria:2023aa. 
 
 
 ```{r fix_ptv_data_Victoria_210805, eval = FALSE, echo = FALSE}
@@ -556,37 +549,24 @@ write.csv(si_CCD2006_21_census_week_aggregated, "results/Greater_Melbourne/si_CC
 
 Unfortunately, it is not possible to obtain 
 2016 or 2021 social disadvantage data for 
-CCDs, as the ABS now releases data for SA zones only. 
-SA1 zones, therefore, are adopted for the comparison of 
-social needs-gaps in 2016 and 2021, 
-as discussed in the following. 
+CCDs, as the ABS no longer uses this geographic scheme. 
+Population and other statistics are now released for 
+Statistical Area 1 (SA1) zones, 
+and so SI scores and needs-gap analysis was completed for Greater Melbourne 
+in 2021 using these boundaries instead. 
 
 ## Variation in spatial patterns across location. 
-SI scores were also calculated for 
-Greater Melbourne, 
-Greater Brisbane, 
-Greater Perth, 
-Greater Adelaide,
-Greater Hobart and 
-the Australian Capital Territory (which includes Canberra),
-again for the week starting on the day of the 2021 census.
-Historical GTFS data was again sourced via the Transit Feeds website, 
+SI scores were also calculated for other
+capital cities in Australia, again for the week starting on the day of the 2021 census.
+Historical GTFS data was again sourced via the Transit Feeds website. 
 Unfortunately it was not possible to locate 
 historical GTFS data for Greater Sydney 
 or Greater Darwin, 
-so instead the latest data sets were sourced directly 
+so SI scores were calculated for 2024 using the 
+latest data sets, sourced directly 
 from the relevant transit authorities. 
 
 
-For comparison between cities, 
-Statistical Area 1 (SA1) zones were adopted 
-from the Australian Bureau of Statistics [@ABSmaps] 
-as the areas of interest. 
-This allowed direct comparison 
-to ABS-reported values for social and 
-transport needs, 
-population 
-and other census data. 
 
 ```{r run_for_all_modes_Greater_Melbourne_210810_SA1, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_210805_list_gtfs
@@ -1238,6 +1218,12 @@ and comparison to SI scores calculated manually.
 
 ## Greater Melbourne: changes since 2006 
 
+Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows Transit Supply groupings based on SI scores for SA1 zones within Greater Melbourne for the week starting the day of the 2021 census. The 2006 boundary of Greater Melbourne and the inner, middle and outer suburban boundaries used by @currie2010identifying are also shown so as to facilitate comparison to Figure \ref{fig:Currie_map_SI}. 
+
+
+
+
+
 
 ```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census"}
 
@@ -1409,7 +1395,7 @@ using the same (2006) CCD boundaries as in Figure \ref{fig:Currie_map_SI}.
 
 --->
 
-```{r Greater_Melbourne_SA1_2021_plot, fig.show= "hold", out.width = "100%", echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE, fig.fullwidth = TRUE, fig.cap = "Greater Melbourne, Transit Supply by SA1 for week starting the date of 2021 census, overlayed with 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries"}
+```{r Greater_Melbourne_SA1_2021_plot, fig.show= "hold", out.width = "100%", echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE, fig.fullwidth = TRUE, fig.cap = "Greater Melbourne, Transit Supply by SA1 for week starting the date of 2021 census, overlayed with: 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries; and suburban railway lines (dotted)."}
 
 
 ## 2021 Greater Melbourne
@@ -1424,16 +1410,47 @@ areas_of_interest <-  absmapsdata::sa12021 %>%
 melbourne_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
 
+### Load railway locations
+# convert to list of tidygtfs objects
+#ptv_210805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_210805/gtfs_duplicate_stops_removed.zip")
+
+#melbourne_railway_trips_shape <- ptv_210805_list_gtfs [[2]] %>% 
+#  tidytransit::gtfs_as_sf() %>%
+#  tidytransit::get_trip_geometry(trip_ids = c(
+#    "1936.UJ.2-PKM-F-mjp-1.3.H", 
+#    "4568.T6.2-ALM-B-mjp-1.2.H",
+#    "8658.T6.2-B31-B-mjp-1.3.H", 
+#    "5233.T6.2-BEL-C-mjp-1.5.H",
+#    "2127.T2.2-CRB-F-mjp-1.1.H",
+#    "7310.UJ.2-FKN-D-mjp-1.2.H",
+#    "4193.T6.2-GLW-C-mjp-1.1.H",
+#    "3589.T6.2-HBG-B-mjp-1.1.H",
+#    "1673.T0.2-LIL-G-mjp-1.21.H",
+#   "3263.T2.2-MER-B-mjp-1.4.R",
+#    "3044.T6.2-SDM-B-mjp-1.1.H",
+#    "3044.T6.2-SDM-B-mjp-1.1.H",
+#    "1164.UJ.2-SPT-C-mjp-1.1.H",
+#    "1005.T6.2-SYM-B-mjp-1.8.H",
+#    "2959.UJ.2-UFD-C-mjp-1.6.H",
+#    "238.T6.2-WBE-E-mjp-1.4.H", 
+#    "1.T2.2-WMN-D-mjp-1.2.H"))
+
+# st_write(melbourne_railway_trips_shape, "results/melbourne_railway_trips_shape.shp", append = FALSE)
+
+melbourne_railway_trips_shape <- st_read("results/melbourne_railway_trips_shape.shp")
+
 melbourne_si_SA12021_21_census_week_aggregated$output_plot + 
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
-          fill=NA)
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "dotted", size = 0.4) 
 
 ```
+The overall spatial patterns appear generally similar in 2021 as they were in 2006, with higher levels of transit supply in inner areas and close to most railway lines. Greater Melbourne, however, now covers a larger spatial area than it did in 2006, and the SA1 zones now used by the ABS are different to the CCDs used by  @currie2010identifying. To allow direct comparison of the 2006 and 2021 results, 2021 SI scores were also generated for Greater Melbourne using the 2006 CCDs and boundary. Table \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure \ref{fig:Greater_Melbourne_SA1_2021_table} compare these results as well as the distribution of population to Transit Supply groups. 
 
-Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows Transit Supply groupings based on SI scores for SA1 zones within Greater Melbourne for the week starting the day of the 2021 census. The 2006 boundary of Greater Melbourne and the inner, middle and outer suburban boundaries used by @currie2010identifying so as to facilitate comparison to Figure \ref{fig:Currie_map_SI}. The overall spatial patterns appear generally similar in 2021 as they were in 2006, with higher levels of transit supply in inner areas and close to most railway lines. Greater Melbourne, however, now covers a larger spatial area than it did in 2006, and the SA1 zones now used by the ABS are different to the CCDs used by  @currie2010identifying. To allow direct comparison of the 2006 and 2021 results, 2021 SI scores were also generated for Greater Melbourne using the 2006 CCDs and boundary. Table \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure \ref{fig:Greater_Melbourne_SA1_2021_table} compare these results as well as the distribution of population to Transit Supply groups. 
+
 
 
 ```{r Greater_Melbourne_SA1_2021_table, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of Transit Supply, 2006 CCDs, 2021 CCDs and 2021 SA1s, population 2006 and 2021. Sources: 2006 values - Currie (2010), 2021 values - authors"}
@@ -1696,7 +1713,7 @@ Table \ref{tab:Greater_Melbourne_CCD_2021_by_suburbs} and Figure \ref{fig:Greate
 ### 2021 Social needs
 Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach due to changes in the way census results are reported. 
 
-```{r Greater_Melbourne_2021_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores, with 2006 Melbourne boundary shown in black. Source: authors analysis of ABS data"}
+```{r Greater_Melbourne_2021_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores, overlayed with: 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries; and suburban railway lines (dotted). Source: authors analysis of ABS data"}
 
 #join to sa1 data, including lat and long of each sa1
 social_2021_sa1_greater_melbourne <- left_join(
@@ -1809,9 +1826,13 @@ ggplot()+
         legend.position="bottom",
         legend.text = element_text(size = 4), 
         legend.title = element_text(size = 5)) + 
-  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) +
+  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
-  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4)
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "dotted", size = 0.4) 
 
 
 
