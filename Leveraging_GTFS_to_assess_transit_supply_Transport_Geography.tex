@@ -411,19 +411,8 @@ Greater Melbourne and the inner, middle and outer suburban boundaries
 used by \citet{currie2010identifying} are also shown so as to facilitate
 comparison to Figure \ref{fig:Currie_map_SI}.
 
-\begin{verbatim}
-## Reading layer `melbourne_railway_trips_shape' from data source 
-##   `/Users/julianreynolds/Documents/0001 projects/gtfssupplyindex_main_paper/results/melbourne_railway_trips_shape.shp' 
-##   using driver `ESRI Shapefile'
-## Simple feature collection with 16 features and 6 fields
-## Geometry type: LINESTRING
-## Dimension:     XY
-## Bounding box:  xmin: 144.6611 ymin: -38.37423 xmax: 145.4864 ymax: -37.57927
-## Geodetic CRS:  WGS 84
-\end{verbatim}
-
 \begin{figure}
-\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_plot-1} \caption{Greater Melbourne, Transit Supply by SA1 for week starting the date of 2021 census, overlayed with: 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries; and suburban railway lines (dotted).}\label{fig:Greater_Melbourne_SA1_2021_plot}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_SA1_2021_plot-1} \caption{Greater Melbourne, Transit Supply by SA1 for week starting the date of 2021 census, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed).}\label{fig:Greater_Melbourne_SA1_2021_plot}
 \end{figure}
 
 The overall spatial patterns appear generally similar in 2021 as they
@@ -484,30 +473,21 @@ making up 4.3\% of the total number of SA1s in Greater Melbourne,
 compared to the 3.2\% of CCDs with Zero Supply in 2006 reported in
 \citet{currie2010identifying}. Table
 \ref{tab:Greater_Melbourne_SA1_2021_table} and Figure
-\textbackslash ref\{fig:Greater\_Melbourne\_SA1\_2021\_table) also show
-that more of the population of Greater Melbourne are within areas with
-Zero Supply in 2021 (3.8\%) than in 2006 (2.5\%)
+\ref{fig:Greater_Melbourne_SA1_2021_table} also show that more of the
+population of Greater Melbourne are within areas with Zero Supply in
+2021 (3.8\%) than in 2006 (2.5\%)
 
-The average SI value has also increased to 3,299.8 from the value of
+The average SI value has also increased to 3,389.5 from the value of
 2,886.9 in 2006 reported in \citet{currie2010identifying}, indicating
 that the overall transit service supply score has increased by
-approximately 24\%.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs_SI_scores-1} \caption{Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores}
-\end{figure}
-
-Figure \ref{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores}
-compares 2021 SI scores for CCDs across the inner, middle and outer
-suburbs. SI scores average 12,275.7, 3,409.1 and 998.6 for the inner,
-middle and outer suburbs respectively\footnote{The same grouping of LGAs
-  to inner, middle and outer suburb groups as used in
+approximately 31\%. SI scores average 12,275.7, 3,409.1 and 998.6 for
+the inner, middle and outer suburbs respectively\footnote{The same
+  grouping of LGAs to inner, middle and outer suburb groups as used in
   \citet{currie2010identifying} was used for this analysis, although
   here the City of Stonnington was allocated entirely to the middle
   grouping, whereas \citet{currie2010identifying} allocated part of this
-  LGA to the inner group.}. These compare to the scores of 10,922.7,
-2,694.9 and 764.3, respectively, reported for 2006 in
-\citet{currie2010identifying}.
+  LGA to the inner group.}, compared to 10,922.7, 2,694.9 and 764.3,
+respectively, reported for 2006 in \citet{currie2010identifying}.
 
 \subsubsection{2021 Social needs}\label{social-needs}
 
@@ -520,26 +500,136 @@ possible to exactly replicate the \citet{currie2010identifying} approach
 due to changes in the way census results are reported.
 
 \begin{figure}
-\includegraphics[width=0.9\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_social_needs-1} \caption{Distribution of categories of composite social need index scores, overlayed with: 2006 Greater Melbourne boundary and middle/outer and inner/middle suburb boundaries; and suburban railway lines (dotted). Source: authors analysis of ABS data}\label{fig:Greater_Melbourne_2021_social_needs}
+\includegraphics[width=0.9\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_social_needs-1} \caption{Distribution of categories of composite social need index scores, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed).}\label{fig:Greater_Melbourne_2021_social_needs}
 \end{figure}
 
-Figure \ref{fig:Greater_Melbourne_2021_social_needs} appears to indicate
-that there is no clear spatial pattern to the distribution of the
-categories of the composite need index scores. This appears to contrast
-to trend, albeit with some exceptions, towards very high social needs
-scores in outer areas identified by \citet{currie2010identifying}
-(Figure \ref{fig:Currie_map_needs}). This may, however, be an artifact
-of either the differences in the composite needs scores used in this
-analysis (due to the lack of data to assess relative needs) compared to
-the \citet{currie2010identifying} analysis. As well, the 2021 census SA1
-zones generally appear to smalller than the 2006 Census Collection
-Districts (CCDs) used in \citet{currie2010identifying}, especially in
-outer areas. This will be associated with the growth of Greater
-Melbourne's population and spatial dispersment, with many of the large
-outer `Very High' CCDs shown in the 2006 map now split into many more
-SA1 zones.
+Comparing Figure \ref{fig:Greater_Melbourne_2021_social_needs} and
+Figure \ref{fig:Currie_map_needs} suggests that in 2021, compared to
+2006: the spatial grouping of different levels of social need is less
+consistent; middle eastern suburbs have higher relative needs; and outer
+suburbs, particularly in the north-east and south-east, have lower
+relative needs. However, this may be an artifact of: the differences in
+the composite needs scores used in this analysis (due to the lack of
+data to assess relative needs) compared to the
+\citet{currie2010identifying} analysis; and the shift of the ABS from
+using CCDs to SA1s\footnote{CCDs were originally devised to group the
+  approximately 200 dwellings allocated to each individual census
+  collector, whereas SA1s were introduced in be consistent in population
+  (200 to 800 people, averaging 400) and character\citep{ABS_SA1s_CCDs}}.
 
 \subsubsection{Needs-gap analysis}\label{needs-gap-analysis}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_needs_gap-1.pdf}
+\caption{Greater Melbourne 2021, SI and Combined Needs Index scores}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap} compares SI and
+Combined Needs Index scores for SA1s in 2021. There is a significant,
+but only weakly positive relationship.
+
+\begin{table}
+
+\caption{\label{tab:Greater_Melbourne_2021_needs_gap_zones}Greater Melbourne 2021, SA1s within each SI and Combined Needs Index grouping}
+\centering
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{l|r|r|r|r|r|r|r}
+\hline
+transit\_supply & Very Low & Low & Below average & Above average & High & Very High & Total\\
+\hline
+Zero Supply & 6.4\%   (130) & 4.7\%    (95) & 3.9\%    (79) & 2.9\%    (49) & 3.0\%    (51) & 3.6\%    (61) & 4.2\%    (465)\\
+\hline
+Very Low & 25.6\%   (520) & 22.3\%   (454) & 21.7\%   (442) & 21.0\%   (353) & 22.0\%   (369) & 24.3\%   (408) & 22.9\%  (2,546)\\
+\hline
+Low & 23.5\%   (478) & 25.3\%   (514) & 24.6\%   (500) & 24.1\%   (404) & 22.4\%   (376) & 20.6\%   (346) & 23.5\%  (2,618)\\
+\hline
+Below average & 23.7\%   (483) & 23.6\%   (481) & 23.9\%   (487) & 25.6\%   (430) & 24.6\%   (413) & 20.8\%   (350) & 23.7\%  (2,644)\\
+\hline
+Above average & 6.9\%   (140) & 8.1\%   (165) & 9.2\%   (188) & 9.3\%   (156) & 9.1\%   (152) & 9.2\%   (155) & 8.6\%    (956)\\
+\hline
+High & 5.9\%   (120) & 7.9\%   (161) & 9.5\%   (194) & 9.2\%   (154) & 9.7\%   (162) & 9.8\%   (165) & 8.6\%    (956)\\
+\hline
+Very High & 8.0\%   (163) & 8.1\%   (164) & 7.1\%   (144) & 7.9\%   (133) & 9.2\%   (155) & 11.6\%   (194) & 8.6\%    (953)\\
+\hline
+Total & 100.0\% (2,034) & 100.0\% (2,034) & 100.0\% (2,034) & 100.0\% (1,679) & 100.0\% (1,678) & 100.0\% (1,679) & 100.0\% (11,138)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_needs_gap_zones-1.pdf}
+\caption{Greater Melbourne 2021, SA1s within each SI and Combined Needs
+Index grouping}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_zones} and Table
+\ref{tab:Greater_Melbourne_2021_needs_gap_zones} compares the SI and
+Combined Needs Index groupings for 2021. There is a statistically
+significant relationship, although this appears to be weak. 469 SA1s
+have zero or very low transit supply, but very high social needs. This
+represents 4.2\% of the 11,138 SA1s within Greater Melbourne, and is a
+higher proportion than that reported for 2006 (85 of 5,720 CCDs
+(1.6\%)).
+
+\begin{table}
+
+\caption{\label{tab:Greater_Melbourne_2021_needs_gap_population}Greater Melbourne 2021, Population in each SI and Combined Needs Index grouping}
+\centering
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{l|r|r|r|r|r|r|r}
+\hline
+transit\_supply & Very Low & Low & Below average & Above average & High & Very High & Total\\
+\hline
+Zero Supply & 5.7\%  (30,002) & 4.6\%  (32,645) & 3.9\%  (32,328) & 2.9\%  (22,705) & 3.0\%  (27,179) & 3.7\%    (41,915) & 3.8\%   (186,774)\\
+\hline
+Very Low & 24.4\% (129,294) & 22.4\% (158,919) & 21.7\% (181,719) & 21.1\% (166,490) & 22.3\% (199,467) & 25.6\%   (291,972) & 23.0\% (1,127,861)\\
+\hline
+Low & 24.6\% (130,477) & 25.8\% (183,274) & 25.1\% (210,538) & 24.5\% (193,642) & 22.9\% (205,397) & 21.0\%   (239,267) & 23.7\% (1,162,595)\\
+\hline
+Below average & 24.6\% (130,322) & 24.1\% (171,561) & 24.2\% (203,230) & 25.8\% (203,985) & 24.5\% (219,755) & 20.1\%   (229,221) & 23.6\% (1,158,074)\\
+\hline
+Above average & 7.1\%  (37,419) & 8.0\%  (56,902) & 9.1\%  (76,179) & 9.3\%  (73,062) & 9.0\%  (80,380) & 8.9\%   (100,957) & 8.7\%   (424,899)\\
+\hline
+High & 6.1\%  (32,274) & 7.6\%  (54,119) & 9.3\%  (77,767) & 8.9\%  (70,132) & 9.4\%  (83,970) & 9.4\%   (107,121) & 8.7\%   (425,383)\\
+\hline
+Very High & 7.6\%  (40,417) & 7.5\%  (53,477) & 6.7\%  (56,412) & 7.5\%  (59,356) & 8.9\%  (79,306) & 11.4\%   (129,759) & 8.5\%   (418,727)\\
+\hline
+Total & 100.0\% (530,205) & 100.0\% (710,897) & 100.0\% (838,173) & 100.0\% (789,372) & 100.0\% (895,454) & 100.0\% (1,140,212) & 100.0\% (4,904,313)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_needs_gap_population-1.pdf}
+\caption{Greater Melbourne 2021, Populations within each SI and Combined
+Needs Index grouping}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_population} and Table
+\ref{tab:Greater_Melbourne_2021_needs_gap_population} compares the
+populations within each SI and Combined Needs Index grouping for 2021.
+There is a statistically significant relationship, although this appears
+to be weak. 333887 people live within SA1s that have zero or very low
+transit supply, but very high social needs. This represents 6.8\% of the
+4,904,313 people within Greater Melbourne, and is a lower proportion
+than that reported for 2006 (37,699 of 3.3 million people (8.2\%)).
+
+\begin{figure}
+\centering
+\includegraphics{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_needs_gap_map-1.pdf}
+\caption{Greater Melbourne 2021 SI groupings, overlayed with SA1s with
+very high transport need areas with zero or very low public transport
+supply (red).}
+\end{figure}
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in
+Greater Melbourne with Very High transport needs, but Very Low or Zero
+transit supply. \textless\textless\textless\textless WRITE COMPARISON TO
+FIGURE 3
+HERE\textgreater\textgreater\textgreater\textgreater\textgreater{}
 
 \subsection{Variation in spatial patterns across Australian
 cities}\label{variation-in-spatial-patterns-across-australian-cities}
