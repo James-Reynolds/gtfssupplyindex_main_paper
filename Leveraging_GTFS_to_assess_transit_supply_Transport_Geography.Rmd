@@ -1947,7 +1947,95 @@ melbourne_si_SA12021_21_census_week_aggregated$output_plot +
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero transit supply. <<<<WRITE COMPARISON TO FIGURE 3 HERE>>>>>
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero transit supply for 2021. Comparison to the 2006 spatial distribution shown in Figrue \ref{fig:Currie_map_gap} suggests that now areas with social needs gaps are: still mostly in outer suburbs; more widely distributed across Greater Melbourne; and cover smaller geographical areas. This last change, however, may again be an artefact of the shift from CCDs to SA1s, given that SA1s tend to cover smaller areas and be concentrated on population centres^[For example, Figure \ref{fig:Currie_map_gap} shows a large area of very high transport need but very low or zero supply in the north-east of Greater Melbourne consisting of around 10 CCDs. However, most of this area is in the Yarra Ranges National Park or adjoining non-populated areas.  In contrast, the 2021 map shows only a few small SA1s in the outer north-east of Greater Melbourne as having very high social needs but very low or zero transit supply (these include SA1s around Heasleville and Gembrook), as the SA1 boundaries more closely align to populated areas.]
+
+## Variation across Australian cities, and the 2016 and 2021 censuses
+
+
+
+
+```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
+
+## 2021 Greater Adelaide
+si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Adelaide") %>% 
+    select(sa1_code_2021)
+
+adelaide_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Brisbane
+si_by_area <-  read.csv( "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Brisbane") %>% 
+    select(sa1_code_2021)
+
+brisbane_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Hobart
+si_by_area <-  read.csv( "results/Greater_Hobart/hobart_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Hobart") %>% 
+    select(sa1_code_2021)
+
+hobart_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+## 2021 Greater Perth
+si_by_area <-  read.csv( "results/Greater_Perth/perth_si_SA12021_21_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
+
+areas_of_interest <-  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Perth") %>% 
+    select(sa1_code_2021)
+
+perth_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+
+
+melbourne_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+adelaide_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+brisbane_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+hobart_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+perth_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+
+```
+
+
+
+Figure \ref{fig:Australian_cities_2021} shows SI values for the week starting on the day of the 2021 census for all Australian Capital Cities except Greater Sydney, for which the SI values are calculated for the week starting <INSERT WEEK HERE>. 
+
+
+
+
+# Discussion
+
+## Limitations 
+
+## Directions for furture research
+
+# Conclusions
+
+# References {-}
+
+
+
+```{r, include=FALSE}
+knitr::write_bib(file = 'packages.bib')
+```
+
+# Appendix A - GCCSA maps by SA1
+
+# Holding for spare stuff 
 
 ```{r Greater_Melbourne_2006_needs_gap_zones, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021, SI and Combined Needs Index groupings"}
 
@@ -2114,90 +2202,4 @@ grouped_ggbarstats(
 
 
 ```
-
-
-
-## Variation in spatial patterns across Australian cities
-
-```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
-
-## 2021 Greater Adelaide
-si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Adelaide") %>% 
-    select(sa1_code_2021)
-
-adelaide_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Brisbane
-si_by_area <-  read.csv( "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Brisbane") %>% 
-    select(sa1_code_2021)
-
-brisbane_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Hobart
-si_by_area <-  read.csv( "results/Greater_Hobart/hobart_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Hobart") %>% 
-    select(sa1_code_2021)
-
-hobart_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Perth
-si_by_area <-  read.csv( "results/Greater_Perth/perth_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Perth") %>% 
-    select(sa1_code_2021)
-
-perth_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-
-
-melbourne_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-adelaide_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-brisbane_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-hobart_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-perth_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-
-```
-
-
-
-Figure \ref{fig:Australian_cities_2021} shows SI values for the week starting on the day of the 2021 census for all Australian Capital Cities except Greater Sydney, for which the SI values are calculated for the week starting <INSERT WEEK HERE>. 
-
-
-
-
-# Discussion
-
-## Limitations 
-
-## Directions for furture research
-
-# Conclusions
-
-# References {-}
-
-
-
-```{r, include=FALSE}
-knitr::write_bib(file = 'packages.bib')
-```
-
-# Appendix A - GCCSA maps by SA1
-
 
