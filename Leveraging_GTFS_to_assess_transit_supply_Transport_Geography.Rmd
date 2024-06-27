@@ -555,18 +555,22 @@ Statistical Area 1 (SA1) zones,
 and so SI scores and needs-gap analysis was completed for Greater Melbourne 
 in 2021 using these boundaries instead. 
 
-## Variation in spatial patterns across location. 
+## Variation in spatial patterns across location and time. 
 SI scores were also calculated for other
-capital cities in Australia, again for the week starting on the day of the 2021 census.
+capital cities in Australia, for the weeks starting on the days
+of the 2016 and 2021 censuses.
 Historical GTFS data was again sourced via the Transit Feeds website. 
 Unfortunately it was not possible to locate 
-historical GTFS data for Greater Sydney 
+2021 GTFS data for Greater Sydney 
 or Greater Darwin, 
 so SI scores were calculated for 2024 using the 
 latest data sets, sourced directly 
 from the relevant transit authorities. 
 
-
+The ABS' statistical geography boundaries can change from one census to the next 
+as populations and spatial distributions change. The 2021 SA1 boundaries are used 
+where direct comparisons of SI scores are made between 2016 and 2021, with the ABS' correspondence files used to adjust 2016 populations to the 2021 boundaries. For the assessment of social needs and needs-gaps in 2016, however, this study makes use of the 2016 SA1 boundaries so that census reported data can be 
+directly matched to geographical location. 
 
 ```{r run_for_all_modes_Greater_Melbourne_210810_SA1, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_210805_list_gtfs
@@ -963,14 +967,6 @@ write.csv(sydney_si_SA12021_240806_week_aggregated, "results/Greater_Sydney/sydn
 
 
 
-
-
-
-## Variation in time
-
-SHOULD THIS BE RUN FOR ALL YEARS AS FAR BACK AS THE GTFS DATA GOES??
-
-
 ```{r fix_ptv_data_Victoria_160804, eval = FALSE, echo = FALSE}
  
 
@@ -1216,7 +1212,9 @@ Mornington Peninsula Railway
 as a worked example 
 and comparison to SI scores calculated manually.  
 
-## Greater Melbourne: changes since 2006 
+## Greater Melbourne in 2021: changes since 2006
+
+### SI scores 
 
 Figure \ref{fig:Greater_Melbourne_SA1_2021_plot} shows Transit Supply groupings based on SI scores for SA1 zones within Greater Melbourne for the week starting the day of the 2021 census. The 2006 boundary of Greater Melbourne and the inner, middle and outer suburban boundaries used by @currie2010identifying are also shown so as to facilitate comparison to Figure \ref{fig:Currie_map_SI}. 
 
@@ -1702,7 +1700,7 @@ Table \ref{tab:Greater_Melbourne_CCD_2021_by_suburbs} and Figure \ref{fig:Greate
 --->
 
 
-### 2021 Social needs
+### Social needs
 Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach due to changes in the way census results are reported. 
 
 ```{r Greater_Melbourne_2021_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)."}
@@ -1949,71 +1947,276 @@ melbourne_si_SA12021_21_census_week_aggregated$output_plot +
 
 Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero transit supply for 2021. Comparison to the 2006 spatial distribution shown in Figrue \ref{fig:Currie_map_gap} suggests that now areas with social needs gaps are: still mostly in outer suburbs; more widely distributed across Greater Melbourne; and cover smaller geographical areas. This last change, however, may again be an artefact of the shift from CCDs to SA1s, given that SA1s tend to cover smaller areas and be concentrated on population centres^[For example, Figure \ref{fig:Currie_map_gap} shows a large area of very high transport need but very low or zero supply in the north-east of Greater Melbourne consisting of around 10 CCDs. However, most of this area is in the Yarra Ranges National Park or adjoining non-populated areas.  In contrast, the 2021 map shows only a few small SA1s in the outer north-east of Greater Melbourne as having very high social needs but very low or zero transit supply (these include SA1s around Heasleville and Gembrook), as the SA1 boundaries more closely align to populated areas.]
 
-## Variation across Australian cities, and the 2016 and 2021 censuses
 
+## Greater Melbourne: 2016 and 2021
 
+### SI scores
 
-
-```{r Australian_cities_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Transit Supply by SA1, weeks starting the date of 2021 census"}
-
-## 2021 Greater Adelaide
-si_by_area <-  read.csv( "results/Greater_Adelaide/adelaide_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
+```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
 
 areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Adelaide") %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021)
 
-adelaide_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+#####NEEED TO REPLACE THE ONE DAY SIs WITH FULL WEEK
+###2016
+###Load results from CSV (Precalculated above) and make first column character
+si_by_area_and_hour_160809 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
+si_by_area_and_hour_160809 <- si_by_area_and_hour_160809[,2:4]
+si_by_area_and_hour_160809$area_id <- as.character(si_by_area_and_hour_160809$area_id)
 
-## 2021 Greater Brisbane
-si_by_area <-  read.csv( "results/Greater_Brisbane/brisbane_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Brisbane") %>% 
-    select(sa1_code_2021)
-
-brisbane_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Hobart
-si_by_area <-  read.csv( "results/Greater_Hobart/hobart_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Hobart") %>% 
-    select(sa1_code_2021)
-
-hobart_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
-
-## 2021 Greater Perth
-si_by_area <-  read.csv( "results/Greater_Perth/perth_si_SA12021_21_census_week_aggregated.csv") %>% 
-  as_tibble()
-si_by_area <- si_by_area[,2:3]
-
-areas_of_interest <-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Perth") %>% 
-    select(sa1_code_2021)
-
-perth_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+si_by_area_160809 <- si_by_area_and_hour_160809 %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
 
 
+##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
+# that have no SI score
+si_by_area_160809  <- full_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021) %>%
+    st_drop_geometry(),
+  si_by_area_160809 , 
+  by = join_by(sa1_code_2021  == area_id))
+si_by_area_160809[is.na(si_by_area_160809)] <- 0
 
-melbourne_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-adelaide_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-brisbane_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-hobart_si_SA12021_21_census_week_aggregated[["output_plot"]] 
-perth_si_SA12021_21_census_week_aggregated[["output_plot"]] 
+names(si_by_area_160809) <- c("area_id", "SI")
+
+si_by_area_160809$Year <- 2016
+
+si_by_area_160809_thresholds <- set_thresholds(si_by_area_dataframe = si_by_area_160809)
+si_by_area_160809 <- si_by_area_160809_thresholds[[1]]
+
+melbourne_si_SA12021_21_census_week_aggregated$si_by_area$Year <- 2021
+
+
+si_by_area_2016_2021 <- add_row(
+  si_by_area_160809, 
+  melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
+    st_drop_geometry())
+names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "Year", "transit_supply")
+
+si_by_area_2016_2021  <- left_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021),
+  si_by_area_2016_2021)
+
+plot_2016_2021_comparison <- ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021 %>% na.omit(),
+          aes(fill = transit_supply), colour=NA) +
+  facet_wrap(vars(Year), nrow = 1) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.position="bottom") + #remove y axis ticks
+  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) + 
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+
+
+
+### Obtain and Plot 2016 results using SA1_2016 boundaries
+
+
+#si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12016_16_census_week_aggregated.csv") %>% 
+#  as_tibble()
+#si_by_area <- si_by_area[,2:3]
+
+#areas_of_interest <-  absmapsdata::sa12016 %>% 
+#    filter(gcc_name_2016 == "Greater Melbourne") %>% 
+#    select(sa1_code_2016)
+
+#melbourne_si_SA12016_16_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+
+#melbourne_si_SA12016_16_census_week_aggregated[[output_plot]] / plot_2016_2021_comparison
+
+
 
 ```
 
 
+```{r Greater_Melbourne_2016_2021_scatterplot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA1_2021, census day 2016 and 2021"}
 
-Figure \ref{fig:Australian_cities_2021} shows SI values for the week starting on the day of the 2021 census for all Australian Capital Cities except Greater Sydney, for which the SI values are calculated for the week starting <INSERT WEEK HERE>. 
+si_by_area_2016_2021 %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  select(sa1_code_2021, Year, SI) %>%
+  pivot_wider(names_from = "Year", 
+              values_from = "SI") %>%
+  ggscatterstats( 
+  x = "2016", 
+  y = "2021", 
+  type = "nonparametric",
+  ) +   
+  scale_x_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
+  scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000))
 
+```
+
+
+Figure \ref{fig:Greater_Melbourne_2016_2021} shows Transit Supply for the weeks starting the day of the census  in 2016 and 2021. Comparing 2016 and 2021 suggests that INSERT TEXT HERE
+
+Figure \ref{fig:Greater_Melbourne_2016_2021_year_SI} compares SI scores 
+for Greater Melbourne across 2016 and 2021. 
+Results indicate INSERT TEXT HERE
+
+```{r Greater_Melbourne_SA1_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of Transit Supply to SA1s and population, 2016 (SA1_2016 boundaries), and 2016 and 2021 (SA1_2021 boundaries)"}
+### 2016 analysis using SA1_2016 boundaries
+### TODO
+
+
+### 2016 analysis using SA1_2021 boundaries
+si_by_area_2016_2021_transit_supply_wider <- si_by_area_2016_2021 %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  select(sa1_code_2021, Year, transit_supply) %>%
+  pivot_wider(names_from = "Year", 
+              values_from = "transit_supply") %>% 
+  clean_names()
+
+#2016 population
+# load and cleanup 2016 population by sa1
+sa1_ur_agep_2016 <- read_csv("data/sa1_ur_agep_2016.csv", 
+    skip = 8)
+sa1_ur_agep_2016 <- sa1_ur_agep_2016[-1,]
+sa1_ur_agep_2016 <- sa1_ur_agep_2016[1:57523,1:118] 
+sa1_ur_agep_2016 <- sa1_ur_agep_2016%>% type.convert(as.is = T)
+sa1_ur_agep_2016 <- sa1_ur_agep_2016 %>% clean_names()
+colnames(sa1_ur_agep_2016)[colnames(sa1_ur_agep_2016) == "agep_age"] <- "sa1_7dig_2016"
+#check variable types
+#lapply(sa1_ur_agep_2016, class) %>% as_vector() %>% tabyl()
+sa1_ur_agep_2016$sa1_7dig_2016 <- sa1_ur_agep_2016$sa1_7dig_2016 %>%
+  as.character()
+
+# Convert to 11 digit SA1 codes 
+sa1_ur_agep_2016 <- right_join(absmapsdata::sa12016 %>% 
+             st_drop_geometry() %>% 
+             select(sa1_code_2016, sa1_7dig_2016), 
+           sa1_ur_agep_2016) %>% 
+  as_tibble()
+          
+#Import and join to 2016 to 2021 correspondence data
+CG_SA1_2016_SA1_2021 <- read_csv("data/CG_SA1_2016_SA1_2021.csv")
+CG_SA1_2016_SA1_2021 <- CG_SA1_2016_SA1_2021[-(nrow(CG_SA1_2016_SA1_2021)),]
+CG_SA1_2016_SA1_2021$SA1_MAINCODE_2016 <- CG_SA1_2016_SA1_2021$SA1_MAINCODE_2016 %>% 
+  as.character()
+CG_SA1_2016_SA1_2021 <- CG_SA1_2016_SA1_2021 %>% 
+  clean_names()
+colnames(CG_SA1_2016_SA1_2021)[colnames(CG_SA1_2016_SA1_2021) == "sa1_maincode_2016"] <- "sa1_code_2016"
+
+sa1_ur_agep_2016 <- right_join(
+  sa1_ur_agep_2016, 
+  CG_SA1_2016_SA1_2021
+)
+#multiply 2016 sa1_code_2016 populations by correspondence to get sa1_code_2021 populations
+sa1_ur_agep_2016$population_SA12021s_2016 <- sa1_ur_agep_2016$total * sa1_ur_agep_2016$ratio_from_to
+#aggregate by sa1_code_2021
+sa1_ur_agep_2016 <- sa1_ur_agep_2016 %>% aggregate(population_SA12021s_2016 ~ sa1_code_2021, sum)
+sa1_ur_agep_2016$population_SA12021s_2016 <-  sa1_ur_agep_2016$population_SA12021s_2016 %>% 
+  round(digits = 0)
+
+population_transit_supply_sa1_2016_2021 <- left_join(
+  si_by_area_2016_2021_transit_supply_wider %>% 
+    st_drop_geometry() %>%
+    select(sa1_code_2021, x2016, x2021), 
+  sa1_ur_agep_2016
+)
+
+names(population_transit_supply_sa1_2016_2021) <- c(
+  "sa1_code_2021",
+  "transit_supply_2016", 
+  "transit_supply_2021",
+  "population_SA12021s_2016")
+
+#Add 2021 population
+population_transit_supply_sa1_2016_2021 <- left_join( 
+  population_transit_supply_sa1_2016_2021, 
+  left_join(
+    areas_of_interest %>% st_drop_geometry(), 
+    sa1_ur_agep_2021 %>% select(sa1_code_2021, total)) %>% 
+    as_tibble()
+  )
+
+names(population_transit_supply_sa1_2016_2021) <- c("sa1_code_2021", 
+                                             "transit_supply_2016", 
+                                             "transit_supply_2021",
+                                             "population_SA12021s_2016",
+                                             "population_2021")
+
+
+comparison_2016_2021 <-
+  tabyl(population_transit_supply_sa1_2016_2021, transit_supply_2016) %>%
+  untabyl() %>% 
+  select(transit_supply_2016, n)
+names(comparison_2016_2021) <- c("transit_supply", "SA12021s_2016")
+  
+comparison_2016_2021 <- comparison_2016_2021 %>% 
+  add_column(
+    aggregate(
+      population_transit_supply_sa1_2016_2021, 
+      population_SA12021s_2016 ~ transit_supply_2016, sum) %>% 
+      select(population_SA12021s_2016))
+
+comparison_2016_2021$SA1s_2021 <-
+  tabyl(population_transit_supply_sa1_2016_2021, transit_supply_2021) %>%
+  untabyl() %>% 
+  select(n) %>%
+  unlist()
+
+comparison_2016_2021 <- comparison_2016_2021 %>% 
+  add_column(
+    aggregate(
+      population_transit_supply_sa1_2016_2021, 
+      population_2021 ~ transit_supply_2021, sum) %>%
+      select(population_2021)
+  )
+
+
+comparison_2016_2021 %>%
+  adorn_totals(where = "row") %>%
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns() %>% 
+  kable( 
+      caption = "Greater Melbourne: Distribution of SA1s and resident population to Transit Supply categories, 2016 and 2021, using the 2021 SA1 boundaries",
+      align = "lrrrr",
+      col.names = c("category", 
+                   "SA1s", "Population", 
+                   "SA1s", "Population"
+                   )
+      ) %>% 
+  add_header_above(c("Transit Supply" =1, "2016" = 2, "2021" = 2))
+
+sa1s_pop_comparison_2016_2021 <- comparison_2016_2021 %>% 
+  pivot_longer(
+    cols = 2:5,
+    names_to = "category", 
+    values_to = "counts")
+
+sa1s_pop_comparison_2016_2021$category<- factor(
+  sa1s_pop_comparison_2016_2021$category, levels = c("SA12021s_2016", "population_SA12021s_2016", "SA1s_2021", "population_2021"))
+
+
+ggbarstats(sa1s_pop_comparison_2016_2021,
+  x = transit_supply, 
+  y = category, 
+  counts = "counts") +
+  theme(legend.position = "bottom")
+
+  
+  
+    
+```
+
+Figure \ref{fig:Greater_Melbourne_SA1_2016_2021} and Table \ref{tab:Greater_Melbourne_SA1_2016_2021} indicate INSERT TEXT HERE
 
 
 
