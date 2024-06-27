@@ -986,13 +986,249 @@ ptv_160804$stops <- ptv_160804$stops[!duplicated(ptv_160804$stops$stop_id),]
 ptv_160804 <- as_tidygtfs(ptv_160804)
 tidytransit::write_gtfs(ptv_160804, "data/ptv_160804/gtfs_duplicate_stops_removed.zip")
 
+```
+
+
+
+
+```{r run_for_all_modes_Greater_Adelaide_160809_SA1, eval = FALSE, echo = FALSE}
+
 ## convert to list of tidygtfs objects
-ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+adelaide_metro_160802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/adelaide_metro_160802/gtfs.zip")
+
+list_gtfs = adelaide_metro_160802_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Adelaide") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+adelaide_si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(adelaide_si_SA12021_16_census_week, "results/Greater_Adelaide/adelaide_si_SA12021_16_census_week.csv")
+
+#adelaide_si_SA12021_16_census_week <- read_csv("results/Greater_Adelaide/adelaide_si_SA12021_16_census_week")
+
+adelaide_si_SA12021_16_census_week_aggregated <- adelaide_si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(adelaide_si_SA12021_16_census_week_aggregated, "results/Greater_Adelaide/adelaide_si_SA12021_16_census_week_aggregated.csv")
+
 
 ```
 
 
-```{r run_for_all_modes_Victoria_160809, eval = FALSE, echo = FALSE}
+
+
+
+```{r run_for_all_modes_Greater_Hobart_160809_SA1, eval = FALSE, echo = FALSE}
+
+###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
+
+## convert to list of tidygtfs objects
+metrotas_hobart_160713_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metrotas_hobart_160713/gtfs.zip")
+
+
+
+list_gtfs = metrotas_hobart_160713_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Hobart") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+hobart_si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(hobart_si_SA12021_16_census_week, "results/Greater_Hobart/hobart_si_SA12021_16_census_week.csv")
+
+#hobart_si_SA12021_16_census_week <- read_csv("results/Greater_Hobart/hobart_si_SA12021_16_census_week")
+
+hobart_si_SA12021_16_census_week_aggregated <- hobart_si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(hobart_si_SA12021_16_census_week_aggregated, "results/Greater_Hobart/hobart_si_SA12021_16_census_week_aggregated.csv")
+
+
+```
+
+```{r run_for_all_modes_Greater_Perth_160809_SA1, eval = FALSE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+transperth_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_160804/gtfs.zip")
+
+
+
+list_gtfs = transperth_160804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Perth") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+perth_si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(perth_si_SA12021_16_census_week, "results/Greater_Perth/perth_si_SA12021_16_census_week.csv")
+
+#perth_si_SA12021_16_census_week <- read_csv("results/Greater_Perth/perth_si_SA12021_16_census_week")
+
+perth_si_SA12021_16_census_week_aggregated <- perth_si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(perth_si_SA12021_16_census_week_aggregated, "results/Greater_Perth/perth_si_SA12021_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+
+```{r run_for_all_modes_Darwin_160809_SA1, eval = FALSE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+darwin_160203_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/darwin_160203/gtfs.zip")
+
+list_gtfs = darwin_160203_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Darwin") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+darwin_si_SA12021_16_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(darwin_si_SA12021_16_week, "results/Greater_Darwin/darwin_si_SA12021_16_week.csv")
+
+
+darwin_si_SA12021_16_week_aggregated <- darwin_si_SA12021_16_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(darwin_si_SA12021_16_week_aggregated, "results/Greater_Darwin/darwin_si_SA12021_16_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Sydney_160809_SA1, eval = FALSE, echo = FALSE}
+
+
+## convert to list of tidygtfs objects
+sydney_160805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/sydney_160805/gtfs.zip")
+
+
+
+list_gtfs = sydney_160805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Sydney") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+sydney_si_SA12021_16_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(sydney_si_SA12021_16_week, "results/Greater_Sydney/sydney_si_SA12021_16_week.csv")
+
+
+sydney_si_SA12021_16_week_aggregated <- sydney_si_SA12021_16_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(sydney_si_SA12021_16_week_aggregated, "results/Greater_Sydney/sydney_si_SA12021_16_week_aggregated.csv")
+
+
+```
+
+----
+
+```{r run_for_all_modes_Victoria_160809_SA12021, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+
 list_gtfs = ptv_160804_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(
@@ -1014,10 +1250,478 @@ si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
      list_gtfs = list_gtfs, 
 stops_in_or_near_areas = stops_in_or_near_areas,
  start_date_ymd = "2016-08-09", 
- end_date_ymd = "2021-08-15",
+ end_date_ymd = "2016-08-15",
 verbose = TRUE)
 
 write.csv(si_SA12021_16_census_week, "results/Greater_Melbourne/si_SA12021_16_census_week")
+
+
+si_SA12021_16_census_week_aggregated <- si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(si_SA12021_16_census_week_aggregated, "results/Greater_Melbourne/si_SA12021_16_census_week_aggregated.csv")
+
+
+```
+
+```{r run_for_all_modes_Victoria_160809_2016SA1s, eval = TRUE, echo = FALSE}
+list_gtfs = ptv_160804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+
+si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(si_SA12016_16_census_week, "results/Greater_Melbourne/si_SA12016_16_census_week")
+
+
+si_SA12016_16_census_week_aggregated <- si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(si_SA12016_16_census_week_aggregated, "results/Greater_Melbourne/si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Greater_Brisbane_160809_2021SA1, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+translink_seq_160808_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_160808/gtfs_edited.zip")
+
+list_gtfs = translink_seq_160808_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Brisbane") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+brisbane_si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(brisbane_si_SA12021_16_census_week, "results/Greater_Brisbane/brisbane_si_SA12021_16_census_week.csv")
+
+#brisbane_si_SA12021_16_census_week <- read_csv("results/Greater_Brisbane/brisbane_si_SA12021_16_census_week.csv")
+
+brisbane_si_SA12021_16_census_week_aggregated <- brisbane_si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(brisbane_si_SA12021_16_census_week_aggregated, "results/Greater_Brisbane/brisbane_si_SA12021_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Greater_Brisbane_160809_SA12016, eval = TRUE, echo = FALSE}
+
+
+###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
+
+## convert to list of tidygtfs objects
+translink_seq_160808_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_160808/gtfs_edited.zip")
+
+
+
+list_gtfs = translink_seq_160808_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Brisbane") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+brisbane_si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(brisbane_si_SA12016_16_census_week, "results/Greater_Brisbane/brisbane_si_SA12016_16_census_week.csv")
+
+#brisbane_si_SA12016_16_census_week <- read_csv("results/Greater_Brisbane/brisbane_si_SA12016_16_census_week.csv")
+
+brisbane_si_SA12016_16_census_week_aggregated <- brisbane_si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(brisbane_si_SA12016_16_census_week_aggregated, "results/Greater_Brisbane/brisbane_si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+
+```{r run_for_all_modes_Greater_Adelaide_160809_SA12016, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+adelaide_metro_160802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/adelaide_metro_160802/gtfs.zip")
+
+list_gtfs = adelaide_metro_160802_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Adelaide") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+adelaide_si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(adelaide_si_SA12016_16_census_week, "results/Greater_Adelaide/adelaide_si_SA12016_16_census_week.csv")
+
+#adelaide_si_SA12016_16_census_week <- read_csv("results/Greater_Adelaide/adelaide_si_SA12016_16_census_week")
+
+adelaide_si_SA12016_16_census_week_aggregated <- adelaide_si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(adelaide_si_SA12016_16_census_week_aggregated, "results/Greater_Adelaide/adelaide_si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+
+
+```{r run_for_all_modes_Greater_Hobart_160809_SA12016, eval = TRUE, echo = FALSE}
+
+###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
+
+## convert to list of tidygtfs objects
+metrotas_hobart_160713_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/metrotas_hobart_160713/gtfs.zip")
+
+
+
+list_gtfs = metrotas_hobart_160713_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Hobart") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+hobart_si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(hobart_si_SA12016_16_census_week, "results/Greater_Hobart/hobart_si_SA12016_16_census_week.csv")
+
+#hobart_si_SA12016_16_census_week <- read_csv("results/Greater_Hobart/hobart_si_SA12016_16_census_week")
+
+hobart_si_SA12016_16_census_week_aggregated <- hobart_si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(hobart_si_SA12016_16_census_week_aggregated, "results/Greater_Hobart/hobart_si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+```{r run_for_all_modes_Greater_Perth_160809_SA12016, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+transperth_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_160804/gtfs.zip")
+
+
+
+list_gtfs = transperth_160804_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Perth") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+perth_si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(perth_si_SA12016_16_census_week, "results/Greater_Perth/perth_si_SA12016_16_census_week.csv")
+
+#perth_si_SA12016_16_census_week <- read_csv("results/Greater_Perth/perth_si_SA12016_16_census_week")
+
+perth_si_SA12016_16_census_week_aggregated <- perth_si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(perth_si_SA12016_16_census_week_aggregated, "results/Greater_Perth/perth_si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Greater_Canberra_160809_SA12021, eval = TRUE, echo = FALSE}
+# edited GTFS to add agency_id field
+
+
+
+## convert to list of tidygtfs objects
+act_160803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/act_160803/gtfs_edited.zip")
+
+
+
+list_gtfs = act_160803_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12021 %>% 
+    filter(state_name_2021 == "Australian Capital Territory") %>%
+    select(sa1_code_2021),  
+  area_id_field = "sa1_code_2021")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+canberra_si_SA12021_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(canberra_si_SA12021_16_census_week, "results/Greater_Canberra/canberra_si_SA12021_16_census_week.csv")
+
+#canberra_si_SA12021_16_census_week <- read_csv("results/Greater_Canberra/canberra_si_SA12021_16_census_week")
+
+canberra_si_SA12021_16_census_week_aggregated <- canberra_si_SA12021_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(canberra_si_SA12021_16_census_week_aggregated, "results/Greater_Canberra/canberra_si_SA12021_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Greater_Canberra_160809_SA12016, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+act_160803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/act_160803/gtfs_edited.zip")
+
+
+
+list_gtfs = act_160803_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(state_name_2016 == "Australian Capital Territory") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+canberra_si_SA12016_16_census_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(canberra_si_SA12016_16_census_week, "results/Greater_Canberra/canberra_si_SA12016_16_census_week.csv")
+
+#canberra_si_SA12016_16_census_week <- read_csv("results/Greater_Canberra/canberra_si_SA12016_16_census_week")
+
+canberra_si_SA12016_16_census_week_aggregated <- canberra_si_SA12016_16_census_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(canberra_si_SA12016_16_census_week_aggregated, "results/Greater_Canberra/canberra_si_SA12016_16_census_week_aggregated.csv")
+
+
+```
+
+
+
+
+```{r run_for_all_modes_Darwin_160809_SA12016, eval = TRUE, echo = FALSE}
+
+## convert to list of tidygtfs objects
+darwin_160203_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/darwin_160203/gtfs.zip")
+
+list_gtfs = darwin_160203_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Darwin") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+darwin_si_SA12016_16_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(darwin_si_SA12016_16_week, "results/Greater_Darwin/darwin_si_SA12016_16_week.csv")
+
+
+darwin_si_SA12016_16_week_aggregated <- darwin_si_SA12016_16_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(darwin_si_SA12016_16_week_aggregated, "results/Greater_Darwin/darwin_si_SA12016_16_week_aggregated.csv")
+
+
+```
+
+
+
+```{r run_for_all_modes_Sydney_160809_SA12016, eval = TRUE, echo = FALSE}
+
+
+## convert to list of tidygtfs objects
+sydney_160805_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/sydney_160805/gtfs.zip")
+
+
+
+list_gtfs = sydney_160805_list_gtfs
+
+areas_of_interest <- load_areas_of_interest(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Sydney") %>%
+    select(sa1_code_2016),  
+  area_id_field = "sa1_code_2016")
+
+buffer_distance <- gtfssupplyindex:::load_buffer_zones()
+
+stops_in_or_near_areas <- gtfssupplyindex:::stops_in_walk_dist(
+  list_gtfs = list_gtfs, 
+  areas_of_interest = areas_of_interest,
+  EPSG_for_transform = 28355,
+  verbose = FALSE
+)
+
+
+sydney_si_SA12016_16_week <- SI_by_day_hour_and_route_type(
+     list_gtfs = list_gtfs, 
+stops_in_or_near_areas = stops_in_or_near_areas,
+ start_date_ymd = "2016-08-09", 
+ end_date_ymd = "2016-08-15",
+verbose = TRUE)
+
+write.csv(sydney_si_SA12016_16_week, "results/Greater_Sydney/sydney_si_SA12016_16_week.csv")
+
+
+sydney_si_SA12016_16_week_aggregated <- sydney_si_SA12016_16_week %>% 
+           group_by(area_id) %>%    
+           summarize(SI = sum(SI))
+
+write.csv(sydney_si_SA12016_16_week_aggregated, "results/Greater_Sydney/sydney_si_SA12016_16_week_aggregated.csv")
+
 
 ```
 
