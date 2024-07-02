@@ -2942,7 +2942,7 @@ si_by_area_2016_2021_wider$ratio_binned <- if_else(
       si_by_area_2016_2021_wider$ratio < 0.90, 
       "Reduced by more than 10%", 
       if_else(si_by_area_2016_2021_wider$ratio < 0.99, 
-              "Reduced by 1 to 10%,", 
+              "Reduced by 1 to 10%", 
               if_else(si_by_area_2016_2021_wider$ratio < 1, 
                       "Reduced less than 1%", 
                       if_else(si_by_area_2016_2021_wider$ratio == 1, 
@@ -2968,41 +2968,43 @@ si_by_area_2016_2021_wider$ratio_binned <- if_else(
 
 si_by_area_2016_2021_wider$ratio_binned <- factor(
   si_by_area_2016_2021_wider$ratio_binned, 
-  levels = c("Never served", 
-             "Service withdrawn",
-             "Reduced by more than 10%", 
-              "Reduced by 1 to 10%,",
-             "Reduced less than 1%",
-             "No change",
-             "Increased  less than 1%",
-             "Increased 1 to 4%", 
-             "Increased 4 to 10%", 
-             "Increased 10 to 16%",
+   levels = c("Never served",
+              "New service",
               "Increased 16% or more",
-             "New service")
-)
+              "Increased 10 to 16%",
+              "Increased 4 to 10%",
+              "Increased 1 to 4%",
+              "Increased  less than 1%",
+              "No change",
+              "Reduced less than 1%",
+              "Reduced by 1 to 10%",
+              "Reduced by more than 10%", 
+              "Service withdrawn"
+              )
+  )
                                                       
   
 si_by_area_2016_2021_wider %>% 
-  st_drop_geometry() %>%
+  st_drop_geometry() %>% 
+  filter(ratio_binned != "Never served") %>%
   ggscatterstats( 
   x = x2016_one_plus, 
   y = x2021_one_plus, 
   type = "nonparametric", 
-  point.args = list(aes(colour = ratio_binned)),
-  palette = "Spectral"
+  point.args = list(aes(colour = ratio_binned))
   ) +   
   scale_x_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
   scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") + 
+  scale_color_brewer(palette = "RdYlGn", direction = -1)
 
 ```
 
 
-Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} directly compares the 2016 and 2021 SI scores for each SA1, again using the 2021 SA1 boundaries. To reduce the complexity of the graphic, SI scores less than 1 have been set equal to 1.  There is a statistically significant relationship between the 2016 and 2021 SI scores, and most SA1s appear to have a similar SI score in both years. However, 
+Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} directly compares the 2016 and 2021 SI scores for each SA1, again using the 2021 SA1 boundaries (note: to reduce the complexity of the graphic, SI scores less than 1 have been set equal to 1).  There is a statistically significant relationship between the 2016 and 2021 SI scores, and most SA1s appear to have a similar SI score in both years. However, there are many SA1s that have higher or lower SI scores in 2021 than in 2016, and these are summarised in Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_table} and Table \ref{tab:Greater_Melbourne_2016_2021_ratio_table}. 
 
 
-```{r Greater_Melbourne_2016_2021_ratio_map, fig.show="hold", out.width = "90%", echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, by SA1"}
+```{r Greater_Melbourne_2016_2021_ratio_table, fig.show="hold", out.width = "90%", echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, number of SA1s by SA4"}
 
 
 si_by_area_2016_2021_wider <- left_join(absmapsdata::sa12021 %>% 
@@ -3017,7 +3019,7 @@ si_by_area_2016_2021_wider %>%
   st_drop_geometry() %>% 
   tabyl(ratio_binned, sa4_name_2021) %>% 
   adorn_totals(where = c("row", "col")) %>%
-  adorn_percentages() %>% 
+  adorn_percentages(denominator = "col") %>% 
   adorn_pct_formatting() %>%
   adorn_ns() %>%
   kable( 
@@ -3042,19 +3044,42 @@ si_by_area_2016_2021_wider %>%
   kableExtra::column_spec(10, width = "1cm") %>%
   kableExtra::column_spec(11, width = "1cm")
 
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>% 
+  filter(ratio_binned != "Never served") %>%
+  tabyl(ratio_binned, sa4_name_2021) %>%
+  pivot_longer(cols = 2:10, names_to = "sa4_name_2021", values_to = "SA1s") %>%
+  ggbarstats(
+    x = ratio_binned,
+    y = sa4_name_2021,
+    counts = SA1s,
+    palette = "RdYlGn",
+    direction = -1
+  ) 
+
+```
+
+ Transit service has been withdrawn entirely between 2016 and 2021 for `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "Service withdrawn") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "Service withdrawn") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) SA1s, while 
+ `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "Reduced by more than 10%") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "Reduced by more than 10%") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) had SI scores falling by more than 10 percent. At the other end, `r format((si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 10 to 16%") %>% nrow()) + (si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 16% or more") %>% nrow()), big.mark = ",")`(`r label_percent(accuracy = 0.1)(((si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 10 to 16%") %>% nrow()) + (si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 16% or more") %>% nrow()))/si_by_area_2016_2021_wider %>% nrow())`) had SI scores increase by 10 percent or more, and `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "New service") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "New service") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) SA1s that had no transit in 2016 received at least some service in 2021. 
+ 
+Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_table} compares the share of SA1s with service level changes in 2021 across SA4 areas. There is a statistically significant difference across the different spatial areas of Greater Melbourne, with more SA1s having increased service in the outer north west and outer west. The inner east and outer east had a larger share of SA1s with lower levels of transit service.  
+
+```{r Greater_Melbourne_2016_2021_ratio_map, fig.show="hold", out.width = "90%", echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, by SA1"}
+
 
 ggplot()+ 
   geom_sf(data=si_by_area_2016_2021_wider %>% na.omit(),
           aes(fill = ratio_binned), colour=NA) + 
-  scale_fill_brewer(, palette = "RdYlGn", direction = 1) +
+  scale_fill_brewer(, palette = "RdYlGn", direction = -1) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
         legend.position="bottom", 
-        legend.text = element_text(size = 4), 
-        legend.title = element_text(size = 5)) + 
-  guides(fill=guide_legend(nrow = 6)) +
+        legend.text = element_text(size = 8), 
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.2, 'cm')) + 
+  guides(fill=guide_legend(nrow = 4)) +
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
   geom_sf(data=melbourne_sd07aust_region, 
@@ -3064,9 +3089,7 @@ ggplot()+
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map} and Table \ref{tab:Greater_Melbourne_2016_2021_ratio_map} summarise changes between the 2016 and 2021 SI scores, including aggregated by SA4.  
-
-
+Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map} maps the changes in transit service levels. As well as the changes discussed above, the map suggests other areas that have seen increases, including: around the Dandenong, Cranbourne, Nar Nar Goon, Garfield and Bunyip areas (outer south-east); some parts of the Mornington Penninsula; Kinglake (outer north-east); and around Wallan (outer north). Decreased service levels, in contrast are also evident: along the Stoney Point Line and Koo Wee Rup (outer south-east); Heathcote Junction (north of Wallan); and Diggers Rest (outer north-west). 
 
 # Discussion
 
