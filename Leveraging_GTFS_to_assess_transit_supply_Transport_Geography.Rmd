@@ -1221,9 +1221,8 @@ write.csv(sydney_si_SA12021_16_week_aggregated, "results/Greater_Sydney/sydney_s
 
 ```
 
-----
 
-```{r run_for_all_modes_Victoria_160809_SA12021, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160809_SA12021, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
@@ -1265,7 +1264,7 @@ write.csv(si_SA12021_16_census_week_aggregated, "results/Greater_Melbourne/si_SA
 
 ```
 
-```{r run_for_all_modes_Victoria_160809_2016SA1s, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Victoria_160809_2016SA1s, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_160804_list_gtfs
 
 areas_of_interest <- load_areas_of_interest(
@@ -1304,7 +1303,7 @@ write.csv(si_SA12016_16_census_week_aggregated, "results/Greater_Melbourne/si_SA
 
 
 
-```{r run_for_all_modes_Greater_Brisbane_160809_2021SA1, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Brisbane_160809_2021SA1, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 translink_seq_160808_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/translink_seq_160808/gtfs_edited.zip")
@@ -1349,7 +1348,7 @@ write.csv(brisbane_si_SA12021_16_census_week_aggregated, "results/Greater_Brisba
 
 
 
-```{r run_for_all_modes_Greater_Brisbane_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Brisbane_160809_SA12016, eval = FALSE, echo = FALSE}
 
 
 ###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
@@ -1398,7 +1397,7 @@ write.csv(brisbane_si_SA12016_16_census_week_aggregated, "results/Greater_Brisba
 ```
 
 
-```{r run_for_all_modes_Greater_Adelaide_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Adelaide_160809_SA12016, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 adelaide_metro_160802_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/adelaide_metro_160802/gtfs.zip")
@@ -1444,7 +1443,7 @@ write.csv(adelaide_si_SA12016_16_census_week_aggregated, "results/Greater_Adelai
 
 
 
-```{r run_for_all_modes_Greater_Hobart_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Hobart_160809_SA12016, eval = FALSE, echo = FALSE}
 
 ###The gtfs agency.txt file has been manually edited to add an agency_id field, so that the tidygtfs functions will worl
 
@@ -1491,7 +1490,7 @@ write.csv(hobart_si_SA12016_16_census_week_aggregated, "results/Greater_Hobart/h
 
 ```
 
-```{r run_for_all_modes_Greater_Perth_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Perth_160809_SA12016, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 transperth_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/transperth_160804/gtfs.zip")
@@ -1538,7 +1537,7 @@ write.csv(perth_si_SA12016_16_census_week_aggregated, "results/Greater_Perth/per
 
 
 
-```{r run_for_all_modes_Greater_Canberra_160809_SA12021, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Canberra_160809_SA12021, eval = FALSE, echo = FALSE}
 # edited GTFS to add agency_id field
 
 
@@ -1588,7 +1587,7 @@ write.csv(canberra_si_SA12021_16_census_week_aggregated, "results/Greater_Canber
 
 
 
-```{r run_for_all_modes_Greater_Canberra_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Greater_Canberra_160809_SA12016, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 act_160803_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/act_160803/gtfs_edited.zip")
@@ -1636,7 +1635,7 @@ write.csv(canberra_si_SA12016_16_census_week_aggregated, "results/Greater_Canber
 
 
 
-```{r run_for_all_modes_Darwin_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Darwin_160809_SA12016, eval = FALSE, echo = FALSE}
 
 ## convert to list of tidygtfs objects
 darwin_160203_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/darwin_160203/gtfs.zip")
@@ -1680,7 +1679,7 @@ write.csv(darwin_si_SA12016_16_week_aggregated, "results/Greater_Darwin/darwin_s
 
 
 
-```{r run_for_all_modes_Sydney_160809_SA12016, eval = TRUE, echo = FALSE}
+```{r run_for_all_modes_Sydney_160809_SA12016, eval = FALSE, echo = FALSE}
 
 
 ## convert to list of tidygtfs objects
@@ -2656,50 +2655,31 @@ Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in Greater
 
 ### SI scores
 
-```{r Greater_Melbourne_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="SI scores, census day 2021"}
+```{r Greater_Melbourne_2016_2021_plot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by 2021 SA1 for the weeks starting the date of 2016 and 2021 census, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)"}
+
+
+## 2021 Greater Melbourne
+si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12021_16_census_week_aggregated.csv") %>% 
+  as_tibble()
+si_by_area <- si_by_area[,2:3]
 
 areas_of_interest <-  absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021)
 
-#####NEEED TO REPLACE THE ONE DAY SIs WITH FULL WEEK
-###2016
-###Load results from CSV (Precalculated above) and make first column character
-si_by_area_and_hour_160809 <- read.csv("results/Greater_Melbourne/si_by_SA12021area_and_hour_160809")
-si_by_area_and_hour_160809 <- si_by_area_and_hour_160809[,2:4]
-si_by_area_and_hour_160809$area_id <- as.character(si_by_area_and_hour_160809$area_id)
+melbourne_si_SA12021_16_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
-si_by_area_160809 <- si_by_area_and_hour_160809 %>% 
-           group_by(area_id) %>%    
-           summarize(SI = sum(SI))
-
-
-##Join to absmaps so as to identify (and enumerate as zero) those SA1 zones 
-# that have no SI score
-si_by_area_160809  <- full_join(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne") %>% 
-    select(sa1_code_2021) %>%
-    st_drop_geometry(),
-  si_by_area_160809 , 
-  by = join_by(sa1_code_2021  == area_id))
-si_by_area_160809[is.na(si_by_area_160809)] <- 0
-
-names(si_by_area_160809) <- c("area_id", "SI")
-
-si_by_area_160809$Year <- 2016
-
-si_by_area_160809_thresholds <- set_thresholds(si_by_area_dataframe = si_by_area_160809)
-si_by_area_160809 <- si_by_area_160809_thresholds[[1]]
+melbourne_si_SA12021_16_census_week_aggregated$si_by_area$Year <- 2016
 
 melbourne_si_SA12021_21_census_week_aggregated$si_by_area$Year <- 2021
 
 
 si_by_area_2016_2021 <- add_row(
-  si_by_area_160809, 
+  melbourne_si_SA12021_16_census_week_aggregated$si_by_area %>% 
+    st_drop_geometry(), 
   melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
     st_drop_geometry())
-names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "Year", "transit_supply")
+names(si_by_area_2016_2021) <- c("sa1_code_2021", "SI", "transit_supply", "Year")
 
 si_by_area_2016_2021  <- left_join(
   absmapsdata::sa12021 %>% 
@@ -2714,8 +2694,8 @@ plot_2016_2021_comparison <- ggplot()+
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(),
-        legend.position="bottom") + #remove y axis ticks
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="bottom") + 
   scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) + 
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
@@ -2724,11 +2704,12 @@ plot_2016_2021_comparison <- ggplot()+
           fill=NA) +
   geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
 
+plot_2016_2021_comparison
+
+
 
 
 ### Obtain and Plot 2016 results using SA1_2016 boundaries
-
-
 #si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12016_16_census_week_aggregated.csv") %>% 
 #  as_tibble()
 #si_by_area <- si_by_area[,2:3]
@@ -2740,39 +2721,15 @@ plot_2016_2021_comparison <- ggplot()+
 #melbourne_si_SA12016_16_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
 
-#melbourne_si_SA12016_16_census_week_aggregated[[output_plot]] / plot_2016_2021_comparison
+#melbourne_si_SA12016_16_census_week_aggregated[[output_plot]] / 
 
 
 
-```
-
-
-```{r Greater_Melbourne_2016_2021_scatterplot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA1_2021, census day 2016 and 2021"}
-
-si_by_area_2016_2021 %>% 
-  st_drop_geometry() %>%
-  na.omit() %>% 
-  select(sa1_code_2021, Year, SI) %>%
-  pivot_wider(names_from = "Year", 
-              values_from = "SI") %>%
-  ggscatterstats( 
-  x = "2016", 
-  y = "2021", 
-  type = "nonparametric",
-  ) +   
-  scale_x_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
-  scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000))
 
 ```
 
 
-Figure \ref{fig:Greater_Melbourne_2016_2021} shows Transit Supply for the weeks starting the day of the census  in 2016 and 2021. Comparing 2016 and 2021 suggests that INSERT TEXT HERE
-
-Figure \ref{fig:Greater_Melbourne_2016_2021_year_SI} compares SI scores 
-for Greater Melbourne across 2016 and 2021. 
-Results indicate INSERT TEXT HERE
-
-```{r Greater_Melbourne_SA1_2016_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of Transit Supply to SA1s and population, 2016 (SA1_2016 boundaries), and 2016 and 2021 (SA1_2021 boundaries)"}
+```{r Greater_Melbourne_SA1_2016_2021_table_and_bar_chart, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.height = 8, fig.cap="Greater Melbourne: distribution of Transit Supply to SA1s (2021 boundaries)(top) and population (bottom) in 2016 and 2021"}
 ### 2016 analysis using SA1_2016 boundaries
 ### TODO
 
@@ -2909,20 +2866,230 @@ sa1s_pop_comparison_2016_2021$category<- factor(
   sa1s_pop_comparison_2016_2021$category, levels = c("SA12021s_2016", "population_SA12021s_2016", "SA1s_2021", "population_2021"))
 
 
-ggbarstats(sa1s_pop_comparison_2016_2021,
+sa1s_bar <- ggbarstats(sa1s_pop_comparison_2016_2021 %>% filter(category == "SA12021s_2016" | category == "SA1s_2021"),
+  x = transit_supply, 
+  y = category, 
+  counts = "counts") +
+  theme(legend.position = "none")
+
+pop_bar <-  ggbarstats(sa1s_pop_comparison_2016_2021 %>% filter(category == "population_SA12021s_2016" | category == "population_2021"),
   x = transit_supply, 
   y = category, 
   counts = "counts") +
   theme(legend.position = "bottom")
 
-  
+sa1s_bar / pop_bar
+
+
   
     
 ```
 
-Figure \ref{fig:Greater_Melbourne_SA1_2016_2021} and Table \ref{tab:Greater_Melbourne_SA1_2016_2021} indicate INSERT TEXT HERE
+Figure \ref{fig:Greater_Melbourne_2016_2021_plot} maps Transit Supply for the weeks starting the days of the 2016 and 2021. The spatial pattern of Transit Supply appears to be largely the same although, as shown in Table \ref{tab:Greater_Melbourne_SA1_2016_2021_table_and_bar_chart}, the share of SA1s with zero transit supply fell from `r label_percent(accuracy = 0.1)(comparison_2016_2021[1,2] / sum(comparison_2016_2021[,2]))` in 2016 to `r label_percent(accuracy = 0.1)(comparison_2016_2021[1,4] / sum(comparison_2016_2021[,4]))` in 2021. Figure \ref{fig:Greater_Melbourne_SA1_2016_2021_table_and_bar_chart} indicates, however, that while the differences between 2016 and 2021 in the number of SA1s and the share of the population in each of the Transit Supply categories is statistically significant, the changes are small.   
 
 
+```{r Greater_Melbourne_2016_2021_scatterplot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: SI scores in 2016 and 2021 by SA1 (2021 boundaries), adjusted to set those <1 equal to 1 (for visual clarity)"}
+
+si_by_area_2016_2021_wider <- si_by_area_2016_2021 %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  select(sa1_code_2021, Year, SI) %>%
+  pivot_wider(names_from = "Year", 
+              values_from = "SI") %>% 
+  clean_names()
+
+# Join back to get 2016 Transit Supply categories in tibble
+si_by_area_2016_2021_wider <- left_join(
+  si_by_area_2016_2021_wider, 
+  si_by_area_2016_2021 %>% 
+    st_drop_geometry() %>%
+    na.omit() %>% 
+    filter (Year == 2016) %>%  
+    select(sa1_code_2021, transit_supply)
+)
+
+names(si_by_area_2016_2021_wider) <- c(
+  "sa1_code_2021", 
+  "x2016", 
+  "x2021", 
+  "transit_supply_2016"
+)
+
+# Convert SI scores <1 to =1 to clean up graph
+si_by_area_2016_2021_wider$x2016_one_plus <- 
+  if_else(si_by_area_2016_2021_wider$x2016 < 1, 
+          1, 
+          si_by_area_2016_2021_wider$x2016)
+si_by_area_2016_2021_wider$x2021_one_plus <- 
+  if_else(si_by_area_2016_2021_wider$x2021 < 1, 
+          1, 
+          si_by_area_2016_2021_wider$x2021)
+
+
+si_by_area_2016_2021_wider$ratio <- si_by_area_2016_2021_wider$x2021_one_plus / 
+  si_by_area_2016_2021_wider$x2016_one_plus
+
+si_by_area_2016_2021_wider$ratio_binned <- if_else(
+  si_by_area_2016_2021_wider$x2021 == 0, 
+  if_else(
+    si_by_area_2016_2021_wider$x2016 == 0,
+    "Never served", 
+    "Service withdrawn"),
+  if_else(
+    si_by_area_2016_2021_wider$x2016 == 0, 
+    "New service", 
+    if_else(
+      si_by_area_2016_2021_wider$ratio < 0.90, 
+      "Reduced by more than 10%", 
+      if_else(si_by_area_2016_2021_wider$ratio < 0.99, 
+              "Reduced by 1 to 10%", 
+              if_else(si_by_area_2016_2021_wider$ratio < 1, 
+                      "Reduced less than 1%", 
+                      if_else(si_by_area_2016_2021_wider$ratio == 1, 
+                              "No change", 
+                              if_else(si_by_area_2016_2021_wider$ratio < 1.01, 
+                                      "Increased  less than 1%", 
+                                      if_else(si_by_area_2016_2021_wider$ratio < 1.04, 
+                                              "Increased 1 to 4%", 
+                                              if_else(si_by_area_2016_2021_wider$ratio < 1.10, 
+                                                      "Increased 4 to 10%", 
+                                                  if_else(si_by_area_2016_2021_wider$ratio < 1.16, 
+                                                      "Increased 10 to 16%", 
+                                                      "Increased 16% or more")
+                                              )
+                                      )
+                              )
+                      )
+              )
+      )
+    )
+  )
+)
+
+si_by_area_2016_2021_wider$ratio_binned <- factor(
+  si_by_area_2016_2021_wider$ratio_binned, 
+   levels = c("Never served",
+              "New service",
+              "Increased 16% or more",
+              "Increased 10 to 16%",
+              "Increased 4 to 10%",
+              "Increased 1 to 4%",
+              "Increased  less than 1%",
+              "No change",
+              "Reduced less than 1%",
+              "Reduced by 1 to 10%",
+              "Reduced by more than 10%", 
+              "Service withdrawn"
+              )
+  )
+                                                      
+  
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>% 
+  filter(ratio_binned != "Never served") %>%
+  ggscatterstats( 
+  x = x2016_one_plus, 
+  y = x2021_one_plus, 
+  type = "nonparametric", 
+  point.args = list(aes(colour = ratio_binned))
+  ) +   
+  scale_x_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
+  scale_y_continuous(trans = "log", breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)) +
+  theme(legend.position = "bottom") + 
+  scale_color_brewer(palette = "RdYlGn", direction = -1)
+
+```
+
+
+Figure \ref{fig:Greater_Melbourne_2016_2021_scatterplot} directly compares the 2016 and 2021 SI scores for each SA1, again using the 2021 SA1 boundaries (note: to reduce the complexity of the graphic, SI scores less than 1 have been set equal to 1).  There is a statistically significant relationship between the 2016 and 2021 SI scores, and most SA1s appear to have a similar SI score in both years. However, there are many SA1s that have higher or lower SI scores in 2021 than in 2016, and these are summarised in Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_table} and Table \ref{tab:Greater_Melbourne_2016_2021_ratio_table}. 
+
+
+```{r Greater_Melbourne_2016_2021_ratio_table, fig.show="hold", out.width = "90%", echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, number of SA1s by SA4"}
+
+
+si_by_area_2016_2021_wider <- left_join(absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne"),
+    si_by_area_2016_2021_wider)
+  
+
+si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>% 
+  fct_shift()
+
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>% 
+  tabyl(ratio_binned, sa4_name_2021) %>% 
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  kable( 
+    caption = "Greater Melbourne: changes in SI between 2016 and 2021 by SA1",
+      align = "lrrrrrrrrrr",
+      col.names = c("Change", 
+                   "Inner", "Inner East", "Inner South",
+                   "North East", "North West",
+                   "Outer East", "South East", 
+                   "West", "M'ton P'sula", "Total")
+      ) %>%
+  kable_styling(font_size = 7) %>%
+  kableExtra::column_spec(1, width = "2cm") %>% 
+  kableExtra::column_spec(2, width = "1cm") %>%
+  kableExtra::column_spec(3, width = "1cm") %>%
+  kableExtra::column_spec(4, width = "1cm") %>%
+  kableExtra::column_spec(5, width = "1cm") %>%
+  kableExtra::column_spec(6, width = "1cm") %>%
+  kableExtra::column_spec(7, width = "1cm") %>%
+  kableExtra::column_spec(8, width = "1cm") %>%
+  kableExtra::column_spec(9, width = "1cm") %>%
+  kableExtra::column_spec(10, width = "1cm") %>%
+  kableExtra::column_spec(11, width = "1cm")
+
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>% 
+  filter(ratio_binned != "Never served") %>%
+  tabyl(ratio_binned, sa4_name_2021) %>%
+  pivot_longer(cols = 2:10, names_to = "sa4_name_2021", values_to = "SA1s") %>%
+  ggbarstats(
+    x = ratio_binned,
+    y = sa4_name_2021,
+    counts = SA1s,
+    palette = "RdYlGn",
+    direction = -1
+  ) 
+
+```
+
+ Transit service has been withdrawn entirely between 2016 and 2021 for `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "Service withdrawn") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "Service withdrawn") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) SA1s, while 
+ `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "Reduced by more than 10%") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "Reduced by more than 10%") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) had SI scores falling by more than 10 percent. At the other end, `r format((si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 10 to 16%") %>% nrow()) + (si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 16% or more") %>% nrow()), big.mark = ",")`(`r label_percent(accuracy = 0.1)(((si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 10 to 16%") %>% nrow()) + (si_by_area_2016_2021_wider %>% filter(ratio_binned == "Increased 16% or more") %>% nrow()))/si_by_area_2016_2021_wider %>% nrow())`) had SI scores increase by 10 percent or more, and `r si_by_area_2016_2021_wider %>% filter(ratio_binned == "New service") %>% nrow()`(`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider %>% filter(ratio_binned == "New service") %>% nrow()/si_by_area_2016_2021_wider %>% nrow())`) SA1s that had no transit in 2016 received at least some service in 2021. 
+ 
+Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_table} compares the share of SA1s with service level changes in 2021 across SA4 areas. There is a statistically significant difference across the different spatial areas of Greater Melbourne, with more SA1s having increased service in the outer north west and outer west. The inner east and outer east had a larger share of SA1s with lower levels of transit service.  
+
+```{r Greater_Melbourne_2016_2021_ratio_map, fig.show="hold", out.width = "90%", echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, by SA1"}
+
+
+ggplot()+ 
+  geom_sf(data=si_by_area_2016_2021_wider %>% na.omit(),
+          aes(fill = ratio_binned), colour=NA) + 
+  scale_fill_brewer(, palette = "RdYlGn", direction = -1) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="bottom", 
+        legend.text = element_text(size = 8), 
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.2, 'cm')) + 
+  guides(fill=guide_legend(nrow = 4)) +
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+
+```
+
+Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map} maps the changes in transit service levels. As well as the changes discussed above, the map suggests other areas that have seen increases, including: around the Dandenong, Cranbourne, Nar Nar Goon, Garfield and Bunyip areas (outer south-east); some parts of the Mornington Penninsula; Kinglake (outer north-east); and around Wallan (outer north). Decreased service levels, in contrast are also evident: along the Stoney Point Line and Koo Wee Rup (outer south-east); Heathcote Junction (north of Wallan); and Diggers Rest (outer north-west). 
 
 # Discussion
 
