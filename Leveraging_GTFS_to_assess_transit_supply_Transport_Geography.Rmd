@@ -1745,7 +1745,7 @@ by the total population of each SA1 zone,
 which were then added, standardised and split into six groups.]. 
 
 
-```{r read_ABS_data, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+```{r read_ABS_data_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
 
 #read IRSAD 2021 and remove non-data rows
 sa1_irsad_2021 <- read_excel("data/Statistical Area Level 1, Indexes, SEIFA 2021.xlsx", 
@@ -1901,6 +1901,175 @@ names(social_2021_sa1) <- c("sa1_code_2021",
 
 ```
 
+
+```{r read_ABS_data_2016, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
+
+#read IRSAD 2016 and remove non-data rows
+sa1_irsad_2016 <- read_excel("data/2033055001 - sa1 indexes.xls", 
+    sheet = "Table 3", skip = 4)
+names(sa1_irsad_2016) <- c("sa1_code_2016_7_digit", 
+                           "sa1_code_2016", 
+                           "usual_resident_population", 
+                           "SEIFA_score_2016",
+                           "blank",
+                           "Australia_rank",
+                           "Australia_decile",
+                           "Australia_percentile",
+                           "blank2",
+                           "state", 
+                           "state_rank", 
+                           "state_decile", 
+                           "state_percentile")
+
+sa1_irsad_2016 <- sa1_irsad_2016[-1,]
+sa1_irsad_2016 <- sa1_irsad_2016 %>% filter(row_number() <= n()-2)
+
+#read students 2016 and remove non-data rows
+sa1_students_2016 <- read_csv("data/sa1_students_2016.csv", 
+    skip = 8)
+sa1_students_2016 <- sa1_students_2016[-1,]
+sa1_students_2016 <- sa1_students_2016 %>% filter(row_number() <= n()-5)
+########CONTINUE FROM HERE
+#read not in labour force in 2016 and remove non-data rows
+#this dataset contains a single 'wafer', 
+# being those people not in the labour force, separated by age and sa1
+sa1_not_in_labour_force_2016 <- read_csv("data/sa1_not_in_labour_force_2016.csv", 
+    skip = 10)
+sa1_not_in_labour_force_2016 <- sa1_not_in_labour_force_2016[-1,]
+#not_in_labour_force csv from ABS repeats the entire dataset, hence only read in first set
+sa1_not_in_labour_force_2016 <- sa1_not_in_labour_force_2016 %>% filter(row_number() <= n()-61844)
+
+
+#calculate number of adults not in labour force (ie 18+)
+sa1_not_in_labour_force_2016$adult_not_labour_force <- rowSums (sa1_not_in_labour_force_2016[,20:117])
+  
+
+
+
+#read no car in 2016 and remove non-data rows
+#this dataset contains a single 'wafer', 
+# being those people living in a household with no car, separated by age and sa1
+sa1_no_car_2016 <- read_csv("data/sa1_no_car_2016.csv", 
+    skip = 8)
+sa1_no_car_2016 <- sa1_no_car_2016[-1,]
+sa1_no_car_2016 <- sa1_no_car_2016 %>% filter(row_number() <= n()-5)
+#calculate number of adults with no car (ie 18+)
+sa1_no_car_2016$adult_no_car <- rowSums(sa1_no_car_2016[,20:117])
+
+
+#read low income in 2016 and remove non-data rows
+sa1_low_income_2016 <- read_csv("data/sa1_low_income.csv", 
+    skip = 8)
+sa1_low_income_2016 <- sa1_low_income_2016[-1,]
+sa1_low_income_2016 <- sa1_low_income_2016 %>% filter(row_number() <= n()-5)
+
+#read disability support pension in 2016 and remove non-data rows
+sa1_disability_support_pension_2016 <- read_csv("data/sa1_disability_2016.csv", 
+    skip = 8)
+sa1_disability_support_pension_2016 <- sa1_disability_support_pension_2016[-1,]
+sa1_disability_support_pension_2016 <- sa1_disability_support_pension_2016 %>% filter(row_number() <= n()-5)
+
+
+
+
+#read age in 2016 and remove non-data rows
+sa1_age_2016 <- read_csv("data/sa1_age.csv", 
+    skip = 8)
+sa1_age_2016 <- sa1_age_2016[-1,]
+sa1_age_2016 <- sa1_age_2016 %>% filter(row_number() <= n()-5)
+
+#calculate number of people over 60.
+sa1_age_2016$over_60 <- rowSums(sa1_age_2016[,63:117])
+
+#calculate number of persons 5 to 9 years old.
+sa1_age_2016$persons_5_to_9 <- rowSums(sa1_age_2016[,7:11]) 
+#move age-related indicators into social indicators table. 
+social_2016_sa1 <- sa1_age_2016 %>% 
+  select(`AGEP Age`, over_60, persons_5_to_9)
+names(social_2016_sa1) <- c("sa1_code_2016", "over_60", "five_to_nine")
+
+#join Adults without Cars
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_no_car_2016 %>% 
+                               select("AGEP Age", "adult_no_car"), 
+                             by = join_by( "sa1_code_2016" == "AGEP Age"))
+
+#join disability pension 
+sa1_disability_support_pension_2016 <-  sa1_disability_support_pension_2016 %>% 
+  clean_names()
+  
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_disability_support_pension_2016 %>% 
+                               select(
+                                 "igap_main_type_of_personal_government_benefit_payment_administrative_data", 
+                                      "disability_support_pension"),
+                             by = join_by(
+                               "sa1_code_2016" == "igap_main_type_of_personal_government_benefit_payment_administrative_data"))
+
+
+
+#join low income households
+sa1_low_income_2016$low_income_families <- rowSums(sa1_low_income_2016[,2:9])
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_low_income_2016 %>% 
+                               select("FINASF Total Family Income as Stated (weekly)", "low_income_families"), 
+                             by = join_by( "sa1_code_2016" == "FINASF Total Family Income as Stated (weekly)"))
+
+
+#join adults not in labour force
+social_2016_sa1 <- full_join(social_2016_sa1 %>% na.omit(), 
+                             sa1_not_in_labour_force_2016 %>% 
+                               select("AGEP Age", "adult_not_labour_force") %>%
+                               na.omit(), 
+                             by = join_by("sa1_code_2016" == "AGEP Age"))
+
+#join students
+sa1_students_2016$students <- sa1_students_2016$Total
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_students_2016 %>% 
+                               select("STUP Full-Time/Part-Time Student Status", "students"), 
+                             by = join_by( "sa1_code_2016" == "STUP Full-Time/Part-Time Student Status"))
+
+#join IRSAD scores
+sa1_irsad_2016$x2016_statistical_area_level_1_sa1 <- sa1_irsad_2016$x2016_statistical_area_level_1_sa1 %>% 
+  as.character()
+names(sa1_irsad_2016) <- c("sa1_code_2016", 
+                           "usual_resident_population",
+                           "IRSAD", 
+                           "x4", 
+                           "rank_in_australia", 
+                           "decile_in_australia",
+                           "percentile_in_australia", 
+                           "x8", 
+                           "state", 
+                           "rank_in_state",
+                           "decile_in_state",
+                           "percentile_in_state")
+
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_irsad_2016 %>% 
+                               select("sa1_code_2016", "IRSAD"))
+
+
+#join SA1 enumerated population
+social_2016_sa1 <- full_join(social_2016_sa1, 
+                             sa1_age_2016 %>% 
+                               select("AGEP Age", "Total"), 
+                             by = join_by("sa1_code_2016" == "AGEP Age"))
+
+names(social_2016_sa1) <- c("sa1_code_2016", 
+                            "over_60", "age_five_to_nine", 
+                            "adult_no_car", 
+                            "disability_support_pension",
+                            "low_income_families",
+                            "adult_not_labour_force",
+                            "students", 
+                            "IRSAD", 
+                            "population")
+
+##Rescaling to 0-100 and adding the accessibility indicator needs to be done on a areas_of_interest by areas_of_interest bias, as which areas are included will matter. 
+
+```
 
 # Results
 ## The gtfssupplyindex Package
@@ -3102,6 +3271,265 @@ ggplot()+
 ```
 
 Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map} maps the changes in transit service levels. As well as the changes discussed above, the map suggests other areas that have seen increases, including: around the Dandenong, Cranbourne, Nar Nar Goon, Garfield and Bunyip areas (outer south-east); some parts of the Mornington Penninsula; Kinglake (outer north-east); and around Wallan (outer north). Decreased service levels, in contrast are also evident: along the Stoney Point Line and Koo Wee Rup (outer south-east); Heathcote Junction (north of Wallan); and Diggers Rest (outer north-west). 
+
+## Social need
+
+
+### Social needs
+Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach due to changes in the way census results are reported. 
+
+```{r Greater_Melbourne_2016_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 and 2021, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)."}
+
+#join to sa1 data, including lat and long of each sa1
+social_2021_sa1_greater_melbourne <- left_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021, sa3_name_2021, cent_lat, cent_long) %>%
+    st_drop_geometry(),
+  social_2021_sa1 
+)
+
+# from https://stackoverflow.com/questions/36817423/how-to-efficiently-calculate-distance-between-pair-of-coordinates-using-data-tab/42014364#42014364
+dt.haversine <- function(lat_from, lon_from, lat_to, lon_to, r = 6378137){
+  radians <- pi/180
+  lat_to <- lat_to * radians
+  lat_from <- lat_from * radians
+  lon_to <- lon_to * radians
+  lon_from <- lon_from * radians
+  dLat <- (lat_to - lat_from)
+  dLon <- (lon_to - lon_from)
+  a <- (sin(dLat/2)^2) + (cos(lat_from) * cos(lat_to)) * (sin(dLon/2)^2)
+  return(2 * atan2(sqrt(a), sqrt(1 - a)) * r)
+}
+
+social_2021_sa1_greater_melbourne$distance_m_to_GPO <- 
+ dt.haversine(-37.813840, 
+              144.963028,
+              social_2021_sa1_greater_melbourne$cent_lat,
+              social_2021_sa1_greater_melbourne$cent_long)
+
+
+calculate_IRSAD_and_need_index <- function(social_dataset) {
+  # scale all to 0 to 100
+  social_dataset$IRSAD_100 <- rescale_max(
+     social_dataset$IRSAD, to = c(0, 100))
+  social_dataset$adult_no_car_100 <- rescale_max(
+    social_dataset$adult_no_car, to = c(0, 100))
+   social_dataset$accessibility_100 <- rescale_max(
+     social_dataset$distance_m_to_GPO, to = c(0, 100))
+   social_dataset$over_60_100 <- rescale_max(
+     social_dataset$over_60, to = c(0, 100))
+   social_dataset$disability_pension_100 <- rescale_max(
+     social_dataset$disability_support_pension, to = c(0, 100))
+   social_dataset$low_income_families_100 <- rescale_max(
+     social_dataset$low_income_families, to = c(0, 100))
+  social_dataset$adult_not_labour_force_100 <- rescale_max(
+     social_dataset$adult_not_labour_force, to = c(0, 100))
+  social_dataset$students_100 <- rescale_max(
+     social_dataset$students, to = c(0, 100))
+  social_dataset$age_five_to_nine_100 <- rescale_max(
+     social_dataset$age_five_to_nine, to = c(0, 100))
+  
+  # calculate needs scores and scale to 100
+  social_dataset$needs_score <- social_dataset$adult_no_car_100 * 0.19 +
+    social_dataset$accessibility_100 * 0.15 + 
+    social_dataset$over_60_100 * 0.14 + 
+    social_dataset$disability_pension_100 * 0.12 + 
+    social_dataset$low_income_families_100 * 0.10 + 
+    social_dataset$adult_not_labour_force_100 * 0.09 + 
+    social_dataset$students_100 * 0.09 + 
+    social_dataset$age_five_to_nine_100 * 0.12
+  social_dataset$needs_score_100 <- rescale_max(
+     social_dataset$needs_score, to = c(0, 100))
+  
+  # weight IRSAD and needs score by total population
+  social_dataset$total_need_IRSAD <- social_dataset$IRSAD *
+    social_dataset$population
+  social_dataset$total_transport_need <- social_dataset$needs_score * 
+    social_dataset$population
+  
+  # create combined indicator 0 to 100
+  social_dataset$combined_needs_index <- social_dataset$total_need_IRSAD + 
+    social_dataset$total_transport_need 
+  social_dataset$combined_needs_index <- rescale_max(
+     social_dataset$combined_needs_index, to = c(0, 100))
+  
+  
+  return(social_dataset %>% 
+           select(sa1_code_2021, combined_needs_index, population, sa3_name_2021)) 
+}
+
+combined_needs_index_2021_sa1_greater_melbourne <- calculate_IRSAD_and_need_index(
+  social_2021_sa1_greater_melbourne)
+
+# Reuse the set thresholds function (but cheat by switching name of column two to SIs)
+thresholds_holding <- combined_needs_index_2021_sa1_greater_melbourne %>%
+  st_drop_geometry() %>% 
+  select(sa1_code_2021, combined_needs_index) 
+names(thresholds_holding) <- c("area_id", "SI")  
+
+thresholds_holding <- set_thresholds(thresholds_holding)
+names(thresholds_holding[[1]]) <- c("sa1_code_2021", "combined_needs_index", "composite_needs")
+thresholds_holding[[1]]$composite_needs <- thresholds_holding[[1]]$composite_needs %>% fct_other(keep = c("Very Low", "Low", "Below average", "Above average", "High", "Very High"), other_level = "NA")
+
+#join to sa1 geometry data
+combined_needs_index_2021_sa1_greater_melbourne <- left_join(
+  absmapsdata::sa12021 %>% 
+    filter(gcc_name_2021 == "Greater Melbourne") %>% 
+    select(sa1_code_2021),
+  thresholds_holding[[1]] 
+)
+
+
+ggplot()+ 
+  geom_sf(data=combined_needs_index_2021_sa1_greater_melbourne %>% na.omit(),
+          aes(fill =  composite_needs), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="bottom",
+        legend.text = element_text(size = 4), 
+        legend.title = element_text(size = 5)) + 
+  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+
+
+```
+
+
+Comparing Figure \ref{fig:Greater_Melbourne_2021_social_needs} and Figure \ref{fig:Currie_map_needs} suggests that in 2021, compared to 2006: the spatial grouping of different levels of social need is less consistent; middle eastern suburbs have higher relative needs; and outer suburbs, particularly in the north-east and south-east, have lower relative needs. However, this may be an artifact of: the differences in the composite needs scores used in this analysis (due to the lack of data to assess relative needs) compared to the @currie2010identifying analysis; and the shift of the ABS from using CCDs to SA1s^[CCDs were originally devised to group the approximately 200 dwellings allocated to each individual census collector, whereas SA1s were introduced in be consistent in population (200 to 800 people, averaging 400) and character[@ABS_SA1s_CCDs]].
+
+### Needs-gap analysis
+
+
+```{r Greater_Melbourne_2021_needs_gap, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.height=8, fig.cap="Greater Melbourne 2021, SI and Combined Needs Index scores"}
+
+melbourne_needs_gap_sa1_2021 <- 
+  left_join(combined_needs_index_2021_sa1_greater_melbourne %>% 
+              st_drop_geometry() %>%
+              na.omit(), 
+            melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
+              st_drop_geometry() %>% 
+              na.omit(),
+            by = join_by(sa1_code_2021 == area_id)
+  )
+
+ggscatterstats(data = melbourne_needs_gap_sa1_2021, 
+               y = "combined_needs_index", 
+               x = "SI", 
+  point.args = list(aes(colour = transit_supply, shape = composite_needs))
+  ) + 
+  theme(
+  legend.position="bottom",
+        legend.text = element_text(size = 4), 
+        legend.title = element_text(size = 5)) +
+  scale_x_log10()
+
+
+
+
+
+```
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap} compares SI and Combined Needs Index scores for SA1s in 2021. There is a significant, but only weakly positive relationship.   
+  
+
+```{r Greater_Melbourne_2021_needs_gap_zones, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021, SA1s within each SI and Combined Needs Index grouping"}
+
+
+melbourne_sa1_need_gap_crosstable <- melbourne_needs_gap_sa1_2021 %>% 
+  tabyl(transit_supply,composite_needs, show_na = FALSE)
+
+melbourne_sa1_need_gap_crosstable[,1:7] %>% as_tibble() %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "col") %>%
+  adorn_pct_formatting() %>% 
+  adorn_ns() %>% 
+  kable(align = "lrrrrrrr", caption = "Greater Melbourne 2021, SA1s within each SI and Combined Needs Index grouping") %>%
+  kable_styling(font_size = 7)
+
+melbourne_sa1_need_gap_crosstable_longer <- melbourne_sa1_need_gap_crosstable[,1:7] %>% 
+  as_tibble() %>%
+  pivot_longer(cols = 2:7, 
+               names_to = "composite_needs", 
+               values_to = "SA1s") 
+melbourne_sa1_need_gap_crosstable_longer$composite_needs <- factor(
+  melbourne_sa1_need_gap_crosstable_longer$composite_needs, 
+  levels = c("Very Low", "Low", "Below average", "Above average", "High", "Very High"))
+melbourne_sa1_need_gap_crosstable_longer %>%
+  ggbarstats(x = transit_supply, 
+             y = composite_needs, 
+             counts = "SA1s"
+             ) + 
+  theme(legend.position="bottom")
+
+```
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_zones} and Table \ref{tab:Greater_Melbourne_2021_needs_gap_zones} compares the SI and Combined Needs Index groupings for 2021. There is a statistically significant relationship, although this appears to be weak. `r melbourne_sa1_need_gap_crosstable_longer %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum()` SA1s have zero or very low transit supply, but very high social needs. This represents `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_crosstable_longer %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum())/(melbourne_sa1_need_gap_crosstable_longer %>% select(SA1s) %>% sum()))` of the `r format(melbourne_sa1_need_gap_crosstable_longer %>% select(SA1s) %>% sum(), big.mark = ",")` SA1s within Greater Melbourne, and is a higher proportion than that reported for 2006 (85 of 5,720 CCDs (1.6%)).  
+
+
+```{r Greater_Melbourne_2021_needs_gap_population, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021, Populations within each SI and Combined Needs Index grouping"}
+
+melbourne_needs_gap_sa1_2021 <- left_join(melbourne_needs_gap_sa1_2021, 
+          population_sa1_greater_melbourne %>% 
+            select(sa1_code_2021, population))
+
+melbourne_sa1_need_gap_population_crosstable <- melbourne_needs_gap_sa1_2021 %>% aggregate(population ~ transit_supply + composite_needs, sum)
+
+
+melbourne_sa1_need_gap_population_crosstable %>% 
+  pivot_wider(names_from = composite_needs, values_from = population) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "col") %>%
+  adorn_pct_formatting() %>% 
+  adorn_ns() %>% 
+  kable(align = "lrrrrrrr", caption = "Greater Melbourne 2021, Population in each SI and Combined Needs Index grouping") %>% 
+  kable_styling(font_size = 7)
+
+melbourne_sa1_need_gap_population_crosstable$composite_needs <- factor(
+  melbourne_sa1_need_gap_population_crosstable$composite_needs, 
+  levels = c("Very Low", "Low", "Below average", "Above average", "High", "Very High"))
+melbourne_sa1_need_gap_population_crosstable$transit_supply <- factor(
+  melbourne_sa1_need_gap_population_crosstable$transit_supply, 
+  levels = c("Zero Supply", "Very Low", "Low", "Below average", "Above average", "High", "Very High"))
+melbourne_sa1_need_gap_population_crosstable %>%
+  ggbarstats(x = transit_supply, 
+             y = composite_needs, 
+             counts = "population"
+             ) + 
+  theme(legend.position="bottom")
+
+```
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_population} and Table \ref{tab:Greater_Melbourne_2021_needs_gap_population} compares the populations within each SI and Combined Needs Index grouping for 2021. There is a statistically significant relationship, although this appears to be weak. `r melbourne_sa1_need_gap_population_crosstable %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum()` people live within SA1s that have zero or very low transit supply, but very high social needs. This represents `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable %>% select(population) %>% sum()))` of the `r format(melbourne_sa1_need_gap_population_crosstable %>% select(population) %>% sum(), big.mark = ",")` people within Greater Melbourne, and is a lower proportion than that reported for 2006 (37,699 of 3.3 million people (8.2%)).
+
+```{r Greater_Melbourne_2021_needs_gap_map, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, out.width="100%", fig.cap="Greater Melbourne 2021 SI groupings, overlayed with SA1s with very high transport need areas with zero or very low public transport supply (red)."}
+
+very_high_needs_very_low_zero_supply <- melbourne_needs_gap_sa1_2021 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") 
+
+very_high_needs_very_low_zero_supply <- right_join(areas_of_interest, very_high_needs_very_low_zero_supply)
+
+melbourne_si_SA12021_21_census_week_aggregated$output_plot + 
+  geom_sf(data=very_high_needs_very_low_zero_supply, fill = "red") +
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+
+
+```
+
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_map} shows SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero transit supply for 2021. Comparison to the 2006 spatial distribution shown in Figrue \ref{fig:Currie_map_gap} suggests that now areas with social needs gaps are: still mostly in outer suburbs; more widely distributed across Greater Melbourne; and cover smaller geographical areas. This last change, however, may again be an artefact of the shift from CCDs to SA1s, given that SA1s tend to cover smaller areas and be concentrated on population centres^[For example, Figure \ref{fig:Currie_map_gap} shows a large area of very high transport need but very low or zero supply in the north-east of Greater Melbourne consisting of around 10 CCDs. However, most of this area is in the Yarra Ranges National Park or adjoining non-populated areas.  In contrast, the 2021 map shows only a few small SA1s in the outer north-east of Greater Melbourne as having very high social needs but very low or zero transit supply (these include SA1s around Heasleville and Gembrook), as the SA1 boundaries more closely align to populated areas.]
+
+
 
 # Discussion
 
