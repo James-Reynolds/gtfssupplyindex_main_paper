@@ -1907,29 +1907,29 @@ names(social_2021_sa1) <- c("sa1_code_2021",
 #read IRSAD 2016 and remove non-data rows
 sa1_irsad_2016 <- read_excel("data/2033055001 - sa1 indexes.xls", 
     sheet = "Table 3", skip = 4)
-names(sa1_irsad_2016) <- c("sa1_code_2016_7_digit", 
-                           "sa1_code_2016", 
+names(sa1_irsad_2016) <- c("sa1_code_2016", 
+                           "sa1_code_2016_11_digit", 
                            "usual_resident_population", 
-                           "SEIFA_score_2016",
-                           "blank",
-                           "Australia_rank",
-                           "Australia_decile",
-                           "Australia_percentile",
-                           "blank2",
+                           "IRSAD",
+                           "x4",
+                           "rank_in_australia",
+                           "decile_in_australia",
+                           "percentile_in_australia",
+                           "x8",
                            "state", 
-                           "state_rank", 
-                           "state_decile", 
-                           "state_percentile")
+                           "rank_in_state", 
+                           "decile_in_state", 
+                           "percentile_in_state")
 
 sa1_irsad_2016 <- sa1_irsad_2016[-1,]
 sa1_irsad_2016 <- sa1_irsad_2016 %>% filter(row_number() <= n()-2)
 
 #read students 2016 and remove non-data rows
-sa1_students_2016 <- read_csv("data/sa1_students_2016.csv", 
+sa1_students_2016 <- read_csv("data/sa1_students_ur_2016.csv", 
     skip = 8)
 sa1_students_2016 <- sa1_students_2016[-1,]
 sa1_students_2016 <- sa1_students_2016 %>% filter(row_number() <= n()-5)
-########CONTINUE FROM HERE
+
 #read not in labour force in 2016 and remove non-data rows
 #this dataset contains a single 'wafer', 
 # being those people not in the labour force, separated by age and sa1
@@ -1937,7 +1937,7 @@ sa1_not_in_labour_force_2016 <- read_csv("data/sa1_not_in_labour_force_2016.csv"
     skip = 10)
 sa1_not_in_labour_force_2016 <- sa1_not_in_labour_force_2016[-1,]
 #not_in_labour_force csv from ABS repeats the entire dataset, hence only read in first set
-sa1_not_in_labour_force_2016 <- sa1_not_in_labour_force_2016 %>% filter(row_number() <= n()-61844)
+sa1_not_in_labour_force_2016 <- sa1_not_in_labour_force_2016 %>% filter(row_number() <= n()-5)
 
 
 #calculate number of adults not in labour force (ie 18+)
@@ -1949,7 +1949,7 @@ sa1_not_in_labour_force_2016$adult_not_labour_force <- rowSums (sa1_not_in_labou
 #read no car in 2016 and remove non-data rows
 #this dataset contains a single 'wafer', 
 # being those people living in a household with no car, separated by age and sa1
-sa1_no_car_2016 <- read_csv("data/sa1_no_car_2016.csv", 
+sa1_no_car_2016 <- read_csv("data/sa1_no_vehices_2016.csv", 
     skip = 8)
 sa1_no_car_2016 <- sa1_no_car_2016[-1,]
 sa1_no_car_2016 <- sa1_no_car_2016 %>% filter(row_number() <= n()-5)
@@ -1958,22 +1958,17 @@ sa1_no_car_2016$adult_no_car <- rowSums(sa1_no_car_2016[,20:117])
 
 
 #read low income in 2016 and remove non-data rows
-sa1_low_income_2016 <- read_csv("data/sa1_low_income.csv", 
+sa1_low_income_2016 <- read_csv("data/sa1_family_income_2016.csv", 
     skip = 8)
 sa1_low_income_2016 <- sa1_low_income_2016[-1,]
 sa1_low_income_2016 <- sa1_low_income_2016 %>% filter(row_number() <= n()-5)
 
-#read disability support pension in 2016 and remove non-data rows
-sa1_disability_support_pension_2016 <- read_csv("data/sa1_disability_2016.csv", 
-    skip = 8)
-sa1_disability_support_pension_2016 <- sa1_disability_support_pension_2016[-1,]
-sa1_disability_support_pension_2016 <- sa1_disability_support_pension_2016 %>% filter(row_number() <= n()-5)
-
+#read disability support pension DISABILITY SUPPORT PENSION DATA NOT REPORTED IN 2016
 
 
 
 #read age in 2016 and remove non-data rows
-sa1_age_2016 <- read_csv("data/sa1_age.csv", 
+sa1_age_2016 <- read_csv("data/sa1_ur_agep_2016.csv", 
     skip = 8)
 sa1_age_2016 <- sa1_age_2016[-1,]
 sa1_age_2016 <- sa1_age_2016 %>% filter(row_number() <= n()-5)
@@ -1982,11 +1977,27 @@ sa1_age_2016 <- sa1_age_2016 %>% filter(row_number() <= n()-5)
 sa1_age_2016$over_60 <- rowSums(sa1_age_2016[,63:117])
 
 #calculate number of persons 5 to 9 years old.
-sa1_age_2016$persons_5_to_9 <- rowSums(sa1_age_2016[,7:11]) 
+sa1_age_2016$age_five_to_nine <- rowSums(sa1_age_2016[,7:11]) 
+
+
+## create social indiators table
+social_2016_sa1 <- sa1_irsad_2016 %>% 
+  select(sa1_code_2016, 
+         sa1_code_2016_11_digit,
+         usual_resident_population,
+         IRSAD)
+
+social_2016_sa1$sa1_code_2016 <- social_2016_sa1$sa1_code_2016 %>% as.character()
+social_2016_sa1$sa1_code_2016_11_digit <- social_2016_sa1$sa1_code_2016_11_digit %>% as.character()
+
 #move age-related indicators into social indicators table. 
-social_2016_sa1 <- sa1_age_2016 %>% 
-  select(`AGEP Age`, over_60, persons_5_to_9)
-names(social_2016_sa1) <- c("sa1_code_2016", "over_60", "five_to_nine")
+social_2016_sa1 <- left_join(
+  social_2016_sa1,
+  sa1_age_2016 %>% 
+  select(`AGEP Age`, over_60, age_five_to_nine),
+by = join_by( "sa1_code_2016" == "AGEP Age")
+)
+
 
 #join Adults without Cars
 social_2016_sa1 <- full_join(social_2016_sa1, 
@@ -1994,18 +2005,7 @@ social_2016_sa1 <- full_join(social_2016_sa1,
                                select("AGEP Age", "adult_no_car"), 
                              by = join_by( "sa1_code_2016" == "AGEP Age"))
 
-#join disability pension 
-sa1_disability_support_pension_2016 <-  sa1_disability_support_pension_2016 %>% 
-  clean_names()
-  
-social_2016_sa1 <- full_join(social_2016_sa1, 
-                             sa1_disability_support_pension_2016 %>% 
-                               select(
-                                 "igap_main_type_of_personal_government_benefit_payment_administrative_data", 
-                                      "disability_support_pension"),
-                             by = join_by(
-                               "sa1_code_2016" == "igap_main_type_of_personal_government_benefit_payment_administrative_data"))
-
+#join disability pension NOT PRESENT IN THE DATA
 
 
 #join low income households
@@ -2024,31 +2024,11 @@ social_2016_sa1 <- full_join(social_2016_sa1 %>% na.omit(),
                              by = join_by("sa1_code_2016" == "AGEP Age"))
 
 #join students
-sa1_students_2016$students <- sa1_students_2016$Total
+sa1_students_2016$students <- sa1_students_2016$Total - sa1_students_2016$`Not attending`
 social_2016_sa1 <- full_join(social_2016_sa1, 
                              sa1_students_2016 %>% 
                                select("STUP Full-Time/Part-Time Student Status", "students"), 
                              by = join_by( "sa1_code_2016" == "STUP Full-Time/Part-Time Student Status"))
-
-#join IRSAD scores
-sa1_irsad_2016$x2016_statistical_area_level_1_sa1 <- sa1_irsad_2016$x2016_statistical_area_level_1_sa1 %>% 
-  as.character()
-names(sa1_irsad_2016) <- c("sa1_code_2016", 
-                           "usual_resident_population",
-                           "IRSAD", 
-                           "x4", 
-                           "rank_in_australia", 
-                           "decile_in_australia",
-                           "percentile_in_australia", 
-                           "x8", 
-                           "state", 
-                           "rank_in_state",
-                           "decile_in_state",
-                           "percentile_in_state")
-
-social_2016_sa1 <- full_join(social_2016_sa1, 
-                             sa1_irsad_2016 %>% 
-                               select("sa1_code_2016", "IRSAD"))
 
 
 #join SA1 enumerated population
@@ -2057,15 +2037,30 @@ social_2016_sa1 <- full_join(social_2016_sa1,
                                select("AGEP Age", "Total"), 
                              by = join_by("sa1_code_2016" == "AGEP Age"))
 
+social_2016_sa1 <- social_2016_sa1 %>% select(
+  sa1_code_2016, 
+  over_60, 
+  age_five_to_nine,
+  adult_no_car,
+  low_income_families,
+  adult_not_labour_force,
+  students,
+  IRSAD,
+  usual_resident_population,
+  sa1_code_2016_11_digit
+)
+
 names(social_2016_sa1) <- c("sa1_code_2016", 
                             "over_60", "age_five_to_nine", 
                             "adult_no_car", 
-                            "disability_support_pension",
                             "low_income_families",
                             "adult_not_labour_force",
                             "students", 
                             "IRSAD", 
-                            "population")
+                            "population",
+                            "sa1_code_2016_11_digit")
+
+social_2016_sa1$IRSAD <- social_2016_sa1$IRSAD %>% as.numeric()
 
 ##Rescaling to 0-100 and adding the accessibility indicator needs to be done on a areas_of_interest by areas_of_interest bias, as which areas are included will matter. 
 
@@ -3276,40 +3271,31 @@ Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map} maps the changes in trans
 
 
 ### Social needs
-Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of categories of social need index scores across Greater Melbourne for 2021. This figure is analogous to the 2006 value from @currie2010identifying shown in Figure \ref{fig:Currie_map_needs} although, as discussed in the methodology section above, it was not possible to exactly replicate the @currie2010identifying approach due to changes in the way census results are reported. 
+ 
 
-```{r Greater_Melbourne_2016_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 and 2021, overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)."}
+```{r Greater_Melbourne_2016_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 (left) and 2021 (right), overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)."}
 
 #join to sa1 data, including lat and long of each sa1
-social_2021_sa1_greater_melbourne <- left_join(
-  absmapsdata::sa12021 %>% 
-    filter(gcc_name_2021 == "Greater Melbourne") %>% 
-    select(sa1_code_2021, sa3_name_2021, cent_lat, cent_long) %>%
+social_2016_sa1_greater_melbourne <- left_join(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Melbourne") %>% 
+    select(sa1_code_2016, sa3_name_2016, cent_lat, cent_long) %>%
     st_drop_geometry(),
-  social_2021_sa1 
+  social_2016_sa1,
+  by = join_by(sa1_code_2016 == sa1_code_2016_11_digit)
+  
 )
 
 # from https://stackoverflow.com/questions/36817423/how-to-efficiently-calculate-distance-between-pair-of-coordinates-using-data-tab/42014364#42014364
-dt.haversine <- function(lat_from, lon_from, lat_to, lon_to, r = 6378137){
-  radians <- pi/180
-  lat_to <- lat_to * radians
-  lat_from <- lat_from * radians
-  lon_to <- lon_to * radians
-  lon_from <- lon_from * radians
-  dLat <- (lat_to - lat_from)
-  dLon <- (lon_to - lon_from)
-  a <- (sin(dLat/2)^2) + (cos(lat_from) * cos(lat_to)) * (sin(dLon/2)^2)
-  return(2 * atan2(sqrt(a), sqrt(1 - a)) * r)
-}
 
-social_2021_sa1_greater_melbourne$distance_m_to_GPO <- 
+social_2016_sa1_greater_melbourne$distance_m_to_GPO <- 
  dt.haversine(-37.813840, 
               144.963028,
-              social_2021_sa1_greater_melbourne$cent_lat,
-              social_2021_sa1_greater_melbourne$cent_long)
+              social_2016_sa1_greater_melbourne$cent_lat,
+              social_2016_sa1_greater_melbourne$cent_long)
 
 
-calculate_IRSAD_and_need_index <- function(social_dataset) {
+calculate_IRSAD_and_need_index_no_disability_pension <- function(social_dataset, areas_of_interest) {
   # scale all to 0 to 100
   social_dataset$IRSAD_100 <- rescale_max(
      social_dataset$IRSAD, to = c(0, 100))
@@ -3319,8 +3305,6 @@ calculate_IRSAD_and_need_index <- function(social_dataset) {
      social_dataset$distance_m_to_GPO, to = c(0, 100))
    social_dataset$over_60_100 <- rescale_max(
      social_dataset$over_60, to = c(0, 100))
-   social_dataset$disability_pension_100 <- rescale_max(
-     social_dataset$disability_support_pension, to = c(0, 100))
    social_dataset$low_income_families_100 <- rescale_max(
      social_dataset$low_income_families, to = c(0, 100))
   social_dataset$adult_not_labour_force_100 <- rescale_max(
@@ -3334,7 +3318,6 @@ calculate_IRSAD_and_need_index <- function(social_dataset) {
   social_dataset$needs_score <- social_dataset$adult_no_car_100 * 0.19 +
     social_dataset$accessibility_100 * 0.15 + 
     social_dataset$over_60_100 * 0.14 + 
-    social_dataset$disability_pension_100 * 0.12 + 
     social_dataset$low_income_families_100 * 0.10 + 
     social_dataset$adult_not_labour_force_100 * 0.09 + 
     social_dataset$students_100 * 0.09 + 
@@ -3356,13 +3339,18 @@ calculate_IRSAD_and_need_index <- function(social_dataset) {
   
   
   return(social_dataset %>% 
-           select(sa1_code_2021, combined_needs_index, population, sa3_name_2021)) 
+           select(areas_of_interest, combined_needs_index, population)) 
 }
 
-combined_needs_index_2021_sa1_greater_melbourne <- calculate_IRSAD_and_need_index(
-  social_2021_sa1_greater_melbourne)
+combined_needs_index_2021_sa1_greater_melbourne <- calculate_IRSAD_and_need_index_no_disability_pension(
+  social_2021_sa1_greater_melbourne, areas_of_interest = "sa1_code_2021")
 
-# Reuse the set thresholds function (but cheat by switching name of column two to SIs)
+combined_needs_index_2016_sa1_greater_melbourne <- calculate_IRSAD_and_need_index_no_disability_pension(
+  social_2016_sa1_greater_melbourne, areas_of_interest = "sa1_code_2016")
+
+
+
+# 2021 Reuse the set thresholds function (but cheat by switching name of column two to SIs)
 thresholds_holding <- combined_needs_index_2021_sa1_greater_melbourne %>%
   st_drop_geometry() %>% 
   select(sa1_code_2021, combined_needs_index) 
@@ -3381,7 +3369,27 @@ combined_needs_index_2021_sa1_greater_melbourne <- left_join(
 )
 
 
-ggplot()+ 
+# 2016 Reuse the set thresholds function (but cheat by switching name of column two to SIs)
+thresholds_holding <- combined_needs_index_2016_sa1_greater_melbourne %>%
+  st_drop_geometry() %>% 
+  select(sa1_code_2016, combined_needs_index) 
+names(thresholds_holding) <- c("area_id", "SI")  
+
+thresholds_holding <- set_thresholds(thresholds_holding)
+names(thresholds_holding[[1]]) <- c("sa1_code_2016", "combined_needs_index", "composite_needs")
+thresholds_holding[[1]]$composite_needs <- thresholds_holding[[1]]$composite_needs %>% fct_other(keep = c("Very Low", "Low", "Below average", "Above average", "High", "Very High"), other_level = "NA")
+
+#join to sa1 geometry data
+combined_needs_index_2016_sa1_greater_melbourne <- left_join(
+  absmapsdata::sa12016 %>% 
+    filter(gcc_name_2016 == "Greater Melbourne") %>% 
+    select(sa1_code_2016),
+  thresholds_holding[[1]] 
+)
+
+
+
+combined_needs_2021_plot <- ggplot()+ 
   geom_sf(data=combined_needs_index_2021_sa1_greater_melbourne %>% na.omit(),
           aes(fill =  composite_needs), colour=NA) +
   theme(axis.text.x=element_blank(), #remove x axis labels
@@ -3399,9 +3407,27 @@ ggplot()+
           fill=NA) +
   geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
 
+combined_needs_2016_plot <- ggplot()+ 
+  geom_sf(data=combined_needs_index_2016_sa1_greater_melbourne %>% na.omit(),
+          aes(fill =  composite_needs), colour=NA) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="none",
+        legend.text = element_text(size = 4), 
+        legend.title = element_text(size = 5)) + 
+  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+combined_needs_2016_plot + combined_needs_2021_plot
 
 ```
-
+<<<<NEXT STEP -- DOWNLOAD 2021 Social Needs metrics in 2016 SA1 boundaries, so that direct comparisons can be made. >>>
 
 Comparing Figure \ref{fig:Greater_Melbourne_2021_social_needs} and Figure \ref{fig:Currie_map_needs} suggests that in 2021, compared to 2006: the spatial grouping of different levels of social need is less consistent; middle eastern suburbs have higher relative needs; and outer suburbs, particularly in the north-east and south-east, have lower relative needs. However, this may be an artifact of: the differences in the composite needs scores used in this analysis (due to the lack of data to assess relative needs) compared to the @currie2010identifying analysis; and the shift of the ABS from using CCDs to SA1s^[CCDs were originally devised to group the approximately 200 dwellings allocated to each individual census collector, whereas SA1s were introduced in be consistent in population (200 to 800 people, averaging 400) and character[@ABS_SA1s_CCDs]].
 
