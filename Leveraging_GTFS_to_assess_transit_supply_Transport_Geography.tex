@@ -251,7 +251,7 @@ An objective of this study is to produce code that facilitates
 calculation of the SI metric from GTFS data. A generalized form of the
 SI equation, adapted from \citet{currie2010identifying}, is:
 
-\[SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}\]
+\[SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}SL_{n, time}}\]
 
 where:
 
@@ -276,28 +276,19 @@ where:
 \end{figure}
 
 \citet{currie2010identifying} reported SI scores for Census Collection
-Districts (CCDs) across Greater Melbourne in 2006, as shown in Figure
-\ref{fig:Currie_map_SI}. General patterns were identified, being: more
-transit supply in the middle and inner suburbs, and along passenger
+Districts (CCDs) across Metropolitan Melbourne in 2006, as shown in
+Figure \ref{fig:Currie_map_SI}. General patterns were identified, being:
+more transit supply in the middle and inner suburbs, and along passenger
 railway lines; and outer areas tending to have very low SI scores or no
 transit supply at all.
 
 \subsection{Social need and needs-gap}\label{social-need-and-needs-gap}
 
 As well as measuring transit supply, \citet{currie2010identifying}
-assessed the social need for transport across Greater Melbourne using:
-the Australian Bureaus of Statistics' Index of Related Socio-Economic
-Advantage/Disadvantage (IRSAD) and a transport needs index derived from
-eight weighted indicators. The spatial distribution of this composite
-social needs index in 2006, reproduced in Figure
-\textbackslash ref\{fig:Currie\_map\_needs), showed that areas of above
-average, high and very high social needs in 2006 were located in: some
-outer areas, particularly in the east and south-east; and in some middle
-areas in the south-east, north and west.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{graphics/Currie2010Needs} \caption{Distribution of categories of composite social need index scores in 2006. Source: Currie (2010.)}\label{fig:Currie_map_needs}
-\end{figure}
+assessed the social need for transport across Metropolitan Melbourne
+using: the Australian Bureaus of Statistics' Index of Related
+Socio-Economic Advantage/Disadvantage (IRSAD) and a transport needs
+index derived from eight weighted indicators.
 
 As the final step in the spatial needs-gap analysis,
 \citet{currie2010identifying} identified areas with very high transport
@@ -311,7 +302,7 @@ found that ``8.2\% of Melbourne residents have `very high' needs but
 `zero', `low' or `very low' public transport supply.''
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{graphics/Currie2010gap} \caption{Melbourne needs-gap in 2006 – very high transport need areas with zero or very low public transport supply, Source: Currie (2010)}\label{fig:Currie_map_gap}
+\includegraphics[width=1\linewidth]{graphics/Currie2010gap} \caption{Distribution of CCDs with very high transport needs and with zero or very low public transport supply - Metropolitan Melbourne (2006). Source: Currie (2010)}\label{fig:Currie_map_gap}
 \end{figure}
 
 Using this methodology in transit planning was suggested as
@@ -351,8 +342,8 @@ Railway GTFS feed. This was selected primarily for convenience, given
 that the authors are familiar with the surrounding geography and that
 the feed covers a small number of trips across just three stations.
 
-\subsection{Changes since 2006: Greater
-Melbourne}\label{changes-since-2006-greater-melbourne}
+\subsection{Changes since 2006 in
+Melbourne}\label{changes-since-2006-in-melbourne}
 
 Much has changed since 2006, including the spatial geography used by the
 Australian Bureau of Statistics (ABS) to collect census data. To allow
@@ -365,11 +356,9 @@ sourced via \citet{transitfeeds_victoria:2023aa}.
 
 Unfortunately, it is not possible to obtain 2016 or 2021 social
 disadvantage data for CCDs, as the ABS no longer releases data using
-this geographic scheme. Population and other statistics are now released
-for Statistical Area 1 (SA1) zones. These are updated prior to each
-census, typically so as to subdivide zones where populations have
-increased. As such, SI scores were also calculated for Greater Melbourne
-using the SA1 2021 boundaries, so as to allow a 2021 needs-gap analysis.
+this geographic scheme. Instead, population and other statistics are now
+released for Statistical Area 1 (SA1) zones, which have been adopted as
+the areas-of-interest in this study.
 
 \subsection{Variation in spatial patterns across location and
 time.}\label{variation-in-spatial-patterns-across-location-and-time.}
@@ -381,12 +370,6 @@ Unfortunately it was not possible to locate 2021 GTFS data for Greater
 Sydney or Greater Darwin, so SI scores were calculated for 2024 using
 the latest data sets, sourced directly from the relevant transit
 authorities.
-
-SI scores for 2016 where calculated using both the SA1 2016 and SA1 2021
-boundaries. This allowed direct comparisons of SI scores between 2016
-and 2021 (using the SA1 2021 boundaries), and comparison of needs-gaps
-as 2016 population and social needs data is only released for the SA1
-2016 boundaries.
 
 \subsection{Measuring social
 disadvantage}\label{measuring-social-disadvantage}
@@ -408,7 +391,10 @@ were then added, standardised and split into six groups\footnote{This
   contrasts to the method used by \citet{currie2010identifying}, where
   the composite needs index also included relative need components,
   being the IRSAD and the transport needs indexes weighted by the
-  population within the various needs groups in each area of interest.}.
+  population within the various needs groups in each area of interest
+  (for a total of four indicators included in the composite needs
+  indicator, compared to only two in the 2016 and 2021 results presented
+  here.}.
 
 \section{Results}\label{results}
 
@@ -417,35 +403,39 @@ Package}\label{the-gtfssupplyindex-package}
 
 Code developed to calculate SI scores is available as an R package on
 github (see \citet{gtfssupplyindex_github}). Included in the package is
-a that outlines the structure of the calculations, the developed
-functions (LINK HERE), and step-by-step calculations for the Mornington
-Peninsula Railway as a worked example. Also included and comparison to
-SI scores calculated manually.
+a vignette (INCLUDE LINK) that outlines the structure of the
+calculations, the developed functions. Also included in the vignette are
+step-by-step calculations for the Mornington Peninsula Railway as a
+worked example, and comparison to SI scores calculated manually.
 
-\subsection{Greater Melbourne in 2021: changes since
-2006}\label{greater-melbourne-in-2021-changes-since-2006}
+\subsection{Melbourne in 2021: changes since
+2006}\label{melbourne-in-2021-changes-since-2006}
 
-\subsubsection{SI scores}\label{si-scores}
+\subsubsection{Transport Supply
+Categories}\label{transport-supply-categories}
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021-1} \caption{Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census}\label{fig:Greater_Melbourne_CCD_2021}
 \end{figure}
 
-Figure \ref{fig:Greater_Melbourne_CCD_2021} shows the amount of transit
-supply across Greater Melbourne in the week of the 2021 census, using
-the same (2006) CCD boundaries as in Figure
-\ref{fig:Currie_map_SI}\footnote{The same Transport Supply
+Figure \ref{fig:Greater_Melbourne_CCD_2021} shows the distribution of
+Transport Supply categories\footnote{The same Transport Supply
   categorizations have been used as in \citet{currie2010identifying},
   with those CCDs that have above average SI scores split evenly into
   three groups, those that have below average SIs also split evenly into
   three groups, and those CCDs without SI scores of zero placed in their
   own category. Hence, both Figure \ref{fig:Currie_map_SI} and Figure
   \ref{fig:Greater_Melbourne_CCD_2021} show relative service levels in
-  each CCD compared to the rest of Greater Melbourne for that year.}.
-The overall spatial patterns appear generally similar in 2021 as they
-were in 2006, with higher levels of transit supply in inner areas and
-close to most railway lines. However, there are some clear differences,
-including:
+  each CCD compared to the rest of Greater Melbourne for that year.}
+across Melbourne in the week of the 2021 census, using the same (2006)
+CCD boundaries\footnote{Note, however, that there are some
+  inconsistencies in the CCDs included in Metropolitan Melbourne in
+  \citet{currie2010identifying} (5,839) and the number included in ABS
+  dataset used for this analysis (6,325).} as in Figure
+\ref{fig:Currie_map_SI}. The overall spatial patterns appear generally
+similar in 2021 as they were in 2006, with higher levels of transit
+supply in inner areas and close to most railway lines. However, there
+are some clear differences, including:
 
 \begin{itemize}
 \tightlist
@@ -484,7 +474,7 @@ including:
 
 \begin{table}
 
-\caption{\label{tab:Greater_Melbourne_SA1_2021_table}Greater Melbourne: Distribution of Transport Supply to CCDs (2006, 2021),  SA1s (2021) and resident population (2006, 2021). Sources: 2006 values - Currie (2010), 2021 values - authors analysis}
+\caption{\label{tab:Greater_Melbourne_SA1_2021_table}Distribution of Transport Supply to Metropolitan Melbourne CCDs (2006, 2021),  Greater Melbourne SA1s (2021) and resident population (Metro Melbourne 2006, Greater Melbourne 2021). Sources: 2006 values, Currie (2010); 2021 values, authors analysis}
 \centering
 \begin{tabular}[t]{l|r|r|r|r|r}
 \hline
@@ -498,7 +488,7 @@ Very Low & 22.5\% (1,314) & 23.3\% (1,474) & 23.4\%  (2,692) & 23.6\%   (793,046
 \hline
 Low & 22.4\% (1,310) & 23.3\% (1,473) & 23.4\%  (2,691) & 25.7\%   (865,330) & 23.7\% (1,163,358)\\
 \hline
-Below average & 22.2\% (1,294) & 23.3\% (1,474) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
+Below average & 22.2\% (1,294) & 23.3\% (1,473) & 23.4\%  (2,691) & 23.0\%   (774,521) & 23.6\% (1,159,783)\\
 \hline
 Above average & 10.4\%   (608) & 9.6\%   (608) & 8.5\%    (975) & 9.6\%   (324,546) & 8.7\%   (426,892)\\
 \hline
@@ -506,7 +496,7 @@ High & 9.2\%   (535) & 9.6\%   (608) & 8.5\%    (974) & 7.7\%   (260,411) & 8.7\
 \hline
 Very High & 10.1\%   (589) & 9.6\%   (608) & 8.5\%    (975) & 7.8\%   (263,832) & 8.6\%   (422,025)\\
 \hline
-Total & 100.0\% (5,839) & 100.0\% (6,326) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
+Total & 100.0\% (5,839) & 100.0\% (6,325) & 100.0\% (11,487) & 100.0\% (3,367,109) & 100.0\% (4,917,633)\\
 \hline
 \end{tabular}
 \end{table}
@@ -515,44 +505,52 @@ Table \ref{tab:Greater_Melbourne_SA1_2021_table} summarises the
 distribution of CCDs, SA1s and resident population across different
 Transport Supply categories in 2006 and 2021. The differences between
 the share of CCDs in each category in 2006 and 2021 are statistically
-significant (\(\chi^2(6, N = 12165) = 59.20\), \(p < .001\)), with only
-81 in 2021 (1.3\%) of CCDs in Greater Melbourne (2006 boundary) having
-Zero Supply in 2021, compared to the 189 of the 5,839 (3.2\%) reported
-by \citet{currie2010identifying} reporting for 2006\footnote{Note,
-  however, that there are some inconsistencies in the number of CCDs for
-  Melbourne as a whole reported in \citet{currie2010identifying} (5,839)
-  and the number included in ABS dataset used for this analysis. This
-  appears to be in part related to the inclusion of areas around Western
-  Port (south-east), as shown in Figure
-  \ref{fig:Greater_Melbourne_CCD_2021}, despite these appearing to be
-  outside the 2006 Melbourne boundary.}. However, Greater Melbourne is
-now larger than it was in 2006, and the 2021 statistical boundary
-includes some additional areas to the north. As such, Table
-\ref{tab:Greater_Melbourne_SA1_2021_table} also shows the distribution
-of SA1s to the various supply categories, adopting the 2021 SA1 zones
-and boundary of Greater Melbourne. Again, the differences between 2006
-(CCDs) and 2021 (SA1s) are statistically significant
-(\(\chi^2(6, N = 17326) = 44.83\), \(p < .001\)), but there are a
-greater proportion with Zero Supply in 2021 (4.3\%) than in 2006. The
-share of SA1s with supply below the average (i.e.~Zero, Very Low, Low or
-Below Average) is also larger in 2021 (74.5\% versus only 70.3\% in
-2006).
+significant (\(\chi^2(6, N = 12164) = 59.15\), \(p < .001\)), with only
+81 in 2021 (1.3\%) of CCDs in Melbourne having Zero Supply in 2021,
+compared to the 189 (3.2\%) reported by \citet{currie2010identifying}
+for 2006.
 
-Table \ref{tab:Greater_Melbourne_SA1_2021_table} also indicates that
-more of the population of Greater Melbourne are within areas with Zero
-Supply in 2021 (3.8\%, 186,829 residents) than in 2006 (2.5\%, 85,423
-residents), with differences again being statistically significant
-(\(\chi^2(6, N = 8284742) = 19038.97\), \(p < .001\)). However, the
-share of people living in areas with supply that is below the average
-has decreased from 74.8\% to 74.1\%(\(\chi^2(1, N = 8284742) = 532.56\),
-\(p < .001\), \(\phi = .01\))
+These values, however, are for CCDs within the 2006 extents of
+Melbourne. For the 2021 census the ABS adopted a statistical boundary of
+``Greater Melbourne'' that includes areas up to around 30 kilometres
+further to the north of the 2006 boundary. As such, the fourth column in
+Table \ref{tab:Greater_Melbourne_SA1_2021_table} reports the
+distribution of Transport Supply category across the 2021 extent of
+Greater Melbourne, while also adopting the 2021 SA1 zones as the area of
+interest. Again, the differences between 2006 (CCDs) and 2021 (SA1s) are
+statistically significant (\(\chi^2(6, N = 17326) = 44.83\),
+\(p < .001\)), but there are a greater proportion of SA1s with Zero
+Supply in 2021 (4.3\%) than there were CCDs in 2006. The share of SA1s
+with supply below the average (i.e.~Zero, Very Low, Low or Below
+Average) is also larger in 2021 (74.5\%) compared to the share of CCDs
+in 2006 (70.3\%).
 
-The average SI value has also increased to 3,389.5 in from the value of
+Table \ref{tab:Greater_Melbourne_SA1_2021_table} also compares the share
+of population resident within areas that have each category of Transport
+Supply, with differences again being statistically significant
+(\(\chi^2(6, N = 8284742) = 19038.97\), \(p < .001\)). Differences in
+the share of people living in areas with Zero Supply were also
+statistically significant (\(\chi^2(1, N = 8284742) = 10018.38\),
+\(p < .001\), \(\phi = .03\)), increasing from the 85,423 residents
+(1.7\%) in 2006 to 186,829 (3.8\%) in 2021. This represents a 118.7\%
+increase, compared to the Melbourne population increase of only 46.0\%.
+However, the share of people living in areas with supply that is below
+the average has decreased from 74.8\% to 74.1\%, with this deifference
+also being statistically significant
+(\(\chi^2(1, N = 8284742) = 532.56\), \(p < .001\), \(\phi = .01\)).
+
+\subsubsection{Supply Index scores}\label{supply-index-scores}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs_SI_scores-1} \includegraphics[width=1\linewidth]{Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2021_by_suburbs_SI_scores-2} \caption{Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs}\label{fig:Greater_Melbourne_CCD_2021_by_suburbs_SI_scores}
+\end{figure}
+
+The average SI value has also increased to 3,390 in from the value of
 2,886.9 in 2006 reported in \citet{currie2010identifying}, indicating
 that the overall transit service supply score has increased by
-approximately 31\%. SI scores average 12,275.7, 3,409.1 and 998.6 for
-the inner, middle and outer suburbs respectively\footnote{The same
-  grouping of LGAs to inner, middle and outer suburb groups as used in
+approximately 31\%. SI scores average 12,275.7, 3,409.1 and 999 for the
+inner, middle and outer suburbs respectively\footnote{The same grouping
+  of LGAs to inner, middle and outer suburb groups as used in
   \citet{currie2010identifying} was used for this analysis, although
   here the City of Stonnington was allocated entirely to the middle
   grouping, whereas \citet{currie2010identifying} allocated part of this

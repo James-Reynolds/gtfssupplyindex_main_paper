@@ -327,7 +327,7 @@ A generalized form of the SI equation,
 adapted from @currie2010identifying, 
 is: 
 
-  $$SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}*SL_{n, time}}$$
+  $$SI_{area, time} = \sum{\frac{Area_{Bn}}{Area_{area}}SL_{n, time}}$$
 
 where:
 
@@ -352,7 +352,7 @@ knitr::include_graphics("graphics/Currie2010SI.png")
 
 @currie2010identifying reported SI scores 
 for Census Collection Districts (CCDs) 
-across Greater Melbourne in 2006, 
+across Metropolitan Melbourne in 2006, 
 as shown in 
 Figure \ref{fig:Currie_map_SI}.
 General patterns were identified, being:
@@ -365,11 +365,12 @@ or no transit supply at all.
 ## Social need and needs-gap
 As well as measuring transit supply, @currie2010identifying 
 assessed the social need for transport 
-across Greater Melbourne using: 
+across Metropolitan Melbourne using: 
 the Australian Bureaus of Statistics' Index of Related Socio-Economic Advantage/Disadvantage (IRSAD) and 
 a transport needs index derived 
 from eight weighted indicators.
-The spatial distribution of this 
+
+<!--The spatial distribution of this 
 composite social needs index in 2006, 
 reproduced in Figure \ref{fig:Currie_map_needs), 
 showed that areas of 
@@ -381,7 +382,7 @@ in 2006 were located in:
 some outer areas, 
 particularly in the east and south-east; 
 and in some middle areas in the south-east,
-north and west. 
+north and west. -->
 
 
 ```{r Currie_chart_gap, fig.cap = "Log supply score and need index values – Melbourne needs-gap study, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
@@ -391,9 +392,9 @@ north and west.
 ```
 
 
-```{r Currie_map_needs, fig.cap = "Distribution of categories of composite social need index scores in 2006. Source: Currie (2010.)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+```{r Currie_map_needs, fig.cap = "Distribution of categories of composite social need index scores - Metropolitan Melbourne (2006). Source: Currie (2010.)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
-knitr::include_graphics("graphics/Currie2010Needs.png")
+#knitr::include_graphics("graphics/Currie2010Needs.png")
 
 ```
 
@@ -414,7 +415,7 @@ Overall, @currie2010identifying found that
 but ‘zero’, ‘low’ or ‘very low’ public transport supply."
 
 
-```{r Currie_map_gap, fig.cap = "Melbourne needs-gap in 2006 – very high transport need areas with zero or very low public transport supply, Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
+```{r Currie_map_gap, fig.cap = "Distribution of CCDs with very high transport needs and with zero or very low public transport supply - Metropolitan Melbourne (2006). Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, out.width='100%'}
 
 knitr::include_graphics("graphics/Currie2010gap.png")
 
@@ -478,7 +479,7 @@ and that the feed covers
 a small number of trips across 
 just three stations.  
 
-## Changes since 2006: Greater Melbourne
+## Changes since 2006 in Melbourne
 Much has changed since 2006, 
 including the spatial geography used by the 
 Australian Bureau of Statistics (ABS) to collect census data. 
@@ -558,6 +559,8 @@ si_CCD2006_21_census_week_aggregated <- si_CCD2006_21_census_week %>%
 
 write.csv(si_CCD2006_21_census_week_aggregated, "results/Greater_Melbourne/si_CCD2006_21_census_week_aggregated.csv")
 
+## Add areas north east of Warburton 2190709 and 2190710 ?
+## remove water area around French Island (Western Port) this is CCD 2341923. 
 
 ```
 
@@ -565,11 +568,8 @@ write.csv(si_CCD2006_21_census_week_aggregated, "results/Greater_Melbourne/si_CC
 Unfortunately, it is not possible to obtain 
 2016 or 2021 social disadvantage data for 
 CCDs, as the ABS no longer releases data using this geographic scheme. 
-Population and other statistics are now released for 
-Statistical Area 1 (SA1) zones. These are updated prior to each census, 
-typically so as to subdivide zones where populations have increased. 
-As such, SI scores were also calculated for Greater Melbourne 
-using the SA1 2021 boundaries, so as to allow a 2021 needs-gap analysis. 
+Instead, population and other statistics are now released for 
+Statistical Area 1 (SA1) zones, which have been adopted as the areas-of-interest in this study.
 
 ## Variation in spatial patterns across location and time. 
 SI scores were also calculated for other
@@ -582,10 +582,6 @@ or Greater Darwin,
 so SI scores were calculated for 2024 using the 
 latest data sets, sourced directly 
 from the relevant transit authorities. 
-
-SI scores for 2016 where calculated using both the SA1 2016 and SA1 2021 boundaries. 
-This allowed direct comparisons of SI scores between 2016 and 2021 (using the SA1 2021 boundaries), and comparison of needs-gaps as 
-2016 population and social needs data is only released for the SA1 2016 boundaries.  
 
 ```{r run_for_all_modes_Greater_Melbourne_210810_SA1, eval = FALSE, echo = FALSE}
 list_gtfs = ptv_210805_list_gtfs
@@ -1757,7 +1753,7 @@ changes to the ABS reporting systems mean
 that the composite needs indicator 
 had to be based on weighting both the IRSAD index and the transport need index 
 by the total population of each SA1 zone, 
-which were then added, standardised and split into six groups^[This contrasts to the method used by @currie2010identifying, where the composite needs index also included relative need components, being the IRSAD and the transport needs indexes weighted by the population within the various needs groups in each area of interest.]. 
+which were then added, standardised and split into six groups^[This contrasts to the method used by @currie2010identifying, where the composite needs index also included relative need components, being the IRSAD and the transport needs indexes weighted by the population within the various needs groups in each area of interest (for a total of four indicators included in the composite needs indicator, compared to only two in the 2016 and 2021 results presented here.]. 
 
 
 ```{r read_ABS_data_2021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.fullwidth = TRUE, fig.cap="SI scores by SA3, census day 2016 and 2021"}
@@ -2086,17 +2082,18 @@ social_2016_sa1$IRSAD <- social_2016_sa1$IRSAD %>% as.numeric()
 Code developed to calculate SI scores 
 is available as an R package on github (see @gtfssupplyindex_github).
 Included in the package 
-is a  that outlines 
+is a vignette (INCLUDE LINK) that outlines 
 the structure of the calculations, 
-the developed functions (LINK HERE), 
-and step-by-step calculations for the 
+the developed functions. 
+Also included in the vignette are 
+step-by-step calculations for the 
 Mornington Peninsula Railway 
-as a worked example. Also included 
-and comparison to SI scores calculated manually.  
+as a worked example, and 
+comparison to SI scores calculated manually.  
 
-## Greater Melbourne in 2021: changes since 2006
+## Melbourne in 2021: changes since 2006
 
-### SI scores 
+### Transport Supply Categories 
 
 
 ```{r Greater_Melbourne_CCD_2021, fig.show="hold", out.width="100%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), Transport Supply by CCD, week starting the day of the 2021 census"}
@@ -2228,12 +2225,14 @@ output_plot <- ggplot()+
 si_by_area <- read.csv("results/Greater_Melbourne/si_CCD2006_21_census_week_aggregated.csv") %>% 
   as_tibble()
 si_by_area <- si_by_area[,2:3]
-
+#Remove Western Port CCD 
+si_by_area <- si_by_area %>% filter(area_id != 2341923)
 asgc2006 <- st_read("data/asgc2006.gpkg", layer = "census_collection_district_2006", quiet = TRUE)
 st_geometry(asgc2006) <- "geometry"
 
 melbourne_CCD <- asgc2006 %>% 
-  filter(MSR_NAME_2006 == "Melbourne") %>%
+  filter(MSR_NAME_2006 == "Melbourne") %>% 
+  filter(CD_CODE_2006 != "2341923") %>% #Remove Western Port water area
   select(CD_CODE_2006)
 areas_of_interest <- melbourne_CCD
 
@@ -2296,10 +2295,9 @@ si_CCD2006_21_census_week_aggregated$output_plot +
   geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
 ```
 
-Figure \ref{fig:Greater_Melbourne_CCD_2021} shows the amount of transit supply 
-across Greater Melbourne in the week of the 2021 census, 
-using the same (2006) CCD boundaries as in Figure \ref{fig:Currie_map_SI}^[The same Transport Supply categorizations have been used as in @currie2010identifying, 
-with those CCDs that have above average SI scores split evenly into three groups, those that have below average SIs also split evenly into three groups, and those CCDs without SI scores of zero placed in their own category. Hence, both Figure \ref{fig:Currie_map_SI} and Figure \ref{fig:Greater_Melbourne_CCD_2021} show relative service levels in each CCD compared to the rest of  Greater Melbourne for that year.]. The overall spatial patterns appear generally similar in 2021 as they were in 2006, with higher levels of transit supply in inner areas and close to most railway lines. However, there are some clear differences, including: 
+Figure \ref{fig:Greater_Melbourne_CCD_2021} shows the distribution of Transport Supply categories^[The same Transport Supply categorizations have been used as in @currie2010identifying, 
+with those CCDs that have above average SI scores split evenly into three groups, those that have below average SIs also split evenly into three groups, and those CCDs without SI scores of zero placed in their own category. Hence, both Figure \ref{fig:Currie_map_SI} and Figure \ref{fig:Greater_Melbourne_CCD_2021} show relative service levels in each CCD compared to the rest of  Greater Melbourne for that year.] across Melbourne in the week of the 2021 census, 
+using the same (2006) CCD boundaries^[Note, however, that there are some inconsistencies in the CCDs included in Metropolitan Melbourne in @currie2010identifying (5,839) and the number included in ABS dataset used for this analysis (6,325).] as in Figure \ref{fig:Currie_map_SI}. The overall spatial patterns appear generally similar in 2021 as they were in 2006, with higher levels of transit supply in inner areas and close to most railway lines. However, there are some clear differences, including: 
 
 - in the south-west (Werribee) service levels and coverage appear to have increased. 
 - the 2021 map shows railway extensions to Sunbury (north-west) and Craigieburn (north), both of which involved electrification to incorporate existing line segments (already served by country services) into the surburban network. Transport Supply to Sunbury, however, appears to still be below average, suggesting that not much has changed following the shift from service by regional trains to suburban trains.  For Craigieburn, in contrast, there has been increases in service levels, with some areas now having Above Average supply. 
@@ -2342,7 +2340,7 @@ melbourne_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_functio
 
 
 
-```{r Greater_Melbourne_SA1_2021_table, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne: distribution of Transit Supply, 2006 CCDs, 2021 CCDs and 2021 SA1s, population 2006 and 2021. Sources: 2006 values - Currie (2010), 2021 values - authors"}
+```{r Greater_Melbourne_SA1_2021_table, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of Transit Supply to 2006 CCDs, 2021 CCDs and 2021 SA1s, population 2006 and 2021. Sources: 2006 values - Currie (2010), 2021 values - authors"}
 
 
 # create comparison table
@@ -2453,7 +2451,7 @@ melbourne_comparison_2006_2021 %>%
   adorn_pct_formatting() %>% 
   adorn_ns() %>% 
   kable( 
-      caption = "Greater Melbourne: Distribution of Transport Supply to CCDs (2006, 2021),  SA1s (2021) and resident population (2006, 2021). Sources: 2006 values - Currie (2010), 2021 values - authors analysis",
+      caption = "Distribution of Transport Supply to Metropolitan Melbourne CCDs (2006, 2021),  Greater Melbourne SA1s (2021) and resident population (Metro Melbourne 2006, Greater Melbourne 2021). Sources: 2006 values, Currie (2010); 2021 values, authors analysis",
       align = "lrrrrr",
       col.names = c("Supply", 
                    "2006", "2021", "2021",
@@ -2500,10 +2498,14 @@ ccds_sa1s_pop$category<- factor(
 
 ```
 
-Table \ref{tab:Greater_Melbourne_SA1_2021_table} summarises the distribution of CCDs, SA1s and resident population across different Transport Supply categories in 2006 and 2021. The differences between the share of CCDs in each category in 2006 and 2021 are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2021) %>% as.matrix())`), with only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()` in 2021 (`r percent_format(accuracy = 0.1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) of CCDs in Greater Melbourne (2006 boundary) having Zero Supply in 2021,  compared to the  189 of the 5,839 (3.2%) reported by @currie2010identifying reporting  for 2006^[Note, however, that there are some inconsistencies in the number of CCDs for Melbourne as a whole reported in @currie2010identifying (5,839) and the number included in ABS dataset used for this analysis. This appears to be in part related to the inclusion of areas around Western Port (south-east), as shown in Figure \ref{fig:Greater_Melbourne_CCD_2021}, despite these appearing to be outside the 2006 Melbourne boundary.]. However, Greater Melbourne is now larger than it was in 2006, and the 2021 statistical boundary includes some additional areas to the north. As such, Table \ref{tab:Greater_Melbourne_SA1_2021_table} also shows the distribution of SA1s to the various supply categories, adopting the 2021 SA1 zones and boundary of Greater Melbourne. Again, the differences between 2006 (CCDs) and 2021 (SA1s) are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2021) %>% as.matrix())`), but there are a greater proportion with Zero Supply in 2021 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) than in 2006. The share of SA1s with supply below the average (i.e. Zero, Very Low, Low or Below Average) is also larger in 2021 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow())` versus only 70.3% in 2006). 
+Table \ref{tab:Greater_Melbourne_SA1_2021_table} summarises the distribution of CCDs, SA1s and resident population across different Transport Supply categories in 2006 and 2021. The differences between the share of CCDs in each category in 2006 and 2021 are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2021) %>% as.matrix())`), with only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()` in 2021 (`r percent_format(accuracy = 0.1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) of CCDs in Melbourne having Zero Supply in 2021, compared to the  189 (3.2%) reported by @currie2010identifying for 2006. 
 
-Table \ref{tab:Greater_Melbourne_SA1_2021_table} also indicates that more of the population of Greater Melbourne are within areas with Zero Supply in 2021 (`r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2021") %>% select(counts) %>% as.numeric()) / (ccds_sa1s_pop %>% filter(category == "population_2021") %>% select(counts) %>% sum()))`, `r format(ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2021") %>% select(counts) %>% as.numeric(), big.mark=",")` residents) than in 2006 (`r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2006") %>% select(counts) %>% as.numeric()) / (ccds_sa1s_pop %>% filter(category == "population_2006") %>% select(counts) %>% sum()))`, `r format(ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2006") %>% select(counts) %>% as.numeric(), big.mark=",")` residents), with differences again being statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2021) %>% as.matrix())`). However, the share of people living in areas with supply that is below the average has decreased from `r percent_format(accuracy = 0.1)(melbourne_comparison_2006_2021[1:4,3] %>% sum() / melbourne_comparison_2006_2021[,3] %>% sum())` to `r percent_format(accuracy = 0.1)(melbourne_comparison_2006_2021[1:4,6] %>% sum() / melbourne_comparison_2006_2021[,6] %>% sum())`(`r prmisc::print_chi2(tibble(x2006 = c(melbourne_comparison_2006_2021[1:4,3] %>% sum(), melbourne_comparison_2006_2021[5:7,3] %>% sum()), x2021 = c(melbourne_comparison_2006_2021[1:4,6] %>% sum(), melbourne_comparison_2006_2021[5:7,6] %>% sum())) %>% as.matrix())`)
+These values, however, are for CCDs within the 2006 extents of Melbourne. For the 2021 census the ABS adopted a statistical boundary of "Greater Melbourne" that includes areas up to around 30 kilometres further to the north of the 2006 boundary. As such, the fourth column in Table  \ref{tab:Greater_Melbourne_SA1_2021_table} reports the distribution of Transport Supply category across the 2021 extent of Greater Melbourne, while also adopting the 2021 SA1 zones as the area of interest.  Again, the differences between 2006 (CCDs) and 2021 (SA1s) are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2021) %>% as.matrix())`), but there are a greater proportion of SA1s with Zero Supply in 2021 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) than there were CCDs in 2006. The share of SA1s with supply below the average (i.e. Zero, Very Low, Low or Below Average) is also larger in 2021 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow())`) compared to the share of CCDs in 2006 (70.3%). 
 
+Table \ref{tab:Greater_Melbourne_SA1_2021_table} also compares the share of population resident within areas that have each category of Transport Supply, with differences again being statistically significant  (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2021) %>% as.matrix())`). Differences in the share of people living in areas with Zero Supply were also statistically significant (`r prmisc::print_chi2(tibble(x2006 = c(melbourne_comparison_2006_2021[1,3], melbourne_comparison_2006_2021[2:7,3] %>% sum()), x2021 = c(melbourne_comparison_2006_2021[1,6] %>% sum(), melbourne_comparison_2006_2021[2:7,6] %>% sum())) %>% as.matrix())`), increasing from the `r format(ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2006") %>% select(counts) %>% as.numeric(), big.mark=",")` residents (`r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2006") %>% select(counts) %>% as.numeric()) / (ccds_sa1s_pop %>% filter(category == "population_2021") %>% select(counts) %>% sum()))`) in 2006 to `r format(ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2021") %>% select(counts) %>% as.numeric(), big.mark=",")` (`r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2021") %>% select(counts) %>% as.numeric()) / (ccds_sa1s_pop %>% filter(category == "population_2021") %>% select(counts) %>% sum()))`) in 2021. This represents a `r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2021") %>% select(counts) %>% as.numeric()) / (ccds_sa1s_pop %>% filter(transit_supply == "Zero Supply") %>% filter(category == "population_2006") %>% select(counts) %>% as.numeric())-1)` increase, compared to the Melbourne population increase of only `r percent_format(accuracy = 0.1)((ccds_sa1s_pop %>% filter(category == "population_2021") %>% select(counts) %>% sum()) / (ccds_sa1s_pop %>%  filter(category == "population_2006") %>% select(counts) %>% sum())-1)`. However, the share of people living in areas with supply that is below the average has decreased from `r percent_format(accuracy = 0.1)(melbourne_comparison_2006_2021[1:4,3] %>% sum() / melbourne_comparison_2006_2021[,3] %>% sum())` to `r percent_format(accuracy = 0.1)(melbourne_comparison_2006_2021[1:4,6] %>% sum() / melbourne_comparison_2006_2021[,6] %>% sum())`, with this deifference also being statistically significant 
+(`r prmisc::print_chi2(tibble(x2006 = c(melbourne_comparison_2006_2021[1:4,3] %>% sum(), melbourne_comparison_2006_2021[5:7,3] %>% sum()), x2021 = c(melbourne_comparison_2006_2021[1:4,6] %>% sum(), melbourne_comparison_2006_2021[5:7,6] %>% sum())) %>% as.matrix())`).
+
+### Supply Index scores
 
 ```{r Greater_Melbourne_CCD_2021_by_suburbs_SI_scores, fig.show="hold", out.width="100%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne (2006 extents), SI score by CCD, week starting the day of the 2021 census, inner, middle and outer suburbs"}
 
@@ -2560,16 +2562,16 @@ si_CCD2006_21_census_week_aggregated_outer_and_middle_suburbs <- si_CCD2006_21_c
   filter(duplicated(area_id) == FALSE)
 
 
-#ggplot() +
-#  geom_sf(data=si_CCD2006_21_census_week_aggregated$si_by_area, 
-#aes(fill = suburbs)) +
-#  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.75)
+ggplot() +
+  geom_sf(data=si_CCD2006_21_census_week_aggregated$si_by_area, 
+aes(fill = suburbs), colour = NA) +
+  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.75)
 
 
-#ggbetweenstats(data = si_CCD2006_21_census_week_aggregated$si_by_area,
-#               x = suburbs,
-#               y = SI) +
-#  scale_y_continuous(labels=label_number(accuracy = 1, big.mark = ","))
+ggbetweenstats(data = si_CCD2006_21_census_week_aggregated$si_by_area,
+             x = suburbs,
+             y = SI) +
+scale_y_continuous(labels=label_number(accuracy = 1, big.mark = ","))
   
 ```
 
