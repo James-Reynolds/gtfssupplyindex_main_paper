@@ -2482,11 +2482,12 @@ using the same (2006) CCD boundaries^[Note, however, that there are some inconsi
 The overall spatial patterns appear generally similar in 2016 and 2021 as they were in 2006, with higher levels of transit supply in inner areas and close to most railway lines. However, clear differences include: 
 
 - areas in the outer west (around Melton) that had above average supply in 2006 had below average supply in 2016 and 2021. 
-- There have been suburban railway extensions to the north-west (Sunbury) and north-east (to South Morang in 2013 and to Mernda in 2018). The former involved electrification to incorporate existing line segments (already served by country services) into the surburban network. Transport Supply to Sunbury, however, appears to still be below average, suggesting that not much has changed following the shift from service by regional trains to suburban trains.  For Mernda in contrast, there has been increases in service levels, with some areas now having Above Average supply. 
-- some middle south-eastern suburbs along the bay (vicinty of Black Rock) have dropped below average;
+- some middle south-eastern suburbs along the bay (vicinty of Black Rock) and outer eastern suburbs (Ferntree Gully) have dropped below average, while a small area in the middle to outer south has moved from being below average in 2006 to above average in 2016 (Kananook, immediately north of Frankston) and 2021 (Kananook and Bonbeach).
+- there have been suburban railway extensions to the north-west (Sunbury) and north-east (to South Morang in 2013 and to Mernda in 2018). The former involved electrification to incorporate existing line segments (already served by country services) into the surburban network. Transport Supply to Sunbury, however, appears to still be below average, suggesting that not much has changed following the shift from service by regional trains to suburban trains.  For Mernda in contrast, there has been increases in service levels, with some areas now having Above Average supply. 
+- Some areas, away from railway lines, have also shifted from below average supply in 2006 to above average supplies in 2016 and 2021, including in the middle north-west (Greenvale) and middle to outer south east (Narre Warren South).
 - Services appear to have been introduced to some outer eastern (east of Gembrook), south-eastern (Koo Wee Rup, Lang Lang, Nar Nar Goon, Garfield, Bunyip and others) and southern (St Andrews Beach) areas.  
 
-```{r Greater_Melbourne_2016_2021_plot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by 2021 SA1 for the weeks starting the date of 2016 and 2021 census, overlayed with: 2006 Greater Melbourne boundary (black); 2021 SA4 boundaries (grey); and suburban railway lines (dashed)"}
+```{r Greater_Melbourne_2016_2021_plot, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1 for the weeks starting the date of 2016 and 2021 census, overlayed with: 2006 Greater Melbourne boundary (black); 2021 SA4 boundaries (grey); and suburban railway lines (dashed)"}
 
 
 #obtain SA4 boundaries
@@ -2505,6 +2506,20 @@ areas_of_interest <-  absmapsdata::sa12016 %>%
 
 melbourne_si_SA12016_16_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
+melbourne_si_SA12016_16_plot <- melbourne_si_SA12016_16_census_week_aggregated$output_plot + 
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=sa4_boundaries, fill = NA, colour="grey") +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) +
+  ggspatial::annotation_scale(location = 'br') + 
+  ggspatial::annotation_north_arrow()
+
+
+
+
 ## SA12021 2016 Greater Melbourne
 si_by_area <-  read.csv( "results/Greater_Melbourne/si_SA12021_16_census_week_aggregated.csv") %>% 
   as_tibble()
@@ -2515,6 +2530,8 @@ areas_of_interest <-  absmapsdata::sa12021 %>%
     select(sa1_code_2021)
 
 melbourne_si_SA12021_16_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
+
+
 
 
 ## 2021 SA12021 Greater Melbourne
@@ -2529,15 +2546,16 @@ areas_of_interest <-  absmapsdata::sa12021 %>%
 melbourne_si_SA12021_21_census_week_aggregated <- si_thresholds_and_plot_function(si_by_area, areas_of_interest)
 
 
-#melbourne_si_SA12021_21_census_week_aggregated$output_plot + 
-#  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
-#  geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-#  geom_sf(data=melbourne_sd07aust_region, 
-#          colour="black", 
-#          fill=NA) +
-#  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) +
-#  ggspatial::annotation_scale(location = 'br') + 
-#  ggspatial::annotation_north_arrow()
+melbourne_si_SA12021_21_plot <- melbourne_si_SA12021_21_census_week_aggregated$output_plot + 
+  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=sa4_boundaries, fill = NA, colour="grey") +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) +
+  ggspatial::annotation_scale(location = 'br') + 
+  ggspatial::annotation_north_arrow()
 
 
 
@@ -2568,26 +2586,37 @@ plot_2016_2021_comparison <- ggplot()+
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
         legend.position="bottom") + 
-  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
-  geom_sf(data=melbourne_railway_trips_shape, linetype = "twodash", size = 0.1) 
+  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
-
- plot_2016_2021_comparison + 
-  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+# plot_2016_2021_comparison + 
+#  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-  geom_sf(data=melbourne_sd07aust_region, 
-          colour="black", 
-          fill=NA) +
-  geom_sf(data=sa4_boundaries, fill = NA, colour="grey") +
- ggspatial::annotation_scale(location = 'br') + 
- ggspatial::annotation_north_arrow()
+#  geom_sf(data=melbourne_sd07aust_region, 
+#          colour="black", 
+#          fill=NA) +
+#  geom_sf(data=sa4_boundaries, fill = NA, colour="grey") +
+# ggspatial::annotation_scale(location = 'br') + 
+# ggspatial::annotation_north_arrow()
 
+melbourne_si_SA12016_16_plot +
+  melbourne_si_SA12021_21_plot 
+
+```
+```{r Greater_Melbourne_2016_2021_plot_railway_extents, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne (extents of suburban railway network), Transit Supply by SA1 for the weeks starting the date of 2016 and 2021 census, overlayed with: 2021 SA4 boundaries (grey); and suburban railway lines (dashed)"}
+
+
+melbourne_si_SA12016_16_plot +
+  coord_sf(ylim = c(-37.590, -38.153), 
+           xlim = c(144.670, 145.471)) +
+  melbourne_si_SA12021_21_plot +
+  coord_sf(ylim = c(-37.590, -38.153), 
+           xlim = c(144.670, 145.471))
 
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2016_2021_plot} shows the distribution of Transport Supply categories across Greater Melbourne in the week of the 2016 and 2021 censuses, using the SA1 2021 boundaries. The overall spatial patterns appear generally similar. Some locations that have higher categories of transport supply in 2021 are apparent, including around Werribee (outer south-west), Craigieburn (outer north) and Lillydale (outer north-west).
+Figures \ref{fig:Greater_Melbourne_2016_2021_plot} and \ref{fig:Greater_Melbourne_2016_2021_plot_railway_extents} show the distribution of Transport Supply categories across Greater Melbourne in the week of the 2016 and 2021 censuses, using the SA1 2021 boundaries. The overall spatial patterns appear generally similar. Some locations that have higher categories of transport supply in 2021 are apparent, including around Werribee (outer south-west), Craigieburn (outer north) and Lillydale (outer north-west).
 
 ```{r Greater_Melbourne_CCDs_SA1_table, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of 2006, 2016 and 2021 Transit Supply to 2006 CCDs. Sources: 2006 values - Currie (2010), 2016  and 2021 values - authors"}
 
@@ -2821,14 +2850,14 @@ ggbarstats(ccds_comparison,
 
 
 sa1_comparison <- melbourne_comparison_2006_2021 %>% 
-             select(transit_supply, sa1s_2016, sa1s_2021) %>% 
+             select(transit_supply, ccds_2006, sa1s_2016, sa1s_2021) %>% 
              pivot_longer(
-    cols = 2:3,
+    cols = 2:4,
     names_to = "category", 
     values_to = "counts")
 
 sa1_comparison$category<- factor(
-  sa1_comparison$category, levels = c("sa1s_2016", "sa1s_2021"))
+  sa1_comparison$category, levels = c("ccds_2006", "sa1s_2016", "sa1s_2021"))
 
 
 ggbarstats(sa1_comparison,
