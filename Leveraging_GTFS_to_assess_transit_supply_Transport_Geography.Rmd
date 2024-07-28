@@ -2725,24 +2725,25 @@ sa1_ur_agep_2016 <- right_join(absmapsdata::sa12016 %>%
 areas_of_interest <-  absmapsdata::sa12016 %>% 
     filter(gcc_name_2016 == "Greater Melbourne") %>% 
     select(sa1_code_2016)
-population_sa1_greater_melbourne <- left_join(
+
+population_sa1_greater_melbourne_2016 <- left_join(
   areas_of_interest %>% st_drop_geometry(), 
   sa1_ur_agep_2016 %>% select(sa1_code_2016, total))
 
-population_sa1_greater_melbourne <- left_join(
+population_sa1_greater_melbourne_2016 <- left_join(
   melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>% 
     st_drop_geometry() %>%
     select(area_id, transit_supply), 
-  population_sa1_greater_melbourne, 
+  population_sa1_greater_melbourne_2016, 
   join_by(area_id == sa1_code_2016)
   )
-names(population_sa1_greater_melbourne) <- c("sa1_code_2016", 
+names(population_sa1_greater_melbourne_2016) <- c("sa1_code_2016", 
                                              "transit_supply", 
                                              "population")
 
 
 # add to comparison table
-melbourne_comparison_2006_2021$population_2016 <- population_sa1_greater_melbourne %>% aggregate(population ~ transit_supply, sum) %>% 
+melbourne_comparison_2006_2021$population_2016 <- population_sa1_greater_melbourne_2016 %>% aggregate(population ~ transit_supply, sum) %>% 
   select(population) %>% 
   as_tibble() %>%
   unlist() %>%
@@ -2775,24 +2776,24 @@ colnames(sa1_ur_agep_2021)[colnames(sa1_ur_agep_2021) == "agep_age"] <- "sa1_cod
 areas_of_interest <-  absmapsdata::sa12021 %>% 
     filter(gcc_name_2021 == "Greater Melbourne") %>% 
     select(sa1_code_2021)
-population_sa1_greater_melbourne <- left_join(
+population_sa1_greater_melbourne_2021 <- left_join(
   areas_of_interest %>% st_drop_geometry(), 
   sa1_ur_agep_2021 %>% select(sa1_code_2021, total))
 
-population_sa1_greater_melbourne <- left_join(
+population_sa1_greater_melbourne_2021 <- left_join(
   melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
     st_drop_geometry() %>%
     select(area_id, transit_supply), 
-  population_sa1_greater_melbourne, 
+  population_sa1_greater_melbourne_2021, 
   join_by(area_id == sa1_code_2021)
   )
-names(population_sa1_greater_melbourne) <- c("sa1_code_2021", 
+names(population_sa1_greater_melbourne_2021) <- c("sa1_code_2021", 
                                              "transit_supply", 
                                              "population")
 
 
 # add to comparison table
-melbourne_comparison_2006_2021$population_2021 <- population_sa1_greater_melbourne %>% aggregate(population ~ transit_supply, sum) %>% 
+melbourne_comparison_2006_2021$population_2021 <- population_sa1_greater_melbourne_2021 %>% aggregate(population ~ transit_supply, sum) %>% 
   select(population) %>% 
   as_tibble() %>%
   unlist() %>%
@@ -2917,7 +2918,314 @@ Table \ref{tab:Greater_Melbourne_CCDs_SA1_population} and Figure \ref{fig:Greate
 
 Differences were also statistically significant between 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2016, population_2021) %>% as.matrix())`). The number of people with zero supply rose from `r format(sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))`) in 2016 (+`r format(sum(melbourne_comparison_2006_2021[1,9])-sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")`, +`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[1,8])-1)`, compared to the population increase of `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,8])-1)` across all of Greater Melbourne. The number of people with zero or very low supply rose from `r format(sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,8])/sum(melbourne_comparison_2006_2021[,8]))`) (+`r format(sum(melbourne_comparison_2006_2021[1:2,9])-sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")`, +`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,8])-1)`). The number of people with a supply that was below the average (Zero, Very Low, Low or Below Average) rose from `r format(sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,8])/sum(melbourne_comparison_2006_2021[,8]))`) in 2016 (+ `r format(sum(melbourne_comparison_2006_2021[1:4,9])-sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")`, `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,8])-1)`).
 
+```{r Greater_Melbourne_SA1_2016_by_SA4, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2016: Share of SA1s in each Transport Supply category for each SA4 region"}
 
+melbourne_si_SA12016_16_census_week_aggregated$si_by_area <- left_join(
+  melbourne_si_SA12016_16_census_week_aggregated$si_by_area,
+  absmapsdata::sa12016 %>% 
+    st_drop_geometry() %>%
+    select(sa1_code_2016, sa4_name_2016),
+  by = join_by(area_id == sa1_code_2016))
+
+melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>%
+  st_drop_geometry() %>%
+  tabyl(sa4_name_2016, transit_supply) %>% 
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  kable( 
+    caption = "Greater Melbourne 2016: Share of SA1s in each Transport Supply category for each SA4 region",
+      align = "lrrrrrrr")
+  
+
+melbourne_2016_transit_supply_by_SA4 <- melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>%
+  st_drop_geometry() %>%
+  tabyl(sa4_name_2016, transit_supply) %>%
+  pivot_longer(cols = 2:8,
+    names_to = "transit_supply", 
+    values_to = "SA1s") 
+
+melbourne_2016_transit_supply_by_SA4$transit_supply <- factor(
+  melbourne_2016_transit_supply_by_SA4$transit_supply, 
+  levels = c(
+    "Zero Supply",
+    "Very Low",
+    "Low",
+    "Below average",
+    "Above average",
+    "High",
+    "Very High")
+)  
+
+
+melbourne_2016_transit_supply_by_SA4$sa4_name_2016 <- if_else(
+  melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner", "Inner", 
+  if_else(
+    melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner East", "Inner East",
+    if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner South", "Inner South", 
+            if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - North East", 
+                    "North East", 
+                    if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - North West", "North West",
+                            if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Outer East", "Outer East", 
+                                            if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - South East", "South East", 
+                                                    if_else(melbourne_2016_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - West", "West", 
+                                                            melbourne_2016_transit_supply_by_SA4$sa4_name_2016))))))))
+
+
+melbourne_2016_transit_supply_by_SA4$sa4_name_2016 <- factor(
+  melbourne_2016_transit_supply_by_SA4$sa4_name_2016,
+  levels = c("Mornington Peninsula",
+             "West",
+             "South East", 
+             "Outer East", 
+             "North West", 
+             "North East", 
+             "Inner South",
+             "Inner East",
+             "Inner"))
+
+melbourne_2016_transit_supply_by_SA4$sa4_name_2016 <- melbourne_2016_transit_supply_by_SA4$sa4_name_2016 %>% fct_rev()
+
+melbourne_2016_transit_supply_by_SA4 %>%
+  ggbarstats(y = sa4_name_2016,
+             x = transit_supply,
+             counts = SA1s)
+  
+
+```
+
+```{r Greater_Melbourne_SA1_2021_by_SA4, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021: Share of SA1s in each Transport Supply category for each SA4 region"}
+
+
+
+melbourne_si_SA12021_21_census_week_aggregated$si_by_area <- left_join(
+  melbourne_si_SA12021_21_census_week_aggregated$si_by_area,
+  absmapsdata::sa12021 %>% 
+    st_drop_geometry() %>%
+    select(sa1_code_2021, sa4_name_2021),
+  by = join_by(area_id == sa1_code_2021))
+
+melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>%
+  st_drop_geometry() %>%
+  tabyl(sa4_name_2021, transit_supply) %>% 
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  kable( 
+    caption = "Greater Melbourne 2021: Share of SA1s in each Transport Supply category for each SA4 region",
+      align = "lrrrrrrr")
+  
+
+
+melbourne_2021_transit_supply_by_SA4 <- melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>%
+  st_drop_geometry() %>%
+  tabyl(sa4_name_2021, transit_supply) %>%
+  pivot_longer(cols = 2:8,
+    names_to = "transit_supply", 
+    values_to = "SA1s") 
+
+melbourne_2021_transit_supply_by_SA4$transit_supply <- factor(
+  melbourne_2021_transit_supply_by_SA4$transit_supply, 
+  levels = c(
+    "Zero Supply",
+    "Very Low",
+    "Low",
+    "Below average",
+    "Above average",
+    "High",
+    "Very High")
+)  
+
+melbourne_2021_transit_supply_by_SA4$sa4_name_2021 <- if_else(
+  melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner", "Inner", 
+  if_else(
+    melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner East", "Inner East",
+    if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner South", "Inner South", 
+            if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - North East", 
+                    "North East", 
+                    if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - North West", "North West",
+                            if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Outer East", "Outer East", 
+                                            if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - South East", "South East", 
+                                                    if_else(melbourne_2021_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - West", "West", 
+                                                            melbourne_2021_transit_supply_by_SA4$sa4_name_2021))))))))
+
+melbourne_2021_transit_supply_by_SA4$sa4_name_2021 <- factor(
+  melbourne_2021_transit_supply_by_SA4$sa4_name_2021,
+  levels = c("Mornington Peninsula",
+             "West",
+             "South East", 
+             "Outer East", 
+             "North West", 
+             "North East", 
+             "Inner South",
+             "Inner East",
+             "Inner"))
+
+melbourne_2021_transit_supply_by_SA4$sa4_name_2021 <- melbourne_2021_transit_supply_by_SA4$sa4_name_2021 %>% 
+  fct_rev()
+
+melbourne_2021_transit_supply_by_SA4 %>%
+  ggbarstats(y = sa4_name_2021,
+             x = transit_supply,
+             counts = SA1s)
+```
+
+
+```{r Greater_Melbourne_population_2016_by_SA4, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2016: Share of SA1s in each Transport Supply category for each SA4 region"}
+
+melbourne_si_SA12016_16_census_week_aggregated$si_by_area <- left_join(
+  melbourne_si_SA12016_16_census_week_aggregated$si_by_area,
+  population_sa1_greater_melbourne_2016 %>% 
+    select(sa1_code_2016, population),
+  by = join_by(area_id == sa1_code_2016))
+
+
+melbourne_2016_population_transit_supply_by_SA4 <- 
+  melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>% 
+  st_drop_geometry() %>% 
+  aggregate(population ~ sa4_name_2016  + transit_supply, sum) 
+
+melbourne_2016_population_transit_supply_by_SA4 %>% 
+  pivot_wider(names_from = "transit_supply",
+              values_from = "population") %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  kable( 
+    caption = "Greater Melbourne 2016: Share of population in each Transport Supply category for each SA4 region",
+      align = "lrrrrrrr")
+  
+
+melbourne_2016_population_transit_supply_by_SA4$transit_supply <- factor(
+  melbourne_2016_population_transit_supply_by_SA4$transit_supply, 
+  levels = c(
+    "Zero Supply",
+    "Very Low",
+    "Low",
+    "Below average",
+    "Above average",
+    "High",
+    "Very High")
+)  
+
+
+melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 <- if_else(
+  melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner", "Inner", 
+  if_else(
+    melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner East", "Inner East",
+    if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Inner South", "Inner South", 
+            if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - North East", 
+                    "North East", 
+                    if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - North West", "North West",
+                            if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - Outer East", "Outer East", 
+                                            if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - South East", "South East", 
+                                                    if_else(melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 == "Melbourne - West", "West", 
+                                                            melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016))))))))
+
+
+melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 <- factor(
+  melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016,
+  levels = c("Mornington Peninsula",
+             "West",
+             "South East", 
+             "Outer East", 
+             "North West", 
+             "North East", 
+             "Inner South",
+             "Inner East",
+             "Inner"))
+
+melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 <- melbourne_2016_population_transit_supply_by_SA4$sa4_name_2016 %>% 
+  fct_rev()
+
+melbourne_2016_population_transit_supply_by_SA4 %>%
+  ggbarstats(y = sa4_name_2016,
+             x = transit_supply, 
+             counts = population)
+  
+
+```
+
+
+
+```{r Greater_Melbourne_population_2021_by_SA4, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021: Share of SA1s in each Transport Supply category for each SA4 region"}
+
+melbourne_si_SA12021_21_census_week_aggregated$si_by_area <- left_join(
+  melbourne_si_SA12021_21_census_week_aggregated$si_by_area,
+  population_sa1_greater_melbourne_2021 %>% 
+    select(sa1_code_2021, population),
+  by = join_by(area_id == sa1_code_2021))
+
+
+melbourne_2021_population_transit_supply_by_SA4 <- 
+  melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% 
+  st_drop_geometry() %>% 
+  aggregate(population ~ sa4_name_2021  + transit_supply, sum) 
+
+melbourne_2021_population_transit_supply_by_SA4 %>% 
+  pivot_wider(names_from = "transit_supply",
+              values_from = "population") %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns() %>%
+  kable( 
+    caption = "Greater Melbourne 2021: Share of population in each Transport Supply category for each SA4 region",
+      align = "lrrrrrrr")
+  
+
+melbourne_2021_population_transit_supply_by_SA4$transit_supply <- factor(
+  melbourne_2021_population_transit_supply_by_SA4$transit_supply, 
+  levels = c(
+    "Zero Supply",
+    "Very Low",
+    "Low",
+    "Below average",
+    "Above average",
+    "High",
+    "Very High")
+)  
+
+
+melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 <- if_else(
+  melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner", "Inner", 
+  if_else(
+    melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner East", "Inner East",
+    if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Inner South", "Inner South", 
+            if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - North East", 
+                    "North East", 
+                    if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - North West", "North West",
+                            if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - Outer East", "Outer East", 
+                                            if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - South East", "South East", 
+                                                    if_else(melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 == "Melbourne - West", "West", 
+                                                            melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021))))))))
+
+
+melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 <- factor(
+  melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021,
+  levels = c("Mornington Peninsula",
+             "West",
+             "South East", 
+             "Outer East", 
+             "North West", 
+             "North East", 
+             "Inner South",
+             "Inner East",
+             "Inner"))
+
+melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 <- melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 %>% 
+  fct_rev()
+
+melbourne_2021_population_transit_supply_by_SA4 %>%
+  ggbarstats(y = sa4_name_2021,
+             x = transit_supply, 
+             counts = population)
+  
+
+```
 
 
 ### Supply Index scores
@@ -3747,7 +4055,7 @@ There is a significant, but only weakly positive correlation between the 2021 SI
 ```{r Greater_Melbourne_2021_needs_gap_population, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2021, Populations within each SI and Combined Needs Index grouping"}
 
 melbourne_needs_gap_sa1_2021 <- left_join(melbourne_needs_gap_sa1_2021, 
-          population_sa1_greater_melbourne %>% 
+          population_sa1_greater_melbourne_2021 %>% 
             select(sa1_code_2021, population))
 
 melbourne_sa1_need_gap_population_crosstable <- melbourne_needs_gap_sa1_2021 %>% aggregate(population ~ transit_supply + composite_needs, sum)
