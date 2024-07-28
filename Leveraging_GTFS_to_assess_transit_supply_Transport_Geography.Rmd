@@ -2837,12 +2837,34 @@ ccds_comparison <- melbourne_comparison_2006_2021 %>%
 ccds_comparison$category<- factor(
   ccds_comparison$category, levels = c("ccds_2006", "ccds_2016", "ccds_2021"))
 
+ccds_comparison$transit_supply <- ccds_comparison$transit_supply %>% 
+  factor(
+    levels = c("Very High", 
+               "High",
+               "Above average", 
+               "Below average", 
+               "Low", 
+               "Very Low",
+               "Zero Supply"))
+
+
+ccds_comparison$transit_supply <- ccds_comparison$transit_supply %>%
+  fct_rev()
 
 ggbarstats(ccds_comparison,
   x = transit_supply, 
   y = category, 
   counts = "counts") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+scale_fill_manual(values = c(
+  "#407F0B", 
+  "#53A212",
+  "#5DB000", 
+  "#F29C33", 
+  "#F7C387", 
+  "#F9D8B1", 
+  "#FFFFFF" 
+  )) 
 
  
 ```
@@ -2861,11 +2883,34 @@ sa1_comparison$category<- factor(
   sa1_comparison$category, levels = c("ccds_2006", "sa1s_2016", "sa1s_2021"))
 
 
+sa1_comparison$transit_supply <- sa1_comparison$transit_supply %>% 
+  factor(
+    levels = c("Very High", 
+               "High",
+               "Above average", 
+               "Below average", 
+               "Low", 
+               "Very Low",
+               "Zero Supply"))
+
+
+sa1_comparison$transit_supply <- sa1_comparison$transit_supply %>%
+  fct_rev()
+
 ggbarstats(sa1_comparison,
   x = transit_supply, 
   y = category, 
   counts = "counts") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+scale_fill_manual(values = c(
+  "#407F0B", 
+  "#53A212",
+  "#5DB000", 
+  "#F29C33", 
+  "#F7C387", 
+  "#F9D8B1", 
+  "#FFFFFF" 
+  )) 
 
 ```
 
@@ -2904,12 +2949,35 @@ pop_comparison <- melbourne_comparison_2006_2021 %>%
 pop_comparison$category<- factor(
   pop_comparison$category, levels = c("population_2006", "population_2016", "population_2021"))
 
+pop_comparison$transit_supply <- pop_comparison$transit_supply %>% 
+  factor(
+    levels = c("Very High", 
+               "High",
+               "Above average", 
+               "Below average", 
+               "Low", 
+               "Very Low",
+               "Zero Supply"))
+
+
+pop_comparison$transit_supply <- pop_comparison$transit_supply %>%
+  fct_rev()
 
 ggbarstats(pop_comparison,
   x = transit_supply, 
   y = category, 
   counts = "population") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+scale_fill_manual(values = c(
+  "#407F0B", 
+  "#53A212",
+  "#5DB000", 
+  "#F29C33", 
+  "#F7C387", 
+  "#F9D8B1", 
+  "#FFFFFF" 
+  )) 
+
 
 ```
 
