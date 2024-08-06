@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  5 AUG 2024 10:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  6 AUG 2024 17:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,596 +768,572 @@ Overfull \hbox (2.22221pt too wide) has occurred while \output is active
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 177.
+(hyperref)                removing `\<let>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 177.
+(hyperref)                removing `\comma' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 177.
+(hyperref)                removing `\<def>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 177.
+(hyperref)                removing `\@fnmark' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 177.
+(hyperref)                removing `\<def>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\cnotenum' on input line 177.
+(hyperref)                removing `\cnotenum' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 177.
+(hyperref)                removing `\<def>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@corref' on input line 177.
+(hyperref)                removing `\@corref' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 177.
+(hyperref)                removing `\<let>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 177.
+(hyperref)                removing `\comma' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 177.
+(hyperref)                removing `\<def>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 177.
+(hyperref)                removing `\@fnmark' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 177.
+(hyperref)                removing `\<let>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 177.
+(hyperref)                removing `\comma' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 177.
+(hyperref)                removing `\<def>-command' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 177.
+(hyperref)                removing `\@fnmark' on input line 182.
 
 [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-17.
+23.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2]
-<graphics/Currie2010combined1.png, id=204, 542.025pt x 782.925pt>
+<graphics/Currie2010combined1.png, id=211, 542.025pt x 782.925pt>
 File: graphics/Currie2010combined1.png Graphic file (type png)
 <use graphics/Currie2010combined1.png>
 Package pdftex.def Info: graphics/Currie2010combined1.png  used on input line 2
-73.
+79.
 (pdftex.def)             Requested size: 421.19714pt x 608.42117pt.
 
-LaTeX Warning: Float too large for page by 15.42116pt on input line 274.
+LaTeX Warning: Float too large for page by 15.42116pt on input line 280.
 
 [3] [4 <./graphics/Currie2010combined1.png>]
 
-Package natbib Warning: Citation `r-strayr' on page 5 undefined on input line 3
-78.
+Package natbib Warning: Citation `absmapsdata' on page 5 undefined on input lin
+e 385.
 
 [5]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_SA1_plot-1.pdf, id=315, 428.60126pt x 526.96875pt>
+x/Greater_Melbourne_2021_SA1_plot-1.pdf, id=328, 428.60126pt x 526.96875pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_SA1_plot-1.pdf Graphic file (type pdf)
 <use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
 latex/Greater_Melbourne_2021_SA1_plot-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_SA1_plot-1.pdf  used on input 
-line 450.
+line 460.
 (pdftex.def)             Requested size: 428.6002pt x 526.96745pt.
 
-Overfull \hbox (4.36082pt too wide) in paragraph at lines 461--484
+Overfull \hbox (4.36082pt too wide) in paragraph at lines 471--494
  [][] 
  []
 
 
-LaTeX Warning: Reference `tab:Greater_Melbourne_SA1_2021_table' on page 6 undef
-ined on input line 486.
+LaTeX Warning: Reference `fig:Greater_Melbourne_2021_SA1_plot' on page 6 undefi
+ned on input line 499.
 
 
 LaTeX Warning: Reference `fig:Greater_Melbourne_2021_SA1_plot' on page 6 undefi
-ned on input line 489.
-
-
-LaTeX Warning: Reference `fig:Greater_Melbourne_2021_SA1_plot' on page 6 undefi
-ned on input line 505.
+ned on input line 516.
 
 [6] [7 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/fi
 gure-latex/Greater_Melbourne_2021_SA1_plot-1.pdf>]
-Overfull \hbox (4.44524pt too wide) in paragraph at lines 582--582
-[]|\T1/lmr/m/n/8 (-20) transit_supply|  
- []
-
-
-Overfull \hbox (14.35344pt too wide) in paragraph at lines 582--582
- []|\T1/lmr/m/n/8 (-20) Mornington
- []
-
-
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 586--586
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 597--597
  \T1/lmr/m/n/8 (-20) (112,269)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 586--586
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 597--597
  \T1/lmr/m/n/8 (-20) (190,890)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 586--586
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 597--597
  \T1/lmr/m/n/8 (-20) (215,217)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 586--586
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 597--597
 \T1/lmr/m/n/8 (-20) (186,665)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 586--586
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 597--597
  \T1/lmr/m/n/8 (-20) (161,779)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 586--587
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 597--598
  \T1/lmr/m/n/8 (-20) (1,008,498)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 588--588
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 599--599
  \T1/lmr/m/n/8 (-20) (119,608)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 588--588
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 599--599
  \T1/lmr/m/n/8 (-20) (107,693)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 588--588
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 599--599
  \T1/lmr/m/n/8 (-20) (135,247)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 588--588
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 599--599
  \T1/lmr/m/n/8 (-20) (224,097)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 588--588
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 599--599
 \T1/lmr/m/n/8 (-20) (242,438)|  
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 588--589
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 599--600
  \T1/lmr/m/n/8 (-20) (1,016,848)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
  \T1/lmr/m/n/8 (-20) (105,168)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
  \T1/lmr/m/n/8 (-20) (128,014)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
  \T1/lmr/m/n/8 (-20) (132,008)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
  \T1/lmr/m/n/8 (-20) (119,691)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
  \T1/lmr/m/n/8 (-20) (177,817)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 590--590
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 601--601
 \T1/lmr/m/n/8 (-20) (170,015)|  
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 590--591
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 601--602
  \T1/lmr/m/n/8 (-20) (1,000,290)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 594--594
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 605--605
  \T1/lmr/m/n/8 (-20) (129,533)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 596--596
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 607--607
  \T1/lmr/m/n/8 (-20) (353,232)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (591,707)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (359,721)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (403,611)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (495,326)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (363,342)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (499,656)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (755,374)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
 \T1/lmr/m/n/8 (-20) (727,391)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 598--598
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 609--609
  \T1/lmr/m/n/8 (-20) (289,090)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 598--599
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 609--610
  \T1/lmr/m/n/8 (-20) (4,485,218)|
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 580--601
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 591--612
  [][] 
  []
 
 
-Overfull \hbox (4.44524pt too wide) in paragraph at lines 610--610
-[]|\T1/lmr/m/n/8 (-20) transit_supply|  
- []
-
-
-Overfull \hbox (14.35344pt too wide) in paragraph at lines 610--610
- []|\T1/lmr/m/n/8 (-20) Mornington
- []
-
-
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
  \T1/lmr/m/n/8 (-20) (130,715)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
  \T1/lmr/m/n/8 (-20) (110,814)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
  \T1/lmr/m/n/8 (-20) (200,810)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
  \T1/lmr/m/n/8 (-20) (250,684)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
 \T1/lmr/m/n/8 (-20) (221,337)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 614--614
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 625--625
  \T1/lmr/m/n/8 (-20) (171,267)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 614--615
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 625--626
  \T1/lmr/m/n/8 (-20) (1,132,967)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 616--616
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 627--627
  \T1/lmr/m/n/8 (-20) (132,001)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 616--616
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 627--627
  \T1/lmr/m/n/8 (-20) (123,314)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 616--616
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 627--627
  \T1/lmr/m/n/8 (-20) (155,603)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 616--616
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 627--627
  \T1/lmr/m/n/8 (-20) (265,995)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 616--616
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 627--627
 \T1/lmr/m/n/8 (-20) (289,518)|  
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 616--617
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 627--628
  \T1/lmr/m/n/8 (-20) (1,163,358)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (133,305)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (148,585)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (151,240)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (129,918)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (114,658)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
  \T1/lmr/m/n/8 (-20) (204,093)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 618--618
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 629--629
 \T1/lmr/m/n/8 (-20) (184,466)|  
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 618--619
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 629--630
  \T1/lmr/m/n/8 (-20) (1,159,783)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 622--622
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 633--633
  \T1/lmr/m/n/8 (-20) (151,439)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 624--624
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 635--635
  \T1/lmr/m/n/8 (-20) (329,654)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (616,931)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (373,466)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (422,587)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (540,726)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (424,367)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (518,363)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (860,081)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
 \T1/lmr/m/n/8 (-20) (852,928)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 626--626
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 637--637
  \T1/lmr/m/n/8 (-20) (308,184)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 626--627
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 637--638
  \T1/lmr/m/n/8 (-20) (4,917,633)|
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 608--629
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 619--640
  [][] 
  []
 
-[8] [9]
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 685--685
+[8]
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 696--696
  \T1/lmr/m/n/8 (-20) (127,248)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 685--685
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 696--696
 \T1/lmr/m/n/8 (-20) (131,194)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 687--687
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 698--698
 \T1/lmr/m/n/8 (-20) (101,767)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 689--689
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 700--700
 \T1/lmr/m/n/8 (-20) (101,769)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 693--693
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 704--704
  \T1/lmr/m/n/8 (-20) (115,203)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 693--693
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 704--704
 \T1/lmr/m/n/8 (-20) (117,967)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (128,666)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (187,974)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (124,942)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (274,423)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (266,787)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
 \T1/lmr/m/n/8 (-20) (146,702)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 695--695
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 706--706
  \T1/lmr/m/n/8 (-20) (109,151)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 695--696
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 706--707
  \T1/lmr/m/n/8 (-20) (1,393,581)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (616,931)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (373,466)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (422,587)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (540,726)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (424,367)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (518,363)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (860,081)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
 \T1/lmr/m/n/8 (-20) (852,928)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 705--705
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 716--716
  \T1/lmr/m/n/8 (-20) (308,184)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 705--706
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 716--717
  \T1/lmr/m/n/8 (-20) (4,917,633)|
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 677--708
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 688--719
  [][] 
  []
 
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2016_2021_ratio_map-1.pdf, id=371, 531.9875pt x 599.23875pt
+x/Greater_Melbourne_2016_2021_ratio_map-1.pdf, id=378, 531.9875pt x 526.96875pt
 >
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf Graphic file (type pdf)
@@ -1365,56 +1341,40 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf  used on 
-input line 712.
-(pdftex.def)             Requested size: 531.9862pt x 599.23729pt.
+input line 723.
+(pdftex.def)             Requested size: 531.9862pt x 526.96745pt.
 
-Overfull \hbox (63.9862pt too wide) in paragraph at lines 712--715
+Overfull \hbox (63.9862pt too wide) in paragraph at lines 723--725
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 6.23727pt on input line 716.
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 9 
+undefined on input line 739.
 
-
-LaTeX Warning: Reference `tab:Greater_Melbourne_2016_2021_ratio_population_tabl
-e' on page 10 undefined on input line 724.
-
-
-LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 10
- undefined on input line 728.
-
+[9] [10] [11 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_fi
+les/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_social_needs-1.pdf, id=372, 495.8525pt x 599.23875pt>
+x/Greater_Melbourne_2021_social_needs-1.pdf, id=405, 428.60126pt x 526.96875pt>
+
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_social_needs-1.pdf Graphic file (type pdf)
 <use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
 latex/Greater_Melbourne_2021_social_needs-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf  used on in
-put line 749.
-(pdftex.def)             Requested size: 495.85129pt x 599.23729pt.
+put line 769.
+(pdftex.def)             Requested size: 428.6002pt x 526.96745pt.
 
-Overfull \hbox (27.85129pt too wide) in paragraph at lines 749--752
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 6.23727pt on input line 753.
+LaTeX Warning: Reference `fig:Greater_Melbourne_2021_social_needs' on page 12 u
+ndefined on input line 775.
 
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_2021_social_needs' on page 10 u
-ndefined on input line 755.
+Package natbib Warning: Citation `ABS_SA1s_CCDs' on page 12 undefined on input 
+line 790.
 
-
-Package natbib Warning: Citation `ABS_SA1s_CCDs' on page 10 undefined on input 
-line 770.
-
-[10] [11 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
-figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf>] [12 <./Leveraging_GT
-FS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melb
-ourne_2021_social_needs-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1.pdf, id=407, 461.725pt 
+x/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1.pdf, id=411, 461.725pt 
 x 559.08875pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1.pdf Graphic file (
@@ -1423,11 +1383,11 @@ type pdf)
 latex/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1
-.pdf  used on input line 776.
+.pdf  used on input line 796.
 (pdftex.def)             Requested size: 461.72388pt x 559.08737pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf, id=408, 461.725pt 
-x 559.08875pt>
+x/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf, id=412, 464.73625p
+t x 559.08875pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf Graphic file (
 type pdf)
@@ -1435,49 +1395,28 @@ type pdf)
 latex/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1
-.pdf  used on input line 783.
-(pdftex.def)             Requested size: 461.72388pt x 559.08737pt.
+.pdf  used on input line 803.
+(pdftex.def)             Requested size: 464.7351pt x 559.08737pt.
 
 LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_scatterplot_figu
-re' on page 13 undefined on input line 788.
+re' on page 12 undefined on input line 808.
 
 
 LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_scatterplot_figu
-re' on page 13 undefined on input line 789.
+re' on page 12 undefined on input line 809.
 
 
-LaTeX Warning: Reference `tab:Greater_Melbourne_2016_needs_gap_zones_tables' on
- page 13 undefined on input line 800.
-
-
-LaTeX Warning: Reference `tabGreater_Melbourne_2021_needs_gap_zones_tables' on 
-page 13 undefined on input line 810.
-
-
-Overfull \hbox (46.30508pt too wide) in paragraph at lines 825--846
+Overfull \hbox (52.98189pt too wide) in paragraph at lines 843--866
  [][] 
  []
 
 
-Overfull \hbox (50.29108pt too wide) in paragraph at lines 853--874
- [][] 
- []
-
-[13] [14 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
-figure-latex/Greater_Melbourne_2016_needs_gap_scatterplot_figure-1.pdf>] [15 <.
-/Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf>]
-Overfull \hbox (52.98189pt too wide) in paragraph at lines 903--926
- [][] 
- []
-
-
-Overfull \hbox (52.98189pt too wide) in paragraph at lines 933--956
+Overfull \hbox (52.98189pt too wide) in paragraph at lines 873--896
  [][] 
  []
 
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf, id=461, 287.0725pt x 312.1
+x/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf, id=416, 287.0725pt x 312.1
 6624pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf Graphic file (type pdf
@@ -1486,10 +1425,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf  us
-ed on input line 959.
+ed on input line 899.
 (pdftex.def)             Requested size: 468.0pt x 508.92175pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf, id=462, 287.0725pt x 312.1
+x/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf, id=417, 287.0725pt x 312.1
 6624pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf Graphic file (type pdf
@@ -1498,10 +1437,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf  us
-ed on input line 963.
+ed on input line 903.
 (pdftex.def)             Requested size: 468.0pt x 508.92175pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf, id=468, 569.12625p
+x/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf, id=423, 569.12625p
 t x 784.9325pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf Graphic file (
@@ -1510,18 +1449,29 @@ type pdf)
 latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1
-.pdf  used on input line 986.
+.pdf  used on input line 926.
 (pdftex.def)             Requested size: 569.12486pt x 784.93057pt.
 
-Overfull \hbox (101.12486pt too wide) in paragraph at lines 986--989
+Overfull \hbox (101.12486pt too wide) in paragraph at lines 926--929
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 191.93056pt on input line 990.
+LaTeX Warning: Float too large for page by 191.93056pt on input line 930.
 
+[12] [13 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
+figure-latex/Greater_Melbourne_2021_social_needs-1.pdf>] [14 <./Leveraging_GTFS
+_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbou
+rne_2016_needs_gap_scatterplot_figure-1.pdf>] [15 <./Leveraging_GTFS_to_assess_
+transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_ne
+eds_gap_scatterplot_figure-1.pdf>] [16 <./Leveraging_GTFS_to_assess_transit_sup
+ply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_needs_gap_map
+_figure-1.pdf>] [17 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geogr
+aphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf>] [18
+ <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-l
+atex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_CCD_2016_appendix-1.pdf, id=469, 458.71375pt x 526.96875pt>
+x/Greater_Melbourne_CCD_2016_appendix-1.pdf, id=521, 458.71375pt x 526.96875pt>
 
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_CCD_2016_appendix-1.pdf Graphic file (type pdf)
@@ -1529,10 +1479,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_CCD_2016_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_CCD_2016_appendix-1.pdf  used on in
-put line 1008.
+put line 971.
 (pdftex.def)             Requested size: 458.71263pt x 526.96745pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_CCD_2021_appendix-1.pdf, id=470, 458.71375pt x 526.96875pt>
+x/Greater_Melbourne_CCD_2021_appendix-1.pdf, id=522, 458.71375pt x 526.96875pt>
 
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_CCD_2021_appendix-1.pdf Graphic file (type pdf)
@@ -1540,27 +1490,22 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_CCD_2021_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_CCD_2021_appendix-1.pdf  used on in
-put line 1016.
+put line 979.
 (pdftex.def)             Requested size: 458.71263pt x 526.96745pt.
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2016_appendix' on page 16 u
-ndefined on input line 1022.
+LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2016_appendix' on page 19 u
+ndefined on input line 985.
 
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2021_appendix' on page 16 u
-ndefined on input line 1023.
+LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2021_appendix' on page 19 u
+ndefined on input line 986.
 
-[16] [17 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
-figure-latex/Greater_Melbourne_2016_needs_gap_map_figure-1.pdf>] [18 <./Leverag
-ing_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greate
-r_Melbourne_2021_needs_gap_map_figure-1.pdf>] [19 <./Leveraging_GTFS_to_assess_
-transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_ne
-eds_gap_SA4_service_change-1.pdf>] [20 <./Leveraging_GTFS_to_assess_transit_sup
-ply_Transport_Geography_files/figure-latex/Greater_Melbourne_CCD_2016_appendix-
-1.pdf>] [21 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_fil
-es/figure-latex/Greater_Melbourne_CCD_2021_appendix-1.pdf>]
+[19] [20 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
+figure-latex/Greater_Melbourne_CCD_2016_appendix-1.pdf>] [21 <./Leveraging_GTFS
+_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbou
+rne_CCD_2021_appendix-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_SA12016_plot_appendix-1.pdf, id=545, 428.60126pt x 526.9687
+x/Greater_Melbourne_SA12016_plot_appendix-1.pdf, id=558, 428.60126pt x 526.9687
 5pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf Graphic file (type pdf)
@@ -1568,10 +1513,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf  used o
-n input line 1069.
+n input line 1032.
 (pdftex.def)             Requested size: 428.6002pt x 526.96745pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2016_social_needs_appendix-1.pdf, id=546, 287.0725pt x 312.
+x/Greater_Melbourne_2016_social_needs_appendix-1.pdf, id=559, 287.0725pt x 312.
 16624pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf Graphic file (type pd
@@ -1580,13 +1525,9 @@ f)
 latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf  u
-sed on input line 1077.
+sed on input line 1040.
 (pdftex.def)             Requested size: 421.19714pt x 458.02625pt.
-(./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.bbl [22] [23 <.
-/Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_SA12016_plot_appendix-1.pdf>] [24 <./Leveraging_GTFS_to_ass
-ess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_201
-6_social_needs_appendix-1.pdf>]
+(./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.bbl
 Underfull \hbox (badness 1270) in paragraph at lines 54--60
 []\T1/lmr/m/n/8 (+20) Graham Cur-rie and Zed Sen-bergs.  Iden-ti-fy-ing spa-tia
 l gaps in pub-lic trans-port pro-vi-sion for so-cially dis-ad-van-
@@ -1598,26 +1539,29 @@ Underfull \hbox (badness 1953) in paragraph at lines 54--60
 .  URL []$\T1/lmtt/m/n/8 https : / / www . semanticscholar . org / paper /
  []
 
-[25])
+[22] [23 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
+figure-latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf>] [24 <./Leveraging_
+GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Me
+lbourne_2016_social_needs_appendix-1.pdf>])
 
 Package natbib Warning: There were undefined citations.
 
-[26] (./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
+[25] (./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Leveraging_GTFS_to_assess_transit_supply_Tra
 nsport_Geography.out' has not changed.
-(rerunfilecheck)             Checksum: 20E7BE8ED9E06E364C373EC957087833;2716.
+(rerunfilecheck)             Checksum: 935FE26C948C663A393394C3F28AD688;3505.
  ) 
 Here is how much of TeX's memory you used:
- 17714 strings out of 478268
- 299293 string characters out of 5846347
- 660734 words of memory out of 5000000
+ 17711 strings out of 478268
+ 299153 string characters out of 5846347
+ 664728 words of memory out of 5000000
  35251 multiletter control sequences out of 15000+600000
- 534788 words of font info for 179 fonts, out of 8000000 for 9000
+ 534620 words of font info for 177 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,11n,79p,1057b,546s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,11n,79p,1057b,512s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/t
 exmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2022/texmf-dist/
@@ -1638,10 +1582,10 @@ type1/public/lm/lmri8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publi
 c/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy7.
 pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
 Output written on Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.
-pdf (26 pages, 9407320 bytes).
+pdf (25 pages, 9387223 bytes).
 PDF statistics:
- 719 PDF objects out of 1000 (max. 8388607)
- 612 compressed objects within 7 object streams
- 117 named destinations out of 1000 (max. 500000)
- 33506 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 727 PDF objects out of 1000 (max. 8388607)
+ 621 compressed objects within 7 object streams
+ 118 named destinations out of 1000 (max. 500000)
+ 33530 words of extra memory for PDF output out of 35830 (max. 10000000)
 
