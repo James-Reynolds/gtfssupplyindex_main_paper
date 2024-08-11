@@ -3803,18 +3803,18 @@ si_by_areaSA12016_2016_2021_wider <- left_join(
 
 si_by_areaSA12016_2016_2021_wider$sa4_name_2016 <- si_by_areaSA12016_2016_2021_wider$sa4_name_2016 %>% fct_rev()
 
-#si_by_areaSA12016_2016_2021_wider %>% 
-#  st_drop_geometry() %>%
-#  na.omit() %>% 
-#  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-#  ggbarstats(
-#    x = ratio_binned,
-#    y = sa4_name_2016,
-#    counts = population
-#    ) +
-#  theme(
-#  legend.position="bottom") +
-#  scale_fill_brewer(, palette = "RdYlBu", direction = -1)
+si_by_areaSA12016_2016_2021_wider %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+  ggbarstats(
+    x = ratio_binned,
+    y = sa4_name_2016,
+    counts = population
+    ) +
+  theme(
+  legend.position="bottom") +
+  scale_fill_brewer(, palette = "RdYlBu", direction = -1)
 
 si_by_areaSA12016_2016_2021_wider$sa4_name_2016 <- si_by_areaSA12016_2016_2021_wider$sa4_name_2016 %>% fct_rev()
 
@@ -3822,28 +3822,47 @@ si_by_areaSA12016_2016_2021_wider$ratio_binned <- si_by_areaSA12016_2016_2021_wi
 si_by_areaSA12016_2016_2021_wider$ratio_binned <- si_by_areaSA12016_2016_2021_wider$ratio_binned %>% fct_rev()
 
 
-si_by_areaSA12016_2016_2021_wider %>% 
+si_by_areaSA12016_2016_2021_wider_table <- si_by_areaSA12016_2016_2021_wider %>% 
   st_drop_geometry() %>%
   na.omit() %>% 
   filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
   select(sa4_name_2016, ratio_binned, population) %>% 
   aggregate(population ~ sa4_name_2016  + ratio_binned, sum) %>%
   pivot_wider(names_from = sa4_name_2016, values_from = population) %>%
-  select(ratio_binned, Inner, `Inner South`, `North East`, `North West`, `Outer East`, `South East`, `West`, `Mornington Peninsula`) %>%
+  select(ratio_binned, Inner, `Inner South`, `North East`, `North West`, `Outer East`, `South East`, `West`, `Mornington Peninsula`)
+
+si_by_areaSA12016_2016_2021_wider_table[is.na(si_by_areaSA12016_2016_2021_wider_table)] <- 0
+
+si_by_areaSA12016_2016_2021_wider_table %>%
   adorn_totals(where = c("row", "col")) %>%
   adorn_percentages(denominator = "all") %>% 
   adorn_pct_formatting() %>%
   adorn_ns() %>%
-  kable(caption = "Greater Melbourne: 2016 residents living in areas with Very High needs but Very Low or Zero supply, by SA4 and change in SI from 2016 to 2021",
-      align = "lrrrrrrrrr",
+  kable(caption = "Greater Melbourne: 2016 residents living in areas with Very High needs but Very Low or Zero supply, by SA4 and change in SI by 2021",
+      align = "lrrrrrrr",
       col.names = c("Change", 
                    "Inner", "Inner South",
                    "North East", "North West",
                    "Outer East", "South East", 
                    "West", "M'ton Pen.", "Total")
       ) %>%
-  kable_styling(font_size = 8) 
+  kable_styling(font_size = 8) %>%
+  kableExtra::column_spec(1, width = "1.75cm") %>% 
+  kableExtra::column_spec(2, width = "1cm") %>%
+  kableExtra::column_spec(3, width = "1cm") %>%
+  kableExtra::column_spec(4, width = "1cm") %>%
+  kableExtra::column_spec(5, width = "1cm") %>%
+  kableExtra::column_spec(6, width = "1cm") %>%
+  kableExtra::column_spec(7, width = "1cm") %>%
+  kableExtra::column_spec(8, width = "1cm") %>%
+  kableExtra::column_spec(9, width = "1cm") %>%
+  #kableExtra::column_spec(10, width = "1cm") %>%
+  kableExtra::column_spec(10, width = "1.25cm")
+  
 
+# Check expected values in chi-square
+#janitor::chisq.test(si_by_areaSA12016_2016_2021_wider_table[,-1])$expected
+# <20% are less than 5, (2)
 
 
 ```
@@ -3914,48 +3933,77 @@ si_by_area_2016_2021_wider$sa4_name_2021 <- factor(
 
 si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>% fct_shift(-1)  
 
-#si_by_area_2016_2021_wider %>% 
-#  st_drop_geometry() %>%
-#  na.omit() %>% 
-#  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-#  ggbarstats(
-#    x = ratio_binned,
-#    y = sa4_name_2021,
-#    counts = population
-#    ) +
-#  theme(
-#  legend.position="bottom") +
-#  scale_fill_brewer(, palette = "RdYlBu", direction = -1)
+si_by_area_2016_2021_wider %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+  ggbarstats(
+    x = ratio_binned,
+    y = sa4_name_2021,
+    counts = population
+    ) +
+  theme(
+  legend.position="bottom") +
+  scale_fill_brewer(, palette = "RdYlBu", direction = -1)
 
 si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>% fct_shift(1)  
 si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>% fct_rev()
 
-
-si_by_area_2016_2021_wider %>% 
+si_by_area_2016_2021_wider_table <- si_by_area_2016_2021_wider %>% 
   st_drop_geometry() %>%
   na.omit() %>% 
   filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
   select(sa4_name_2021, ratio_binned, population) %>% 
   aggregate(population ~ sa4_name_2021  + ratio_binned, sum) %>%
   pivot_wider(names_from = sa4_name_2021, values_from = population) %>%
-  select(ratio_binned, Inner, `Inner South`, `North East`, `North West`, `Outer East`, `South East`, `West`, `Mornington Peninsula`) %>%
+  select(ratio_binned, Inner, `Inner South`, `North East`, `North West`, `Outer East`, `South East`, `West`, `Mornington Peninsula`)
+
+si_by_area_2016_2021_wider_table[is.na(si_by_area_2016_2021_wider_table)] <- 0
+
+si_by_area_2016_2021_wider_table %>%
   adorn_totals(where = c("row", "col")) %>%
   adorn_percentages(denominator = "all") %>% 
   adorn_pct_formatting() %>%
   adorn_ns() %>%
   kable(caption = "Greater Melbourne: 2021 residents living in areas with Very High needs but Very Low or Zero supply, by SA4 and change in SI since 2016",
-      align = "lrrrrrrrrr",
+      align = "lrrrrrrr",
       col.names = c("Change", 
                    "Inner", "Inner South",
                    "North East", "North West",
                    "Outer East", "South East", 
                    "West", "M'ton Pen.", "Total")
       ) %>%
-  kable_styling(font_size = 8) 
+  kable_styling(font_size = 8) %>%
+  kableExtra::column_spec(1, width = "1.75cm") %>% 
+  kableExtra::column_spec(2, width = "1cm") %>%
+  kableExtra::column_spec(3, width = "1cm") %>%
+  kableExtra::column_spec(4, width = "1cm") %>%
+  kableExtra::column_spec(5, width = "1cm") %>%
+  kableExtra::column_spec(6, width = "1cm") %>%
+  kableExtra::column_spec(7, width = "1cm") %>%
+  kableExtra::column_spec(8, width = "1cm") %>%
+  kableExtra::column_spec(9, width = "1cm") %>%
+  #kableExtra::column_spec(10, width = "1cm") %>%
+  kableExtra::column_spec(10, width = "1.25cm")
+  
+
+# Check expected values in chi-square
+#janitor::chisq.test(si_by_area_2016_2021_wider_table[,-1])$expected
+# <20% are less than 5, (1)
 
 
 
 ```
+
+Tables \ref{Greater_Melbourne_2016_needs_gap_SA4_service_change} and \ref{Greater_Melbourne_2021_needs_gap_SA4_service_change} show how service levels changed for those SA1 areas that had Very High needs but Very Low or Zero service summarised across S4 areas by population for 2016 and 2021. There is a significant difference across SA4s in 2016 (`r prmisc::print_chi2(chisq.test(si_by_areaSA12016_2016_2021_wider_table[,-1], simulate.p.value=TRUE))`) and 2021 (`r prmisc::print_chi2(chisq.test(si_by_area_2016_2021_wider_table[,-1], simulate.p.value=TRUE))`). Of those people living in SA1s that Very High needs but Very Low or Zero service in 2016, those living in the North West, South East and West were more likely to have received some new or additional transit service by 2021. For those living in the Outer East, Inner South and Mornington Peninsula service levels were more likely to have stayed within one percent or been reduced, or (for `r si_by_areaSA12016_2016_2021_wider_table[11,6] %>% sum()` people living in the Outer East (`r label_percent(accuracy = 0.1)(si_by_areaSA12016_2016_2021_wider_table[11,6] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,6] %>% sum())`)) had their service withdrawn entirely.  
+
+
+A larger proportion of those living in the Inner South, North East, West or Mornington Peninsula who were living in SA1s with Very High needs but Very Low or Zero service in 2021 had seen service levels reduced by more than one percent or had services withdrawn entirely or not providing in 2016 or 2021. This included the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[11,4] %>% sum()/ si_by_area_2016_2021_wider_table[,4] %>% sum())` of residents) and `r si_by_area_2016_2021_wider_table[11,7] %>% as.numeric() %>% format(big.mark = ",")` people living in the South East (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[11,7] %>% sum()/ si_by_area_2016_2021_wider_table[,7] %>% sum())` of residents). A further `r si_by_area_2016_2021_wider_table[11,6] %>% as.numeric() %>% format(big.mark = ",")` people living in the Outer East in 2021 (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[11,6] %>% sum()/ si_by_area_2016_2021_wider_table[,6] %>% sum())` of residents) were living in SA1s with Very High needs but Very Low or Zero service in 2021, which had some transit service in 2016 but none in 2021. A larger proportion of the population were living in SA1s with Very High needs but Very Low or Zero service in 2021 had not had service in 2016 or 2021 in the West (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[12,8] %>% sum()/ si_by_area_2016_2021_wider_table[,8] %>% sum())`, `r si_by_area_2016_2021_wider_table[12,8] %>% as.numeric() %>% format(big.mark = ",")` residents), South East (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[12,7] %>% sum()/ si_by_area_2016_2021_wider_table[,7] %>% sum())`, `r si_by_area_2016_2021_wider_table[12,7] %>% as.numeric() %>% format(big.mark = ",")`, North East (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[12,4] %>% sum()/ si_by_area_2016_2021_wider_table[,4] %>% sum())`, `r si_by_area_2016_2021_wider_table[12,4] %>% as.numeric() %>% format(big.mark = ",")` residents) and Inner South (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[12,3] %>% sum()/ si_by_area_2016_2021_wider_table[,3] %>% sum())`, `r si_by_area_2016_2021_wider_table[12,3] %>% as.numeric() %>% format(big.mark = ",")` residents)
+
+
+
+Service levels had increased (by more than one percent) for those living in SA1s with Very High needs but Very Low or Zero service in 2021 for a larger proportion of those living in the North West (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[1:6,5] %>% sum()/ si_by_area_2016_2021_wider_table[,5] %>% sum())`, `r si_by_area_2016_2021_wider_table[1:6,5] %>% sum() %>% format(big.mark = ",")` residents), the South East (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[1:6,7] %>% sum()/ si_by_area_2016_2021_wider_table[,7] %>% sum())`, `r si_by_area_2016_2021_wider_table[1:6,7] %>% sum() %>% format(big.mark = ",")` residents) and West (`r label_percent(accuracy = 0.1)(si_by_area_2016_2021_wider_table[1:6,8] %>% sum()/ si_by_area_2016_2021_wider_table[,8] %>% sum())`, `r si_by_area_2016_2021_wider_table[1:6,8] %>% sum() %>% format(big.mark = ",")` residents). However, even those service levels had increased, they still remained in the Very Low category.
+
 
 
 

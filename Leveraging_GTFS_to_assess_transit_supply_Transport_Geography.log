@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  6 AUG 2024 17:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  12 AUG 2024 10:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1440,7 +1440,27 @@ graphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf  us
 ed on input line 903.
 (pdftex.def)             Requested size: 468.0pt x 508.92175pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf, id=423, 569.12625p
+x/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf, id=423, 569.12625p
+t x 784.9325pt>
+File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
+-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf Graphic file (
+type pdf)
+<use Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-
+latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf>
+Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
+graphy_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1
+.pdf  used on input line 965.
+(pdftex.def)             Requested size: 569.12486pt x 784.93057pt.
+
+Overfull \hbox (101.12486pt too wide) in paragraph at lines 965--968
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 191.93056pt on input line 969.
+
+<Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
+x/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf, id=424, 569.12625p
 t x 784.9325pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf Graphic file (
@@ -1449,29 +1469,60 @@ type pdf)
 latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1
-.pdf  used on input line 926.
+.pdf  used on input line 1011.
 (pdftex.def)             Requested size: 569.12486pt x 784.93057pt.
 
-Overfull \hbox (101.12486pt too wide) in paragraph at lines 926--929
+Overfull \hbox (101.12486pt too wide) in paragraph at lines 1011--1014
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 191.93056pt on input line 930.
+LaTeX Warning: Float too large for page by 191.93056pt on input line 1015.
+
+
+LaTeX Warning: Reference `Greater_Melbourne_2016_needs_gap_SA4_service_change' 
+on page 12 undefined on input line 1017.
+
+
+LaTeX Warning: Reference `Greater_Melbourne_2021_needs_gap_SA4_service_change' 
+on page 12 undefined on input line 1018.
 
 [12] [13 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
 figure-latex/Greater_Melbourne_2021_social_needs-1.pdf>] [14 <./Leveraging_GTFS
 _to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbou
 rne_2016_needs_gap_scatterplot_figure-1.pdf>] [15 <./Leveraging_GTFS_to_assess_
 transit_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2021_ne
-eds_gap_scatterplot_figure-1.pdf>] [16 <./Leveraging_GTFS_to_assess_transit_sup
-ply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_needs_gap_map
-_figure-1.pdf>] [17 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geogr
-aphy_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf>] [18
- <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-l
-atex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf>]
+eds_gap_scatterplot_figure-1.pdf>] [16] [17 <./Leveraging_GTFS_to_assess_transi
+t_supply_Transport_Geography_files/figure-latex/Greater_Melbourne_2016_needs_ga
+p_map_figure-1.pdf>] [18 <./Leveraging_GTFS_to_assess_transit_supply_Transport_
+Geography_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf>
+] [19 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/fig
+ure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf>] [20] [21 
+<./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-la
+tex/Greater_Melbourne_2021_needs_gap_SA4_service_change-1.pdf>]
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 22
+ undefined on input line 1093.
+
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_scatterplot' on 
+page 22 undefined on input line 1096.
+
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2021_needs_gap_scatterplot' on 
+page 22 undefined on input line 1097.
+
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_map' on page 22 
+undefined on input line 1098.
+
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2021_needs_gap_map' on page 22 
+undefined on input line 1099.
+
+[22]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_CCD_2016_appendix-1.pdf, id=521, 458.71375pt x 526.96875pt>
+x/Greater_Melbourne_CCD_2016_appendix-1.pdf, id=556, 458.71375pt x 526.96875pt>
 
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_CCD_2016_appendix-1.pdf Graphic file (type pdf)
@@ -1479,10 +1530,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_CCD_2016_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_CCD_2016_appendix-1.pdf  used on in
-put line 971.
+put line 1132.
 (pdftex.def)             Requested size: 458.71263pt x 526.96745pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_CCD_2021_appendix-1.pdf, id=522, 458.71375pt x 526.96875pt>
+x/Greater_Melbourne_CCD_2021_appendix-1.pdf, id=557, 458.71375pt x 526.96875pt>
 
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_CCD_2021_appendix-1.pdf Graphic file (type pdf)
@@ -1490,22 +1541,18 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_CCD_2021_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_CCD_2021_appendix-1.pdf  used on in
-put line 979.
+put line 1140.
 (pdftex.def)             Requested size: 458.71263pt x 526.96745pt.
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2016_appendix' on page 19 u
-ndefined on input line 985.
+LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2016_appendix' on page 23 u
+ndefined on input line 1146.
 
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2021_appendix' on page 19 u
-ndefined on input line 986.
+LaTeX Warning: Reference `fig:Greater_Melbourne_CCD_2021_appendix' on page 23 u
+ndefined on input line 1147.
 
-[19] [20 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
-figure-latex/Greater_Melbourne_CCD_2016_appendix-1.pdf>] [21 <./Leveraging_GTFS
-_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbou
-rne_CCD_2021_appendix-1.pdf>]
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_SA12016_plot_appendix-1.pdf, id=558, 428.60126pt x 526.9687
+x/Greater_Melbourne_SA12016_plot_appendix-1.pdf, id=562, 428.60126pt x 526.9687
 5pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf Graphic file (type pdf)
@@ -1513,10 +1560,10 @@ File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf  used o
-n input line 1032.
+n input line 1193.
 (pdftex.def)             Requested size: 428.6002pt x 526.96745pt.
 <Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure-late
-x/Greater_Melbourne_2016_social_needs_appendix-1.pdf, id=559, 287.0725pt x 312.
+x/Greater_Melbourne_2016_social_needs_appendix-1.pdf, id=563, 287.0725pt x 312.
 16624pt>
 File: Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/figure
 -latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf Graphic file (type pd
@@ -1525,9 +1572,16 @@ f)
 latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf>
 Package pdftex.def Info: Leveraging_GTFS_to_assess_transit_supply_Transport_Geo
 graphy_files/figure-latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf  u
-sed on input line 1040.
+sed on input line 1201.
 (pdftex.def)             Requested size: 421.19714pt x 458.02625pt.
-(./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.bbl
+[23] [24 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
+figure-latex/Greater_Melbourne_CCD_2016_appendix-1.pdf>] [25 <./Leveraging_GTFS
+_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Melbou
+rne_CCD_2021_appendix-1.pdf>] [26 <./Leveraging_GTFS_to_assess_transit_supply_T
+ransport_Geography_files/figure-latex/Greater_Melbourne_SA12016_plot_appendix-1
+.pdf>] [27 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_file
+s/figure-latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf>] (./Leveragi
+ng_GTFS_to_assess_transit_supply_Transport_Geography.bbl
 Underfull \hbox (badness 1270) in paragraph at lines 54--60
 []\T1/lmr/m/n/8 (+20) Graham Cur-rie and Zed Sen-bergs.  Iden-ti-fy-ing spa-tia
 l gaps in pub-lic trans-port pro-vi-sion for so-cially dis-ad-van-
@@ -1539,29 +1593,26 @@ Underfull \hbox (badness 1953) in paragraph at lines 54--60
 .  URL []$\T1/lmtt/m/n/8 https : / / www . semanticscholar . org / paper /
  []
 
-[22] [23 <./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography_files/
-figure-latex/Greater_Melbourne_SA12016_plot_appendix-1.pdf>] [24 <./Leveraging_
-GTFS_to_assess_transit_supply_Transport_Geography_files/figure-latex/Greater_Me
-lbourne_2016_social_needs_appendix-1.pdf>])
+[28])
 
 Package natbib Warning: There were undefined citations.
 
-[25] (./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
+[29] (./Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Leveraging_GTFS_to_assess_transit_supply_Tra
 nsport_Geography.out' has not changed.
-(rerunfilecheck)             Checksum: 935FE26C948C663A393394C3F28AD688;3505.
+(rerunfilecheck)             Checksum: EC3FD39EE9691E99F26CA461988236F3;3459.
  ) 
 Here is how much of TeX's memory you used:
- 17711 strings out of 478268
- 299153 string characters out of 5846347
- 664728 words of memory out of 5000000
- 35251 multiletter control sequences out of 15000+600000
- 534620 words of font info for 177 fonts, out of 8000000 for 9000
+ 17735 strings out of 478268
+ 300590 string characters out of 5846347
+ 686054 words of memory out of 5000000
+ 35265 multiletter control sequences out of 15000+600000
+ 534703 words of font info for 178 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,11n,79p,1057b,512s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,11n,79p,1057b,532s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/t
 exmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2022/texmf-dist/
@@ -1582,10 +1633,10 @@ type1/public/lm/lmri8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/publi
 c/lm/lmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy7.
 pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
 Output written on Leveraging_GTFS_to_assess_transit_supply_Transport_Geography.
-pdf (25 pages, 9387223 bytes).
+pdf (29 pages, 9418925 bytes).
 PDF statistics:
- 727 PDF objects out of 1000 (max. 8388607)
- 621 compressed objects within 7 object streams
- 118 named destinations out of 1000 (max. 500000)
- 33530 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 761 PDF objects out of 1000 (max. 8388607)
+ 648 compressed objects within 7 object streams
+ 125 named destinations out of 1000 (max. 500000)
+ 33535 words of extra memory for PDF output out of 35830 (max. 10000000)
 
