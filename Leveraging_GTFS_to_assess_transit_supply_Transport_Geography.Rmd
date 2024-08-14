@@ -1790,7 +1790,6 @@ sa1_comparison$transit_supply <- sa1_comparison$transit_supply %>%
 ```
 
 
-
 Table \ref{tab:Greater_Melbourne_CCDs_SA1_table} summarises the distribution of CCDs and SA1s across different Transport Supply categories in 2006, 2016 and 2021. Figure \ref{fig:Greater_Melbourne_2021_SA1_plot} shows the spatial distribution of Transport Supply in 2021. Maps for 2016 and CCDs are included in the Appendix. 
 
 There is a statistically significant difference in the shares of CCDs in each category between 2006, 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2016, ccds_2021) %>% as.matrix())`). Only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()` CCDs (`r percent_format(accuracy = 0.1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) have Zero Supply in 2021, compared to the 189 (3.2%) reported by @currie2010identifying for 2006. Differences are also statistically significant when comparing 2006 and 2016 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2016) %>% as.matrix())`) or 2006 and 2021 `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2021) %>% as.matrix())`), but not between 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2016, ccds_2021) %>% as.matrix())`).
@@ -4021,8 +4020,10 @@ The maps, graphs, tables and other outputs presented in this paper also demonstr
 
 An example of how the social needs-gap analysis and gtfssupplyindex package might facilitate such a demonstration relates to the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East in 2021 who had some transit service in 2016 but none in 2021, yet have very high needs, noted above. The analysis presented here might provide a strong case against the withdrawal of service, and highlights spatial areas worthy of further exploration.
 
-```{r map_headway, echo = FALSE, warning=FALSE, message=FALSE}
+```{r map_headway, eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE}
 
+
+##Based on https://cran.r-project.org/web/packages/tidytransit/vignettes/frequency.html
 map_headway <- function(
     mapping_date = lubridate::ymd(231010),
     gtfs =  action_buses_20230925,
@@ -4030,7 +4031,7 @@ map_headway <- function(
     end_time = 9*3600, 
     EPSG_for_transform = 28355, 
     min_stop_departures = 10, 
-    median_headways_limit = 10*60){
+    median_headways_limit = 100000){
   
   gtfs <- gtfs_as_sf(gtfs)
   gtfs$shapes$length <- st_length(gtfs$shapes)
@@ -4040,8 +4041,9 @@ map_headway <- function(
     select(shape_id, length, -geometry)
 
   service_pattern_summary <- gtfs$trips %>%
-    left_join(gtfs$.$servicepatterns, by="service_id") %>%     left_join(shape_lengths, by="shape_id") %>%
-    left_join(gtfs$stop_times, by="trip_id") %>% 
+    left_join(gtfs$.$servicepatterns, by="service_id", copy = TRUE) %>%  
+    left_join(shape_lengths, by="shape_id", copy = TRUE) %>%
+    left_join(gtfs$stop_times, by="trip_id", copy = TRUE) %>% 
     group_by(servicepattern_id) %>% 
     summarise(
     trips = n(), 
@@ -4053,7 +4055,7 @@ map_headway <- function(
   service_pattern_summary <- gtfs$.$dates_servicepatterns %>% 
     group_by(servicepattern_id) %>% 
     summarise(days_in_service = n()) %>% 
-    left_join(service_pattern_summary, by="servicepattern_id")
+    left_join(service_pattern_summary, by="servicepattern_id", copy = TRUE)
 
 ## Select service_ids for supplied date
   servicepattern_ids <- gtfs$.$dates_servicepatterns  %>% 
@@ -4067,7 +4069,7 @@ service_ids <- gtfs$.$servicepattern %>%
 #head(service_ids) %>% 
 #  knitr::kable()
 
-#  gtfs$trips %>%
+# gtfs$trips %>%
 #   filter(service_id %in% service_ids) %>%
 #    group_by(service_id, route_id) %>%
 #   summarise(count = n()) %>% 
@@ -4087,7 +4089,7 @@ service_ids <- gtfs$.$servicepattern %>%
   routes_sf <- get_route_geometry(gtfs, service_ids = service_ids)
 
   routes_sf <- routes_sf %>% 
-    inner_join(am_route_freq, by = 'route_id')
+    inner_join(am_route_freq, by = 'route_id', copy = TRUE)
 
 # convert to an appropriate coordinate reference system
   routes_sf_crs <- sf::st_transform(routes_sf, EPSG_for_transform) 
@@ -4110,12 +4112,12 @@ service_ids <- gtfs$.$servicepattern %>%
                           theme_bw()
 
   output_list$departures_by_stop <- gtfs$stops %>% 
-                          inner_join(am_stop_freq, by = "stop_id") %>% 
+                          inner_join(am_stop_freq, by = "stop_id", copy = TRUE) %>% 
                           #  filter(n_departures > 50) %>% 
                           select(stop_id, stop_name, n_departures, mean_headway) %>% 
                           arrange(n_departures)
   
-  am_stop_name_departures <- left_join(gtfs$stops, am_stop_freq, by="stop_id")
+  am_stop_name_departures <- left_join(gtfs$stops, am_stop_freq, by="stop_id", copy = TRUE)
   am_stop_name_departures <- am_stop_name_departures %>%  
     group_by(stop_name) %>%
     transmute(total_departures = sum(n_departures, na.rm=TRUE))
@@ -4143,7 +4145,36 @@ service_ids <- gtfs$.$servicepattern %>%
 
 ```
 
-```{r outer_east_changes, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne SA1s with Very High transport need and Zero or Very Low supply in 2021, population by change in SI score 2016 to 2021, across SA4."}
+```{r outer_east_changes, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne SA1s with Very High transport need and Zero or Very Low supply in 2021, population by change in SI score 2016 to 2021, across SA4."}
+
+
+
+
+## convert to list of tidygtfs objects
+ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") %>% 
+  set_servicepattern()
+
+
+
+map_victoria_2021 <- map_headway(
+mapping_date = lubridate::ymd(210810),
+gtfs =  ptv_210805_gtfs,
+start_time = 2*3600,
+end_time = 32*3600,
+EPSG_for_transform = 28355,
+min_stop_departures = 100,
+median_headways_limit = 5000)
+
+
+
+
+## convert to list of tidygtfs objects
+#ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
+
+
+#action_buses_20230925 <- tidytransit::read_gtfs("data/action-buses/20230925/gtfs.zip") %>% 
+#  set_servicepattern()
+
 
 
 #canberra_route_map_output_bus_2023 <- map_headway(
