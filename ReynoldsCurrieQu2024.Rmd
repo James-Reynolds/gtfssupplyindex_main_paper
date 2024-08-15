@@ -4036,173 +4036,32 @@ An example of how the social needs-gap analysis and gtfssupplyindex package migh
 
 ```{r map_headway, eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE}
 
-
-##Based on https://cran.r-project.org/web/packages/tidytransit/vignettes/frequency.html
-map_headway <- function(
-    mapping_date = lubridate::ymd(231010),
-    gtfs =  action_buses_20230925,
-    start_time = 7*3600,
-    end_time = 9*3600, 
-    EPSG_for_transform = 28355, 
-    min_stop_departures = 10, 
-    median_headways_limit = 100000){
-  
-  gtfs <- gtfs_as_sf(gtfs)
-  gtfs$shapes$length <- st_length(gtfs$shapes)
-
-  shape_lengths <- gtfs$shapes %>% 
-    as.data.frame() %>% 
-    select(shape_id, length, -geometry)
-
-  service_pattern_summary <- gtfs$trips %>%
-    left_join(gtfs$.$servicepatterns, by="service_id", copy = TRUE) %>%  
-    left_join(shape_lengths, by="shape_id", copy = TRUE) %>%
-    left_join(gtfs$stop_times, by="trip_id", copy = TRUE) %>% 
-    group_by(servicepattern_id) %>% 
-    summarise(
-    trips = n(), 
-    routes = n_distinct(route_id),
-    total_distance_per_day_km = sum(as.numeric(length), na.rm=TRUE)/1e3,
-    route_avg_distance_km = (sum(as.numeric(length), na.rm=TRUE)/1e3)/(trips*routes),
-    stops=(n_distinct(stop_id)/2))
-
-  service_pattern_summary <- gtfs$.$dates_servicepatterns %>% 
-    group_by(servicepattern_id) %>% 
-    summarise(days_in_service = n()) %>% 
-    left_join(service_pattern_summary, by="servicepattern_id", copy = TRUE)
-
-## Select service_ids for supplied date
-  servicepattern_ids <- gtfs$.$dates_servicepatterns  %>% 
-    filter(date == mapping_date) %>% 
-    pull(servicepattern_id)
-
-service_ids <- gtfs$.$servicepattern %>% 
-  filter(servicepattern_id == servicepattern_ids) %>% 
-  pull(service_id)
-
-#head(service_ids) %>% 
-#  knitr::kable()
-
-# gtfs$trips %>%
-#   filter(service_id %in% service_ids) %>%
-#    group_by(service_id, route_id) %>%
-#   summarise(count = n()) %>% 
-#    head() %>%
-#    knitr::kable()
-
-  am_stop_freq <- get_stop_frequency(gtfs, start_time = start_time, end_time = end_time, service_ids = service_ids, by_route = TRUE)
-
-  output_list <- list(stop_frequency_table = am_stop_freq)
-
-  am_route_freq <- get_route_frequency(gtfs, service_ids = service_ids, 
-                                     start_time = start_time, end_time = end_time) 
-  output_list$am_route_freq <- am_route_freq
-
-# get_route_geometry needs a gtfs object that includes shapes as simple feature data frames
-  gtfs <- gtfs_as_sf(gtfs)
-  routes_sf <- get_route_geometry(gtfs, service_ids = service_ids)
-
-  routes_sf <- routes_sf %>% 
-    inner_join(am_route_freq, by = 'route_id', copy = TRUE)
-
-# convert to an appropriate coordinate reference system
-  routes_sf_crs <- sf::st_transform(routes_sf, EPSG_for_transform) 
-  output_list$plot_high_frequency <-  routes_sf_crs %>% 
-                          filter(median_headways < median_headways_limit) %>%
-                          ggplot() + 
-                          geom_sf(aes(colour=as.factor(median_headways))) + 
-                          labs(color = "Headways", x = "", y = "") + 
-                          geom_sf_text(aes(label=route_id)) +
-                          theme_bw()
-#5) Map Departures by Stop and Route
-  routes_sf_buffer <- st_buffer(routes_sf,
-                              dist = routes_sf$total_departures/1e6)
-
-  output_list$routes_sf_buffer <- routes_sf_buffer
-  output_list$plot_routes <- 
-                        routes_sf_buffer %>% 
-                          ggplot() + 
-                          geom_sf(colour = alpha("white", 0), fill = alpha("red",0.2)) +
-                          theme_bw()
-
-  output_list$departures_by_stop <- gtfs$stops %>% 
-                          inner_join(am_stop_freq, by = "stop_id", copy = TRUE) %>% 
-                          #  filter(n_departures > 50) %>% 
-                          select(stop_id, stop_name, n_departures, mean_headway) %>% 
-                          arrange(n_departures)
-  
-  am_stop_name_departures <- left_join(gtfs$stops, am_stop_freq, by="stop_id", copy = TRUE)
-  am_stop_name_departures <- am_stop_name_departures %>%  
-    group_by(stop_name) %>%
-    transmute(total_departures = sum(n_departures, na.rm=TRUE))
-
-  am_stop_name_departures <- am_stop_name_departures %>%
-    filter(total_departures > min_stop_departures)
-
-  output_list$am_stop_name_departures <- am_stop_name_departures
-  
-  output_list$plot_route_and_departures <- 
-   ggplot() + 
-  geom_sf(data = routes_sf_buffer, 
-          colour = alpha("white",0), fill = alpha("red",0.3)) +
-  geom_sf(data = am_stop_name_departures, 
-          aes(size = total_departures), shape=1) + 
-  labs(size = "Departures (Hundreds)") +
-  theme_bw() 
-  
-  
-  return(output_list)
-}
-
-
-
 ## import ptv feed
 ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") 
 
-
-## filter feed to only include North West and North East SA4s
+## filter feed to only include North East SA4s
 north_east_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North East")
-north_west_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North West")
 ptv_210805_gtfs_north_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, north_east_sa4)
+
+#convert to sf
+ptv_210805_gtfs_north_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_north_east)
+ptv_210805_gtfs_north_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_north_east)
+
+ggplot() + 
+  geom_sf(data=ptv_210805_gtfs_north_east) +     
+  coord_sf(ylim = c(-37.50, -37.70), 
+           xlim = c(144.85, 145.20))
+
+
+north_west_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North West")
 ptv_210805_gtfs_north_west <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, north_west_sa4)
+
 
 ## convert to list of tidygtfs objects
 ptv_210805_gtfs_north_east <- ptv_210805_gtfs_north_east %>% 
   set_servicepattern()
 ptv_210805_gtfs_north_west <- ptv_210805_gtfs_north_west %>% 
   set_servicepattern()
-
-
-map_victoria_2021 <- map_headway(
-mapping_date = lubridate::ymd(210810),
-gtfs =  ptv_210805_gtfs,
-start_time = 2*3600,
-end_time = 32*3600,
-EPSG_for_transform = 28355,
-min_stop_departures = 100,
-median_headways_limit = 5000)
-
-
-
-
-## convert to list of tidygtfs objects
-#ptv_160804_list_gtfs <- gtfssupplyindex::gtfs_by_route_type("data/ptv_160804/gtfs_duplicate_stops_removed.zip")
-
-
-#action_buses_20230925 <- tidytransit::read_gtfs("data/action-buses/20230925/gtfs.zip") %>% 
-#  set_servicepattern()
-
-
-
-#canberra_route_map_output_bus_2023 <- map_headway(
-#mapping_date = lubridate::ymd(231010),
-#gtfs =  action_buses_20230925,
-#start_time = 7*3600,
-#end_time = 9*3600,
-#EPSG_for_transform = 28355,
-#min_stop_departures = 10,
-#median_headways_limit = 10*60)
-
 
 
 
@@ -4255,10 +4114,11 @@ scale_fill_manual(values = c("#5C66A0", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF
         #legend.title = element_text(size = 10),
         #legend.key.size = unit(0.15, 'cm')
   )  +
+  geom_sf(data=ptv_210805_gtfs_north_east, colour="purple") +
   ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow() +     
   coord_sf(ylim = c(-37.50, -37.70), 
-           xlim = c(144.85, 145.20))
+           xlim = c(144.85, 145.20)) 
 
 
 #    coord_sf(ylim = c(-37.23, -37.85), 
