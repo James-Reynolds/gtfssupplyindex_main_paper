@@ -4032,9 +4032,9 @@ As discussed in Section 2, there are many transit metrics available, but these m
 
 The maps, graphs, tables and other outputs presented in this paper also demonstrate the range of analysis that might be possible using this package. Longitudinal comparison of transit service levels has been shown in aggregate (Table \ref{tab:Greater_Melbourne_CCDs_SA1_population}), by population across sub-areas (in comparing Tables \ref{tab:Greater_Melbourne_population_2016_by_SA4} and \ref{tab:Greater_Melbourne_population_2016_by_SA4}) and mapped (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}). Visual display of gaps between social needs and transit supply how also been shown through scatterplots (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_scatterplot} and \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot}) and mapping (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_map} and \ref{fig:Greater_Melbourne_2021_needs_gap_map}). Such outputs, especially if produced at the spatial level of a neighbourhood, council ward or electoral division, might provide an opportunity for advocates and professionals within transport planning to identify and easily demonstrate to the public, politician and other stakeholders which spatial areas might benefit from increasing transit funding and where funds might best be directed.  
 
-An example of how the social needs-gap analysis and gtfssupplyindex package might facilitate such a demonstration relates to the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East in 2021 who had some transit service in 2016 but none in 2021, yet have very high needs, noted above. Figure \ref{fig: The analysis presented here might provide a strong case against the withdrawal of service, and highlights spatial areas worthy of further exploration.
+An example of how the social needs-gap analysis and gtfssupplyindex package might facilitate such a demonstration relates to the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East in 2021 who had some transit service in 2016 but none in 2021, yet have very high needs, noted above. Figure \ref{fig:north_east_changes} highlights the two SA1s in which these people live, which are north-west of Epping, in the vicinity of Harvest Home Road. 
 
-```{r map_headway, eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE}
+```{r map_routes, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
 
 ## import ptv feed
 ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") 
@@ -4047,35 +4047,36 @@ ptv_210805_gtfs_north_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, 
 ptv_210805_gtfs_north_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_north_east)
 ptv_210805_gtfs_north_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_north_east)
 
-ggplot() + 
-  geom_sf(data=ptv_210805_gtfs_north_east) +     
-  coord_sf(ylim = c(-37.50, -37.70), 
-           xlim = c(144.85, 145.20))
+#ggplot() + 
+#  geom_sf(data=ptv_210805_gtfs_north_east) +     
+#  coord_sf(ylim = c(-37.50, -37.70), 
+#           xlim = c(144.85, 145.20))
 
 
 north_west_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North West")
 ptv_210805_gtfs_north_west <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, north_west_sa4)
 
 
-## convert to list of tidygtfs objects
-ptv_210805_gtfs_north_east <- ptv_210805_gtfs_north_east %>% 
-  set_servicepattern()
-ptv_210805_gtfs_north_west <- ptv_210805_gtfs_north_west %>% 
-  set_servicepattern()
 
+###2016
+## import ptv feed
+ptv_160804_gtfs <- tidytransit::read_gtfs("data/ptv_160804/gtfs_duplicate_stops_removed.zip") 
 
+## filter feed to only include North East SA4s
+ptv_160804_gtfs_north_east <- tidytransit::filter_feed_by_area(ptv_160804_gtfs, north_east_sa4)
 
+#convert to sf
+ptv_160804_gtfs_north_east <- tidytransit::gtfs_as_sf(ptv_160804_gtfs_north_east)
+ptv_160804_gtfs_north_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_north_east)
 
 ```
 
-```{r north_east_changes, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Part of the North East SA4 region (centred on South Morang), showing change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply. Labels show population of SA1s for which service was withdrawn "}
+```{r north_east_changes, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Part of the North East SA4 region (centred on Epping North): Transport Supply categories in 2016 (top left) and 2021 (top right), change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with population in 2016 (bottom left) and 2021 (bottom right), overlayed with transit routes (purple). "}
 
 
 
 
-
-
-ggplot() + 
+north_east_very_high_needs_SI_change <- ggplot() + 
   geom_sf(data=si_by_area_2016_2021_wider %>% 
             na.omit() %>%
             filter(very_high_needs_zero_or_very_low_supply == TRUE),
@@ -4091,7 +4092,7 @@ ggplot() +
         #legend.key.size = unit(0.15, 'cm')
   ) +
   #guides(fill=guide_legend(nrow = 6)) +
-scale_fill_manual(values = c("#5C66A0", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black")) +
+scale_fill_manual(values = c("magenta", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black")) +
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
           fill=NA) +
@@ -4113,24 +4114,121 @@ scale_fill_manual(values = c("#5C66A0", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF
         #legend.text = element_text(size = 10), 
         #legend.title = element_text(size = 10),
         #legend.key.size = unit(0.15, 'cm')
-  )  +
+  ) 
+
+# Obtain 2016 SA1 population as SF
+population_sa1_greater_melbourne_2016 <- left_join(
+  sa12016 %>% 
+    select(sa1_code_2016, geometry), 
+  population_sa1_greater_melbourne_2016
+)
+
+#Plot 
+melbourne_si_SA12016_16_plot + 
+  geom_sf(data=ptv_160804_gtfs_north_east, colour="purple") +
+  coord_sf(ylim = c(-37.60, -37.65), 
+           xlim = c(144.98, 145.05)) 
+
+melbourne_si_SA12021_21_plot +
   geom_sf(data=ptv_210805_gtfs_north_east, colour="purple") +
-  ggspatial::annotation_scale(location = 'br') + 
-  ggspatial::annotation_north_arrow() +     
-  coord_sf(ylim = c(-37.50, -37.70), 
-           xlim = c(144.85, 145.20)) 
+  coord_sf(ylim = c(-37.60, -37.65), 
+           xlim = c(144.98, 145.05))  +
+  ggrepel::geom_label_repel(
+    data = si_by_area_2016_2021_wider %>% 
+      na.omit() %>% 
+      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
+      filter(ratio_binned == "Service withdrawn"),
+    aes(label = population, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0 ) 
 
 
-#    coord_sf(ylim = c(-37.23, -37.85), 
-#          xlim = c(144.85, 145.55))
+north_east_very_high_needs_SI_change + 
+  geom_sf(data=ptv_210805_gtfs_north_east, colour="purple") +
+  coord_sf(ylim = c(-37.60, -37.65), 
+           xlim = c(144.98, 145.05)) +
+  ggrepel::geom_label_repel(
+    data = si_by_area_2016_2021_wider %>% 
+      na.omit() %>% 
+      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
+      filter(ratio_binned == "Service withdrawn"),
+    aes(label = population, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0 ) 
+
+
+```
+
+Figure \ref{fig:north_east_changes} shows the Transport Supply categories transit routes in 2016 (top-left) and 2021 (top-right).  There appears to have been a rerouting and, as shown in the current (2024) transit map for the area (Figure \ref{fig:north_east_changes}, bottom-right) the 357 bus route no longer extends north-west along Eaststone Avenue. This results in the 674 and 641 people living in two SA1s more than 400m west of Edgars Road no longer having a bus stop within the buffer zone, and a withdrawal of service (Figure \ref{fig:north_east_changes}, bottom-left) as per the definitions used here. The analysis presented here might provide support for a resumption of service on Eaststone Avenue, although further housing development is underway in this area and transit services appear likely to change further. Indeed, the Route 390 shown in (Figure \ref{fig:north_east_changes}, bottom-right) appears to have been recently introduced^[https://www.ptv.vic.gov.au/route/15643/309-city-the-pines-sc-via-eastern-fwy-and-reynolds-rd/]. 
+
+Previous research looking at bus services in new developments includes the @delbosc2015impact case study of the Selandra Rise planned estate in the south-east of  Melbourne^[This study explored the impact of the, then newly introduced, 798 bus route. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route.]. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. 
+Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing transport supply in 2016 and 2021, and changes in SI score for SA1s with Very High social needs, but Very Low or Zero transit supply.  
+
+
+```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Part of the North East SA4 region (centred on Epping North): Transport Supply categories in 2016 (top left) and 2021 (top right), change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with population in 2016 (bottom left) and 2021 (bottom right), overlayed with transit routes (purple). "}
+
+
+## filter feed to only include South SA4s
+south_east_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - South East")
+ptv_210805_gtfs_south_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, south_east_sa4)
+
+#convert to sf
+ptv_210805_gtfs_south_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_south_east)
+ptv_210805_gtfs_south_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_south_east)
+
+
+###2016
+
+## filter feed to only include North East SA4s
+ptv_160804_gtfs_south_east <- tidytransit::filter_feed_by_area(ptv_160804_gtfs, south_east_sa4)
+
+#convert to sf
+ptv_160804_gtfs_south_east <- tidytransit::gtfs_as_sf(ptv_160804_gtfs_south_east)
+ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_south_east)
+
+
+
+#Plot 
+melbourne_si_SA12016_16_plot + 
+  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") +
+  coord_sf(ylim = c(-38.08, -38.13), 
+           xlim = c(145.27, 145.35)) 
+
+melbourne_si_SA12021_21_plot +
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+  coord_sf(ylim = c(-38.08, -38.13), 
+           xlim = c(145.27, 145.35)) +
+ggrepel::geom_label_repel(
+    data = si_by_area_2016_2021_wider %>% 
+      na.omit() %>% 
+      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
+      filter(ratio_binned == "Service withdrawn"),
+    aes(label = population, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0 ) 
+
+
+north_east_very_high_needs_SI_change + 
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+coord_sf(ylim = c(-38.08, -38.13), 
+           xlim = c(145.27, 145.35)) +
+  ggrepel::geom_label_repel(
+    data = si_by_area_2016_2021_wider %>% 
+      na.omit() %>% 
+      filter(very_high_needs_zero_or_very_low_supply == TRUE),
+    aes(label = population, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0 ) 
+
 
 
 ```
 
 
+
+
+
 ## How and why spatial patterns have changed since 2006  
-
-
 
 
 
