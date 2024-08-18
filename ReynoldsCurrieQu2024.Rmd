@@ -1,5 +1,5 @@
 ---
-title: "Transit access, frequency and gaps related to vertical social equity: new GTFS tools"
+title: "Social needs for transport and gaps in transit service: new GTFS tools"
 author:
   - name: James Reynolds
     email: james.reynolds@monash.edu
@@ -97,6 +97,7 @@ library(geosphere)
 library(png)
 library(absmapsdata)
 library(tidytransit)
+library(patchwork)
 
 
 # invalidate cache when the tufte version changes
@@ -320,10 +321,12 @@ and 800 metres for railway stations);
 - $SL_{n,time}$ is the number of transit arrivals for each stop 
 for a given time period.
 
-```{r Currie_map_SI, out.width = "90%", fig.cap = "Melbourne 2006: Distribution of supply measure scores (top), needs (middle) and gaps (bottom), Source: Currie (2010)",  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r Currie_map_SI, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.cap = "Melbourne 2006", fig.subcap = c("Distribution of Transport Supply", "Distibution of Social Need for Transport", "CCDs with Very High needs and Very Low or Zero supply", "Supply Index scores plotted against Composite Needs Index scores"),  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 
-knitr::include_graphics("graphics/Currie2010combined1.png")
-
+knitr::include_graphics("graphics/Currie2010SI.png")
+knitr::include_graphics("graphics/Currie2010Needs.png")
+knitr::include_graphics("graphics/Currie2010gap.png")
+knitr::include_graphics("graphics/Currie2010gap.png")
 ```
 
 @currie2010identifying reported SI scores 
@@ -1184,7 +1187,7 @@ output_plot <- ggplot()+
 #        legend.title = element_text(size = 5), 
 #        legend.key.size = unit(0.08, 'cm')
         ) + 
-  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
+  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
   outputs <- list("si_by_area" = si_by_area, 
@@ -1444,8 +1447,8 @@ plot_2016_2021_comparison <- ggplot()+
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
-        legend.position="bottom") + 
-  scale_fill_manual(values = c("#FFFFFF", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
+        legend.position="none") + 
+  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
 # plot_2016_2021_comparison + 
@@ -1459,7 +1462,7 @@ plot_2016_2021_comparison <- ggplot()+
 # ggspatial::annotation_north_arrow()
 
 
-  melbourne_si_SA12021_21_plot 
+  
 
 
 ```
@@ -1778,15 +1781,15 @@ sa1_comparison$transit_supply <- sa1_comparison$transit_supply %>%
 ```
 
 
-Table \ref{tab:Greater_Melbourne_CCDs_SA1_table} summarises the distribution of CCDs and SA1s across different Transport Supply categories in 2006, 2016 and 2021. Figure \ref{fig:Greater_Melbourne_2021_SA1_plot} shows the spatial distribution of Transport Supply in 2021. Maps for 2016 and CCDs are included in the Appendix. 
+Table \ref{tab:Greater_Melbourne_CCDs_SA1_table} summarises the distribution of CCDs and SA1s across different Transport Supply categories in 2006, 2016 and 2021. Figure \ref{fig:Greater_Melbourne_CCDs_SA1_population} shows the spatial distribution of Transport Supply in 2021. Maps for 2016 and CCDs are included in the Appendix. 
 
 There is a statistically significant difference in the shares of CCDs in each category between 2006, 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2016, ccds_2021) %>% as.matrix())`). Only `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()` CCDs (`r percent_format(accuracy = 0.1)((si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) have Zero Supply in 2021, compared to the 189 (3.2%) reported by @currie2010identifying for 2006. Differences are also statistically significant when comparing 2006 and 2016 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2016) %>% as.matrix())`) or 2006 and 2021 `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, ccds_2021) %>% as.matrix())`), but not between 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2016, ccds_2021) %>% as.matrix())`).
 
-These values, however, are only for CCDs within the 2006 extents of Melbourne. The ABS' statistical boundary of "Greater Melbourne" now includes areas up to around 30 kilometers further to the north, as shown in the 2021 map in Figure \ref{fig:Greater_Melbourne_2021_SA1_plot}. This shows that the new parts of Melbourne, beyond the 2006 statistical boundary, mostly have Very Low or Zero Transport Supply levels. Again, the differences between 2006 (CCDs), 2016 and 2021 (SA1s) are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2016, sa1s_2021) %>% as.matrix())`), but not between 2006 and 2016 (as a pair, `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2016) %>% as.matrix())`). The differences between 2006 and 2021 are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2021) %>% as.matrix())`) as are the differences between 2016 and 2021 `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(sa1s_2016, sa1s_2021) %>% as.matrix())`). There are a greater proportion of SA1s with Zero Supply in 2021 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) than there were CCDs in 2006 (3.25%) or SA1s in 2016 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>% nrow()))`) . The share of SA1s with supply below the average SI score (i.e. Zero, Very Low, Low or Below Average) is also larger in 2021 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow())`) compared to the share of CCDs in 2006 (70.3%) or share of SA1s in 2016 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>% nrow())`)
+These values, however, are only for CCDs within the 2006 extents of Melbourne. The ABS' statistical boundary of "Greater Melbourne" now includes areas up to around 30 kilometers further to the north, as shown in the 2021 map in Figure \ref{fig:Greater_Melbourne_CCDs_SA1_population}. This shows that the new parts of Melbourne, beyond the 2006 statistical boundary, mostly have Very Low or Zero Transport Supply levels. Again, the differences between 2006 (CCDs), 2016 and 2021 (SA1s) are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2016, sa1s_2021) %>% as.matrix())`), but not between 2006 and 2016 (as a pair, `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2016) %>% as.matrix())`). The differences between 2006 and 2021 are statistically significant (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(ccds_2006, sa1s_2021) %>% as.matrix())`) as are the differences between 2016 and 2021 `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(sa1s_2016, sa1s_2021) %>% as.matrix())`). There are a greater proportion of SA1s with Zero Supply in 2021 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow()))`) than there were CCDs in 2006 (3.25%) or SA1s in 2016 (`r percent_format(accuracy = 0.1)((melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Zero Supply") %>% nrow()/melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>% nrow()))`) . The share of SA1s with supply below the average SI score (i.e. Zero, Very Low, Low or Below Average) is also larger in 2021 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12021_21_census_week_aggregated[["si_by_area"]] %>% nrow())`) compared to the share of CCDs in 2006 (70.3%) or share of SA1s in 2016 (`r percent_format(accuracy = 0.1)(1-(melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>%  filter(transit_supply == "Very High" | transit_supply == "High" | transit_supply == "Above average")) %>% nrow()/melbourne_si_SA12016_16_census_week_aggregated[["si_by_area"]] %>% nrow())`)
 
 
 
-```{r Greater_Melbourne_CCDs_SA1_population, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Distribution of Transit Supply to population in 2006 (CCDs), 2016 and 2021 (SA1s). Sources: 2006 values - Currie (2010), 2021 values - authors"}
+```{r Greater_Melbourne_CCDs_SA1_population, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne, Transit Supply by SA1 for the week starting the date of the 2021 census, overlayed with: 2006 Greater Melbourne boundary (black); 2021 SA4 boundaries (blue); and suburban railway lines (black)"}
 
 
 melbourne_comparison_2006_2021 %>% 
@@ -1843,6 +1846,34 @@ pop_comparison$transit_supply <- pop_comparison$transit_supply %>%
 #  )) 
 
 
+  
+
+pcol <- pop_comparison %>% 
+  filter(category == "population_2021") %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(transit_supply, population, fill = transit_supply)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(transit_supply, population + 100000, label = glue::glue("{label_percent(accuracy = 0.1)(perc)}"))) +
+  coord_flip() +
+  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Population by Transit Supply",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 14),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_blank()
+  )
+
+melbourne_si_SA12021_21_plot + 
+  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38)
 
 ```
 
@@ -2468,8 +2499,7 @@ si_by_area_2016_2021_wider$ratio_binned <- if_else(
 
 si_by_area_2016_2021_wider$ratio_binned <- factor(
   si_by_area_2016_2021_wider$ratio_binned, 
-   levels = c("Never served",
-              "New service",
+   levels = c("New service",
               "Increased 30% or more",
               "Increased 10 to 30%",
               "Increased 5 to 10%",
@@ -2479,7 +2509,8 @@ si_by_area_2016_2021_wider$ratio_binned <- factor(
               "Reduced 1 to 3%",
               "Reduced 3 to 10%",
               "Reduced by more than 10%",
-              "Service withdrawn"
+              "Service withdrawn",
+              "Never served"
               )
   )
                                                      
@@ -2649,14 +2680,11 @@ si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binn
 ```
 
 
-
+ 
 
 ```{r Greater_Melbourne_2016_2021_ratio_map, fig.show="hold", fig.dim = c(7.5,7.5),  echo = FALSE, warning=FALSE, message=FALSE, cache = TRUE, include = TRUE, fig.cap="Greater Melbourne: changes in SI between 2016 and 2021, by 2021 SA1, overlayed with SA4 boundaries (blue) and suburban railway lines (black)"}
 
  
-greater_melbourne_ratio_population$ratio_binned <- greater_melbourne_ratio_population$ratio_binned %>%
-  fct_shift(-1)
-
 greater_melbourne_ratio_population_wider %>%
   select(ratio_binned, Inner, `Inner East`, `Inner South`, `North East`, `North West`, `Outer East`, `South East`, `West`, `Mornington Peninsula`) %>%
   adorn_totals(where = c("row", "col")) %>%
@@ -2694,21 +2722,17 @@ si_by_area_2016_2021_wider <- left_join(
    si_by_area_2016_2021_wider, 
 )
 
-si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>%
-  fct_shift(1)
-
 
 Greater_Melbourne_2016_2021_ratio_map <- ggplot()+ 
   geom_sf(data=si_by_area_2016_2021_wider %>% 
             na.omit() %>%
             filter(ratio_binned != "Never served"),
-          aes(fill = ratio_binned), colour=NA) + 
-  scale_fill_brewer(palette = "RdYlBu", direction = -1) +
+          aes(fill = ratio_binned), colour=NA) +  scale_fill_manual(values = c("magenta", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black")) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
-        legend.position="bottom",
+        legend.position="none",
         legend.text = element_text(size = 10), 
         legend.title = element_text(size = 10),
         legend.key.size = unit(0.15, 'cm')) + 
@@ -2723,10 +2747,34 @@ Greater_Melbourne_2016_2021_ratio_map <- ggplot()+
   ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow()
 
-Greater_Melbourne_2016_2021_ratio_map
 
-si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binned %>%
-  fct_shift(-1)
+pcol <- si_by_area_2016_2021_wider %>%
+  st_drop_geometry() %>%
+  aggregate(population ~ ratio_binned, sum) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned, population, fill = ratio_binned)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned, population + 100000, label = glue::glue("{label_percent(accuracy = 0.1)(perc)}"))) +
+  coord_flip() + 
+  scale_fill_manual(values = c("magenta", "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black"))  +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Population by Transit Supply",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 14),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_blank()
+  )
+
+melbourne_si_SA12021_21_plot + 
+  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38)
 
 
 ```
@@ -2883,7 +2931,7 @@ combined_needs_2021_plot <- ggplot()+
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
-        legend.position="bottom"
+        legend.position="none"
   ) +
     #    legend.text = element_text(size = 4), 
     #    legend.title = element_text(size = 5)) + 
@@ -4032,51 +4080,35 @@ As discussed in Section 2, there are many transit metrics available, but these m
 
 The maps, graphs, tables and other outputs presented in this paper also demonstrate the range of analysis that might be possible using this package. Longitudinal comparison of transit service levels has been shown in aggregate (Table \ref{tab:Greater_Melbourne_CCDs_SA1_population}), by population across sub-areas (in comparing Tables \ref{tab:Greater_Melbourne_population_2016_by_SA4} and \ref{tab:Greater_Melbourne_population_2016_by_SA4}) and mapped (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}). Visual display of gaps between social needs and transit supply how also been shown through scatterplots (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_scatterplot} and \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot}) and mapping (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_map} and \ref{fig:Greater_Melbourne_2021_needs_gap_map}). Such outputs, especially if produced at the spatial level of a neighbourhood, council ward or electoral division, might provide an opportunity for advocates and professionals within transport planning to identify and easily demonstrate to the public, politician and other stakeholders which spatial areas might benefit from increasing transit funding and where funds might best be directed.  
 
-An example of how the social needs-gap analysis and gtfssupplyindex package might facilitate such a demonstration relates to the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East in 2021 who had some transit service in 2016 but none in 2021, yet have very high needs, noted above. Figure \ref{fig:north_east_changes} highlights the two SA1s in which these people live, which are north-west of Epping, in the vicinity of Harvest Home Road. 
+<!---
+An example of how the social needs-gap analysis and gtfssupplyindex package might facilitate such a demonstration relates to the `r si_by_area_2016_2021_wider_table[11,4] %>% as.numeric() %>% format(big.mark = ",")` people living in the North East in 2021 who had some transit service in 2016 but none in 2021, yet have very high needs, noted above. Figure \ref{fig:north_east_changes} highlights the two SA1s in which these people live, which are north-west of Epping, in the vicinity of Harvest Home Road. --->
 
 ```{r map_routes, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
 
 ## import ptv feed
 ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") 
 
-## filter feed to only include North East SA4s
-north_east_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North East")
-ptv_210805_gtfs_north_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, north_east_sa4)
-
 #convert to sf
-ptv_210805_gtfs_north_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_north_east)
-ptv_210805_gtfs_north_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_north_east)
-
-#ggplot() + 
-#  geom_sf(data=ptv_210805_gtfs_north_east) +     
-#  coord_sf(ylim = c(-37.50, -37.70), 
-#           xlim = c(144.85, 145.20))
-
-
-north_west_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - North West")
-ptv_210805_gtfs_north_west <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, north_west_sa4)
-
+ptv_210805_gtfs <- tidytransit::gtfs_as_sf(ptv_210805_gtfs)
+ptv_210805_gtfs <- tidytransit::get_route_geometry(ptv_210805_gtfs)
 
 
 ###2016
 ## import ptv feed
 ptv_160804_gtfs <- tidytransit::read_gtfs("data/ptv_160804/gtfs_duplicate_stops_removed.zip") 
 
-## filter feed to only include North East SA4s
-ptv_160804_gtfs_north_east <- tidytransit::filter_feed_by_area(ptv_160804_gtfs, north_east_sa4)
-
 #convert to sf
-ptv_160804_gtfs_north_east <- tidytransit::gtfs_as_sf(ptv_160804_gtfs_north_east)
-ptv_160804_gtfs_north_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_north_east)
+ptv_160804_gtfs <- tidytransit::gtfs_as_sf(ptv_160804_gtfs)
+ptv_160804_gtfs <- tidytransit::get_route_geometry(ptv_160804_gtfs)
 
 ```
 
-```{r north_east_changes, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Part of the North East SA4 region (centred on Epping North): Transport Supply categories in 2016 (top left) and 2021 (top right), change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with population in 2016 (bottom left) and 2021 (bottom right), overlayed with transit routes (purple). "}
+```{r north_east_changes, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Part of the North East SA4 region (centred on Epping North), overlayed with transit routes (purple)", fig.subcap = c("a) Transport Supply categories in 2016", "b) Transport Supply categories in 2021", "c) Change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with population in 2021", "d) Current (2024) route map")}
 
 
 
 
-north_east_very_high_needs_SI_change <- ggplot() + 
+very_high_needs_SI_change <- ggplot() + 
   geom_sf(data=si_by_area_2016_2021_wider %>% 
             na.omit() %>%
             filter(very_high_needs_zero_or_very_low_supply == TRUE),
@@ -4125,12 +4157,12 @@ population_sa1_greater_melbourne_2016 <- left_join(
 
 #Plot 
 melbourne_si_SA12016_16_plot + 
-  geom_sf(data=ptv_160804_gtfs_north_east, colour="purple") +
+  geom_sf(data=ptv_160804_gtfs, colour="purple") +
   coord_sf(ylim = c(-37.60, -37.65), 
            xlim = c(144.98, 145.05)) 
 
 melbourne_si_SA12021_21_plot +
-  geom_sf(data=ptv_210805_gtfs_north_east, colour="purple") +
+  geom_sf(data=ptv_210805_gtfs, colour="purple") +
   coord_sf(ylim = c(-37.60, -37.65), 
            xlim = c(144.98, 145.05))  +
   ggrepel::geom_label_repel(
@@ -4143,8 +4175,8 @@ melbourne_si_SA12021_21_plot +
     min.segment.length = 0 ) 
 
 
-north_east_very_high_needs_SI_change + 
-  geom_sf(data=ptv_210805_gtfs_north_east, colour="purple") +
+very_high_needs_SI_change + 
+  geom_sf(data=ptv_210805_gtfs, colour="purple") +
   coord_sf(ylim = c(-37.60, -37.65), 
            xlim = c(144.98, 145.05)) +
   ggrepel::geom_label_repel(
@@ -4157,15 +4189,27 @@ north_east_very_high_needs_SI_change +
     min.segment.length = 0 ) 
 
 
+knitr::include_graphics("graphics/Epping.png")
+
+
 ```
 
+<!---
 Figure \ref{fig:north_east_changes} shows the Transport Supply categories transit routes in 2016 (top-left) and 2021 (top-right).  There appears to have been a rerouting and, as shown in the current (2024) transit map for the area (Figure \ref{fig:north_east_changes}, bottom-right) the 357 bus route no longer extends north-west along Eaststone Avenue. This results in the 674 and 641 people living in two SA1s more than 400m west of Edgars Road no longer having a bus stop within the buffer zone, and a withdrawal of service (Figure \ref{fig:north_east_changes}, bottom-left) as per the definitions used here. The analysis presented here might provide support for a resumption of service on Eaststone Avenue, although further housing development is underway in this area and transit services appear likely to change further. Indeed, the Route 390 shown in (Figure \ref{fig:north_east_changes}, bottom-right) appears to have been recently introduced^[https://www.ptv.vic.gov.au/route/15643/309-city-the-pines-sc-via-eastern-fwy-and-reynolds-rd/]. 
+--->
 
-Previous research looking at bus services in new developments includes the @delbosc2015impact case study of the Selandra Rise planned estate in the south-east of  Melbourne^[This study explored the impact of the, then newly introduced, 798 bus route. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route.]. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. 
+Previous research looking at bus services in new developments includes the @delbosc2015impact case study of the Selandra Rise planned estate in the south-east of  Melbourne. This study explored the impact of the, then newly introduced, 798 bus route (Figure \ref{fig:Bus_798}. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. 
 Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing transport supply in 2016 and 2021, and changes in SI score for SA1s with Very High social needs, but Very Low or Zero transit supply.  
 
+```{r Bus_798, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Bus Route 798 as originally introduced in 2014 (Source: Delbosc et al (2015))"}
 
-```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Part of the North East SA4 region (centred on Epping North): Transport Supply categories in 2016 (top left) and 2021 (top right), change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with population in 2016 (bottom left) and 2021 (bottom right), overlayed with transit routes (purple). "}
+
+knitr::include_graphics("graphics/Route798.png")
+
+```
+
+
+```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (colours as per previous figures, transit routes in purple)", fig.subcap = c("Transport Supply categories in 2016", "Transport Supply categories in 2021 (transit routes in purple)", "Change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with 2021 populations", "Current (2024) route map")}
 
 
 ## filter feed to only include South SA4s
@@ -4189,33 +4233,58 @@ ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_so
 
 
 #Plot 
+
+
 melbourne_si_SA12016_16_plot + 
   geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") +
-  coord_sf(ylim = c(-38.08, -38.13), 
-           xlim = c(145.27, 145.35)) +
-  melbourne_si_SA12021_21_plot +
+  coord_sf(ylim = c(-38.07, -38.16), 
+           xlim = c(145.24, 145.40)) +
+  theme(legend.position = "none", 
+        axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        )
+
+melbourne_si_SA12021_21_plot +
   geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
-  coord_sf(ylim = c(-38.08, -38.13), 
-           xlim = c(145.27, 145.35)) +
-ggrepel::geom_label_repel(
-    data = si_by_area_2016_2021_wider %>% 
-      na.omit() %>% 
-      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-      filter(ratio_binned == "Service withdrawn"),
-    aes(label = population, geometry = geometry),
-    stat = "sf_coordinates",
-    min.segment.length = 0 ) /
-north_east_very_high_needs_SI_change + 
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
-coord_sf(ylim = c(-38.08, -38.13), 
-           xlim = c(145.27, 145.35)) +
+ coord_sf(ylim = c(-38.07, -38.16), 
+           xlim = c(145.24, 145.40)) +
   ggrepel::geom_label_repel(
     data = si_by_area_2016_2021_wider %>% 
       na.omit() %>% 
       filter(very_high_needs_zero_or_very_low_supply == TRUE),
     aes(label = population, geometry = geometry),
     stat = "sf_coordinates",
-    min.segment.length = 0 ) 
+    min.segment.length = 0 )  +
+  theme(legend.position = "none", 
+        axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        )
+
+
+very_high_needs_SI_change + 
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+ coord_sf(ylim = c(-38.07, -38.16), 
+           xlim = c(145.24, 145.40))  +
+  ggrepel::geom_label_repel(
+    data = si_by_area_2016_2021_wider %>% 
+      na.omit() %>% 
+      filter(very_high_needs_zero_or_very_low_supply == TRUE),
+    aes(label = population, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0 )  +
+  theme(legend.position = "none", 
+        axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        )
+
+knitr::include_graphics("graphics/Cranbourne.png")
+
 
 
 
@@ -4236,7 +4305,7 @@ Compared to the 8.2 percent (276,739) of Melbourne residents having very high ne
 
 The extent to which the findings from this case study of Greater Melbourne can be confidently generalised to other places (relating to the duality criterion of case research) is a key question. Fortunately, the widespread availability of GTFS datasets together with the new gtfssupplyindex package means that it will be easier to analyse other cases. Exploring social needs-gaps in other Australian cities is an immediate direction for future efforts associated with this program of research. In the meantime, it would seem prudent to be cautious as to making assumptions about whether shifts in Melbourne are representative of everywhere else. The almost 50 percent growth in population in Greater Melbourne between 2006 (3.4m) and 2021 (4.9m) is towards the higher end of that experienced in other places (REFERENCE), although low-density development patterns that provide similar challenges for transit planning appear common both within and beyond Australia. The balance of spending between major projects (e.g. highways, rail-based transit) and introducing or increasing the levels of service of transit provided primarily to meet social needs for transport will be different in Melbourne to that in other locations. However, with a new subway connection through the CBD and a second freeway connection across the largest river currently under construction, and various other rail and road mega-projects either in planning or recently completed, Melbourne might be an outlier as far as the share of government spending going towards transport that is not focused on providing basic coverage for those who cannot otherwise drive or increasing service levels for those with the greatest social need for transit. The challenges in building business cases, increasing subsidies and otherwise introducing or increasing transit service would appear likely to be similar in Melbourne as to other places. Hence, it might be confidentially expected that the overall patterns, of the largest gaps between the social need for transport and the transit supplied being in outer suburbs and away from suburban railway lines, might be reasonably expected in other cities.  
 
-As well as making comparisons of Melbourne across 2006, 2016 and 2021, this paper has expanded on the analysis approach developed in @Currie2003Hobart, @Currie2004Gap, @Currie2007Identifying and @currie2010identifying. The mapping of changes in SI scores (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}) and how these changes relate to transit routes and areas with large needs-gaps at a neighbourhood (Figures \ref{fig:north_east_changes} and \ref{fig:Selandra_rise}) might be of use to transport planners, advocates, politicians and other decision-makers, and others seeking to build legitimacy for the improvement or introduction of basic transit service levels. It is heartening that the Selandra Rise Estate, where @delbosc2015impact found that what transit was initially implemented provide a very important social function and that there was a community desire for greater levels of service, now has more routes and higher service levels. However, Figure \ref{fig:Selandra_rise} shows that there were similarly under-or-never-served communities nearby in 2021, suggesting that the timely introduction of transit service to new development areas continues to be a challenge in parts of Melbourne. Further research might seek to confirm whether similar issues are evident in outer and new development areas of other cities, although this would seem likely to be the case in many other places.  
+As well as making comparisons of Melbourne across 2006, 2016 and 2021, this paper has expanded on the analysis approach developed in @Currie2003Hobart, @Currie2004Gap, @Currie2007Identifying and @currie2010identifying. The mapping of changes in SI scores (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}) and how these changes relate to transit routes and areas with large needs-gaps at a neighbourhood (Figure \ref{fig:Selandra_rise}) might be of use to transport planners, advocates, politicians and other decision-makers, and others seeking to build legitimacy for the improvement or introduction of basic transit service levels. It is heartening that the Selandra Rise Estate, where @delbosc2015impact found that what transit was initially implemented provide a very important social function and that there was a community desire for greater levels of service, now has more routes and higher service levels. However, Figure \ref{fig:Selandra_rise} shows that there were similarly under-or-never-served communities nearby in 2021, suggesting that the timely introduction of transit service to new development areas continues to be a challenge in parts of Melbourne. Further research might seek to confirm whether similar issues are evident in outer and new development areas of other cities, although this would seem likely to be the case in many other places.  
 
 Overall, the research reported in this paper may help researchers, practitioners, advocates, other stakeholders and decision-makers obtain information about spatial areas that have gaps between the social need for transport and the transit supplied. @currie2010identifying suggested that using the Supply Index and needs-gap analysis techniques would be much preferable to anecdotal or other informal inputs to decision-making related to providing transit to meet the basic social needs for transport of communities. The software package and analysis approaches reported in this paper, enabling GTFS data to be directly used as an input, will hopefully allow the social needs-gap approach to be used more easily and widely. 
 
