@@ -1187,7 +1187,7 @@ output_plot <- ggplot()+
 #        legend.title = element_text(size = 5), 
 #        legend.key.size = unit(0.08, 'cm')
         ) + 
-  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
+  scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
   outputs <- list("si_by_area" = si_by_area, 
@@ -1448,7 +1448,7 @@ plot_2016_2021_comparison <- ggplot()+
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
         legend.position="none") + 
-  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
+  scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) 
 
 
 # plot_2016_2021_comparison + 
@@ -1856,7 +1856,7 @@ pcol <- pop_comparison %>%
   geom_hline(yintercept = 0)  + 
   geom_text(aes(transit_supply, population + 125000, label = glue::glue("{label_percent(accuracy = 0.1)(perc)}")), size = 2) +
   coord_flip() +
-  scale_fill_manual(values = c("black", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
+  scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
@@ -2465,7 +2465,7 @@ si_by_area_2016_2021_wider$ratio_binned <- if_else(
   if_else(
     si_by_area_2016_2021_wider$x2016 == 0,
     "Never served", 
-    "Service withdrawn (black)"),
+    "Service withdrawn (magenta)"),
   if_else(
     si_by_area_2016_2021_wider$x2016 == 0, 
     "New service", 
@@ -2509,7 +2509,7 @@ si_by_area_2016_2021_wider$ratio_binned <- factor(
               "Reduced 1 to 3%",
               "Reduced 3 to 10%",
               "Reduced by more than 10%",
-              "Service withdrawn (black)",
+              "Service withdrawn (magenta)",
               "Never served"
               )
   )
@@ -2586,7 +2586,7 @@ greater_melbourne_ratio_population$ratio_binned <- factor(
               "Reduced 1 to 3%",
               "Reduced 3 to 10%",
               "Reduced by more than 10%",
-              "Service withdrawn (black)",
+              "Service withdrawn (magenta)",
               "Never served"
               )
   )
@@ -2664,10 +2664,10 @@ si_by_area_2016_2021_wider$ratio_binned <- si_by_area_2016_2021_wider$ratio_binn
 #janitor::chisq.test(si_by_area_2016_2021_wider %>% 
 #  st_drop_geometry() %>% 
 # tabyl(ratio_binned, sa4_name_2021))$expected
-# <20% are less than 5, but "Service withdrawn (black)" is all less than 5. So check without sevice withdrawn 
+# <20% are less than 5, but "Service withdrawn (magenta)" is all less than 5. So check without sevice withdrawn 
 
 # drop Service withdrawn
-#si_by_area_2016_2021_wider_no_withdrawn <- si_by_area_2016_2021_wider %>% filter(ratio_binned != "Service withdrawn (black)")
+#si_by_area_2016_2021_wider_no_withdrawn <- si_by_area_2016_2021_wider %>% filter(ratio_binned != "Service withdrawn (magenta)")
 #si_by_area_2016_2021_wider_no_withdrawn$ratio_binned <- #si_by_area_2016_2021_wider_no_withdrawn$ratio_binned %>% fct_drop()
 
 #janitor::chisq.test(si_by_area_2016_2021_wider_no_withdrawn %>% 
@@ -2713,9 +2713,6 @@ greater_melbourne_ratio_population_wider %>%
   kableExtra::column_spec(10, width = "1cm") %>%
   kableExtra::column_spec(11, width = "1.25cm")
   
-greater_melbourne_ratio_population$ratio_binned <- greater_melbourne_ratio_population$ratio_binned %>%
-  fct_shift(1)
-
 si_by_area_2016_2021_wider <- left_join(
   absmapsdata::sa12021 %>%
     select(sa1_code_2021),
@@ -2727,7 +2724,7 @@ Greater_Melbourne_2016_2021_ratio_map <- ggplot()+
   geom_sf(data=si_by_area_2016_2021_wider %>% 
             na.omit() %>%
             filter(ratio_binned != "Never served"),
-          aes(fill = ratio_binned), colour=NA) +  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black", "magenta")) +
+          aes(fill = ratio_binned), colour=NA) +  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "white")) +
   theme(axis.text.x=element_blank(), #remove x axis labels
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
@@ -2757,7 +2754,7 @@ pcol <- si_by_area_2016_2021_wider %>%
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned, population + 100000, label = glue::glue("{label_percent(accuracy = 0.1)(perc)}")), size = 2) +
   coord_flip() + 
-  scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black", "magenta"))  +
+  scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "white"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
@@ -2774,7 +2771,7 @@ pcol <- si_by_area_2016_2021_wider %>%
   )
 
 Greater_Melbourne_2016_2021_ratio_map + 
-  inset_element(pcol, left = 0.0, bottom = 0.1, right = 0.45, top =0.38)
+  inset_element(pcol, left = 0.5, bottom = 0.8, right = 1, top =1)
 
 
 ```
@@ -3758,7 +3755,7 @@ si_by_areaSA12016_2016_2021_wider$ratio_binned <- if_else(
   if_else(
     si_by_areaSA12016_2016_2021_wider$x2016 == 0,
     "Never served", 
-    "Service withdrawn (black)"),
+    "Service withdrawn (magenta)"),
   if_else(
     si_by_areaSA12016_2016_2021_wider$x2016 == 0, 
     "New service", 
@@ -3802,7 +3799,7 @@ si_by_areaSA12016_2016_2021_wider$ratio_binned <- factor(
               "Reduced 1 to 3%",
               "Reduced 3 to 10%",
               "Reduced by more than 10%",
-              "Service withdrawn (black)",
+              "Service withdrawn (magenta)",
               "Never served"
               )
   )
@@ -3961,7 +3958,7 @@ si_by_area_2016_2021_wider$ratio_binned <- factor(
               "Reduced 1 to 3%",
               "Reduced 3 to 10%",
               "Reduced by more than 10%",
-              "Service withdrawn (black)",
+              "Service withdrawn (magenta)",
               "Never served"
               )
   )
@@ -4127,7 +4124,7 @@ very_high_needs_SI_change <- ggplot() +
         #legend.key.size = unit(0.15, 'cm')
   ) +
   #guides(fill=guide_legend(nrow = 6)) +
-scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "black", "magenta")) +
+scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "white")) +
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
           fill=NA) +
@@ -4137,7 +4134,7 @@ scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB
     data = si_by_area_2016_2021_wider %>% 
       na.omit() %>% 
       filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-      filter(ratio_binned == "Service withdrawn (black)"),
+      filter(ratio_binned == "Service withdrawn (magenta)"),
     aes(label = population, geometry = geometry),
     stat = "sf_coordinates",
     min.segment.length = 0 ) + 
@@ -4172,7 +4169,7 @@ population_sa1_greater_melbourne_2016 <- left_join(
 #    data = si_by_area_2016_2021_wider %>% 
 #      na.omit() %>% 
 #      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-#     filter(ratio_binned == "Service withdrawn (black)"),
+#     filter(ratio_binned == "Service withdrawn (magenta)"),
 #    aes(label = population, geometry = geometry),
 #    stat = "sf_coordinates",
 #    min.segment.length = 0 ) 
@@ -4186,7 +4183,7 @@ population_sa1_greater_melbourne_2016 <- left_join(
 #    data = si_by_area_2016_2021_wider %>% 
 #     na.omit() %>% 
 #      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-#      filter(ratio_binned == "Service withdrawn (black)"),
+#      filter(ratio_binned == "Service withdrawn (magenta)"),
 #    aes(label = population, geometry = geometry),
 #    stat = "sf_coordinates",
 #    min.segment.length = 0 ) 
@@ -4254,7 +4251,7 @@ very_high_needs_SI_change +
     data = si_by_area_2016_2021_wider %>% 
       na.omit() %>% 
       filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-      filter(ratio_binned == "Never served" | ratio_binned == "Service withdrawn (black)"),
+      filter(ratio_binned == "Never served" | ratio_binned == "Service withdrawn (magenta)"),
     aes(label = population, geometry = geometry),
     stat = "sf_coordinates",
     min.segment.length = 0 )  +
