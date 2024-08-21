@@ -1886,11 +1886,73 @@ melbourne_si_SA12021_21_plot +
 
 ```
 
-Differences are statistically significant across all three periods (2006, 2016 and 2021 `r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2016, population_2021) %>% as.matrix())`), between 2006 and 2016 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2016) %>% as.matrix())`), and between 2006 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2021) %>% as.matrix())`). The number of people with zero supply rose from `r format(sum(melbourne_comparison_2006_2021[1,3]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,3])/sum(melbourne_comparison_2006_2021[,3]))`) in 2006 to `r format(sum(melbourne_comparison_2006_2021[1,9]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[,9]))`) in 2021. This represents a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[1,3])-1)` increase, compared to the population increase of only `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3])-1)` across all of Greater Melbourne. The number of people with Zero or Very Low supply rose from `r format(sum(melbourne_comparison_2006_2021[1:2,3]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,3])/sum(melbourne_comparison_2006_2021[,3]))`) in 2006 to `r format(sum(melbourne_comparison_2006_2021[1:2,9]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[,9]))`) in 2021. This represents a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,3])-1)` increase (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,3]) - sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3]))` higher than the population change). The number of people with a supply that was below the average (Zero, Very Low, Low or Below Average) rose from `r format(sum(melbourne_comparison_2006_2021[1:4,3]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,3])/sum(melbourne_comparison_2006_2021[,3]))`) in 2006 to `r format(sum(melbourne_comparison_2006_2021[1:4,9]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[,9]))`) in 2021. This represents a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,3])-1)` increase, which is `r label_percent(accuracy=0.1)(-1*(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,3]) - sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3])))` lower than the population change.
+Differences are statistically significant across all three periods 
+(2006, 2016 and 2021 
+`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2016, population_2021) %>% as.matrix())`),
+between 2006 and 2016 
+(`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2016) %>% as.matrix())`), 
+and between 2006 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2006, population_2021) %>% as.matrix())`). 
+The number of people with zero supply rose from `r format(sum(melbourne_comparison_2006_2021[1,3]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,3])/sum(melbourne_comparison_2006_2021[,3]))`) in 2006 to 
+`r format(sum(melbourne_comparison_2006_2021[1,9]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[,9]))`) in 2021. 
+This represents a 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[1,3])-1)` 
+increase, compared to the population increase of only 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3])-1)` 
+across all of Greater Melbourne. 
+The number of people with Zero or Very Low supply rose from 
+`r format(sum(melbourne_comparison_2006_2021[1:2,3]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,3])/sum(melbourne_comparison_2006_2021[,3]))`) 
+in 2006 to 
+`r format(sum(melbourne_comparison_2006_2021[1:2,9]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[,9]))`) 
+in 2021. 
+This represents a 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,3])-1)` 
+increase 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,3]) - sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3]))`
+higher than the population change). 
+The number of people with a supply that was below the average (Zero, Very Low, Low or Below Average) rose from 
+`r format(sum(melbourne_comparison_2006_2021[1:4,3]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,3])/sum(melbourne_comparison_2006_2021[,3]))`) in 2006 to 
+`r format(sum(melbourne_comparison_2006_2021[1:4,9]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[,9]))`) in 2021. 
+This represents a 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,3])-1)` increase, which is 
+`r label_percent(accuracy=0.1)(-1*(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,3]) - sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,3])))` 
+lower than the population change.
 
-Differences were also statistically significant between 2016 and 2021 (`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2016, population_2021) %>% as.matrix())`). The number of people living in SA1s with Zero Supply rose from `r format(sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))`) in 2016 by `r format(sum(melbourne_comparison_2006_2021[1,9])-sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` people (a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[1,8])-1)` increase), compared to the overall population increase of `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,8])-1)` in Greater Melbourne between 2016 and 2021. The number of people with Zero or Very Low supply rose from `r format(sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,8])/sum(melbourne_comparison_2006_2021[,8]))` of the population) by `r format(sum(melbourne_comparison_2006_2021[1:2,9])-sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")` (a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,8])-1)` increase), while the number with a supply that was below the average (Zero, Very Low, Low or Below Average) rose from `r format(sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")` (`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,8])/sum(melbourne_comparison_2006_2021[,8]))` of the population) by `r format(sum(melbourne_comparison_2006_2021[1:4,9])-sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")` people (an increase of `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,8])-1)`).
+Differences were also statistically significant between 2016 and 2021 
+(`r prmisc::print_chi2(melbourne_comparison_2006_2021 %>% select(population_2016, population_2021) %>% as.matrix())`). 
+The number of people living in SA1s with Zero Supply rose from 
+`r format(sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))`) 
+in 2016 by 
+`r format(sum(melbourne_comparison_2006_2021[1,9])-sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` people 
+(a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[1,8])-1)` increase),
+compared to the overall population increase of 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[,9])/sum(melbourne_comparison_2006_2021[,8])-1)` 
+in Greater Melbourne between 2016 and 2021. The number of people with Zero or Very Low supply rose from 
+`r format(sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,8])/sum(melbourne_comparison_2006_2021[,8]))` 
+of the population) by 
+`r format(sum(melbourne_comparison_2006_2021[1:2,9])-sum(melbourne_comparison_2006_2021[1:2,8]), big.mark = ",")` 
+(a `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:2,9])/sum(melbourne_comparison_2006_2021[1:2,8])-1)` 
+increase), while the number with a supply that was below the average (Zero, Very Low, Low or Below Average) rose from 
+`r format(sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")` 
+(`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,8])/sum(melbourne_comparison_2006_2021[,8]))` 
+of the population) by 
+`r format(sum(melbourne_comparison_2006_2021[1:4,9])-sum(melbourne_comparison_2006_2021[1:4,8]), big.mark = ",")`
+people (an increase of 
+`r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1:4,9])/sum(melbourne_comparison_2006_2021[1:4,8])-1)`).
 
-Table \ref{tab:Greater_Melbourne_population_2016_by_SA4} and Table \ref{tab:Greater_Melbourne_population_2021_by_SA4} show the distribution of Transport Supply categories to the population in each SA4 zone in 2016 and 2021 respectively^[SA4s are the largest of the statistical boundaries used by the ABS for areas smaller than Greater Capital Cities or other agglomerations.]. Variations across SA4 zones are statistically significant in both 2016 (`r prmisc::print_chi2(melbourne_2016_population_transit_supply_by_SA4_wider[,2:10] %>% as.matrix())`) and 2021 (`r prmisc::print_chi2(melbourne_2021_population_transit_supply_by_SA4_wider[,2:10] %>% as.matrix())`). 
+Table \ref{tab:Greater_Melbourne_population_2016_by_SA4} 
+and Table \ref{tab:Greater_Melbourne_population_2021_by_SA4} 
+show the distribution of Transport Supply categories to the population in each SA4 zone 
+in 2016 and 2021 respectively^[SA4s are the largest of the statistical boundaries used by the ABS 
+for areas smaller than Greater Capital Cities or other agglomerations.]. 
+
 
 ```{r Greater_Melbourne_SA1_2016_by_SA4, fig.show="hold", echo = FALSE, fig.height=8, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.cap="Greater Melbourne 2016: Share of SA1s in each Transport Supply category for each SA4 region"}
 
@@ -2346,7 +2408,12 @@ melbourne_2021_population_transit_supply_by_SA4$sa4_name_2021 <- melbourne_2021_
   
 
 ```
-In general, outer areas of Greater Melbourne^[The North East, North West, Outer East, South East, West and Mornington Peninsula SA4 zones] appear to have larger shares of residents living in areas with Transport Supply that is lower than the average. In 2016 `r melbourne_2016_population_transit_supply_by_SA4 %>% filter(sa4_name_2016 == "North East" | sa4_name_2016 == "North West" | sa4_name_2016 == "North East" | sa4_name_2016 == "Outer East" | sa4_name_2016 == "South East" | sa4_name_2016 == "West" | sa4_name_2016 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() %>% format(big.mark = ",")` residents (`r label_percent(accuracy = 0.1)(melbourne_2016_population_transit_supply_by_SA4 %>% filter(sa4_name_2016 == "North East" | sa4_name_2016 == "North West" | sa4_name_2016 == "North East" | sa4_name_2016 == "Outer East" | sa4_name_2016 == "South East" | sa4_name_2016 == "West" | sa4_name_2016 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() / melbourne_2016_population_transit_supply_by_SA4$population %>% sum())` of the total population of Greater Melbourne) were both living outside of the inner three SA4s and in SA1s with lower than average transport supply. By 2021 this had increased to `r melbourne_2021_population_transit_supply_by_SA4 %>% filter(sa4_name_2021 == "North East" | sa4_name_2021 == "North West" | sa4_name_2021 == "North East" | sa4_name_2021 == "Outer East" | sa4_name_2021 == "South East" | sa4_name_2021 == "West" | sa4_name_2021 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() %>% format(big.mark = ",")` residents (`r label_percent(accuracy = 0.1)(melbourne_2021_population_transit_supply_by_SA4 %>% filter(sa4_name_2021 == "North East" | sa4_name_2021 == "North West" | sa4_name_2021 == "North East" | sa4_name_2021 == "Outer East" | sa4_name_2021 == "South East" | sa4_name_2021 == "West" | sa4_name_2021 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() / melbourne_2021_population_transit_supply_by_SA4$population %>% sum())` of the total population). 
+
+
+
+Variations across SA4 zones are statistically significant in both 2016 
+(`r prmisc::print_chi2(melbourne_2016_population_transit_supply_by_SA4_wider[,2:10] %>% as.matrix())`) and 2021 
+(`r prmisc::print_chi2(melbourne_2021_population_transit_supply_by_SA4_wider[,2:10] %>% as.matrix())`). In general, outer areas of Greater Melbourne^[The North East, North West, Outer East, South East, West and Mornington Peninsula SA4 zones] appear to have larger shares of residents living in areas with Transport Supply that is lower than the average. In 2016 `r melbourne_2016_population_transit_supply_by_SA4 %>% filter(sa4_name_2016 == "North East" | sa4_name_2016 == "North West" | sa4_name_2016 == "North East" | sa4_name_2016 == "Outer East" | sa4_name_2016 == "South East" | sa4_name_2016 == "West" | sa4_name_2016 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() %>% format(big.mark = ",")` residents (`r label_percent(accuracy = 0.1)(melbourne_2016_population_transit_supply_by_SA4 %>% filter(sa4_name_2016 == "North East" | sa4_name_2016 == "North West" | sa4_name_2016 == "North East" | sa4_name_2016 == "Outer East" | sa4_name_2016 == "South East" | sa4_name_2016 == "West" | sa4_name_2016 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() / melbourne_2016_population_transit_supply_by_SA4$population %>% sum())` of the total population of Greater Melbourne) were both living outside of the inner three SA4s and in SA1s with lower than average transport supply. By 2021 this had increased to `r melbourne_2021_population_transit_supply_by_SA4 %>% filter(sa4_name_2021 == "North East" | sa4_name_2021 == "North West" | sa4_name_2021 == "North East" | sa4_name_2021 == "Outer East" | sa4_name_2021 == "South East" | sa4_name_2021 == "West" | sa4_name_2021 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() %>% format(big.mark = ",")` residents (`r label_percent(accuracy = 0.1)(melbourne_2021_population_transit_supply_by_SA4 %>% filter(sa4_name_2021 == "North East" | sa4_name_2021 == "North West" | sa4_name_2021 == "North East" | sa4_name_2021 == "Outer East" | sa4_name_2021 == "South East" | sa4_name_2021 == "West" | sa4_name_2021 == "Mornington Peninsula") %>% filter(transit_supply == "Zero Supply" | transit_supply == "Very Low" | transit_supply == "Low" | transit_supply == "Below average") %>% select(population) %>% sum() / melbourne_2021_population_transit_supply_by_SA4$population %>% sum())` of the total population). 
 
 
 ### Supply Index scores
@@ -2422,10 +2489,33 @@ si_CCD2006_21_census_week_aggregated_outer_and_middle_suburbs <- si_CCD2006_21_c
 ```
 
 
- @currie2010identifying reported an average SI score for CCDs in 2006 of 2,886.9 across Melbourne. The average SI value in 2021 (using CCDs and within the 2006 boundary) was `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digits = 5)`. SI scores average `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "inner") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 6)`, `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "middle") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 5)` and `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "outer") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 5)` in 2021 for the CCDs in the inner, middle and outer suburbs respectively^[The same grouping of LGAs to inner, middle and outer suburb groups as used in @currie2010identifying was used for this analysis, although here the City of Stonnington was allocated entirely to the middle grouping, whereas @currie2010identifying allocated part of this LGA to the inner group.], compared to 10,922.7, 2,694.9 and 764.3, respectively, reported for 2006 in @currie2010identifying. However, the @currie2010identifying results show 5,839 total CCDs within Melbourne, whereas the shape files obtained for this analysis include `r si_CCD2006_16_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% nrow() %>% format(big.mark = ",")` CCDs within the 2006 Melbourne boundary. Hence, results found here might not be exactly comparable to those in @currie2010identifying due to geographic inconsistencies, although overall results appear to be consistent with there having been increases in SI scores across all parts of Melbourne since 2006 and the general pattern of higher average SI scores in inner and then middle suburbs remaining unchanged. 
+ @currie2010identifying reported an average SI score for CCDs in 2006 
+ of 2,886.9 across Melbourne. 
+ The average SI value in 2021 (using CCDs and within the 2006 boundary) was 
+ `r si_CCD2006_21_census_week_aggregated[["si_by_area"]] %>% select(SI) %>% st_drop_geometry() %>% unlist()%>% mean() %>% format(big.mark = ",", digits = 5)`. 
+ SI scores average 
+ `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "inner") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 6)`, `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "middle") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 5)` and 
+ `r si_CCD2006_21_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% filter(suburbs == "outer") %>% select(SI) %>% unlist() %>% mean() %>% format(big.mark = ",", digits = 5)` 
+in 2021 for the CCDs in the inner, middle and outer suburbs 
+respectively^[The same grouping of LGAs to inner, middle and outer suburb groups 
+as used in @currie2010identifying was used for this analysis, 
+although here the City of Stonnington 
+was allocated entirely to the middle grouping, 
+whereas @currie2010identifying allocated part of this LGA to the inner group.], 
+compared to 10,922.7, 2,694.9 and 764.3, respectively, 
+reported for 2006 in @currie2010identifying. 
+However, the @currie2010identifying results show 5,839 total CCDs within Melbourne, 
+whereas the shape files obtained for this analysis include 
+`r si_CCD2006_16_census_week_aggregated$si_by_area %>% st_drop_geometry() %>% nrow() %>% format(big.mark = ",")` 
+CCDs within the 2006 Melbourne boundary. 
+Hence, results found here might not be exactly comparable to those 
+in @currie2010identifying due to geographic inconsistencies, 
+although overall results appear to be consistent 
+with there having been increases in SI scores 
+across all parts of Melbourne since 2006 and 
+the general pattern of higher average SI scores 
+in inner and then middle suburbs remaining unchanged. 
 
-
-It is, however, possible to directly compare SI scores 2016 and 2021. Average SI scores for all of Greater Melbourne (SA1 2021 boundaries) increased from `r si_by_area_2016_2021_wider$x2016 %>% na.omit() %>% mean() %>% format(big.mark = ",", digits = 5)` in 2016 to `r si_by_area_2016_2021_wider$x2021 %>% na.omit() %>% mean() %>% format(big.mark = ",", digits = 5)` in 2021 (+`r percent_format(accuracy = 0.1)(si_by_area_2016_2021_wider$x2021 %>% na.omit() %>% mean()/si_by_area_2016_2021_wider$x2016 %>% na.omit() %>%  mean()-1)`). There is a statistically significant and strong correlation between the 2016 and 2021 SI scores (`r prmisc::print_cortest(cor.test(si_by_area_2016_2021_wider$x2016, si_by_area_2016_2021_wider$x2021, method = "pearson"))`, `r prmisc::print_cortest(cor.test(si_by_area_2016_2021_wider$x2016, si_by_area_2016_2021_wider$x2021, method = "spearman", exact = FALSE))`). Table \ref{tab:Greater_Melbourne_2016_2021_ratio_map} shows changes in SI score between 2016 and 2021 (column 1) by 2021 SA1s for the 2021 population, summarised for each SA4 zone (columns 2 to 10) and Greater Melbourne as a whole (column 11). These are mapped in Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}.
 
 ```{r Greater_Melbourne_2016_2021_scatterplot_SA12021, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, include = TRUE, fig.fullwidth = TRUE, fig.height = 8, fig.cap="Greater Melbourne: SI scores in 2016 and 2021 by SA1 (2021 boundaries), adjusted to set those <1 equal to 1 (for visual clarity)"}
 
@@ -2811,6 +2901,25 @@ Greater_Melbourne_2016_2021_ratio_map +
 
 
 ```
+
+
+It is, however, possible to directly compare SI scores 2016 and 2021. 
+Average SI scores for all of Greater Melbourne (SA1 2021 boundaries) 
+increased from 
+`r si_by_area_2016_2021_wider$x2016 %>% na.omit() %>% mean() %>% format(big.mark = ",", digits = 5)` 
+in 2016 to 
+`r si_by_area_2016_2021_wider$x2021 %>% na.omit() %>% mean() %>% format(big.mark = ",", digits = 5)` 
+in 2021 
+(+`r percent_format(accuracy = 0.1)(si_by_area_2016_2021_wider$x2021 %>% na.omit() %>% mean()/si_by_area_2016_2021_wider$x2016 %>% na.omit() %>%  mean()-1)`). 
+There is a statistically significant and strong correlation between the 2016 and 2021 SI scores 
+(`r prmisc::print_cortest(cor.test(si_by_area_2016_2021_wider$x2016, si_by_area_2016_2021_wider$x2021, method = "pearson"))`, 
+`r prmisc::print_cortest(cor.test(si_by_area_2016_2021_wider$x2016, si_by_area_2016_2021_wider$x2021, method = "spearman", exact = FALSE))`). 
+Table \ref{tab:Greater_Melbourne_2016_2021_ratio_map} 
+shows changes in SI score between 2016 and 2021 (column 1) by 2021 SA1s 
+for the 2021 population, summarised for each SA4 zone (columns 2 to 10) 
+and Greater Melbourne as a whole (column 11). 
+These are mapped in Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}.
+
 
 
 There is a statistically significant difference in the distribution of service level changes across the populations between SA4 areas (`r prmisc::print_chi2(greater_melbourne_ratio_population_wider %>% select(Inner, "Inner East", "Inner South", "North East", "North West", "Outer East", "South East", "West", "Mornington Peninsula")  %>% as.matrix())`). In 2021, more than half of the SA4 population were living in SA1s where the SI scores were more than one percent higher than in 2016 in the North-West (`r greater_melbourne_ratio_population_wider[2:7,5] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,5] %>% sum() / greater_melbourne_ratio_population_wider[,5] %>% sum())`), West (`r greater_melbourne_ratio_population_wider[2:7,8] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,8] %>% sum() / greater_melbourne_ratio_population_wider[,8] %>% sum())`), North East (`r greater_melbourne_ratio_population_wider[2:7,4] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,4] %>% sum() / greater_melbourne_ratio_population_wider[,4] %>% sum())`), South East (`r greater_melbourne_ratio_population_wider[2:7,7] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,7] %>% sum() / greater_melbourne_ratio_population_wider[,8] %>% sum())`), Mornington Peninsula (`r greater_melbourne_ratio_population_wider[2:7,9] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,9] %>% sum() / greater_melbourne_ratio_population_wider[,9] %>% sum())`) and Inner (`r greater_melbourne_ratio_population_wider[2:7,10] %>% sum() %>% format(big.mark = ",")` people, `r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[2:7,10] %>% sum() / greater_melbourne_ratio_population_wider[,10] %>% sum())`) SA4s 
