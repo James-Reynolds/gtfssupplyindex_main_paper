@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  3 SEP 2024 14:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.19)  3 SEP 2024 15:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1678,333 +1678,314 @@ Overfull \hbox (4.33574pt too wide) in paragraph at lines 877--877
  \T1/lmr/m/n/8 (-20) (530,821)|
  []
 
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_map_f
-igure-1.pdf, id=467, 277.035pt x 302.12875pt>
-File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_
-map_figure-1.pdf Graphic file (type pdf)
-<use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_m
-ap_figure-1.pdf>
-Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2016_needs_gap_map_figure-1.pdf  used on input line 884.
-(pdftex.def)             Requested size: 234.0pt x 255.1971pt.
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_map_f
-igure-2.pdf, id=468, 277.035pt x 302.12875pt>
-File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_
-map_figure-2.pdf Graphic file (type pdf)
-<use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_m
-ap_figure-2.pdf>
-Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2016_needs_gap_map_figure-2.pdf  used on input line 884.
-(pdftex.def)             Requested size: 234.0pt x 255.1971pt.
 
-Overfull \hbox (6.66666pt too wide) in paragraph at lines 884--885
- [][][][] 
- []
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_map_figure' on p
+age 14 undefined on input line 882.
 
-[14] [15 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_need
-s_gap_map_figure-1.pdf> <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melb
-ourne_2016_needs_gap_map_figure-2.pdf>]
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1000--1000
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_map_figure' on p
+age 14 undefined on input line 889.
+
+[14] [15]
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 991--991
  \T1/lmr/m/n/8 (-20) (127,248)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1000--1000
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 991--991
 \T1/lmr/m/n/8 (-20) (131,194)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1002--1002
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 993--993
 \T1/lmr/m/n/8 (-20) (101,767)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1004--1004
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 995--995
 \T1/lmr/m/n/8 (-20) (101,769)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1008--1008
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 999--999
  \T1/lmr/m/n/8 (-20) (115,203)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1008--1008
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 999--999
 \T1/lmr/m/n/8 (-20) (117,967)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (128,666)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (187,974)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (124,942)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (274,423)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (266,787)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
 \T1/lmr/m/n/8 (-20) (146,702)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1010--1010
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1001--1001
  \T1/lmr/m/n/8 (-20) (109,151)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 1010--1011
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 1001--1002
  \T1/lmr/m/n/8 (-20) (1,393,581)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (616,931)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (373,466)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (422,587)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (540,726)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (424,367)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (518,363)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (860,081)|
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
 \T1/lmr/m/n/8 (-20) (852,928)|  
  []
 
 
-Overfull \hbox (4.33574pt too wide) in paragraph at lines 1022--1022
+Overfull \hbox (4.33574pt too wide) in paragraph at lines 1013--1013
  \T1/lmr/m/n/8 (-20) (308,184)|
  []
 
 
-Overfull \hbox (3.70148pt too wide) in paragraph at lines 1022--1023
+Overfull \hbox (3.70148pt too wide) in paragraph at lines 1013--1014
  \T1/lmr/m/n/8 (-20) (4,917,633)|
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 994--1025
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 985--1016
  [][] 
  []
 
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_s
-ervice_change-1.pdf, id=501, 537.00626pt x 531.9875pt>
+ervice_change-1.pdf, id=481, 537.00626pt x 531.9875pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_
 SA4_service_change-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_S
 A4_service_change-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2021_needs_gap_SA4_service_change-1.pdf  used on input line 1027.
+rne_2021_needs_gap_SA4_service_change-1.pdf  used on input line 1018.
 (pdftex.def)             Requested size: 537.00494pt x 531.9862pt.
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_s
-ervice_change-2.pdf, id=502, 537.00626pt x 531.9875pt>
+ervice_change-2.pdf, id=482, 537.00626pt x 531.9875pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_
 SA4_service_change-2.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_S
 A4_service_change-2.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2021_needs_gap_SA4_service_change-2.pdf  used on input line 1028.
+rne_2021_needs_gap_SA4_service_change-2.pdf  used on input line 1019.
 (pdftex.def)             Requested size: 537.00494pt x 531.9862pt.
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_s
-ervice_change-3.pdf, id=503, 476.78125pt x 518.93875pt>
-File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_
-SA4_service_change-3.pdf Graphic file (type pdf)
-<use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_S
-A4_service_change-3.pdf>
-Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2021_needs_gap_SA4_service_change-3.pdf  used on input line 1029.
-(pdftex.def)             Requested size: 476.78008pt x 518.93748pt.
 
-Overfull \hbox (84.00494pt too wide) in paragraph at lines 1027--1030
+Overfull \hbox (84.00494pt too wide) in paragraph at lines 1018--1020
 [][]
  []
 
 
-Overfull \hbox (69.00494pt too wide) in paragraph at lines 1027--1030
-[]
- []
-
-
-Overfull \hbox (8.78008pt too wide) in paragraph at lines 1027--1030
+Overfull \hbox (69.00494pt too wide) in paragraph at lines 1018--1020
 [] 
  []
 
-[16] [17] [18] [19 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne
-_2021_needs_gap_SA4_service_change-1.pdf>] [20 <./ReynoldsCurrieQu2024_files/fi
-gure-latex/Greater_Melbourne_2021_needs_gap_SA4_service_change-2.pdf>] [21 <./R
-eynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_SA4_ser
-vice_change-3.pdf>]
+[16] [17]
+<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_needs_gap_map_figure
+-1.pdf, id=493, 277.035pt x 302.12875pt>
+File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_needs_gap_map_f
+igure-1.pdf Graphic file (type pdf)
+<use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_needs_gap_map_fi
+gure-1.pdf>
+Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
+rne_needs_gap_map_figure-1.pdf  used on input line 1023.
+(pdftex.def)             Requested size: 234.0pt x 255.1971pt.
+[18 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap
+_SA4_service_change-1.pdf>] [19 <./ReynoldsCurrieQu2024_files/figure-latex/Grea
+ter_Melbourne_2021_needs_gap_SA4_service_change-2.pdf>]
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 22
- undefined on input line 1070.
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 20
+ undefined on input line 1069.
 
 
 LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_scatterplot' on 
-page 22 undefined on input line 1073.
+page 20 undefined on input line 1072.
 
 
 LaTeX Warning: Reference `fig:Greater_Melbourne_2021_needs_gap_scatterplot' on 
-page 22 undefined on input line 1074.
+page 20 undefined on input line 1073.
 
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_map' on page 22 
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_needs_gap_map' on page 20 
+undefined on input line 1074.
+
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2021_needs_gap_map' on page 20 
 undefined on input line 1075.
 
 
-LaTeX Warning: Reference `fig:Greater_Melbourne_2021_needs_gap_map' on page 22 
-undefined on input line 1076.
+LaTeX Warning: Reference `fig:Selandra_rise' on page 20 undefined on input line
+ 1098.
 
-
-LaTeX Warning: Reference `fig:Selandra_rise' on page 22 undefined on input line
- 1099.
-
-<graphics/Route798.png, id=570, 766.865pt x 379.4175pt>
+[20 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_needs_gap_map_
+figure-1.pdf>]
+<graphics/Route798.png, id=548, 766.865pt x 379.4175pt>
 File: graphics/Route798.png Graphic file (type png)
 <use graphics/Route798.png>
-Package pdftex.def Info: graphics/Route798.png  used on input line 1105.
+Package pdftex.def Info: graphics/Route798.png  used on input line 1104.
 (pdftex.def)             Requested size: 468.0pt x 231.55432pt.
 
-LaTeX Warning: Reference `fig:Selandra_rise' on page 22 undefined on input line
- 1113.
+LaTeX Warning: Reference `fig:Selandra_rise' on page 21 undefined on input line
+ 1112.
+
+
+LaTeX Warning: Reference `fig:Selandra_rise' on page 21 undefined on input line
+ 1118.
+
+
+LaTeX Warning: Reference `fig:Selandra_rise' on page 21 undefined on input line
+ 1128.
+
+[21 <./graphics/Route798.png>]
+
+LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 22
+ undefined on input line 1211.
 
 
 LaTeX Warning: Reference `fig:Selandra_rise' on page 22 undefined on input line
- 1119.
+ 1213.
 
 
 LaTeX Warning: Reference `fig:Selandra_rise' on page 22 undefined on input line
- 1129.
+ 1221.
 
-[22] [23 <./graphics/Route798.png>]
-
-LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 24
- undefined on input line 1212.
-
-
-LaTeX Warning: Reference `fig:Selandra_rise' on page 24 undefined on input line
- 1214.
-
-
-LaTeX Warning: Reference `fig:Selandra_rise' on page 24 undefined on input line
- 1222.
-
+[22]
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_appendix-1.
-pdf, id=598, 307.1475pt x 312.16624pt>
+pdf, id=575, 307.1475pt x 312.16624pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_append
 ix-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_appendi
 x-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_CCD_2016_appendix-1.pdf  used on input line 1249.
+rne_CCD_2016_appendix-1.pdf  used on input line 1248.
 (pdftex.def)             Requested size: 234.0pt x 237.82516pt.
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_appendix-2.
-pdf, id=599, 307.1475pt x 312.16624pt>
+pdf, id=576, 307.1475pt x 312.16624pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_append
 ix-2.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_appendi
 x-2.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_CCD_2016_appendix-2.pdf  used on input line 1249.
+rne_CCD_2016_appendix-2.pdf  used on input line 1248.
 (pdftex.def)             Requested size: 234.0pt x 237.82516pt.
 
-Overfull \hbox (6.66666pt too wide) in paragraph at lines 1249--1250
+Overfull \hbox (6.66666pt too wide) in paragraph at lines 1248--1249
  [][][][] 
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 1261--1282
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 1260--1281
  [][] 
  []
 
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_SA12016_plot_appendi
-x-1.pdf, id=600, 476.78125pt x 518.93875pt>
+x-1.pdf, id=577, 476.78125pt x 518.93875pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_SA12016_plot_ap
 pendix-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_SA12016_plot_app
 endix-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_SA12016_plot_appendix-1.pdf  used on input line 1286.
+rne_SA12016_plot_appendix-1.pdf  used on input line 1285.
 (pdftex.def)             Requested size: 476.78008pt x 518.93748pt.
 
-Overfull \hbox (8.78008pt too wide) in paragraph at lines 1286--1289
+Overfull \hbox (8.78008pt too wide) in paragraph at lines 1285--1288
  [][] 
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 1297--1318
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 1296--1317
  [][] 
  []
 
 
-Overfull \hbox (9.43288pt too wide) in paragraph at lines 1325--1356
+Overfull \hbox (9.43288pt too wide) in paragraph at lines 1324--1355
  [][] 
  []
 
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_social_needs_ap
-pendix-1.pdf, id=601, 277.035pt x 302.12875pt>
+pendix-1.pdf, id=578, 277.035pt x 302.12875pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_social_nee
 ds_appendix-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_social_need
 s_appendix-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2016_social_needs_appendix-1.pdf  used on input line 1359.
+rne_2016_social_needs_appendix-1.pdf  used on input line 1358.
 (pdftex.def)             Requested size: 421.19714pt x 459.3511pt.
+[23 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_appen
+dix-1.pdf> <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_201
+6_appendix-2.pdf>] [24] [25 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_
+Melbourne_SA12016_plot_appendix-1.pdf>] [26] [27 <./ReynoldsCurrieQu2024_files/
+figure-latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf>]
 <ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_scatt
-erplot_figure-1.pdf, id=603, 461.725pt x 559.08875pt>
+erplot_figure-1.pdf, id=634, 461.725pt x 559.08875pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_
 scatterplot_figure-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_s
 catterplot_figure-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbou
-rne_2016_needs_gap_scatterplot_figure-1.pdf  used on input line 1387.
+rne_2016_needs_gap_scatterplot_figure-1.pdf  used on input line 1386.
 (pdftex.def)             Requested size: 461.72388pt x 559.08737pt.
-[24] [25 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CCD_2016_
-appendix-1.pdf> <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_CC
-D_2016_appendix-2.pdf>] [26 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_
-Melbourne_SA12016_plot_appendix-1.pdf>] [27] [28 <./ReynoldsCurrieQu2024_files/
-figure-latex/Greater_Melbourne_2016_social_needs_appendix-1.pdf>]
-Overfull \hbox (2.31969pt too wide) in paragraph at lines 1397--1414
+
+Overfull \hbox (2.31969pt too wide) in paragraph at lines 1396--1413
  [][] 
  []
 
@@ -2020,12 +2001,12 @@ Underfull \hbox (badness 1953) in paragraph at lines 59--65
 .  URL []$\T1/lmtt/m/n/8 https : / / www . semanticscholar . org / paper /
  []
 
-[29] [30 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_need
+[28] [29 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_need
 s_gap_scatterplot_figure-1.pdf>])
 
 Package natbib Warning: There were undefined citations.
 
-[31] (./ReynoldsCurrieQu2024.aux)
+[30] (./ReynoldsCurrieQu2024.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2036,10 +2017,10 @@ Package rerunfilecheck Info: File `ReynoldsCurrieQu2024.out' has not changed.
 (rerunfilecheck)             Checksum: EDE17A59D7CE4243A15E1353838630F6;2636.
  ) 
 Here is how much of TeX's memory you used:
- 17837 strings out of 478268
- 299517 string characters out of 5846347
- 679755 words of memory out of 5000000
- 35343 multiletter control sequences out of 15000+600000
+ 17815 strings out of 478268
+ 297757 string characters out of 5846347
+ 685589 words of memory out of 5000000
+ 35326 multiletter control sequences out of 15000+600000
  535209 words of font info for 179 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,11n,79p,1017b,526s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2064,10 +2045,10 @@ c/lm/lmri8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy6.
 pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/l
 ocal/texlive/2022/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texli
 ve/2022/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on ReynoldsCurrieQu2024.pdf (31 pages, 10747680 bytes).
+Output written on ReynoldsCurrieQu2024.pdf (30 pages, 9447193 bytes).
 PDF statistics:
- 838 PDF objects out of 1000 (max. 8388607)
- 704 compressed objects within 8 object streams
- 143 named destinations out of 1000 (max. 500000)
- 34040 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 812 PDF objects out of 1000 (max. 8388607)
+ 686 compressed objects within 7 object streams
+ 140 named destinations out of 1000 (max. 500000)
+ 34030 words of extra memory for PDF output out of 35830 (max. 10000000)
 

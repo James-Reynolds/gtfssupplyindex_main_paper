@@ -5443,7 +5443,7 @@ si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed <- factor(
 #    ) +
 #  theme(
 #  legend.position="bottom") +
-#  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832")) 
+#  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) 
 
  
 
@@ -5508,7 +5508,7 @@ si_by_areaSA12016_2016_2021_wider_table_sa1_appendix_table <- si_by_areaSA12016_
 #    ) +
 #  theme(
 #  legend.position="bottom") +
-#    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832"))
+#    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black"))
 
 
 #si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed <- si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed %>%
@@ -5569,10 +5569,429 @@ si_by_areaSA12016_2016_2021_wider_table %>%
 # Total cells = 4 x 6 = 24
 # 4/24 = 16.7%. 20% limit on cells <5 assumption met. 
 
+si_by_areaSA12016_2016_2021_wider <- left_join(
+  absmapsdata::sa12016 %>% 
+  filter(gcc_name_2016 == "Greater Melbourne") %>% 
+  select(sa1_code_2016),
+  si_by_areaSA12016_2016_2021_wider %>% st_drop_geometry(),
+)
+
+
+
+Greater_MelbourneSA12016_2016_2021_ratio_map <- ggplot() + 
+  geom_sf(data=si_by_areaSA12016_2016_2021_wider %>% 
+            filter(very_high_needs_zero_or_very_low_supply == TRUE),
+          aes(fill = ratio_binned_collapsed), colour=NA) +  
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black"))  +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="none",
+        legend.text = element_text(size = 10), 
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.15, 'cm')) + 
+  guides(fill=guide_legend(nrow = 4)) +
+  #geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
+  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") 
+
+
+
+Greater_Melbourne_2016_2021_ratio_map <- ggplot() + 
+  geom_sf(data=si_by_areaSA12016_2016_2021_wider %>% 
+            filter(very_high_needs_zero_or_very_low_supply == TRUE),
+          aes(fill = si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed), colour=NA) +  
+ scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(), #remove y axis ticks
+        legend.position="none",
+        legend.text = element_text(size = 10), 
+        legend.title = element_text(size = 10),
+        legend.key.size = unit(0.15, 'cm')) + 
+  guides(fill=guide_legend(nrow = 4)) +
+  #geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
+  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
+  geom_sf(data=melbourne_sd07aust_region, 
+          colour="black", 
+          fill=NA) +
+  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) + 
+  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") 
+
+
+pcol <- si_by_areaSA12016_2016_2021_wider %>%
+  st_drop_geometry() %>%
+   filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+  aggregate(population ~ ratio_binned_collapsed, sum) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() + 
+   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "2016 Population by SI change",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 8.5),
+    axis.text.y = element_text(size = 6, hjust = 1),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "Mornington Peninsula") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Mornington Peninsula",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+
+
+pcol_inner <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "Inner") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Inner",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+###No inner east SA1s in very high needs and very low zero supply
+
+pcol_inner_south <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "Inner South") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Inner South",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_north_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "North East") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+ levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "North East",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_north_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "North West") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "North West",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_outer_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "Outer East") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Outer East",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_south_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "South East") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "South East",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "West") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+   levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "West",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
+  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
+  filter(sa4_name_2016 == "Mornington Peninsula") %>% 
+  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+  levels = c("New service or increase of 30% or more", 
+      "Increased 1 to 30%", 
+      "Within 1%",
+      "Service reduced or withdrawn",
+      "Never served"))) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  coord_flip() +
+   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+    title = "Mornington Peninsula",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 6),
+    axis.text.y = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+
+
+Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2016 <- Greater_MelbourneSA12016_2016_2021_ratio_map +
+  ggspatial::annotation_scale(location = 'br') + 
+  ggspatial::annotation_north_arrow(location = 'tr') + 
+  inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.3, top =0.25) +
+  inset_element(pcol_mornington, left = 0.58, bottom = 0.03, right = 0.78, top =0.18) +
+  inset_element(pcol_south_east, left = 0.8, bottom = 0.05, right = 1, top =0.20) +
+  inset_element(pcol_outer_east, left = 0.78, bottom = 0.7, right = 1.0, top =0.85) +
+  inset_element(pcol_north_east, left = 0.58, bottom = 0.85, right = 0.83, top =1.0)  +
+  inset_element(pcol_north_west, left = 0.0, bottom = 0.85, right = 0.23, top =1) +
+  inset_element(pcol_west, left = 0.03, bottom = 0.305, right = 0.28, top =0.455) 
+  #inset_element(pcol_inner, left = 0.327, bottom = 0.35, right = 0.427, top =0.48) +
+  #inset_element(pcol_inner_south, left = 0.40, bottom = 0.24, right = 0.50, top =0.37) +
+  #inset_element(pcol_inner_east, left = 0.56, bottom = 0.6, right = 0.69, top =0.73)  
+
+
+
 
 ```
 
-```{r Greater_Melbourne_2021_needs_gap_SA4_service_change, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne SA1s with Very High transport need and Zero or Very Low supply in 2021, population by change in SI score 2016 to 2021, across SA4."}
+```{r Greater_Melbourne_2021_needs_gap_SA4_service_change, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne SA1s with Very High transport need and Zero or Very Low supply in 2021, population by change in SI score 2016 to 2021, across SA4."}
 
 very_high_needs_very_low_zero_supply_2021$very_high_needs_zero_or_very_low_supply <- TRUE
 
@@ -5642,20 +6061,20 @@ si_by_area_2016_2021_wider$sa4_name_2021 <- si_by_area_2016_2021_wider$sa4_name_
   fct_rev()
     
             
-si_by_area_2016_2021_wider %>% 
-  st_drop_geometry() %>%
-  na.omit() %>% 
-  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-  filter(sa4_name_2021 != "Inner South" & 
-         sa4_name_2021 != "Inner East" &
-         sa4_name_2021 != "Inner") %>%
-ggbarstats(
-    x = ratio_binned_collapsed,
-    y = sa4_name_2021
-    ) +
-  theme(
-  legend.position="bottom") +
-  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#C2DFEB", "#FCE99D", "#EFA15C", "#BA3832", "black")) 
+#si_by_area_2016_2021_wider %>% 
+#  st_drop_geometry() %>%
+#  na.omit() %>% 
+#  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+#  filter(sa4_name_2021 != "Inner South" & 
+#         sa4_name_2021 != "Inner East" &
+#         sa4_name_2021 != "Inner") %>%
+#ggbarstats(
+#    x = ratio_binned_collapsed,
+#    y = sa4_name_2021
+#    ) +
+#  theme(
+#  legend.position="bottom") +
+#  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#C2DFEB", "#FCE99D", "#EFA15C", "#BA3832", "black")) 
 
  
 
@@ -5711,21 +6130,21 @@ smaller_table <- si_by_area_2016_2021_wider %>%
 
 #### BY Population
 
-si_by_area_2016_2021_wider %>% 
-  st_drop_geometry() %>%
-  na.omit() %>% 
-  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-    filter(sa4_name_2021 != "Inner South" & 
-         sa4_name_2021 != "Inner East" &
-         sa4_name_2021 != "Inner") %>%
-  ggbarstats(
-    x = ratio_binned_collapsed,
-    y = sa4_name_2021,
-    counts = population
-    ) +
-  theme(
-  legend.position="bottom") +
-  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#C2DFEB", "#FCE99D", "#EFA15C", "#BA3832", "black")) 
+#si_by_area_2016_2021_wider %>% 
+#  st_drop_geometry() %>%
+#  na.omit() %>% 
+#  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+#    filter(sa4_name_2021 != "Inner South" & 
+#         sa4_name_2021 != "Inner East" &
+#         sa4_name_2021 != "Inner") %>%
+#  ggbarstats(
+#    x = ratio_binned_collapsed,
+#    y = sa4_name_2021,
+#    counts = population
+#    ) +
+#  theme(
+#  legend.position="bottom") +
+#  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#C2DFEB", "#FCE99D", "#EFA15C", "#BA3832", "black")) 
 
 
 si_by_area_2016_2021_wider$ratio_binned_collapsed <- si_by_area_2016_2021_wider$ratio_binned_collapsed %>%
@@ -6253,31 +6672,11 @@ Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2021 <- Greater_Me
 
 ```{r Greater_Melbourne_needs_gap_map_figure, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne Transport Supply groupings overlayed with SA1s with very high transport need areas with zero or very low public Transport Supply (red).", fig.ncol = 2, out.width = "50%", fig.align = "center", fig.subcap = c("2016", "2021")}
 
-Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2021
+Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2016
+#Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2021
 
 ```
 
-
-<!---
-There was a `r prmisc::print_chi2(chisq.test(si_by_areaSA12016_2016_2021_wider %>% st_drop_geometry() %>% na.omit() %>% filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% filter(sa4_name_2016 != "Inner South" & sa4_name_2016 != "Inner East" & sa4_name_2016 != "Inner") %>% mutate(sa4_name_2016 = fct_drop(sa4_name_2016)) %>% mutate(ratio_binned_collapsed = fct_drop(ratio_binned_collapsed)) %>% tabyl(ratio_binned_collapsed, sa4_name_2016)))`
-
-Greater_Melbourne_2016_needs_gap_SA4_service_change
-
-Table \ref{Greater_Melbourne_2021_needs_gap_SA4_service_change} shows 
-how service levels had changed for those residents living in SA1 areas in 2021 
-that had Very High needs but Very Low or Zero service, summarised by SA4. There is a significant difference across SA4s (`r prmisc::print_chi2(chisq.test(si_by_area_2016_2021_wider %>% st_drop_geometry() %>% na.omit() %>% filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% filter(sa4_name_2021 != "Inner South" & sa4_name_2021 != "Inner East" & sa4_name_2021 != "Inner") %>% mutate(sa4_name_2021 = fct_drop(sa4_name_2021)) %>% tabyl(ratio_binned_collapsed, sa4_name_2021)))`). 
-
-
-Of those people living in SA1s that Very High needs but Very Low or Zero service in 2016, those living in the North West, South East and West were more likely to have received some new or additional transit service by 2021. For those living in the Outer East, Inner South and Mornington Peninsula service levels were more likely to have stayed within one percent or been reduced, or (for `r si_by_areaSA12016_2016_2021_wider_table[4,'Outer East'] %>% sum()` people living in the Outer East (`r label_percent(accuracy = 0.1)(si_by_areaSA12016_2016_2021_wider_table[4,'Outer East'] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,'Outer East'] %>% sum())`)) had their service reduced or withdrawn.   
-
-
-
-Table \ref{Greater_Melbourne_2021_needs_gap_SA4_service_change} shows 
-how service levels had changed for those residents living in SA1 areas in 2021 
-that had Very High needs but Very Low or Zero service, summarised by SA4. There is a significant difference across SA4s (`r prmisc::print_chi2(chisq.test(smaller_table))`). Of those people living in SA1s that Very High needs but Very Low or Zero service in 2016, those living in the North West, South East and West were more likely to have received some new or additional transit service by 2021. For those living in the Outer East, Inner South and Mornington Peninsula service levels were more likely to have stayed within one percent or been reduced, or (for `r si_by_areaSA12016_2016_2021_wider_table[4,'Outer East'] %>% sum()` people living in the Outer East (`r label_percent(accuracy = 0.1)(si_by_areaSA12016_2016_2021_wider_table[4,'Outer East'] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,'Outer East'] %>% sum())`)) had their service reduced or withdrawn.   
-
-
---->
 
 
 # Discussion
