@@ -5094,7 +5094,7 @@ pcol <- si_by_areaSA12016_2016_2021_wider %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.07, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() + 
@@ -5130,7 +5130,7 @@ pcol_inner <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA120
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5168,7 +5168,7 @@ pcol_inner_south <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_are
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5204,7 +5204,7 @@ pcol_north_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5240,7 +5240,7 @@ pcol_north_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5276,7 +5276,7 @@ pcol_outer_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5313,7 +5313,7 @@ pcol_south_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5349,7 +5349,7 @@ pcol_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA1201
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
@@ -5385,7 +5385,7 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
-  scale_y_continuous(limits = c(0,1)) +
+  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
   geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
