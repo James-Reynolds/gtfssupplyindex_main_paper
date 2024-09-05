@@ -105,7 +105,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 A common role for transit is providing some mobility for those who cannot otherwise drive themselves, so they can access activities and services beyond walking distance [@Currie:2016aa]. Age, disability, socio-economic status, lack of a vehicle or many other factors might make someone reliant on transit for some or all of their travel. As well, lower proportions of younger people are obtaining a driving license than was the case previously [@delbosc2013causes], suggesting an increased need for transit coverage in the future.
 
-Vertical social-equity perspectives on transport policy-making relate to supporting those who are disadvantaged [@Litman:2016aa] and might suggest providing at least some transit, and probably more than just a minimum, where there are higher social needs for transport. Along these lines @Currie2003Hobart, @Currie2004Gap; @Currie2007Identifying and @currie2010identifying developed an approach for identifying spatial gaps in transit supply related to social needs for transport, and applied it to a case study of Melbourne in 2006. This was suggested as being "substantially more useful than the presentation of anecdotal evidence, which is the most common means of identifying transport needs in local transport studies throughout the world" [@currie2010identifying].
+Vertical social-equity perspectives on transport policy-making relate to supporting those who are disadvantaged [@Litman:2016aa] and might suggest providing at least some transit, and probably more than just a minimum, where there are higher social needs for transport. Along these lines @Currie2003Hobart, @Currie2004Gap; @Currie2007Identifying and @currie2010identifying developed an approach for identifying spatial gaps in transit supply related to social needs for transport, and applied it to a case study of Melbourne in 2006.
 
 However, there does not appear to have been much further use or development of this spatial analysis technique. As well, it is unclear whether the spatial patterns identified for Melbourne in 2006 have changed in the intervening years or are representatvie of other places. This may in part be because, until recently, schedules were not available in a consistent electronic format, meaning that assessing transit supply was a large task requiring bespoke sourcing, cleaning and analysis of data for each operator. Nowadays, however, more than 10,000 transit agencies publicly release timetable data in the General Transit Feed Specification (GTFS) format [@GTFS]. Such standardisation allows Google Maps and other online platforms to provide transit-related outputs for any place publishing a feed, but tools for using GTFS data to examine spatial patterns and gaps in transit supply with respect to social needs for transport do not appear to be readily available. This gap, and the lack of direct follow up to @Currie2003Hobart, @Currie2004Gap, @Currie2007Identifying and @currie2010identifying, provide motivation for this research.
 
@@ -3439,16 +3439,7 @@ Average SI scores for SA1s across all of Greater Melbourne increased from `r si_
 
 [^13]: Service withdrawn category removed due to low numbers. See Appendix for table
 
-Table \ref{tab:Greater_Melbourne_2016_2021_ratio_map} shows changes in SI score between 2016 and 2021 (column 1) by the 2021 population, summarised for each SA4 zone (columns 2 to 10) and Greater Melbourne as a whole (column 11). In 2021, slightly more than half of the population across Greater Melbourne were living in SA1s where the SI scores were at least one percent higher than they were in 2016 (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,2:10] %>% sum() / greater_melbourne_ratio_population_wider[,2:10] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,2:10] %>% sum() %>% format(big.mark = ",")` people). The share of population for whom the SI increased by at least one percent was highest in the North-West (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,3] %>% sum() / greater_melbourne_ratio_population_wider[,3] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,3] %>% sum() %>% format(big.mark = ",")` people) and West (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,6] %>% sum() / greater_melbourne_ratio_population_wider[,6] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,6] %>% sum() %>% format(big.mark = ",")` people) SA4s, but lowest in the Inner East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,9] %>% sum() / greater_melbourne_ratio_population_wider[,9] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,9] %>% sum() %>% format(big.mark = ",")` people) and Outer East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,4] %>% sum() / greater_melbourne_ratio_population_wider[,4] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,4] %>% sum() %>% format(big.mark = ",")` people) SA4s.
-
-Service levels stayed within one percent of the level in 2016 for `r greater_melbourne_ratio_population_wider[7,2:10] %>% sum() %>% format(big.mark = ",")` people living in Greater Melbourne in 2021 (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,2:10] %>% sum() /sum(greater_melbourne_ratio_population_wider[,2:10]))`). The share of population for whom the SI stayed within one percent was highest in the Outer East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,4] %>% sum() /sum(greater_melbourne_ratio_population_wider[,4]))`, `r greater_melbourne_ratio_population_wider[7,4] %>% sum() %>% format(big.mark = ",")` people) and Inner East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,9] %>% as.numeric() /sum(greater_melbourne_ratio_population_wider[,9]))`, `r greater_melbourne_ratio_population_wider[7,9] %>% sum() %>% format(big.mark = ",")` people).
-
-Across all of Greater Melbourne `r greater_melbourne_ratio_population_wider[8:11,2:10] %>% sum() %>% format(big.mark = ",")` people\
-(`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`) were living in SA1s in 2021 where the SI was more than one percent lower than it had been in 2016. The share of the population living in areas where the SI had dropped by more than one percent was largest in the Inner (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,8])/sum(greater_melbourne_ratio_population_wider[,8]))`, `r greater_melbourne_ratio_population_wider[8:11,8] %>% sum() %>% format(big.mark = ",")` people), Inner South (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,10]) /sum(greater_melbourne_ratio_population_wider[,10]))`, `r greater_melbourne_ratio_population_wider[8:11,10] %>% sum() %>% format(big.mark = ",")` people) and Outer East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,4]) /sum(greater_melbourne_ratio_population_wider[,4]))`, `r greater_melbourne_ratio_population_wider[8:11,4] %>% sum() %>% format(big.mark = ",")` people) SA4s.
-
-Across all of Greater Melbourne `r greater_melbourne_ratio_population_wider[12,2:10] %>% sum() %>% format(big.mark = ",")` people (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`) were living in SA1s that did not have transit service in 2021 and had not had service in 2016 either. The share of the population without transit in either 2016 or 2021 was highest amongst the Mornington Peninsula (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"]) /sum(greater_melbourne_ratio_population_wider[,"Mornington Peninsula"]))`, `r greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")` people) and South East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"South East"]) /sum(greater_melbourne_ratio_population_wider[,"South East"]))`, `r greater_melbourne_ratio_population_wider[12,"South East"] %>% sum() %>% format(big.mark = ",")`, people) SA4s, whereas no one at all in the Inner SA4 was living in a SA1 without at least a Very Low service level.
-
-Across all of Greater Melbourne `r greater_melbourne_ratio_population_wider[11,2:10] %>% sum() %>% format(big.mark = ",")` residents in 2021 (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[11,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`) were living in SA1s where there had been some service in 2016, but this had been withdrawn. The share of the population living where transit service had been withdrawn was largest in the Mornington Peninsula (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[11,"Mornington Peninsula"]) /sum(greater_melbourne_ratio_population_wider[,"Mornington Peninsula"]))`, `r greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")`) and South East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"South East"]) /sum(greater_melbourne_ratio_population_wider[,"South East"]))`, `r greater_melbourne_ratio_population_wider[12,"South East"] %>% sum() %>% format(big.mark = ",")`) SA4s, whereas no one at all in the Inner SA4 was living in a SA1 without at least a Very Low service level.
+Table \ref{tab:Greater_Melbourne_2016_2021_ratio_map} shows changes in SI score between 2016 and 2021 (column 1) by the 2021 population, summarised for each SA4 zone (columns 2 to 10) and Greater Melbourne as a whole (column 11). In 2021, slightly more than half of the population across Greater Melbourne were living in SA1s where the SI scores were at least one percent higher than they were in 2016 (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,2:10] %>% sum() / greater_melbourne_ratio_population_wider[,2:10] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,2:10] %>% sum() %>% format(big.mark = ",")` people). The share of population for whom the SI increased by at least one percent was highest in the North-West (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,3] %>% sum() / greater_melbourne_ratio_population_wider[,3] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,3] %>% sum() %>% format(big.mark = ",")` people) and West (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,6] %>% sum() / greater_melbourne_ratio_population_wider[,6] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,6] %>% sum() %>% format(big.mark = ",")` people) SA4s, but lowest in the Inner East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,9] %>% sum() / greater_melbourne_ratio_population_wider[,9] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,9] %>% sum() %>% format(big.mark = ",")` people) and Outer East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[1:6,4] %>% sum() / greater_melbourne_ratio_population_wider[,4] %>% sum())`, `r greater_melbourne_ratio_population_wider[1:6,4] %>% sum() %>% format(big.mark = ",")` people) SA4s. Service levels stayed within one percent of the level in 2016 for `r greater_melbourne_ratio_population_wider[7,2:10] %>% sum() %>% format(big.mark = ",")` people living in Greater Melbourne in 2021 (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,2:10] %>% sum() /sum(greater_melbourne_ratio_population_wider[,2:10]))`). The share of population for whom the SI stayed within one percent was highest in the Outer East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,4] %>% sum() /sum(greater_melbourne_ratio_population_wider[,4]))`, `r greater_melbourne_ratio_population_wider[7,4] %>% sum() %>% format(big.mark = ",")` people) and Inner East (`r label_percent(accuracy = 0.1)(greater_melbourne_ratio_population_wider[7,9] %>% as.numeric() /sum(greater_melbourne_ratio_population_wider[,9]))`, `r greater_melbourne_ratio_population_wider[7,9] %>% sum() %>% format(big.mark = ",")` people). The SI was more than one percent lower than it had been in 2016 for `r greater_melbourne_ratio_population_wider[8:11,2:10] %>% sum() %>% format(big.mark = ",")` people (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`) in 2021 across all of Greater Melbourne. The share of the population living in areas where the SI had dropped by more than one percent was largest in the Inner (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,8])/sum(greater_melbourne_ratio_population_wider[,8]))`, `r greater_melbourne_ratio_population_wider[8:11,8] %>% sum() %>% format(big.mark = ",")` people), Inner South (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,10]) /sum(greater_melbourne_ratio_population_wider[,10]))`, `r greater_melbourne_ratio_population_wider[8:11,10] %>% sum() %>% format(big.mark = ",")` people) and Outer East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[8:11,4]) /sum(greater_melbourne_ratio_population_wider[,4]))`, `r greater_melbourne_ratio_population_wider[8:11,4] %>% sum() %>% format(big.mark = ",")` people) SA4s. Those living in SA1s that did not have transit service in 2021 and had not had service in 2016 either numbered `r greater_melbourne_ratio_population_wider[12,2:10] %>% sum() %>% format(big.mark = ",")` people (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`) in 2021 across all of Greater Melbourne. The share of the population without transit in either 2016 or 2021 was highest amongst the Mornington Peninsula (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"]) /sum(greater_melbourne_ratio_population_wider[,"Mornington Peninsula"]))`, `r greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")` people) and South East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"South East"]) /sum(greater_melbourne_ratio_population_wider[,"South East"]))`, `r greater_melbourne_ratio_population_wider[12,"South East"] %>% sum() %>% format(big.mark = ",")`, people) SA4s, whereas no one at all in the Inner SA4 was living in a SA1 without at least a Very Low service level. Service had been withdrawn since 2016 `r greater_melbourne_ratio_population_wider[11,2:10] %>% sum() %>% format(big.mark = ",")` residents in 2021 across all of Greater Melbourne (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[11,2:10]) /sum(greater_melbourne_ratio_population_wider[,2:10]))`). The share of the population living where transit service had been withdrawn was largest in the Mornington Peninsula (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[11,"Mornington Peninsula"]) /sum(greater_melbourne_ratio_population_wider[,"Mornington Peninsula"]))`, `r greater_melbourne_ratio_population_wider[12,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")`) and South East (`r label_percent(accuracy = 0.1)(sum(greater_melbourne_ratio_population_wider[12,"South East"]) /sum(greater_melbourne_ratio_population_wider[,"South East"]))`, `r greater_melbourne_ratio_population_wider[12,"South East"] %>% sum() %>% format(big.mark = ",")`) SA4s, whereas no one at all in the Inner SA4 was living in a SA1 without at least a Very Low service level.
 
 ### Social needs
 
@@ -3897,7 +3888,7 @@ Figure \ref{fig:Greater_Melbourne_2021_social_needs} shows the distribution of c
 
 [^14]: A map for 2016 is included in the Appendix as Figure \ref{fig:Greater_Melbourne_2016_social_needs_appendix}
 
-[^15]: CCDs were originally devised to group the approximately 200 dwellings allocated to each individual census collector, whereas SA1s were introduced to be consistent in population (200 to 800 people, averaging 400) and character [@ABS_SA1s_CCDs]
+[^15]: CCDs were originally devised to group the approximately 200 dwellings allocated to each individual census collector, whereas SA1s were introduced to be consistent in population (200 to 800 people, averaging 400) and character [@ABS_SA1s_CCDs].
 
 ```{r Greater_Melbourne_2016_social_needs, out.width="90%", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 (left) and 2021 (right), overlayed with: 2006 Greater Melbourne boundary (black); middle/outer and inner/middle suburb boundaries (grey); and suburban railway lines (dashed)."}
 
@@ -4178,7 +4169,10 @@ melbourne_needs_gap_scatterplot_2021 <- ggscatterstats(data = melbourne_needs_ga
 
 
 melbourne_sa1_need_gap_crosstable_2021 <- melbourne_needs_gap_sa1_2021 %>% 
-  tabyl(transit_supply,composite_needs, show_na = FALSE)
+  tabyl(transit_supply,composite_needs) %>% 
+  untabyl() %>% 
+  select(transit_supply, `Very Low`, Low, `Below average`, `Above average`, High, `Very High`)
+
 
 melbourne_sa1_need_gap_crosstable_2021_longer <- melbourne_sa1_need_gap_crosstable_2021[,1:7] %>% 
   as_tibble() %>%
@@ -4236,7 +4230,7 @@ Greater_Melbourne_2021_needs_gap_population_table <- melbourne_sa1_need_gap_popu
   adorn_pct_formatting() %>% 
   adorn_ns() %>% 
   select(transit_supply, `Very High`, `High`, `Above average`, `Below average`, Low, `Very Low`, Total) %>%
-  kable(align = "lrrr", 
+  kable(align = "lrrrrrrr", 
         caption = "Greater Melbourne 2021, Population in each SI and Combined Needs Index grouping",
         col.names = c("Supply", 
                    "Very High", "High", 
@@ -4245,12 +4239,12 @@ Greater_Melbourne_2021_needs_gap_population_table <- melbourne_sa1_need_gap_popu
   add_header_above(c(" " = 1, "Combined Needs Index Category" = 6, " " = 1)) %>%
   kable_styling(font_size = 8) %>%
   kableExtra::column_spec(1, width = "2.5cm") %>% 
-  kableExtra::column_spec(2, width = "1cm") %>%
-  kableExtra::column_spec(3, width = "1cm") %>%
-  kableExtra::column_spec(4, width = "1cm") %>%
-  kableExtra::column_spec(5, width = "1cm") %>%
-  kableExtra::column_spec(6, width = "1cm") %>%
-  kableExtra::column_spec(7, width = "1cm") %>%
+  kableExtra::column_spec(2, width = "1.25cm") %>%
+  kableExtra::column_spec(3, width = "1.25cm") %>%
+  kableExtra::column_spec(4, width = "1.25cm") %>%
+  kableExtra::column_spec(5, width = "1.25cm") %>%
+  kableExtra::column_spec(6, width = "1.25cm") %>%
+  kableExtra::column_spec(7, width = "1.25cm") %>%
   kableExtra::column_spec(8, width = "1.5cm")
 
 
@@ -4407,7 +4401,9 @@ melbourne_needs_gap_scatterplot_2016 <- ggscatterstats(data = melbourne_needs_ga
 
 
 melbourne_sa1_need_gap_crosstable_2016 <- melbourne_needs_gap_sa1_2016 %>% 
-  tabyl(transit_supply,composite_needs, show_na = FALSE)
+  tabyl(transit_supply,composite_needs) %>% 
+  untabyl() %>% 
+  select(transit_supply, `Very Low`, Low, `Below average`, `Above average`, High, `Very High`)
 
 Greater_Melbourne_2016_needs_gap_zones_table <- melbourne_sa1_need_gap_crosstable_2016[,1:7] %>% as_tibble() %>%
   adorn_totals(where = c("row", "col")) %>%
@@ -4447,7 +4443,7 @@ Greater_Melbourne_2016_needs_gap_population_table <- melbourne_sa1_need_gap_popu
   adorn_pct_formatting() %>% 
   adorn_ns() %>% 
   select(transit_supply, `Very High`, `High`, `Above average`, `Below average`, Low, `Very Low`, Total) %>%
-  kable(align = "lrrr", 
+  kable(align = "lrrrrrrr", 
         caption = "Greater Melbourne 2016, Population in each SI and Combined Needs Index grouping",
         col.names = c("Supply", 
                    "Very High", "High", 
@@ -4455,7 +4451,7 @@ Greater_Melbourne_2016_needs_gap_population_table <- melbourne_sa1_need_gap_popu
                    "Low", "Very Low", "Total")) %>% 
  add_header_above(c(" " = 1, "Combined Needs Index Category" = 6, " " = 1)) %>%
   kable_styling(font_size = 8) %>%
-  kableExtra::column_spec(1, width = "2.0cm") %>% 
+  kableExtra::column_spec(1, width = "2.5cm") %>% 
   kableExtra::column_spec(2, width = "1.25cm") %>%
   kableExtra::column_spec(3, width = "1.25cm") %>%
   kableExtra::column_spec(4, width = "1.25cm") %>%
@@ -4560,44 +4556,37 @@ melbourne_needs_gap_scatterplot_2021
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot_figure} shows social needs and SI scores for 2021[^16]. This is analogous to the 2006 plot shown in Figure 1(c). There is a significant, but only weakly positive correlation between the SI and Combined Needs Index scores for both 2016 (`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "pearson"))`, `r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "spearman", exact = FALSE))`) and 2021 (`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "pearson"))`, `r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "spearman", exact = FALSE))`).
-
-[^16]: To improve the clarity of the figure, SI scores less than 10 have been adjusted to equal 10. As well, those SA1s with combinations of Zero or Very Low Transport Supply and (especially) high needs scores (more than 40); or Very High supply and Very Low needs scores (less than 4.5) have been labelled with their SA2 name, so as to given an indication of which suburbs of Melbourne are at each of the extremes.
-
-```{r Greater_Melbourne_2016_needs_gap_zones_tables, echo = FALSE, eval = FALSE}
-
-Greater_Melbourne_2016_needs_gap_zones_table
-
-```
-
-```{r Greater_Melbourne_2021_needs_gap_zones_tables, echo = FALSE, eval = FALSE}
-
-Greater_Melbourne_2021_needs_gap_zones_table
-
-```
 
 
+Figure \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot_figure} shows social needs and SI scores for 2021[^16]. 
+This is analogous to the 2006 plot shown in Figure 1(c). 
+There is a significant, but only weakly positive correlation between the SI and Combined Needs Index scores for both 2016 
+(`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "pearson"))`, 
+`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "spearman", exact = FALSE))`) 
+and 2021 
+(`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "pearson"))`, 
+`r prmisc::print_cortest(cor.test(melbourne_needs_gap_sa1_2021$combined_needs_index, melbourne_needs_gap_sa1_2021$SI, method = "spearman", exact = FALSE))`) 
 
- with more of the SA1s with higher needs tending to have transport supplies that are higher than the average. `r melbourne_sa1_need_gap_crosstable_2016_longer %>% filter(transit_supply %in% c("Zero Supply", "Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum()` SA1s have Zero or Very Low Transport Supply, but very high social needs. This represents `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_crosstable_2016_longer %>% filter(transit_supply %in% c("Zero Supply", "Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum())/(melbourne_sa1_need_gap_crosstable_2016_longer %>% select(SA1s) %>% sum()))` of the `r format(melbourne_sa1_need_gap_crosstable_2016_longer %>% select(SA1s) %>% sum(), big.mark = ",")` SA1s within Greater Melbourne, and is a lower proportion than that reported for 2006 (279 of 5,720 CCDs (4.9%)) in @currie2010identifying. 
+[^16]: To improve the clarity of the figure, SI scores less than 10 have been adjusted to equal 10. As well, those SA1s with combinations of Zero or Very Low Transport Supply and (especially) high needs scores (more than 40); or Very High supply and Very Low needs scores (less than 4.5) have been labelled with their SA2 name, so as to given an indication of which suburbs of Melbourne are at each of the extremes. A similar plot for 2016 is shown in the Appendix. 
 
-Table \ref{tab:Greater_Melbourne_2021_needs_gap_zones_tables}  the share of groupings across categories is statistically significant , with more of the SA1s with higher needs tending to have transport supplies that are higher than the average. `r melbourne_sa1_need_gap_crosstable_2021_longer %>% filter(transit_supply %in% c("Zero Supply", "Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum()` SA1s have Zero or Very Low Transport Supply, but very high social needs. This represents `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_crosstable_2021_longer %>% filter(transit_supply %in% c("Zero Supply", "Very Low")) %>% filter(composite_needs == "Very High") %>% select(SA1s) %>% sum())/(melbourne_sa1_need_gap_crosstable_2021_longer %>% select(SA1s) %>% sum()))` of the `r format(melbourne_sa1_need_gap_crosstable_2021_longer %>% select(SA1s) %>% sum(), big.mark = ",")` SA1s within Greater Melbourne, and is a lower proportion than that reported for 2006 (279 of 5,720 CCDs (4.9%)) in @currie2010identifying. 
-
-Differences in the share of SA1s in each Transport Supply category across different Combined Needs Index categories are statistically significant in 2016 (`r prmisc::print_chi2(melbourne_sa1_need_gap_crosstable_2016[,2:7] %>% as.matrix())` and 2021 (`r prmisc::print_chi2(melbourne_sa1_need_gap_crosstable_2021[,2:7] %>% as.matrix())`)^[See Appendix for tables by SA1.]. Tables \ref{tab:Greater_Melbourne_2016_needs_gap_population} and \ref{tab:Greater_Melbourne_2021_needs_gap_population} compare the populations within each Transport Supply and Combined Needs Index grouping for 2016 and 2021. In 2016 `r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` people lived within SA1s that have Zero or Very Low Transport Supply, but Very High social needs (`r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` of the total population). By 2021 this had increased to `r format(melbourne_sa1_need_gap_population_crosstable_2021 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` people (+`r label_percent(accuracy = 1)(melbourne_sa1_need_gap_population_crosstable_2021 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum() / melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum()-1)`, `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` of the total population). These compare to the 139,004 people reported in @currie2010identifying for 2006 (4.2% of the population).
+Differences in the share of SA1s in each Transport Supply category across different Combined Needs Index categories are statistically significant in 2016 (`r prmisc::print_chi2(melbourne_sa1_need_gap_crosstable_2016[,2:7] %>% as.matrix())` and 2021 (`r prmisc::print_chi2(melbourne_sa1_need_gap_crosstable_2021[,2:7] %>% as.matrix())`)^[See Appendix for tables by SA1.]. Tables \ref{tab:Greater_Melbourne_2016_needs_gap_population_table} and \ref{tab:Greater_Melbourne_2021_needs_gap_population_table} compare the populations within each Transport Supply and Combined Needs Index grouping for 2016 and 2021. In 2016 `r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` people lived within SA1s that have Zero or Very Low Transport Supply, but Very High social needs (`r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` of the total population). By 2021 this had increased to `r format(melbourne_sa1_need_gap_population_crosstable_2021 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` people (+`r label_percent(accuracy = 1)(melbourne_sa1_need_gap_population_crosstable_2021 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum() / melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum()-1)`, `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` of the total population). These compare to the 139,004 people reported in @currie2010identifying for 2006 (4.2% of the population).
 
 
-```{r Greater_Melbourne_2016_needs_gap_population_table, echo = FALSE}
-
+```{r Greater_Melbourne_2016_needs_gap_population_table, echo = FALSE, eval = FALSE}
 
 Greater_Melbourne_2016_needs_gap_population_table
 
 ```
 
-```{r Greater_Melbourne_2021_needs_gap_population_table, echo = FALSE}
 
+```{r Greater_Melbourne_2021_needs_gap_population_table, echo = FALSE, eval = FALSE}
 
 Greater_Melbourne_2021_needs_gap_population_table
 
 ```
+
+
+
 
 ```{r Greater_Melbourne_2016_needs_gap_map_figure, eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.cap="Greater Melbourne Transport Supply groupings overlayed with SA1s with very high transport need areas with zero or very low public Transport Supply (red).", fig.ncol = 2, out.width = "50%", fig.align = "center", fig.subcap = c("2016", "2021")}
 
@@ -4654,12 +4643,12 @@ pcol <- melbourne_needs_gap_sa1_2016  %>%
     axis.text.x = element_blank()
   )
 
-#melbourne_2016_needs_gap_no_suburbs + 
-#  theme(legend.position = "none") + 
-#  ggspatial::annotation_scale(location = 'br') +
-#  ggspatial::annotation_north_arrow(location = 'tl') +
-#  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38) +
-#  inset_element(pcol_vhigh_vlow_zero, left = 0.50, bottom = 0.8, right = 0.95, top =1) 
+melbourne_2016_needs_gap_no_suburbs + 
+  theme(legend.position = "none") + 
+  ggspatial::annotation_scale(location = 'br') +
+  ggspatial::annotation_north_arrow(location = 'tl') +
+  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38) +
+  inset_element(pcol_vhigh_vlow_zero, left = 0.50, bottom = 0.8, right = 0.95, top =1) 
   
   
 
@@ -4718,15 +4707,15 @@ pcol <- melbourne_needs_gap_sa1_2021  %>%
     axis.text.x = element_blank()
   )
 
-#melbourne_2021_needs_gap_no_suburbs + 
-#  theme(legend.position = "none") +
-#  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38) +
-#  inset_element(pcol_vhigh_vlow_zero, left = 0.55, bottom = 0.8, right = 1.0, top =1) 
+melbourne_2021_needs_gap_no_suburbs + 
+  theme(legend.position = "none") +
+  inset_element(pcol, left = 0.0, bottom = 0.18, right = 0.45, top =0.38) +
+  inset_element(pcol_vhigh_vlow_zero, left = 0.55, bottom = 0.8, right = 1.0, top =1) 
 
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2016_needs_gap_map_figure} show SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero Transport Supply for 2016 and 2021, which in analagous to the 2006 distribution shown in Figure \ref{fig:Currie_map_SI}(d). Comparison suggests that areas with large gaps between social needs and Transport Supply continue to be mostly in the outer areas of Melbourne, but such comparisons appear complicated by the larger number of SA1s than CCDs. Figure \ref{fig:Greater_Melbourne_2016_needs_gap_map_figure} appears to show more (smaller) areas with Very High transport needs, but Very Low or Zero Transport Supply. This includes areas in the West, North West, North East and South East SA4s, whereas in 2006 these parts of Melbourne did not appear to have large gaps between need and supply. As well the south-west parts of the Morning Peninsula (around Blairgowrie) drop out of the category of having the largest needs-gaps in 2016, but are back in this category again in 2021.
+Figure \ref{fig:Greater_Melbourne_2016_needs_gap_map_figure} show SA1 zones in Greater Melbourne with Very High transport needs, but Very Low or Zero Transport Supply for 2016 and 2021, which is analogous to the 2006 distribution shown in Figure \ref{fig:Currie_map_SI}(d). Comparison suggests that areas with large gaps between social needs and Transport Supply continue to be mostly in the outer areas of Melbourne, but such comparisons appear complicated by the larger number of SA1s than CCDs. Figure \ref{fig:Greater_Melbourne_2016_needs_gap_map_figure} appears to show more (smaller) areas with Very High transport needs, but Very Low or Zero Transport Supply. This includes areas in the West, North West, North East and South East SA4s, whereas in 2006 these parts of Melbourne did not appear to have large gaps between need and supply. As well the south-west parts of the Morning Peninsula (around Blairgowrie) drop out of the category of having the largest needs-gaps in 2016, but are back in this category again in 2021.
 
 ### Needs-gap and service level changes
 
@@ -5104,62 +5093,26 @@ pcol <- si_by_areaSA12016_2016_2021_wider %>%
   aggregate(population ~ ratio_binned_collapsed, sum) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 100, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.07, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() + 
   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "2016 Population by SI change",
+    title = "Greater Melbourne",
     x = NULL,
     y = NULL
   ) +
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_text(size = 4, hjust = 1),
     axis.text.x = element_blank()
   )
-
-
-pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
-  si_by_areaSA12016_2016_2021_wider %>%   st_drop_geometry() %>% 
-  filter(sa4_name_2016 == "Mornington Peninsula") %>% 
-  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-    aggregate(population ~ ratio_binned_collapsed, sum)) %>%
-  mutate_all(~replace(., is.na(.), 0)) %>%
-  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
-      "Increased 1 to 30%", 
-      "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
-  mutate(perc=population/sum(population)) %>% 
-  ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
-  geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
-  coord_flip() +
-  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
-  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
-  guides(fill = "none", color = "none") +
-  labs(
-    title = "Mornington Peninsula",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_void() +
-  theme(
-    panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
-    axis.text.y = element_blank(),
-    axis.text.x = element_blank()
-  )
-
-
 
 
 pcol_inner <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
@@ -5169,16 +5122,17 @@ pcol_inner <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA120
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+   levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5191,7 +5145,7 @@ pcol_inner <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA120
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5206,16 +5160,17 @@ pcol_inner_south <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_are
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+    levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
     scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5228,7 +5183,7 @@ pcol_inner_south <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_are
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5241,16 +5196,17 @@ pcol_north_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
- levels = c("New or 30%+", 
+   levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5263,7 +5219,7 @@ pcol_north_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5276,16 +5232,17 @@ pcol_north_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+   levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5298,7 +5255,7 @@ pcol_north_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5311,16 +5268,17 @@ pcol_outer_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+    levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5333,10 +5291,11 @@ pcol_outer_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
+
 
 
 pcol_south_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA12016_2016_2021_wider$ratio_binned_collapsed)),
@@ -5346,16 +5305,17 @@ pcol_south_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+     levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5368,7 +5328,7 @@ pcol_south_east <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5381,19 +5341,20 @@ pcol_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA1201
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
+   levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
-  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) + 
   guides(fill = "none", color = "none") +
   labs(
     title = "West",
@@ -5403,7 +5364,7 @@ pcol_west <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_areaSA1201
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5416,16 +5377,17 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
     aggregate(population ~ ratio_binned_collapsed, sum)) %>%
   mutate_all(~replace(., is.na(.), 0)) %>%
   mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-  levels = c("New or 30%+", 
+   levels =     c("New or 30%+", 
       "Increased 1 to 30%", 
       "Within 1%",
-      "Service reduced or withdrawn",
-      "Never served"))) %>%
+      "Reduced, withdrawn, never"))
+   ) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
-  geom_col(aes(ratio_binned_collapsed, population, fill = ratio_binned_collapsed)) +
+  geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed)) +
+  scale_y_continuous(limits = c(0,1)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, population + 500, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned_collapsed, perc+0.15, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
    scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -5438,7 +5400,7 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 6),
+    plot.title = element_text(size = 5),
     axis.text.y = element_blank(),
     axis.text.x = element_blank()
   )
@@ -5448,13 +5410,13 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
 Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2016 <- Greater_MelbourneSA12016_2016_2021_ratio_map +
   ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tr') + 
-  inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.3, top =0.25) +
-  inset_element(pcol_mornington, left = 0.58, bottom = 0.03, right = 0.78, top =0.18) +
-  inset_element(pcol_south_east, left = 0.8, bottom = 0.05, right = 1, top =0.20) +
-  inset_element(pcol_outer_east, left = 0.78, bottom = 0.7, right = 1.0, top =0.85) +
+  inset_element(pcol, left = 0.05, bottom = 0.2, right = 0.60, top =0.4) +
+  inset_element(pcol_mornington, left = 0.2, bottom = 0.00, right = 0.35, top =0.15) +
+  inset_element(pcol_south_east, left = 0.65, bottom = 0.05, right = 0.95, top =0.20) +
+  inset_element(pcol_outer_east, left = 0.70, bottom = 0.7, right = 1.0, top =0.85) +
   inset_element(pcol_north_east, left = 0.58, bottom = 0.85, right = 0.83, top =1.0)  +
-  inset_element(pcol_north_west, left = 0.0, bottom = 0.85, right = 0.23, top =1) +
-  inset_element(pcol_west, left = 0.03, bottom = 0.305, right = 0.28, top =0.455) 
+  inset_element(pcol_north_west, left = 0.0, bottom = 0.85, right = 0.3, top =1) +
+  inset_element(pcol_west, left = 0.00, bottom = 0.35, right = 0.3, top =0.5) 
   #inset_element(pcol_inner, left = 0.327, bottom = 0.35, right = 0.427, top =0.48) +
   #inset_element(pcol_inner_south, left = 0.40, bottom = 0.24, right = 0.50, top =0.37) +
   #inset_element(pcol_inner_east, left = 0.56, bottom = 0.6, right = 0.69, top =0.73)  
@@ -5486,13 +5448,14 @@ However, services had been reduced or withdrawn, or were never present for `r la
 
 # Discussion
 
-This research was motivated by a lack of software tools to analyse gaps between social needs for transport and the amount of transit provided, and to better understand how spatial patterns might have changed since the original development of this methodology in the early 2000s. The needs-gaps approach was suggested to be "substantially more useful than the presentation of anecdotal evidence, which is the most common means of identifying transport needs in local transport studies throughout the world" [@currie2010identifying], yet this technique does not appear to have been adopted in practice. The research reported in this paper, therefore, is important because it may help bridge gaps between research (where the needs-gap approach and SI formulation was developed) and the real world of transport planning, advocacy, professional practice and politics (where decisions are made about where transit services are needed or need improving).
+This research was motivated by a lack of software tools to analyse gaps between social needs for transport and the amount of transit provided, and a need to better understand how spatial patterns might have changed since the original development of this methodology in the early 2000s. The needs-gaps approach was suggested to be "substantially more useful than the presentation of anecdotal evidence, which is the most common means of identifying transport needs in local transport studies throughout the world" [@currie2010identifying], yet this technique does not appear to have been adopted in practice or received much further attention from researchers. The research reported in this paper, therefore, is important because it may help bridge gaps between research (where the needs-gap approach and SI formulation was developed) and the real world of transport planning, advocacy, professional practice and politics (where decisions are made about where transit services are needed or need improving).
 
-As discussed in Section 2, there are many transit metrics available, but these may be challenging to apply or calculate independently. The SI has the advantage of combining accessibility and service frequency into a single measure, which is relatively simple to understand and can even be calculated by hand for smaller networks. With the gtfstools R package developed in this research applying the SI calculation across even relatively large transit networks, such as that of Greater Melbourne, requires only a GTFS feed, some computer time and a bit of data scientist know-how (or a willingness and time to learn). The tool is not yet at a download, point and click level of useability. However, it is open source and publicly available, and so may make it easier to assess transit service levels and network change proposals with respect to social needs for transport.
+As discussed in Section 2, there are many transit metrics available, but these may be impossible to calculate independently or complicated to use for the purposes of communicating with the public, decision-makers or other stakeholders. The SI has the advantage of combining accessibility and service frequency into a single measure, which is relatively simple to understand and can even be calculated by hand for smaller networks. The gtfstools R package developed in this research may make it possible for practitioners to apply the SI calculation across even relatively large transit networks, such as that of Greater Melbourne, with a GTFS feed and some computer time. While the tool is not yet at a download, point and click level of usability, it is open source and publicly available and so may make assessing transit service levels and network change proposals with respect to social needs for transport more widely achievable.
 
-The maps, graphs, tables and other outputs presented in this paper also demonstrate the range of analysis that might be possible using this package. Longitudinal comparison of transit service levels has been shown in aggregate (Table \ref{tab:Greater_Melbourne_CCDs_SA1_population}), by population across sub-areas (in comparing Tables \ref{tab:Greater_Melbourne_population_2016_by_SA4} and \ref{tab:Greater_Melbourne_population_2016_by_SA4}) and mapped (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}). Visual display of gaps between social needs and Transport Supply how also been shown through scatterplots (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_scatterplot} and \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot}) and mapping (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_map} and \ref{fig:Greater_Melbourne_2021_needs_gap_map}). Such outputs, especially if produced at the spatial level of a neighbourhood, council ward or electoral division, might provide an opportunity for advocates and professionals within transport planning to identify and easily demonstrate to the public, politician and other stakeholders which spatial areas might benefit from increasing transit funding and where funds might best be directed.
-
-Previous research looking at bus services in new developments includes the @delbosc2015impact case study of the Selandra Rise planned estate in the south-east of Melbourne. This study explored the impact of the, then newly introduced, 798 bus route (Figure \ref{fig:Bus_798}. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing Transport Supply in 2016 and 2021, and changes in SI score for SA1s with Very High social needs, but Very Low or Zero Transport Supply.
+The maps, graphs, tables and other outputs presented in this paper also demonstrate the range of analysis that might be possible using this package. Longitudinal comparison of transit service levels has been shown in aggregate (Table \ref{tab:Greater_Melbourne_CCDs_SA1_population}), by population across sub-areas (in comparing Tables \ref{tab:Greater_Melbourne_population_2016_by_SA4} and \ref{tab:Greater_Melbourne_population_2021_by_SA4}) and mapped (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}). Visual display of gaps between social needs and Transport Supply how also been shown through scatterplots (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_scatterplot} and \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot}) and mapping (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_map} and \ref{fig:Greater_Melbourne_2021_needs_gap_map}). Such outputs, especially if produced at the spatial level of a neighbourhood, council ward or electoral division, might provide an opportunity for advocates and professionals within transport planning to identify and easily demonstrate to the public, politician and other stakeholders which spatial areas might benefit from increasing transit funding and where funds might best be directed. The map shown in Figure \ref{fig:Greater_Melbourne_2016_needs_gap_SA4_service_change} demonstrates how the needs-gap analysis approach, in conjunction with a comparison of service levels through time, cam be used to show how things have changed for those residents who had Very High transport needs, but Very Low or Zero Supply. Such maps might provide evidence for those living in areas with high needs, but where service levels have moved in the wrong direction, such as appears to be the case for 
+`r si_by_areaSA12016_2016_2021_wider_table[4,"North East"] %>% sum() %>% format(big.mark = ",")`people living in the North East (`r label_percent(accuracy = 1)(si_by_areaSA12016_2016_2021_wider_table[4,"Mornington Peninsula"] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,"Mornington Peninsula"] %>% sum())`) and `r si_by_areaSA12016_2016_2021_wider_table[4,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")` people living in the Mornington Peninsula in SA1s with Very High needs and Very Low or Zero supply in 2016 who saw their transit service reduced or withdrawn by 2021, or who never had any transit at all.   
+  
+The changes by 2021, however, appear to have been mostly positive for the `r si_by_areaSA12016_2016_2021_wider_table[,"North East"] %>% sum() %>% format(big.mark = ",")`people living in the South East SA4 in 2016 in SA1s with Very High needs and Very Low or Zero supply. Table \ref{tab:Greater_Melbourne_2016_needs_gap_SA4_service_change} indicates that `r label_percent(accuracy = 1)(si_by_areaSA12016_2016_2021_wider_table[1:2,"South East"] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,"East"] %>% sum())`) of them would have received at least a one percent increase in transit service levels, while Figure \ref{fig:Greater_Melbourne_2016_needs_gap_SA4_service_change} suggests that areas around Cranbourne have seen substaintial service increases (30%+) or the introduction of new services (dark blue). This part of Greater Melbourne has received attention from previous research reported in @delbosc2015impact, which looked at bus services in new developments and included a case study of the Selandra Rise planned estate, east of Cranbourne. This study explored the impact of the, then newly introduced, 798 bus route (Figure \ref{fig:Bus_798}. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing Transport Supply in 2016 and 2021, and changes in SI score for those SA1s that had Very High social needs, but Very Low or Zero Transport Supply in 2016. 
 
 ```{r Bus_798, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 1, out.width = "100%", fig.align = "center", fig.show="hold", fig.cap="Bus Route 798 as originally introduced in 2014 (Source: Delbosc et al (2015))"}
 
@@ -5501,7 +5464,7 @@ knitr::include_graphics("graphics/Route798.png")
 
 ```
 
-```{r Selandra_rise, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (colours as per previous figures, transit routes in purple, 2016 and 2021 SA1 boundaries in grey.)", fig.subcap = c("Transport Supply categories in 2016", "Transport Supply categories in 2021 (transit routes in purple)", "Change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with 2021 populations", "Current (2024) route map")}
+```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (colours as per previous figures, transit routes in purple, 2016 and 2021 SA1 boundaries in grey.)", fig.subcap = c("Transport Supply categories in 2016", "Transport Supply categories in 2021 (transit routes in purple)", "Change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with 2021 populations", "Current (2024) route map")}
 
 
 #Plot 
@@ -5540,25 +5503,29 @@ melbourne_si_SA12021_21_plot +
   ggspatial::annotation_north_arrow(location = 'tr')
 
 
-very_high_needs_SI_change  +
-  ggrepel::geom_label_repel(
-    data = si_by_area_2016_2021_wider %>% 
-      na.omit() %>% 
-      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-      filter(ratio_binned == "Never served (black)" | ratio_binned == "Service withdrawn (magenta)"),
-    aes(label = population, geometry = geometry),
-    stat = "sf_coordinates",
-    min.segment.length = 0 ) +
-  theme(legend.position = "none", 
-        axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank()) +
-  geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs, colour="purple") +
- coord_sf(ylim = c(-38.07, -38.16), 
+Greater_Melbourne_2016_2021_ratio_map_very_high_very_low_zero_2016 +
+   coord_sf(ylim = c(-38.07, -38.16), 
            xlim = c(145.24, 145.40)) 
-        
+
+#very_high_needs_SI_change  +
+#  ggrepel::geom_label_repel(
+#    data = si_by_area_2016_2021_wider %>% 
+#      na.omit() %>% 
+#      filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
+#      filter(ratio_binned == "Never served (black)" | ratio_binned == "Service withdrawn (magenta)"),
+#    aes(label = population, geometry = geometry),
+#    stat = "sf_coordinates",
+#    min.segment.length = 0 ) +
+#  theme(legend.position = "none", 
+#        axis.text.x=element_blank(), #remove x axis labels
+#        axis.ticks.x=element_blank(), #remove x axis ticks
+#        axis.text.y=element_blank(),  #remove y axis labels
+#        axis.ticks.y=element_blank()) +
+#  geom_sf(data=sa12021, fill=NA, colour = "grey") +
+#  geom_sf(data=ptv_210805_gtfs, colour="purple") +
+# coord_sf(ylim = c(-38.07, -38.16), 
+#           xlim = c(145.24, 145.40)) 
+
 
 knitr::include_graphics("graphics/Cranbourne.png")
 
@@ -5567,23 +5534,25 @@ knitr::include_graphics("graphics/Cranbourne.png")
 
 ```
 
-Various transit routes appear to have been added to the area surrounding the Selandra Rise Estate between 2016 (Figure \ref{fig:Selandra_rise}, top-left), 2021 (top-right) and 2024 (bottom-right). After 2016 Route 798 was adjusted to penetrate into the estate, and Route 888 was added to provide a north-south connection along Berwick-Cranbourne Road. This appears to have been sufficient to shift some of the estate into the Low Transport Supply category in 2021, up from Very Low category in 2016. Figure \ref{fig:Selandra_rise}, bottom-left, however, indicates that some of the surrounding SA1s, however, still fall into the Very High needs and Very Low or Zero supply social needs-gap category, including some SA1s that have over 700 residents but did not have a transit service within 400 metres in either 2016 and 2021. That said, it appears that Route 898 has been added between 2021 and 2024, providing an additional east-west connection and coverage, suggesting that the ultimate transit network for the area is not yet implemented.
+Various transit routes appear to have been added to the area surrounding the Selandra Rise Estate between 2016 (Figure \ref{fig:Selandra_rise}(a), 2021 (b) and 2024 (d)^[After 2016 Route 798 was adjusted to penetrate into the estate, and Route 888 was added to provide a north-south connection along Berwick-Cranbourne Road.]. This appears to have been sufficient to shift some of the estate into the Low Transport Supply category in 2021, up from Very Low category in 2016. 
 
-What the information shown in the bottom-left and bottom-right of Figure \ref{fig:Selandra_rise} might suggest, however, is that areas in the vicinity of Casey Fields are underserved. Revising Route 795 so as to service areas north of Ballarto Rd, perhaps instead of duplicating parts of Route 796, might be one option to increase coverage and provide some stops for residents living in areas that did not have an transit within 400 metres in either 2016 or 2021.
+Figure \ref{fig:Selandra_rise}(c), however, indicates that some of the surrounding SA1s, however, still fall into the Very High needs and Very Low or Zero supply social needs-gap category, including some SA1s that have over 700 residents but did not have a transit service within 400 metres in either 2016 and 2021.^[It appears that Route 898 has been added between 2021 and 2024, providing an additional east-west connection and coverage, suggesting that the ultimate transit network for the area was not yet implemented in 2021.]. Such mapping of SI change, needs-gaps and route information, as in  Figure \ref{fig:Selandra_rise}, might provide an example of how social needs could be given greater consideration in the planning of transit networks in new subdivisions^[For example, the maps suggest that areas in the vicinity of Casey Fields remain underserved. Revising Route 795 so as to service areas north of Ballarto Rd, perhaps instead of duplicating parts of Route 796, might be one option to increase coverage and provide some stops for residents living in areas that did not have an transit within 400 metres in either 2016 or 2021.]. 
 
 # Conclusions
 
 This paper has reported the development of a new R package containing tools for identifying gaps between the social need for transport and the service provided based on GTFS data. It has also demonstrated how this package might be applied to the case of Greater Melbourne in 2016 and 2021, in the same manner in which @currie2010identifying applied the analysis approach to Melbourne in 2006.
 
-A motivation for this study was explore how spatial patterns related to Transport Supply, need and gaps have changed in Melbourne since 2006. To some extent the results indicate the challenges of making longitudinal comparisons when there are changes in statistical geography. The shift from CCDs to SA1s by the ABS appears to have allowed results to be output here are a finer scale than in 2006, due to the generally smaller size of SA1s and the way in which they are focused towards containing consistent land use patterns within each zone. This contrasts to the CCDs, which instead denoted the areas within which one census collector operated. Unfortunately, this limits the extend to which the 2016 and 2021 results can be directly compared to those for 2006. However, it is notable that the share of the population living in areas wtih Zero Transport Supply grew with time from `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,3])/sum(melbourne_comparison_2006_2021[,3]))` (`r format(sum(melbourne_comparison_2006_2021[1,3]), big.mark = ",")` residents) in 2006 to `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))` (`r format(sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` residents) in 2016, and then again to `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[,9]))` (`r format(sum(melbourne_comparison_2006_2021[1,9]), big.mark = ",")` residents) in 2021. How much of the change between 2006 and 2016 relates to the switch in statistical geography is unclear, but the difference between 2016 and 2021 suggests that more people and a greater proportion of the population are living in areas where transit stops are beyond typical walking access distance as time has marched on.
+A motivation for this study was explore how spatial patterns related to Transport Supply, need and gaps have changed in Melbourne since 2006. To some extent the results indicate the challenges of making longitudinal comparisons when there are changes in statistical geography. The shift from CCDs to SA1s by the ABS appears to have allowed results to be output here are a finer scale than in 2006, due to the generally smaller size of SA1s and the way in which they are focused towards containing consistent land use patterns within each zone. This contrasts to the CCDs, which instead denoted the areas within which one census collector operated. Unfortunately, this limits the extend to which the 2016 and 2021 results can be directly compared to those for 2006. However, it is notable that the share of the population living in areas wtih Zero Transport Supply grew with time from `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,3])/sum(melbourne_comparison_2006_2021[,3]))` (`r format(sum(melbourne_comparison_2006_2021[1,3]), big.mark = ",")` residents) in 2006 to `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))` (`r format(sum(melbourne_comparison_2006_2021[1,8]), big.mark = ",")` residents) in 2016, and then again to `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,9])/sum(melbourne_comparison_2006_2021[,9]))` (`r format(sum(melbourne_comparison_2006_2021[1,9]), big.mark = ",")` residents) in 2021. How much of the change between 2006 and 2016 relates to the switch in statistical geography is unclear, but the difference between 2016 and 2021 suggests that as time marches on more people and a greater proportion of the population are living in areas where transit stops are beyond typical walking access distance.
 
-Compared to the 8.2 percent (276,739) of Melbourne residents having very high needs but zero, low or, very low Transport Supply in 2006 reported by @currie2010identifying, this study found the equivalents to be `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` (`r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` residents) in 2016 and `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` ( `r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` residents) in 2021. Again, the 2016 and 2021 values may not directly comparable to those from 2006 because of the statistical geography changes. However, these findings might again suggest that the situation is moving in the wrong direction, at least in Greater Melbourne.
+Compared to the 8.2% (276,739) of Melbourne residents having Very High needs but Low, Very Low or Zero Transport Supply in 2006 reported by @currie2010identifying this study found equivalents of `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` (`r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` residents) in 2016 and `r label_percent(accuracy = 0.1)((melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low", "Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum())/(melbourne_sa1_need_gap_population_crosstable_2016 %>% select(population) %>% sum()))` ( `r format(melbourne_sa1_need_gap_population_crosstable_2016 %>% filter(transit_supply %in% c("Zero Supply","Very Low")) %>% filter(composite_needs == "Very High") %>% select(population) %>% sum(), big.mark = ",")` residents) in 2021. Again, the 2016 and 2021 values may not directly comparable to those from 2006 because of the statistical geography changes. However, these findings might again suggest that the situation is moving in the wrong direction, at least in Greater Melbourne.
 
-The extent to which the findings from this case study of Greater Melbourne can be confidently generalised to other places (relating to the duality criterion of case research) is a key question. Fortunately, the widespread availability of GTFS datasets together with the new gtfssupplyindex package means that it will be easier to analyse other cases. Exploring social needs-gaps in other Australian cities is an immediate direction for future efforts associated with this program of research. In the meantime, it would seem prudent to be cautious as to making assumptions about whether shifts in Melbourne are representative of everywhere else. The almost 50 percent growth in population in Greater Melbourne between 2006 (3.4m) and 2021 (4.9m) is towards the higher end of that experienced in other places (REFERENCE), although low-density development patterns that provide similar challenges for transit planning appear common both within and beyond Australia. The balance of spending between major projects (e.g. highways, rail-based transit) and introducing or increasing the levels of service of transit provided primarily to meet social needs for transport will be different in Melbourne to that in other locations. However, with a new subway connection through the CBD and a second freeway connection across the largest river currently under construction, and various other rail and road mega-projects either in planning or recently completed, Melbourne might be an outlier as far as the share of government spending going towards transport that is not focused on providing basic coverage for those who cannot otherwise drive or increasing service levels for those with the greatest social need for transit. The challenges in building business cases, increasing subsidies and otherwise introducing or increasing transit service would appear likely to be similar in Melbourne as to other places. Hence, it might be confidentially expected that the overall patterns, of the largest gaps between the social need for transport and the transit supplied being in outer suburbs and away from suburban railway lines, might be reasonably expected in other cities.
+## Limitations and future research directions
 
-As well as making comparisons of Melbourne across 2006, 2016 and 2021, this paper has expanded on the analysis approach developed in @Currie2003Hobart, @Currie2004Gap, @Currie2007Identifying and @currie2010identifying. The mapping of changes in SI scores (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}) and how these changes relate to transit routes and areas with large needs-gaps at a neighbourhood (Figure \ref{fig:Selandra_rise}) might be of use to transport planners, advocates, politicians and other decision-makers, and others seeking to build legitimacy for the improvement or introduction of basic transit service levels. It is heartening that the Selandra Rise Estate, where @delbosc2015impact found that what transit was initially implemented provide a very important social function and that there was a community desire for greater levels of service, now has more routes and higher service levels. However, Figure \ref{fig:Selandra_rise} shows that there were similarly under-or-never-served communities nearby in 2021, suggesting that the timely introduction of transit service to new development areas continues to be a challenge in parts of Melbourne. Further research might seek to confirm whether similar issues are evident in outer and new development areas of other cities, although this would seem likely to be the case in many other places.
+The extent to which the findings about Greater Melbourne can be confidently generalised to other places (relating to the duality criterion of case research) is a key question, which is not yet fully answered. Fortunately, the widespread availability of GTFS datasets together with the new gtfssupplyindex package means that it will be easier to analyse other cases so as to better understand whether Melbourne is representative. Exploring social needs-gaps in other Australian cities is an immediate direction for future efforts associated with this program of research. In the meantime, it would seem prudent to be cautious as to making assumptions about whether shifts in Melbourne are representative of everywhere else. The almost 50 percent growth in population in Greater Melbourne between 2006 (3.4m) and 2021 (4.9m) may be more than is typical, although the low-density development patterns in Greater Melbourne appear common elsewhere within and beyond Australia, suggesting that the study's findings about widening gaps in outer areas are likely to be generalisable. Melbourne is currently building a new subway connection through the CBD and a second freeway connection of its largest river, and various other rail and road mega-projects are either in planning or recently completed. As such, Melbourne might be an outlier as far as the share of government spending going towards transport that is not focused on providing basic coverage for those who cannot otherwise drive or increasing service levels for those with the greatest social need for transit. That said, the challenges related to building business cases, increasing subsidies and otherwise introducing or increasing transit service in outer areas would appear likely to be similar in Melbourne as to other places. Hence, it might be confidentially expected that the overall patterns, of the largest gaps between the social need for transport and the transit supplied being in outer suburbs and away from suburban railway lines, might be reasonably expected in other cities.
 
-Overall, the research reported in this paper may help researchers, practitioners, advocates, other stakeholders and decision-makers obtain information about spatial areas that have gaps between the social need for transport and the transit supplied. @currie2010identifying suggested that using the Supply Index and needs-gap analysis techniques would be much preferable to anecdotal or other informal inputs to decision-making related to providing transit to meet the basic social needs for transport of communities. The software package and analysis approaches reported in this paper, enabling GTFS data to be directly used as an input, will hopefully allow the social needs-gap approach to be used more easily and widely.
+As well as making comparisons of Melbourne across 2006, 2016 and 2021, this paper has expanded on the analysis approach developed in @Currie2003Hobart, @Currie2004Gap, @Currie2007Identifying and @currie2010identifying. The mapping of changes in SI scores (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}) and how these changes relate to transit routes and areas with large needs-gaps at a neighbourhood (Figure \ref{fig:Selandra_rise}) might be of use to transport planners, advocates, politicians and other decision-makers, and others seeking to build legitimacy for the improvement or introduction of basic transit service levels. It is heartening that the Selandra Rise Estate, where @delbosc2015impact found that what transit was initially implemented provided a very important social function and that there was a community desire for greater levels of service, now has more routes and higher service levels. However, Figure \ref{fig:Selandra_rise} shows that there were similarly under-or-never-served communities nearby in 2021, suggesting that the timely introduction of transit service to new development areas continues to be a challenge in parts of Melbourne. Further research might seek to confirm the extent to which similar issues are evident in other cities.
+
+Overall, the research reported in this paper may help practitioners and decision-makers more easily identify gaps between the social need for transport and the transit supplied. @currie2010identifying suggested that using the Supply Index and needs-gap analysis techniques would be much preferable to anecdotal or other informal inputs to decision-making, which are common in practice. The software package and analysis approaches reported in this paper, enabling GTFS data to be directly used as an input, may allow the social needs-gap approach to be used more easily and more widely to target new and improved services to where they are most needed by the community.
 
 # References {.unnumbered}
 
@@ -5963,16 +5932,17 @@ combined_needs_2016_plot +
 
 ```
 
-Figure \ref{fig:Greater_Melbourne_2016_social_needs_appendix} shows the spatial patterns of social needs in 2016. Compared to 2021, the spatial patterns appear similar, with some areas in the north-west (Gisborne) and south-east (Carrum Downs, Stoney Point) having Very High needs in both. Some caution may be required in making direct comparisons of many outer suburbs where residential development has led to the introduction of new SA1s for the 2021 census. In many areas, including in the south-west (Werribee), north-west (Romsey), north (Wallan, Beveridge, Mickleham) and south-east (Clyde North and Beaconsfield South), it appears there are still Very High transport needs but the spatial area covered on the map is much smaller due to the redistricting of larger SA1s into multiple SA1s. That said, it appears that:
-
--   social needs fell in the southern parts of Bacchus Marsh and areas around Melton (outer west);
--   social needs rose in some outer northern (Lancefield), eastern (Gembrook East) and southern (end of the Mornington Penninsula) areas.
 
 ```{r Greater_Melbourne_2016_needs_gap_scatterplot_figure, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.height=8, fig.cap="Greater Melbourne 2016, SI and Combined Needs Index scores, with SI scores < 10 rounded up to equal 10. "}
 
 melbourne_needs_gap_scatterplot_2016  
   
+Greater_Melbourne_2016_needs_gap_zones_table
 
+
+Greater_Melbourne_2021_needs_gap_zones_table
+
+```
 
 
 
