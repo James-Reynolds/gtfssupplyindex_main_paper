@@ -5455,7 +5455,7 @@ As discussed in Section 2, there are many transit metrics available, but these m
 The maps, graphs, tables and other outputs presented in this paper also demonstrate the range of analysis that might be possible using this package. Longitudinal comparison of transit service levels has been shown in aggregate (Table \ref{tab:Greater_Melbourne_CCDs_SA1_population}), by population across sub-areas (in comparing Tables \ref{tab:Greater_Melbourne_population_2016_by_SA4} and \ref{tab:Greater_Melbourne_population_2021_by_SA4}) and mapped (Figure \ref{fig:Greater_Melbourne_2016_2021_ratio_map}). Visual display of gaps between social needs and Transport Supply how also been shown through scatterplots (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_scatterplot} and \ref{fig:Greater_Melbourne_2021_needs_gap_scatterplot}) and mapping (Figures \ref{fig:Greater_Melbourne_2016_needs_gap_map} and \ref{fig:Greater_Melbourne_2021_needs_gap_map}). Such outputs, especially if produced at the spatial level of a neighbourhood, council ward or electoral division, might provide an opportunity for advocates and professionals within transport planning to identify and easily demonstrate to the public, politician and other stakeholders which spatial areas might benefit from increasing transit funding and where funds might best be directed. The map shown in Figure \ref{fig:Greater_Melbourne_2016_needs_gap_SA4_service_change} demonstrates how the needs-gap analysis approach, in conjunction with a comparison of service levels through time, cam be used to show how things have changed for those residents who had Very High transport needs, but Very Low or Zero Supply. Such maps might provide evidence for those living in areas with high needs, but where service levels have moved in the wrong direction, such as appears to be the case for 
 `r si_by_areaSA12016_2016_2021_wider_table[4,"North East"] %>% sum() %>% format(big.mark = ",")`people living in the North East (`r label_percent(accuracy = 1)(si_by_areaSA12016_2016_2021_wider_table[4,"Mornington Peninsula"] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,"Mornington Peninsula"] %>% sum())`) and `r si_by_areaSA12016_2016_2021_wider_table[4,"Mornington Peninsula"] %>% sum() %>% format(big.mark = ",")` people living in the Mornington Peninsula in SA1s with Very High needs and Very Low or Zero supply in 2016 who saw their transit service reduced or withdrawn by 2021, or who never had any transit at all.   
   
-The changes by 2021, however, appear to have been mostly positive for the `r si_by_areaSA12016_2016_2021_wider_table[,"North East"] %>% sum() %>% format(big.mark = ",")`people living in the South East SA4 in 2016 in SA1s with Very High needs and Very Low or Zero supply. Table \ref{tab:Greater_Melbourne_2016_needs_gap_SA4_service_change} indicates that `r label_percent(accuracy = 1)(si_by_areaSA12016_2016_2021_wider_table[1:2,"South East"] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,"East"] %>% sum())`) of them would have received at least a one percent increase in transit service levels, while Figure \ref{fig:Greater_Melbourne_2016_needs_gap_SA4_service_change} suggests that areas around Cranbourne have seen substaintial service increases (30%+) or the introduction of new services (dark blue). This part of Greater Melbourne has received attention from previous research reported in @delbosc2015impact, which looked at bus services in new developments and included a case study of the Selandra Rise planned estate, east of Cranbourne. This study explored the impact of the, then newly introduced, 798 bus route (Figure \ref{fig:Bus_798}. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing Transport Supply in 2016 and 2021, and changes in SI score for those SA1s that had Very High social needs, but Very Low or Zero Transport Supply in 2016. 
+The changes by 2021, however, appear to have been mostly positive for the `r si_by_areaSA12016_2016_2021_wider_table[,"North East"] %>% sum() %>% format(big.mark = ",")`people living in the South East SA4 in 2016 in SA1s with Very High needs and Very Low or Zero supply. Table \ref{tab:Greater_Melbourne_2016_needs_gap_SA4_service_change} indicates that `r label_percent(accuracy = 1)(si_by_areaSA12016_2016_2021_wider_table[1:2,"South East"] %>% sum()/si_by_areaSA12016_2016_2021_wider_table[,"South East"] %>% sum())`) of them would have received at least a one percent increase in transit service levels, while Figure \ref{fig:Greater_Melbourne_2016_needs_gap_SA4_service_change} suggests that areas around Cranbourne have seen substaintial service increases (30%+) or the introduction of new services (dark blue). This part of Greater Melbourne has received attention from previous research reported in @delbosc2015impact, which looked at bus services in new developments and included a case study of the Selandra Rise planned estate, east of Cranbourne. This study explored the impact of the, then newly introduced, 798 bus route (Figure \ref{fig:Bus_798}. The route was reported as having around 2,500 boardings per week and being used by at least one person in 35 percent of households within the Selandra Rise Estate, despite it not penetrating fully into the development and only 20 percent of the estate's footprint being within 400 metres of the route. Findings suggested that: the route was "performing an important 'social transit' function"; that "those who do use the bus use it very frequently (88 percent (of riders) at least a few days a week)"; "Most bus riders were young and could not drive or had no car available, making them quite reliant on the bus", and that it "frees up the time of other household members who would have had to provide lifts" [@delbosc2015impact, p.10]. Figure \ref{fig:Selandra_rise} revisits the Selandra Rise Estate, showing Transport Supply in 2016 and 2021, and changes in SI score for those SA1s that had Very High social needs, but Very Low or Zero Transport Supply in 2016. 
 
 ```{r Bus_798, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 1, out.width = "100%", fig.align = "center", fig.show="hold", fig.cap="Bus Route 798 as originally introduced in 2014 (Source: Delbosc et al (2015))"}
 
@@ -5467,10 +5467,33 @@ knitr::include_graphics("graphics/Route798.png")
 ```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (colours as per previous figures, transit routes in purple, 2016 and 2021 SA1 boundaries in grey.)", fig.subcap = c("Transport Supply categories in 2016", "Transport Supply categories in 2021 (transit routes in purple)", "Change in SI score between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply with 2021 populations", "Current (2024) route map")}
 
 
+# import ptv feeds
+ptv_160804_gtfs <- tidytransit::read_gtfs("data/ptv_160804/gtfs_duplicate_stops_removed.zip") 
+ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") 
+
+
+###2021
+## filter feed to only include South SA4s
+south_east_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - South East")
+ptv_210805_gtfs_south_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, south_east_sa4)
+#convert to sf
+ptv_210805_gtfs_south_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_south_east)
+ptv_210805_gtfs_south_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_south_east)
+
+
+###2016
+## filter feed to only include North East SA4s
+ptv_160804_gtfs_south_east <- tidytransit::filter_feed_by_area(ptv_160804_gtfs, south_east_sa4)
+#convert to sf
+ptv_160804_gtfs_south_east <- tidytransit::gtfs_as_sf(ptv_160804_gtfs_south_east)
+ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_south_east)
+
+
+
 #Plot 
 melbourne_si_SA12016_16_plot + 
   geom_sf(data=sa12016, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_160804_gtfs, colour="purple") +
+  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") +
   coord_sf(ylim = c(-38.07, -38.16), 
            xlim = c(145.24, 145.40)) +
   theme(legend.position = "none", 
@@ -5479,12 +5502,30 @@ melbourne_si_SA12016_16_plot +
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
         ) +
-  ggspatial::annotation_scale(location = 'tr') + 
+  ggspatial::annotation_scale(location = 'tr') 
   
 
+  
+## 2021
+  
+## import ptv feed
+ptv_210805_gtfs <- tidytransit::read_gtfs("data/ptv_210805/gtfs_duplicate_stops_removed.zip") 
+
+
+## filter feed to only include South SA4s
+south_east_sa4 <- sa42021 %>% filter(sa4_name_2021 == "Melbourne - South East")
+ptv_210805_gtfs_south_east <- tidytransit::filter_feed_by_area(ptv_210805_gtfs, south_east_sa4)
+
+#convert to sf
+ptv_210805_gtfs_south_east <- tidytransit::gtfs_as_sf(ptv_210805_gtfs_south_east)
+ptv_210805_gtfs_south_east <- tidytransit::get_route_geometry(ptv_210805_gtfs_south_east)
+
+
+  
+  
 melbourne_si_SA12021_21_plot + 
     geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs, colour="purple") +
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
  coord_sf(ylim = c(-38.07, -38.16), 
            xlim = c(145.24, 145.40)) +
 #ggrepel::geom_label_repel(
