@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.3.4)  11 SEP 2024 16:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.3.4)  12 SEP 2024 11:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1941,13 +1941,13 @@ Overfull \hbox (9.43288pt too wide) in paragraph at lines 654--685
  [][] 
  []
 
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf, id=391, 578.16pt x 578.16pt>
+<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf, id=391, 542.025pt x 542.025pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf  used on input line 689.
-(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+(pdftex.def)             Requested size: 542.02367pt x 542.02367pt.
 
-Overfull \hbox (110.15858pt too wide) in paragraph at lines 689--692
+Overfull \hbox (74.02367pt too wide) in paragraph at lines 689--692
  [][] 
  []
 
@@ -1955,13 +1955,13 @@ Overfull \hbox (110.15858pt too wide) in paragraph at lines 689--692
 LaTeX Warning: Reference `fig:Greater_Melbourne_2016_2021_ratio_map' on page 9 undefined on input line 699.
 
 [9] [10 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_2021_ratio_map-1.pdf>]
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf, id=413, 578.16pt x 578.16pt>
+<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf, id=413, 542.025pt x 542.025pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf  used on input line 746.
-(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+(pdftex.def)             Requested size: 542.02367pt x 542.02367pt.
 
-Overfull \hbox (110.15858pt too wide) in paragraph at lines 746--750
+Overfull \hbox (74.02367pt too wide) in paragraph at lines 746--750
  [][] 
  []
 
@@ -1991,13 +1991,13 @@ LaTeX Warning: Reference `tab:Greater_Melbourne_2016_needs_gap_population_table'
 LaTeX Warning: Reference `tab:Greater_Melbourne_2021_needs_gap_population_table' on page 11 undefined on input line 800.
 
 [11] [12 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_social_needs-1.pdf>] [13 <./ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_scatterplot_figure-1.pdf>]
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf, id=461, 578.16pt x 578.16pt>
+<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf, id=461, 542.025pt x 542.025pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2021_needs_gap_map_figure-1.pdf  used on input line 811.
-(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+(pdftex.def)             Requested size: 542.02367pt x 542.02367pt.
 
-Overfull \hbox (110.15858pt too wide) in paragraph at lines 811--813
+Overfull \hbox (74.02367pt too wide) in paragraph at lines 811--813
  [][] 
  []
 
@@ -2102,13 +2102,13 @@ Overfull \hbox (1.76974pt too wide) in paragraph at lines 852--852
 \T1/lmr/m/n/8 (31,475)|  
  []
 
-<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf, id=463, 578.16pt x 578.16pt>
+<ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf, id=463, 542.025pt x 542.025pt>
 File: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf Graphic file (type pdf)
 <use ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf>
 Package pdftex.def Info: ReynoldsCurrieQu2024_files/figure-latex/Greater_Melbourne_2016_needs_gap_SA4_service_change-1.pdf  used on input line 859.
-(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+(pdftex.def)             Requested size: 542.02367pt x 542.02367pt.
 
-Overfull \hbox (110.15858pt too wide) in paragraph at lines 859--861
+Overfull \hbox (74.02367pt too wide) in paragraph at lines 859--861
  [][] 
  []
 
@@ -2301,9 +2301,9 @@ Here is how much of TeX's memory you used:
  37281 multiletter control sequences out of 15000+600000
  613644 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 72i,11n,79p,1243b,648s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,11n,79p,1271b,648s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/jreynold/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on ReynoldsCurrieQu2024.pdf (28 pages, 74528918 bytes).
+Output written on ReynoldsCurrieQu2024.pdf (28 pages, 74499170 bytes).
 PDF statistics:
  832 PDF objects out of 1000 (max. 8388607)
  709 compressed objects within 8 object streams
