@@ -2928,7 +2928,7 @@ melbourne_si_SA12021_21_plot +
 inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.40, top =0.30) +
   inset_element(pcol_mornington, left = 0.56, bottom = 0.03, right = 0.86, top =0.17) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.03, right = 1.12, top =0.17) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.686, right = 1.12, top =0.83) +
+  inset_element(pcol_outer_east, left = 0.75, bottom = 0.686, right = 1.05, top =0.83) +
   inset_element(pcol_north_east, left = 0.6, bottom = 0.80, right = 0.9, top =0.95)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
   inset_element(pcol_west, left = 0.00, bottom = 0.32, right = 0.3, top =0.47) +
@@ -3533,7 +3533,7 @@ pcol_mornington <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3594,7 +3594,7 @@ pcol_inner_east <-left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021_
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3624,7 +3624,7 @@ pcol_inner_south <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_202
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3653,7 +3653,7 @@ pcol_north_east <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3682,7 +3682,7 @@ pcol_north_west <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3711,7 +3711,7 @@ pcol_outer_east <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3740,7 +3740,7 @@ pcol_south_east <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3769,7 +3769,7 @@ pcol_west <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021_wider
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3798,7 +3798,7 @@ pcol_inner <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021_wide
   geom_col(aes(ratio_binned, perc, fill = ratio_binned)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c( "#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -3821,15 +3821,15 @@ Greater_Melbourne_2016_2021_ratio_map +
   ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tl') + 
   inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.48, top =0.2) +
-  inset_element(pcol_mornington, left = 0.58, bottom = 0.05, right = 0.88, top =0.2) +
+  inset_element(pcol_mornington, left = 0.63, bottom = 0.05, right = 0.93, top =0.2) +
   inset_element(pcol_south_east, left = 0.8, bottom = 0.05, right = 1.1, top =0.20) +
-  inset_element(pcol_outer_east, left = 0.7, bottom = 0.85, right = 1.0, top =1) +
-  inset_element(pcol_north_east, left = 0.53, bottom = 0.85, right = 0.83, top =1)  +
-  inset_element(pcol_north_west, left = 0.0, bottom = 0.65, right = 0.3, top =0.8) +
+  inset_element(pcol_outer_east, left = 0.8, bottom = 0.85, right = 1.1, top =1) +
+  inset_element(pcol_north_east, left = 0.63, bottom = 0.85, right = 0.93, top =1)  +
+  inset_element(pcol_north_west, left = 0.0, bottom = 0.75, right = 0.3, top =0.9) +
   inset_element(pcol_west, left = 0.0, bottom = 0.5, right = 0.3, top =0.65) +
-  inset_element(pcol_inner, left = 0.32, bottom = 0.32, right = 0.62, top =0.47) +
-  inset_element(pcol_inner_south, left = 0.32, bottom = 0.17, right = 0.62, top =0.32) +
-  inset_element(pcol_inner_east, left = 0.7, bottom = 0.7, right = 1, top =0.85)  
+  inset_element(pcol_inner, left = 0.53, bottom = 0.33, right = 0.83, top =0.48) +
+  inset_element(pcol_inner_south, left = 0.35, bottom = 0.18, right = 0.65, top =0.33) +
+  inset_element(pcol_inner_east, left = 0.8, bottom = 0.7, right = 1.1, top =0.85)  
 
 ```
 
@@ -4108,12 +4108,12 @@ pcol <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.03, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() + 
     scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
  guides(fill = "none", color = "none") +
   labs(
-    title = "Population by Transport Supply",
+    title = "Population by Needs",
     x = NULL,
     y = NULL
   ) +
@@ -4135,7 +4135,7 @@ pcol_mornington <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4162,7 +4162,7 @@ pcol_inner_east <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4190,7 +4190,7 @@ pcol_inner_south <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4217,7 +4217,7 @@ pcol_north_east <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4244,7 +4244,7 @@ pcol_north_west <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4271,7 +4271,7 @@ pcol_outer_east <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4298,7 +4298,7 @@ pcol_south_east <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4325,7 +4325,7 @@ pcol_west <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4352,7 +4352,7 @@ pcol_inner <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
   geom_col(aes(composite_needs, perc, fill = composite_needs)) +
  scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -4374,16 +4374,16 @@ pcol_inner <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
 combined_needs_2021_plot +
  ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tr') +
-inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.40, top =0.30) +
-  inset_element(pcol_mornington, left = 0.56, bottom = 0.03, right = 0.86, top =0.17) +
+inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.2, top =0.30) +
+  inset_element(pcol_mornington, left = 0.57, bottom = 0.03, right = 0.87, top =0.17) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.03, right = 1.12, top =0.17) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.686, right = 1.12, top =0.83) +
+  inset_element(pcol_outer_east, left = 0.82, bottom = 0.72, right = 1.12, top =0.87) +
   inset_element(pcol_north_east, left = 0.6, bottom = 0.80, right = 0.9, top =0.95)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
-  inset_element(pcol_west, left = 0.00, bottom = 0.32, right = 0.3, top =0.47) +
-  inset_element(pcol_inner, left = 0.17, bottom = 0.32, right = 0.47, top =0.47) +
-  inset_element(pcol_inner_south, left = 0.33, bottom = 0.25, right = 0.63, top =0.4) +
-  inset_element(pcol_inner_east, left = 0.54, bottom = 0.59, right = 0.84, top =0.72) 
+  inset_element(pcol_west, left = 0.00, bottom = 0.23, right = 0.3, top =0.38) +
+  inset_element(pcol_inner, left = 0.3, bottom = 0.23, right = 0.6, top =0.38) +
+  inset_element(pcol_inner_south, left = 0.34, bottom = 0.20, right = 0.64, top =0.35) +
+  inset_element(pcol_inner_east, left = 0.82, bottom = 0.59, right = 1.12, top =0.72) 
 
 
 ```
@@ -5564,17 +5564,17 @@ ggplot()+
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1)  + 
    ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tr') +
-inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.40, top =0.30) +
-  inset_element(pcol_mornington, left = 0.56, bottom = 0.03, right = 0.86, top =0.17) +
+inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.2, top =0.30) +
+  inset_element(pcol_mornington, left = 0.57, bottom = 0.03, right = 0.87, top =0.17) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.03, right = 1.12, top =0.17) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.686, right = 1.12, top =0.83) +
+  inset_element(pcol_outer_east, left = 0.82, bottom = 0.72, right = 1.12, top =0.87) +
   inset_element(pcol_north_east, left = 0.6, bottom = 0.80, right = 0.9, top =0.95)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
-  inset_element(pcol_west, left = 0.00, bottom = 0.32, right = 0.3, top =0.47) +
-  inset_element(pcol_inner, left = 0.17, bottom = 0.32, right = 0.47, top =0.47) +
-  inset_element(pcol_inner_south, left = 0.33, bottom = 0.25, right = 0.63, top =0.4) +
-  inset_element(pcol_inner_east, left = 0.54, bottom = 0.59, right = 0.84, top =0.72) 
-  
+  inset_element(pcol_west, left = 0.00, bottom = 0.23, right = 0.3, top =0.38) +
+  inset_element(pcol_inner, left = 0.3, bottom = 0.23, right = 0.6, top =0.38) +
+  inset_element(pcol_inner_south, left = 0.34, bottom = 0.20, right = 0.64, top =0.35) +
+  inset_element(pcol_inner_east, left = 0.82, bottom = 0.59, right = 1.12, top =0.72) 
+
 
 ```
 
@@ -5981,7 +5981,7 @@ pcol <- si_by_areaSA12016_2016_2021_wider %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "Population (2016)",
+    title = "2016 population by change to SI by 2021",
     x = NULL,
     y = NULL
   ) +
@@ -6216,19 +6216,13 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
  Greater_MelbourneSA12016_2016_2021_ratio_map +
    ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tr') +
-inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.40, top =0.30) +
-  inset_element(pcol_mornington, left = 0.56, bottom = 0.03, right = 0.86, top =0.17) +
+inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.2, top =0.30) +
+  inset_element(pcol_mornington, left = 0.57, bottom = 0.03, right = 0.87, top =0.17) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.03, right = 1.12, top =0.17) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.686, right = 1.12, top =0.83) +
+  inset_element(pcol_outer_east, left = 0.82, bottom = 0.72, right = 1.12, top =0.87) +
   inset_element(pcol_north_east, left = 0.6, bottom = 0.80, right = 0.9, top =0.95)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
-  inset_element(pcol_west, left = 0.00, bottom = 0.32, right = 0.3, top =0.47) +
-  inset_element(pcol_inner, left = 0.17, bottom = 0.32, right = 0.47, top =0.47) +
-  inset_element(pcol_inner_south, left = 0.33, bottom = 0.25, right = 0.63, top =0.4) +
-  inset_element(pcol_inner_east, left = 0.54, bottom = 0.59, right = 0.84, top =0.72) 
-  
-
-
+  inset_element(pcol_west, left = 0.00, bottom = 0.23, right = 0.3, top =0.38) 
 
 
 ```
@@ -6271,7 +6265,7 @@ knitr::include_graphics("graphics/Selandra_Rise.png")
 
 ```
 
-```{r route_maps, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (2021 SA1 boundaries)", fig.subcap = c( "Transport Supply categories in 2016", "Transport Supply categories in 2021", "Social Need categories in 2021", "Very High Social Needs: Transport Supply categories in 2021", "Change in SI score between 2016 and 2021", "Very High Social Needs, Very Low or Zero Supply (2021): Change in SI score between 2016 and 2021")}
+```{r route_maps, fig.show="hold", eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 
 
 
@@ -6298,7 +6292,10 @@ ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_so
 
 ```
 
-```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate (2021 SA1 boundaries)", fig.subcap = c( "Transport Supply categories in 2016", "Transport Supply categories in 2021", "Change in SI score between 2016 and 2021", "Social Need categories in 2021", "Change in transit supply between 2016 and 2021 for SA1s with Very High needs but Very Low or Zero supply in 2016", "Needs-gap: SA1s with Very High transport need areas by Transport Supply")}
+```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, fig.height=1.4, fig.width=4, fig.align = "center", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate", fig.subcap = c("Transport Supply by SA1: 2016", "Transport Supply by population: 2016", "Transport Supply by SA1: 2021", "Transport Supply by population: 2021", "Change in SI score between 2016 and 2021 by SA1 (2021 boundaries)", "Change in SI score between 2016 and 2021, by 2021 population", "Social Need by SA1: 2021", "Social Need by population: 2021", "Needs-gap: SA1s with Very High transport needs in 2021, by Transport Supply", "Needs-gap: population with Very High transport needs in 2021, by Transport Supply")}
+
+
+
 
 #Plot 
 #melbourne_si_SA12016_16_plot + 
@@ -6316,11 +6313,12 @@ ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_so
 #  ggspatial::annotation_scale(location = 'tr') 
 
 
+ 
 
 
 
 #Set boundings box
-lat = c(-38.082, -38.128)
+lat = c(-38.09, -38.125)
 lon = c(145.25, 145.360)
 
 Poly_Coord_df = data.frame(lon, lat)
@@ -6330,34 +6328,6 @@ poly <- Poly_Coord_df %>%
            crs = 4326) %>% 
   st_bbox() %>% 
   st_as_sfc()
-
-
-pcol <- melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>%
-  st_filter(poly, .predicate =  st_intersects) %>% 
-  st_drop_geometry() %>%
-  aggregate(population ~ transit_supply, sum) %>%
-  mutate(perc=population/sum(population)) %>% 
-  ggplot() + 
-  geom_col(aes(transit_supply, population, fill = transit_supply), colour="black") +
-  scale_y_continuous(limits = c(0,80000)) +
-  geom_hline(yintercept = 0)  + 
-  geom_text(aes(transit_supply, population + 15000, label = glue::glue("{label_comma(accuracy = 1, big.mark = ",")(population)} ({label_percent(accuracy = 1)(perc)})")), size = 3.5) +
-  coord_flip() + 
- scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
-  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
-  guides(fill = "none", color = "none") +
-  labs(
-    title = "Population",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_void() +
-  theme(
-    panel.grid = element_blank(),
-    plot.title = element_text(size = 12),
-    axis.text.y = element_text(size = 10, hjust = 1),
-    axis.text.x = element_blank()
-  ) 
 
 
 ggplot()+ 
@@ -6379,38 +6349,26 @@ ggplot()+
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
           fill=NA) +
-  geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
+  geom_sf(data=sa12016, fill=NA, colour = "grey") +
+  #geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
   geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) + 
-    coord_sf(ylim = c(-38.082, -38.128), 
+    coord_sf(ylim = c(-38.09, -38.125), 
            xlim = c(145.25, 145.360)) +
   ggspatial::annotation_scale(location = 'bl') +
-  ggspatial::annotation_north_arrow(location = 'tr') +
-  inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35)
+  ggspatial::annotation_north_arrow(location = 'br') 
   
 
-
-
-
-
-
-
-
-
-
-
-
-pcol <- melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>%
+melbourne_si_SA12016_16_census_week_aggregated$si_by_area %>%
   st_filter(poly, .predicate =  st_intersects) %>% 
   st_drop_geometry() %>%
   aggregate(population ~ transit_supply, sum) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
   geom_col(aes(transit_supply, population, fill = transit_supply), colour="black") +
-  scale_y_continuous(limits = c(0,80000)) +
+  scale_y_continuous(limits = c(0,50000)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(transit_supply, population + 15000, label = glue::glue("{label_comma(accuracy = 1, big.mark = ",")(population)} ({label_percent(accuracy = 1)(perc)})")), size = 3.5) +
-  coord_flip() + 
+  geom_text(aes(transit_supply, population + 6000, label = glue::glue("{label_comma(accuracy = 1, big.mark = ",")(population)} ({label_percent(accuracy = 1)(perc)})")), size = 3) +
+   coord_flip() + 
  scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
@@ -6422,17 +6380,21 @@ pcol <- melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>%
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 12),
-    axis.text.y = element_text(size = 10, hjust = 1),
+    plot.title = element_blank(),
+    axis.text.y = element_text(size = 4, hjust = 1),
     axis.text.x = element_blank()
   ) 
 
 
+
+
+
+
 melbourne_si_SA12021_21_plot + 
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  coord_sf(ylim = c(-38.082, -38.128), 
+  coord_sf(ylim = c(-38.09, -38.125), 
            xlim = c(145.25, 145.360)) +
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+# geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) +
 #ggrepel::geom_label_repel(
 #  data = si_by_area_2016_2021_wider %>% 
@@ -6447,39 +6409,38 @@ melbourne_si_SA12021_21_plot +
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank(), #remove y axis ticks
         ) + 
-   coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
- inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35) 
+     coord_sf(ylim = c(-38.09, -38.125), 
+           xlim = c(145.25, 145.360)) 
 
-
-
-pcol <- si_by_area_2016_2021_wider %>%
+melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>%
   st_filter(poly, .predicate =  st_intersects) %>% 
   st_drop_geometry() %>%
-  na.omit() %>% 
-  aggregate(population ~ ratio_binned, FUN = sum) %>%
+  aggregate(population ~ transit_supply, sum) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
- geom_col(aes(ratio_binned, perc, fill = ratio_binned), colour="black") +
-  scale_y_continuous(limits = c(0,0.7)) +
+  geom_col(aes(transit_supply, population, fill = transit_supply), colour="black") +
+  scale_y_continuous(limits = c(0,50000)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned, perc+0.1, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3.5) +
-  coord_flip() +
-  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black")) +
+  geom_text(aes(transit_supply, population + 6000, label = glue::glue("{label_comma(accuracy = 1, big.mark = ",")(population)} ({label_percent(accuracy = 1)(perc)})")), size = 4) +
+   coord_flip() + 
+ scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
- title = "Population share",
+    title = "Population",
     x = NULL,
     y = NULL
   ) +
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 12, colour = "white"),
-    axis.text.y = element_text(size = 10, hjust = 1, colour = "white"),
-    axis.text.x = element_blank())
- 
+    plot.title = element_blank(),
+    axis.text.y = element_text(size = 5, hjust = 1),
+    axis.text.x = element_blank()
+  ) 
+
+
+
 
 
 ggplot()+ 
@@ -6495,104 +6456,47 @@ ggplot()+
         legend.title = element_text(size = 10),
         legend.key.size = unit(0.15, 'cm')) + 
   guides(fill=guide_legend(nrow = 4)) +
-     coord_sf(ylim = c(-38.082, -38.128), 
+  coord_sf(ylim = c(-38.09, -38.125), 
            xlim = c(145.25, 145.360)) +
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+  #geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
   geom_sf(data=sa4_boundaries, fill = NA, colour="blue") + 
-   coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
-  inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35)
+  coord_sf(ylim = c(-38.09, -38.125), 
+           xlim = c(145.25, 145.360)) 
   
 
 
-
-
-
-#ggplot()+ 
-#  geom_sf(data=si_by_areaSA12016_2016_2021_wider %>% 
-#            na.omit() %>%
-#            filter(ratio_binned != "Never served (black)"),
-#          aes(fill = ratio_binned), colour=NA) +  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black")) +
-#  theme(axis.text.x=element_blank(), #remove x axis labels
-#        axis.ticks.x=element_blank(), #remove x axis ticks
-#        axis.text.y=element_blank(),  #remove y axis labels
-#        axis.ticks.y=element_blank(), #remove y axis ticks
-#        legend.position="none",
-#        legend.text = element_text(size = 10), 
-#        legend.title = element_text(size = 10),
-#        legend.key.size = unit(0.15, 'cm')) + 
-#  guides(fill=guide_legend(nrow = 4)) +
-  #geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
-  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-#  geom_sf(data=melbourne_sd07aust_region, 
-##          colour="black", 
-#          fill=NA) +
-#  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
-#  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1)  + 
-#  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") + 
-#   coord_sf(ylim = c(-38.082, -38.128), 
-#           xlim = c(145.25, 145.360)) 
-
-
-
-
-#ggplot()+ 
-#  geom_sf(data=combined_needs_index_2016_sa1_greater_melbourne %>% na.omit(),
-#          aes(fill =  composite_needs), colour=NA) +
-#  theme(axis.text.x=element_blank(), #remove x axis labels
-#        axis.ticks.x=element_blank(), #remove x axis ticks
-#        axis.text.y=element_blank(),  #remove y axis labels
-#        axis.ticks.y=element_blank(), #remove y axis ticks
-#        legend.position="none") +
-#        legend.text = element_text(size = 4), 
- #       legend.title = element_text(size = 5)) + 
-#  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) +
-  #geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
-  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-#  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") +
-#  geom_sf(data=melbourne_sd07aust_region, 
-#          colour="black", 
-#          fill=NA) +
-# geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
-#  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) + 
-#   coord_sf(ylim = c(-38.082, -38.128), 
-#           xlim = c(145.25, 145.360)) +
-#  ggspatial::annotation_scale(location = 'br') + 
-#  ggspatial::annotation_north_arrow(location = "tr")
-
-
-pcol <- combined_needs_index_2021_sa1_greater_melbourne %>%
+si_by_area_2016_2021_wider %>%
   st_filter(poly, .predicate =  st_intersects) %>% 
   st_drop_geometry() %>%
-  left_join(melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% st_drop_geometry(), by = join_by(sa1_code_2021 == area_id)) %>%
   na.omit() %>% 
-  aggregate(population ~ composite_needs, FUN = sum) %>%
+  aggregate(population ~ ratio_binned, FUN = sum) %>%
   mutate(perc=population/sum(population)) %>% 
   ggplot() + 
- geom_col(aes(composite_needs, perc, fill = composite_needs), colour="black") +
+ geom_col(aes(ratio_binned, perc, fill = ratio_binned), colour="black") +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3.5) +
-  coord_flip() +
-  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) +
+  geom_text(aes(ratio_binned, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 4, colour = "black") +
+   coord_flip() +
+  scale_fill_manual(values = c("#3A65A3", "#6D9DC4", "#A6CFE1", "#DDEFF5", "#FFFBB5", "#F9D785", "#EFA15C", "#DC6446", "#BA3832", "#852128", "magenta", "black")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
- title = "Population",
+ title = "Population share",
     x = NULL,
     y = NULL
   ) +
   theme_void() +
   theme(
     panel.grid = element_blank(),
-    plot.title = element_text(size = 12),
-    axis.text.y = element_text(size = 10, hjust = 1),
+    plot.title = element_blank(),
+    axis.text.y = element_text(size = 10, hjust = 1, colour = "black"),
     axis.text.x = element_blank())
  
+
 ggplot()+ 
   geom_sf(data=combined_needs_index_2021_sa1_greater_melbourne %>% na.omit(),
           aes(fill = composite_needs), colour=NA) +
@@ -6609,139 +6513,100 @@ ggplot()+
           colour="black", 
           fill=NA) +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+  #geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) +
-  coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
-   inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35)
+    coord_sf(ylim = c(-38.09, -38.125), 
+           xlim = c(145.25, 145.360)) 
   
 
-
-
+combined_needs_index_2021_sa1_greater_melbourne %>%
+  st_filter(poly, .predicate =  st_intersects) %>% 
+  st_drop_geometry() %>%
+  left_join(melbourne_si_SA12021_21_census_week_aggregated$si_by_area %>% st_drop_geometry(), by = join_by(sa1_code_2021 == area_id)) %>%
+  na.omit() %>% 
+  aggregate(population ~ composite_needs, FUN = sum) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+ geom_col(aes(composite_needs, perc, fill = composite_needs), colour="black") +
+  scale_y_continuous(limits = c(0,0.7)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(composite_needs, perc+0.08, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3) +
+   coord_flip() +
+  scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) +
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+ title = "Population",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_blank(),
+    axis.text.y = element_text(size = 5, hjust = 1),
+    axis.text.x = element_blank())
 
 
 #ggplot()+ 
-#  geom_sf(data=melbourne_needs_gap_sa1_2016 %>% 
-#          filter(composite_needs == "Very High"),
-#          aes(fill = transit_supply), colour=NA) +
+#  geom_sf(data=si_by_areaSA12016_2016_2021_wider %>% 
+#            filter(very_high_needs_zero_or_very_low_supply == TRUE),
+#          aes(fill = ratio_binned_collapsed), colour="black") +  
+#  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
 #  theme(axis.text.x=element_blank(), #remove x axis labels
 #        axis.ticks.x=element_blank(), #remove x axis ticks
 #        axis.text.y=element_blank(),  #remove y axis labels
 #        axis.ticks.y=element_blank(), #remove y axis ticks
 #        legend.position="none",
-#        legend.text = element_text(size = 4), 
-#        legend.title = element_text(size = 5), 
-#        legend.key.size = unit(0.08, 'cm')
-#        ) + 
-#  scale_fill_manual(values = c("darkred", "red", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) + 
+#        legend.text = element_text(size = 10), 
+#        legend.title = element_text(size = 10),
+#        legend.key.size = unit(0.15, 'cm')) + 
+#  guides(fill=guide_legend(nrow = 4)) +
+#     coord_sf(ylim = c(-38.082, -38.128), 
+#           xlim = c(145.25, 145.360)) +
 #  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
 #  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-#  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") +
-#  geom_sf(data=melbourne_sd07aust_region, 
-#          colour="black", 
-#          fill=NA) +
-# geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
-#  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1)  + 
-#    coord_sf(ylim = c(-38.082, -38.128), 
-#           xlim = c(145.25, 145.360)) 
+#  geom_sf(data=sa12021, fill=NA, colour = "grey") +
+#  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+#  geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
+#  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") + 
+#   coord_sf(ylim = c(-38.082, -38.128), 
+#           xlim = c(145.25, 145.360)) #
 
-pcol <- si_by_areaSA12016_2016_2021_wider %>% 
-  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
-  st_filter(poly, .predicate =  st_intersects) %>% 
-  st_drop_geometry() %>%
-  na.omit() %>% 
-  aggregate(population ~ ratio_binned_collapsed, FUN = sum) %>%
-  mutate(perc=population/sum(population)) %>% 
-  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
-   levels = c("New or 30%+", 
-      "Increased 1 to 30%", 
-      "Within 1%",
-      "Reduced, withdrawn, never"))) %>%
-  as_tibble() %>%
-  ggplot() + 
- geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed), colour="black") +
-  scale_y_continuous(limits = c(0,0.7)) +
-  geom_hline(yintercept = 0)  + 
-  geom_text(aes(ratio_binned_collapsed, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3.5, colour = "white") +
-  coord_flip() +
-  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
-  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
-  guides(fill = "none", color = "none") +
-  labs(
- title = "Population",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_void() +
-  theme(
-    panel.grid = element_blank(),
-    plot.title = element_text(size = 12),
-    axis.text.y = element_text(size = 10, hjust = 1),
-    axis.text.x = element_blank())
+#  si_by_areaSA12016_2016_2021_wider %>% 
+#  filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
+#  st_filter(poly, .predicate =  st_intersects) %>% 
+#  st_drop_geometry() %>%
+#  na.omit() %>% 
+#  aggregate(population ~ ratio_binned_collapsed, FUN = sum) %>%
+#  mutate(perc=population/sum(population)) %>% 
+#  mutate(ratio_binned_collapsed = factor(ratio_binned_collapsed, 
+#   levels = c("New or 30%+", 
+#      "Increased 1 to 30%", 
+#      "Within 1%",
+#      "Reduced, withdrawn, never"))) %>%
+#  as_tibble() %>%
+#  ggplot() + 
+# geom_col(aes(ratio_binned_collapsed, perc, fill = ratio_binned_collapsed), colour="black") #+
+#  scale_y_continuous(limits = c(0,0.7)) +
+#  geom_hline(yintercept = 0)  + 
+#  geom_text(aes(ratio_binned_collapsed, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3.5, colour = "black") +
+#   coord_flip() +
+#  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
+#  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+#  guides(fill = "none", color = "none") +
+#  labs(
+# title = "Population",
+#    x = NULL,
+#    y = NULL
+#  ) +
+#  theme_void() +
+#  theme(
+#    panel.grid = element_blank(),
+#    plot.title = element_text(size = 12),
+#    axis.text.y = element_text(size = 10, hjust = 1),
+#    axis.text.x = element_blank())
  
-
-
-
-
-ggplot()+ 
-  geom_sf(data=si_by_areaSA12016_2016_2021_wider %>% 
-            filter(very_high_needs_zero_or_very_low_supply == TRUE),
-          aes(fill = ratio_binned_collapsed), colour="black") +  
-  scale_fill_manual(values = c("#3A65A3", "#C2DFEB", "#EFA15C", "#BA3832", "black")) +
-  theme(axis.text.x=element_blank(), #remove x axis labels
-        axis.ticks.x=element_blank(), #remove x axis ticks
-        axis.text.y=element_blank(),  #remove y axis labels
-        axis.ticks.y=element_blank(), #remove y axis ticks
-        legend.position="none",
-        legend.text = element_text(size = 10), 
-        legend.title = element_text(size = 10),
-        legend.key.size = unit(0.15, 'cm')) + 
-  guides(fill=guide_legend(nrow = 4)) +
-     coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
-  geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
-  #geom_sf(data=middle_lga07aust_region, fill = NA, linewidth = 0.4) +
-  geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
-  geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
-  geom_sf(data=sa4_boundaries, fill = NA, colour="blue") + 
-   coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
-  inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35)
-
-  
-
-
-pcol <- melbourne_needs_gap_sa1_2021 %>% 
-          filter(composite_needs == "Very High") %>%
-  st_filter(poly, .predicate =  st_intersects) %>% 
-  st_drop_geometry() %>%
-  na.omit() %>% 
-  aggregate(population ~ transit_supply, FUN = sum) %>%
-  mutate(perc=population/sum(population)) %>% 
-  ggplot() + 
- geom_col(aes(transit_supply, perc, fill = transit_supply), colour="black") +
-  scale_y_continuous(limits = c(0,0.7)) +
-  geom_hline(yintercept = 0)  + 
-  geom_text(aes(transit_supply, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 3.5) +
-  coord_flip() +
-  scale_fill_manual(values = c("darkred", "red", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) + 
-  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
-  guides(fill = "none", color = "none") +
-  labs(
- title = "Population",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_void() +
-  theme(
-    panel.grid = element_blank(),
-    plot.title = element_text(size = 12),
-    axis.text.y = element_text(size = 10, hjust = 1),
-    axis.text.x = element_blank())
- 
-
-
 
 ggplot()+ 
   geom_sf(data=melbourne_needs_gap_sa1_2021 %>% 
@@ -6764,15 +6629,38 @@ ggplot()+
           colour="black", 
           fill=NA) +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
-  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") + 
+  #geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") + 
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
     coord_sf(ylim = c(-38.082, -38.128), 
-           xlim = c(145.25, 145.360)) +
-   inset_element(pcol, left = 0.5, bottom = 0.0, right = 1.1, top = 0.35)
+           xlim = c(145.25, 145.360)) 
   
-
-
-
+melbourne_needs_gap_sa1_2021 %>% 
+          filter(composite_needs == "Very High") %>%
+  st_filter(poly, .predicate =  st_intersects) %>% 
+  st_drop_geometry() %>%
+  na.omit() %>% 
+  aggregate(population ~ transit_supply, FUN = sum) %>%
+  mutate(perc=population/sum(population)) %>% 
+  ggplot() + 
+ geom_col(aes(transit_supply, perc, fill = transit_supply), colour="black") +
+  scale_y_continuous(limits = c(0,0.7)) +
+  geom_hline(yintercept = 0)  + 
+  geom_text(aes(transit_supply, perc+0.08, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = c("darkred", "red", "#F7C387", "#F29C33", "#5DB000", "#53A212", "#407F0B")) + 
+  scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
+  guides(fill = "none", color = "none") +
+  labs(
+ title = "Population",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_void() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_blank(),
+    axis.text.y = element_text(size = 5, hjust = 1),
+    axis.text.x = element_blank())
 
   
 #knitr::include_graphics("graphics/Selandra_Rise.png")
