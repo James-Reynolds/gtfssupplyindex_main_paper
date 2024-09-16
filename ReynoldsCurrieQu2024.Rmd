@@ -34,12 +34,17 @@ footnote:
     text: "PhD Student"
 
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Transit often provides an vital social purpose, linking those who cannot otherwise drive to services, activities and community. Vertical social equity perspecties on transport policy emphasise providing services to those most in need. In previous research Currie and Senbergs (2007) and Currie (2010) developed an analysis approach for identifying spatial areas where gaps between transit supply, accounting for frequency and coverage, and transport needs are larger. 
+  However, this approach does not appear to have been widely adopted or received further research attention. This may be due to the challenges associated with assessing transit supply levels prior to the widespread avaialbility of schedule data in electronic formats. Nowadays, GTFS datasets are provided by many operators, allowing the development of standardised processing tools. Such a tool, though, does not yet appears to be available for  needs-gap analysis, nor does it appear that there has been further review of spatial patterns since the Currie and Senbergs (2007) and Currie (2010) case study of Melbourne in 2006. 
+  This paper reportes the development of a software package with tools for using GTFS dataset for needs-gap analysi, available for the R statistiacal analysis language. The paper also reports results for Melbourne in 2016 and 2021, both tot demostrate the package capabilities and continue the previous research as a longitudinal case study.  
+  Results indicate similar patterns of social need and transit supply as in 2006, with lower supply levels in outer areas, particularly those that are away from the suburban rail network. The share of residents living in areas with Very High needs but Very Low or Zero transit supply, however, has increased from 8.2% of the population in 2006 to 11.2% in 2016 and ?? in 2021. The paper also briefly revists a case study of early-2010s development in the outer south east reported in Delbosc et al (2015), finding that there have been positive changes in service level at this local scale, but needs-gaps for parts of the neighbourhood are amongst the highest in Greater Melbourne. While Melbourne may be an outlier in terms of high population growth (3.4m to 4.9m in 15 years) at generally low densities, compared to other cities, theses result might suggest that providing even a basic level of transit-based movility to those in need has only become more difficult. Direction for further research and limitations are also identified.  
+  
 keywords: 
-  - keyword1
-  - keyword2
+  - social needs
+  - public transport
+  - transit
+  - spatial analysis
+  - GTFS
 journal: "To be confirmed"
 date: "`r Sys.Date()`"
 classoption: preprint, 3p, authoryear
@@ -2947,7 +2952,7 @@ pcol_inner <- melbourne_2021_population_transit_supply_by_SA4 %>%
   geom_hline(yintercept = 0)  + 
   geom_text(aes(transit_supply, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
- scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) +
+ scale_fill_manual(values = c("#F9D8B1", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen", "white")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
@@ -2970,13 +2975,13 @@ melbourne_si_SA12021_21_plot +
 inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.40, top =0.30) +
   inset_element(pcol_mornington, left = 0.56, bottom = 0.04, right = 0.86, top =0.18) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.04, right = 1.12, top =0.18) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.60, right = 1.12, top =0.75) +
+  inset_element(pcol_outer_east, left = 0.77, bottom = 0.60, right = 1.07, top =0.75) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96) +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
   inset_element(pcol_west, left = 0.00, bottom = 0.30, right = 0.3, top =0.45) +
   inset_element(pcol_inner, left = 0.17, bottom = 0.30, right = 0.47, top =0.45) +
   inset_element(pcol_inner_south, left = 0.33, bottom = 0.25, right = 0.63, top =0.4) +
-  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
+  inset_element(pcol_inner_east, left = 0.77, bottom = 0.78, right = 1.07, top =0.93) 
 
 
 
@@ -3881,12 +3886,12 @@ pcol_inner <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021_wide
   inset_element(pcol, left = 0.0, bottom = 0.05, right = 0.48, top =0.39) +
   inset_element(pcol_mornington, left = 0.59, bottom = 0.05, right = 0.89, top =0.2) +
   inset_element(pcol_south_east, left = 0.8, bottom = 0.05, right = 1.1, top =0.20) +
-  inset_element(pcol_outer_east, left = 0.75, bottom = 0.85, right = 1.05, top =1) +
+  inset_element(pcol_inner_east, left = 0.75, bottom = 0.85, right = 1.05, top =1) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.85, right = 0.89, top =1)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.75, right = 0.3, top =0.9) +
   inset_element(pcol_west, left = 0.0, bottom = 0.5, right = 0.3, top =0.65) +
   inset_element(pcol_inner, left = 0.33, bottom = 0.33, right = 0.63, top =0.48) +
-  inset_element(pcol_inner_south, left = 0.33, bottom = 0.18, right = 0.63, top =0.33) + inset_element(pcol_inner_east, left = 0.75, bottom = 0.7, right = 1.05, top =0.85)  
+  inset_element(pcol_inner_south, left = 0.33, bottom = 0.18, right = 0.63, top =0.33) + inset_element(pcol_outer_east, left = 0.75, bottom = 0.7, right = 1.05, top =0.85)  
 
 ```
 
@@ -4448,12 +4453,12 @@ combined_needs_2021_plot +
 inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
   inset_element(pcol_mornington, left = 0.59, bottom = 0.04, right = 0.89, top =0.19) +
   inset_element(pcol_south_east, left = 0.82, bottom = 0.04, right = 1.12, top =0.19) +
-  inset_element(pcol_outer_east, left = 0.87, bottom = 0.60, right = 1.17, top =0.75) +
+  inset_element(pcol_outer_east, left = 0.82, bottom = 0.60, right = 1.12, top =0.75) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
   inset_element(pcol_west, left = 0.00, bottom = 0.30, right = 0.3, top =0.45) +
-  inset_element(pcol_inner, left = 0.3, bottom = 0.25, right = 0.6, top =0.4) +
-  inset_element(pcol_inner_south, left = 0.3, bottom = 0.1, right = 0.6, top =0.25) +  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
+  inset_element(pcol_inner, left = 0.28, bottom = 0.27, right = 0.58, top =0.42) +
+  inset_element(pcol_inner_south, left = 0.28, bottom = 0.12, right = 0.58, top =0.27) +  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
 
 
 ```
@@ -6296,8 +6301,8 @@ pcol_mornington <- left_join(data.frame(ratio_binned_collapsed=levels(si_by_area
   ggspatial::annotation_north_arrow(location = 'tr') + 
   inset_element(pcol, left = 0.0, bottom = 0.15, right = 0.55, top =0.35) +
   inset_element(pcol_mornington, left = 0.57, bottom = 0.03, right = 0.87, top =0.17) +
-  inset_element(pcol_south_east, left = 0.72, bottom = 0.03, right = 1.02, top =0.17) +
-  inset_element(pcol_outer_east, left = 0.72, bottom = 0.70, right = 1.02, top =0.85) +
+  inset_element(pcol_south_east, left = 0.78, bottom = 0.03, right = 1.08, top =0.17) +
+  inset_element(pcol_outer_east, left = 0.78, bottom = 0.70, right = 1.08, top =0.85) +
   inset_element(pcol_north_east, left = 0.6, bottom = 0.85, right = 0.9, top =1)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.85, right = 0.3, top =1) +
   inset_element(pcol_west, left = 0.00, bottom = 0.35, right = 0.3, top =0.5) 
@@ -6906,7 +6911,7 @@ ggplot()+
 #        legend.title = element_text(size = 5), 
 #        legend.key.size = unit(0.08, 'cm')
         ) + 
-   scale_fill_manual(values = c("darkblue", "blue", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) + 
+   scale_fill_manual(values = c("darkblue", "lightblue", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) + 
   geom_sf(data=sa4_boundaries, fill = NA, colour="blue") +
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
@@ -6931,7 +6936,7 @@ melbourne_needs_gap_sa1_2021 %>%
   geom_hline(yintercept = 0)  + 
   geom_text(aes(transit_supply, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2.5) +
   coord_flip() +
-   scale_fill_manual(values = c("darkblue", "blue", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) + 
+   scale_fill_manual(values = c("darkblue", "lightblue", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) + 
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
