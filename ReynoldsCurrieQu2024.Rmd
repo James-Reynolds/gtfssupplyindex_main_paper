@@ -3240,7 +3240,7 @@ pcol <- si_by_area_2016_2021_wider %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "Change by 2021 pop.",
+    title = "2021 pop. by ΔSI",
     x = NULL,
     y = NULL
   ) +
@@ -3893,7 +3893,7 @@ pcol <- combined_needs_index_2021_sa1_greater_melbourne_sa4 %>%
     scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
  guides(fill = "none", color = "none") +
   labs(
-    title = "Population by Needs",
+    title = "Population by needs",
     x = NULL,
     y = NULL
   ) +
@@ -4165,13 +4165,14 @@ combined_needs_2021_plot +
   ggspatial::annotation_north_arrow(location = 'tr') +
 inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
   inset_element(pcol_mornington, left = 0.59, bottom = 0.04, right = 0.89, top =0.19) +
-  inset_element(pcol_south_east, left = 0.82, bottom = 0.04, right = 1.12, top =0.19) +
-  inset_element(pcol_outer_east, left = 0.82, bottom = 0.60, right = 1.12, top =0.75) +
+  inset_element(pcol_south_east, left = 0.85, bottom = 0.04, right = 1.15, top =0.19) +
+  inset_element(pcol_outer_east, left = 0.85, bottom = 0.60, right = 1.15, top =0.75) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
-  inset_element(pcol_west, left = 0.00, bottom = 0.30, right = 0.3, top =0.45) +
-  inset_element(pcol_inner, left = 0.28, bottom = 0.27, right = 0.58, top =0.42) +
-  inset_element(pcol_inner_south, left = 0.28, bottom = 0.12, right = 0.58, top =0.27) +  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
+  inset_element(pcol_west, left = 0.00, bottom = 0.29, right = 0.3, top =0.43) +
+  inset_element(pcol_inner, left = 0.28, bottom = 0.29, right = 0.58, top =0.43) +
+  inset_element(pcol_inner_south, left = 0.28, bottom = 0.14, right = 0.58, top =0.29) +  
+  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
 
 
 ```
@@ -4328,7 +4329,7 @@ combined_needs_2016_plot <- ggplot()+
   geom_sf(data=melbourne_sd07aust_region, 
           colour="black", 
           fill=NA) +
-  geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) 
+  geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) 
 
   
 #combined_needs_2016_plot + combined_needs_2021_plot 
@@ -5078,7 +5079,7 @@ pcol <- melbourne_needs_gap_sa1_2021 %>% st_drop_geometry() %>% na.omit() %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "Population by Supply",
+    title = "Population by Transport Supply",
     x = NULL,
     y = NULL
   ) +
@@ -5771,7 +5772,7 @@ pcol <- si_by_areaSA12016_2016_2021_wider %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "2016 population",
+    title = "2016 population by ΔSI",
     x = NULL,
     y = NULL
   ) +
@@ -6376,7 +6377,7 @@ scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "lightgre
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "Population",
+    title = "Population by Transport Supply",
     x = NULL,
     y = NULL
   ) +
@@ -6427,7 +6428,7 @@ scale_fill_manual(values = c("white", "#F9D8B1", "#F7C387", "#F29C33", "lightgre
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "Population",
+    title = "Population by Transport Supply",
     x = NULL,
     y = NULL
   ) +
@@ -6487,7 +6488,7 @@ si_by_area_2016_2021_wider %>%
   
   guides(fill = "none", color = "none") +
   labs(
- title = "Population share",
+ title = "2021 population share by ΔSI",
     x = NULL,
     y = NULL
   ) +
@@ -6539,7 +6540,7 @@ combined_needs_index_2021_sa1_greater_melbourne %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
- title = "Population",
+ title = "Population by needs",
     x = NULL,
     y = NULL
   ) +
@@ -6653,7 +6654,7 @@ melbourne_needs_gap_sa1_2021 %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
- title = "Population",
+ title = "Population by Transport Supply",
     x = NULL,
     y = NULL
   ) +
@@ -7070,12 +7071,12 @@ pcol <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.01, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() + 
     scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01")) + 
  guides(fill = "none", color = "none") +
   labs(
-    title = "Population by Transport Supply",
+    title = "Population by needs",
     x = NULL,
     y = NULL
   ) +
@@ -7098,7 +7099,7 @@ pcol_mornington <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7126,7 +7127,7 @@ pcol_inner_east <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7155,7 +7156,7 @@ pcol_inner_south <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7183,7 +7184,7 @@ pcol_north_east <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7211,7 +7212,7 @@ pcol_north_west <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7239,7 +7240,7 @@ pcol_outer_east <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7267,7 +7268,7 @@ pcol_south_east <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7295,7 +7296,7 @@ pcol_west <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7323,7 +7324,7 @@ pcol_inner <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
 # scale_x_discrete(drop=FALSE) +
   scale_y_continuous(limits = c(0,0.7)) +
   geom_hline(yintercept = 0)  + 
-  geom_text(aes(composite_needs, perc+0.02, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
+  geom_text(aes(composite_needs, perc+0.04, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
   scale_fill_manual(values = c("#FFFB07", "#CEE102", "#A3CF07", "#61AE09", "#2EA105", "#0A7B01"))  +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
@@ -7342,18 +7343,18 @@ pcol_inner <- combined_needs_index_2016_sa1_greater_melbourne_sa4 %>%
   )
 
 combined_needs_2016_plot +
-   ggspatial::annotation_scale(location = 'br') + 
+ ggspatial::annotation_scale(location = 'br') + 
   ggspatial::annotation_north_arrow(location = 'tr') +
 inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
   inset_element(pcol_mornington, left = 0.59, bottom = 0.04, right = 0.89, top =0.19) +
-  inset_element(pcol_south_east, left = 0.82, bottom = 0.04, right = 1.12, top =0.19) +
-  inset_element(pcol_outer_east, left = 0.87, bottom = 0.60, right = 1.17, top =0.75) +
+  inset_element(pcol_south_east, left = 0.85, bottom = 0.04, right = 1.15, top =0.19) +
+  inset_element(pcol_outer_east, left = 0.85, bottom = 0.60, right = 1.15, top =0.75) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
-  inset_element(pcol_west, left = 0.00, bottom = 0.30, right = 0.3, top =0.45) +
-  inset_element(pcol_inner, left = 0.27, bottom = 0.30, right = 0.57, top =0.45) +
-  inset_element(pcol_inner_south, left = 0.27, bottom = 0.20, right = 0.57, top =0.35) +  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
-
+  inset_element(pcol_west, left = 0.00, bottom = 0.29, right = 0.3, top =0.43) +
+  inset_element(pcol_inner, left = 0.28, bottom = 0.29, right = 0.58, top =0.43) +
+  inset_element(pcol_inner_south, left = 0.28, bottom = 0.14, right = 0.58, top =0.29) +  
+  inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
 
 
 
