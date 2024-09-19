@@ -3604,7 +3604,7 @@ pcol_inner <- left_join(data.frame(ratio_binned=levels(si_by_area_2016_2021_wide
   inset_element(pcol_north_west, left = 0.0, bottom = 0.75, right = 0.3, top =0.9) +
   inset_element(pcol_west, left = 0.0, bottom = 0.5, right = 0.3, top =0.65) +
   inset_element(pcol_inner, left = 0.33, bottom = 0.33, right = 0.63, top =0.48) +
-  inset_element(pcol_inner_south, left = 0.33, bottom = 0.18, right = 0.63, top =0.33) + inset_element(pcol_outer_east, left = 0.72, bottom = 0.7, right = 1.02, top =0.85)  
+  inset_element(pcol_inner_south, left = 0.32, bottom = 0.18, right = 0.62, top =0.33) + inset_element(pcol_outer_east, left = 0.72, bottom = 0.7, right = 1.02, top =0.85)  
 
 ```
 
@@ -4170,8 +4170,8 @@ inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
   inset_element(pcol_west, left = 0.00, bottom = 0.29, right = 0.3, top =0.43) +
-  inset_element(pcol_inner, left = 0.28, bottom = 0.29, right = 0.58, top =0.43) +
-  inset_element(pcol_inner_south, left = 0.28, bottom = 0.14, right = 0.58, top =0.29) +  
+  inset_element(pcol_inner, left = 0.27, bottom = 0.27, right = 0.57, top =0.42) +
+  inset_element(pcol_inner_south, left = 0.32, bottom = 0.15, right = 0.62, top =0.28) +   
   inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
 
 
@@ -5132,7 +5132,7 @@ pcol_inner_east <- melbourne_needs_gap_sa1_2021 %>% st_drop_geometry() %>%
   geom_hline(yintercept = 0)  + 
   geom_text(aes(transit_supply, perc+0.05, label = glue::glue("{label_percent(accuracy = 1)(perc)}")), size = 2) +
   coord_flip() +
-  scale_fill_manual(values = c("blue", "lightblue", "#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) +
+  scale_fill_manual(values = c("#F7C387", "#F29C33", "lightgreen", "#53A212", "darkgreen")) +
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
@@ -7352,8 +7352,8 @@ inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
   inset_element(pcol_north_east, left = 0.59, bottom = 0.81, right = 0.89, top =0.96)  +
   inset_element(pcol_north_west, left = 0.0, bottom = 0.81, right = 0.3, top =0.96) +
   inset_element(pcol_west, left = 0.00, bottom = 0.29, right = 0.3, top =0.43) +
-  inset_element(pcol_inner, left = 0.28, bottom = 0.29, right = 0.58, top =0.43) +
-  inset_element(pcol_inner_south, left = 0.28, bottom = 0.14, right = 0.58, top =0.29) +  
+ inset_element(pcol_inner, left = 0.27, bottom = 0.27, right = 0.57, top =0.42) +
+ inset_element(pcol_inner_south, left = 0.32, bottom = 0.18, right = 0.62, top =0.33) +
   inset_element(pcol_inner_east, left = 0.75, bottom = 0.78, right = 1.05, top =0.93) 
 
 
