@@ -3201,7 +3201,7 @@ pcol <- si_by_area_2016_2021_wider %>%
   scale_color_manual(values = c(rep("black", 5), rep("white", 2), "black")) +
   guides(fill = "none", color = "none") +
   labs(
-    title = "2021 pop. by ΔSI",
+    title = "2021 pop. by SI change",
     x = NULL,
     y = NULL
   ) +
@@ -6083,7 +6083,7 @@ and that it
 [@delbosc2015impact, p.10].
 
 
-```{r Bus_798, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, fig.width = 3.8, fig.align = "center", fig.show="hold",  fig.cap="Cranbourne and Selandra Rise", fig.subcap=c("Transit routes: 2014 (Source: Delbosc et al (2015) overlaid on PTV(2014))", "Transit routes: 2021 (Source: PTV(2021))")}
+```{r Bus_798, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE, fig.ncol = 2, out.width = "50%", fig.align = "center", fig.show="hold",  fig.cap="Cranbourne and Selandra Rise", fig.subcap=c("Transit routes: 2014 (Source: Delbosc et al (2015) overlaid on PTV(2014))", "Transit routes: 2021 (Source: PTV(2021))")}
 
 
 knitr::include_graphics("graphics/Cranbourne2014.png")
@@ -6120,7 +6120,7 @@ ptv_160804_gtfs_south_east <- tidytransit::get_route_geometry(ptv_160804_gtfs_so
 
 ```
 
-```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, fig.height=1.5, fig.width=3.8, fig.align = "right", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate", fig.subcap = c("Transport Supply by SA1: 2016", "Transport Supply by population: 2016", "Transport Supply by SA1: 2021", "Transport Supply by population: 2021", "Change in SI score between 2016 and 2021 by SA1", "...by 2021 population (COPYEDIT note: adjust to align with above during production)")}
+```{r Selandra_rise, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, fig.height=1.5, fig.width=3.8, fig.align = "left", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate", fig.subcap = c("Transport Supply by SA1: 2016", "Transport Supply by population: 2016", "Transport Supply by SA1: 2021", "Transport Supply by population: 2021", "Change in SI score between 2016 and 2021 by SA1", "...by 2021 population (COPYEDIT note: adjust to align with above during production)")}
 
 
 #Plot 
@@ -6174,7 +6174,7 @@ ggplot()+
           colour="black", 
           fill=NA) +
   geom_sf(data=sa12016, fill=NA, colour = "grey") +
-#  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
+  geom_sf(data=ptv_160804_gtfs_south_east, colour="purple") + 
   geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) + 
     coord_sf(ylim = c(-38.09, -38.125), 
            xlim = c(145.25, 145.360)) +
@@ -6217,7 +6217,7 @@ melbourne_si_SA12021_21_plot +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
   coord_sf(ylim = c(-38.09, -38.125), 
            xlim = c(145.25, 145.360)) +
-#geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) +
   theme(legend.position = "none", 
         axis.text.x=element_blank(), #remove x axis labels
@@ -6280,7 +6280,7 @@ ggplot()+
            xlim = c(145.25, 145.360)) +
   geom_sf(data=melbourne_sd07aust_region, fill = NA, linewidth = 0.5) +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
- # geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
   geom_sf(data=sa4_boundaries, fill = NA, colour="blue") + 
   coord_sf(ylim = c(-38.09, -38.125), 
@@ -6323,7 +6323,7 @@ si_by_area_2016_2021_wider %>%
 
 
 
-```{r Selandra_rise_2021, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, fig.height=1.5, fig.width=3.8, fig.align = "right", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate, overlayed with transit routes (purple)", fig.subcap = c("Social Need by SA1: 2016", "Social Need by population: 2016",  "SA1s with Very High needs and Very Low or Zero supply in 2016, change in SI by 2021", "...by 2016 population (COPYEDIT note: shift to align with others", "Social Need by SA1: 2021", "Social Need by population: 2021", "SA1s with Very High needs in 2021, Supply by SA1", "...by population")}
+```{r Selandra_rise_2021, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.ncol = 2, fig.height=1.5, fig.width=3.8, fig.align = "left", fig.show="hold", fig.cap="Cranbourne and the Selandra Rise Estate, overlayed with transit routes (purple)", fig.subcap = c("Social Need by SA1: 2016", "Social Need by population: 2016",  "SA1s with Very High needs and Very Low or Zero supply in 2016, change in SI by 2021", "...by 2016 population (COPYEDIT note: shift to align with others", "Social Need by SA1: 2021", "Social Need by population: 2021", "SA1s with Very High needs in 2021, Supply by SA1", "...by population")}
 
 
 combined_needs_2016_plot +
@@ -6382,24 +6382,7 @@ geom_sf(data=melbourne_sd07aust_region,
   geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") +
   geom_sf(data=melbourne_railway_trips_shape_2016, linetype = "twodash", size = 0.1) + 
     coord_sf(ylim = c(-38.09, -38.125), 
-           xlim = c(145.25, 145.360)) +
-  geom_label(
- data = si_by_areaSA12016_2016_2021_wider %>% 
-   st_filter(poly, .predicate =  st_intersects) %>% 
-   na.omit() %>% 
-   filter(very_high_needs_zero_or_very_low_supply == TRUE) %>% 
-   filter(ratio_binned_collapsed == "Reduced, withdrawn, never"),
-    label.size = 0.05,
-    aes(label = population, geometry = geometry),
-     stat = "sf_coordinates",
-    min.segment.length = 0) + 
-  theme(axis.text=element_blank(),
-        axis.title=element_blank(),
-        axis.ticks=element_blank(), 
-        plot.title = element_blank(),
-        text = element_text(size = 2, hjust = 1),
-        legend.position="none")
-
+           xlim = c(145.25, 145.360)) 
 
 si_by_areaSA12016_2016_2021_wider %>% 
             filter(very_high_needs_zero_or_very_low_supply == TRUE) %>%
@@ -6501,26 +6484,10 @@ ggplot()+
           colour="black", 
           fill=NA) +
   geom_sf(data=sa12021, fill=NA, colour = "grey") +
-#  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") + 
+  geom_sf(data=ptv_210805_gtfs_south_east, colour="purple") + 
   geom_sf(data=melbourne_railway_trips_shape_2021, linetype = "twodash", size = 0.1) + 
     coord_sf(ylim = c(-38.09, -38.125), 
-           xlim = c(145.25, 145.360))  + 
-  ggrepel::geom_label_repel(
- data = melbourne_needs_gap_sa1_2021 %>% 
-   filter(composite_needs == "Very High") %>% 
-   filter(transit_supply == "Very Low" | transit_supply == "Zero Supply") %>%
-   st_filter(poly, .predicate =  st_intersects) %>% 
-   na.omit(),
-    aes(label = population, geometry = geometry),
-     stat = "sf_coordinates", 
- label.size = 0.05,
-    min.segment.length = 0) + 
-  theme(axis.text=element_blank(),
-        axis.title=element_blank(),
-        axis.ticks=element_blank(), 
-        plot.title = element_blank(),
-        text = element_text(size = 3, hjust = 1),
-        legend.position="none")
+           xlim = c(145.25, 145.360)) 
 
 
 
@@ -6700,14 +6667,14 @@ knitr::write_bib(file = 'packages.bib')
 ```
  
  
-```{r Greater_Melbourne_CCD_2016_appendix, fig.ncol = 2, fig.height = 4, fig.width = 3.5, fig.align = "center", fig.cap = "Melbourne: Transport Supply Categories by CCD for 2006 extents, overlayed with suburban railway lines (black) and inner, middle and outer suburban boundary (blue)", fig.subcap = c("Week starting the date of the 2016 census", "Week starting the date of the 2021 census"), echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r Greater_Melbourne_CCD_2016_appendix, include = FALSE, fig.ncol = 2, fig.height = 4, fig.width = 3.5, fig.align = "center", fig.cap = "Melbourne: Transport Supply Categories by CCD for 2006 extents, overlayed with suburban railway lines (black) and inner, middle and outer suburban boundary (blue)", fig.subcap = c("Week starting the date of the 2016 census", "Week starting the date of the 2021 census"), echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 
 si_CCD2006_16_plot
 si_CCD2006_21_plot
 
 ```
 
-```{r Greater_Melbourne_SA12016_plot_appendix, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne 2016: Transport Supply by SA1, overlayed with suburban rail network (black), SA4 boundaries (blue) and 2006 Melbourne extents (black)"}
+```{r Greater_Melbourne_SA12016_plot_appendix, include = FALSE, fig.show="hold", echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.dim = c(7.5,7.5), fig.cap="Greater Melbourne 2016: Transport Supply by SA1, overlayed with suburban rail network (black), SA4 boundaries (blue) and 2006 Melbourne extents (black)"}
 
 
 
@@ -7002,19 +6969,19 @@ sa1_table_2016
 
 ```
 
-```{r Greater_Melbourne_2021_sa1_supply_table, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r Greater_Melbourne_2021_sa1_supply_table, include = FALSE,  echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 
 
 sa1_table_2021
 
 ```
 
-```{r Greater_Melbourne_ratio_sa1_table, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r Greater_Melbourne_ratio_sa1_table, include = FALSE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 greater_melbourne_ratio_SA1_table
 
 ```
 
-```{r Greater_Melbourne_2016_social_needs_appendix, fig.dim=c(7.5, 7.5), echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 overlayed with: 2006 Greater Melbourne boundary (black); SA4 boundaries (blue) and suburban railway lines (black)."}
+```{r Greater_Melbourne_2016_social_needs_appendix, include = FALSE,  fig.dim=c(7.5, 7.5), echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE,  fig.cap="Distribution of categories of composite social need index scores in 2016 overlayed with: 2006 Greater Melbourne boundary (black); SA4 boundaries (blue) and suburban railway lines (black)."}
 
 
 
@@ -7352,7 +7319,7 @@ inset_element(pcol, left = 0.0, bottom = 0.0, right = 0.4, top =0.30) +
 ```
 
 
-```{r Greater_Melbourne_2016_needs_gap_scatterplot_figure, fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.height=8, fig.cap="Greater Melbourne 2016, SI and Combined Needs Index scores, with SI scores < 10 rounded up to equal 10. "}
+```{r Greater_Melbourne_2016_needs_gap_scatterplot_figure, include = FALSE,  fig.show="hold", eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE, fig.fullwidth = TRUE, fig.height=8, fig.cap="Greater Melbourne 2016, SI and Combined Needs Index scores, with SI scores < 10 rounded up to equal 10. "}
 
 melbourne_needs_gap_scatterplot_2016  
   
@@ -7367,7 +7334,7 @@ Greater_Melbourne_2021_needs_gap_zones_table
 
 ```
 
-```{r Greater_Melbourne_si_by_area_2016_2021_wider_table_sa1_appendix_table,eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
+```{r Greater_Melbourne_si_by_area_2016_2021_wider_table_sa1_appendix_table, include = FALSE,  eval = TRUE, echo = FALSE, warning=FALSE, message=FALSE, cache=FALSE}
 
 si_by_areaSA12016_2016_2021_wider_table_sa1_appendix_table <- si_by_areaSA12016_2016_2021_wider %>%
   st_drop_geometry() %>%
