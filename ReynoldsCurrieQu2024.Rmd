@@ -34,7 +34,7 @@ footnote:
     text: "PhD Student"
 
 abstract: |
-  Methods of identifying spatial areas where gaps between transit supply (accounting for both frequency and coverage) and social needs for transport needs are large have previously been presented in research literature (Currie 2010). However, this approach does not appear to have been widely adopted in practice or received much further attention from researchers. This may be due to the challenges associated with assessing transit supply levels prior to the widespread availability of electronic schedule data, but GTFS datasets are now provided by many operators. This paper reports the development of an R package of tools for using GTFS datasets for needs-gap analysis. Results for Melbourne in 2016 and 2021 are also presented, and show similar patterns as in the 2006 results reported in Currie (2010), with lower supply levels in outer areas and away from the rail network. The number of residents living in areas with Very High needs but Very Low or Zero transit supply has increased by 140% from 139,004 (4.2%) in 2006 to 333,887 people (6.8%) in 2021, while Melbourne's overall population increased by only 46% (3.4m to 4.9m). The paper also briefly revists a case study of an early-2010s development in the outer south-east suburbs, reported in Delbosc et al (2015), finding that there have been positive changes in service level at this local scale, but that needs-gaps and lack of services appear to remain a challenge. While Melbourne may be an outlier in terms of population growth and (low) density, these results might suggest that providing even a basic level of transit-based movility to those in need may have only become more difficult. Directions for further research and limitations are also identified.  
+  Methods of identifying spatial areas where gaps between transit supply (accounting for both frequency and coverage) and social needs for transport needs are large have previously been presented in research literature (Currie 2010). However, this approach does not appear to have been widely adopted in practice or received much further attention from researchers. This may be due to the challenges associated with assessing transit supply levels prior to the widespread availability of electronic schedule data, but GTFS datasets are now provided by many operators. This paper reports the development of an R package of tools for using GTFS datasets for needs-gap analysis. Results for Melbourne in 2016 and 2021 are also presented, and show similar patterns as in the 2006 results reported in Currie (2010), with lower supply levels in outer areas and away from the rail network. The number of residents living in areas with Very High needs but Very Low or Zero transit supply has increased by 140% from 139,004 (4.2%) in 2006 to 333,887 people (6.8%) in 2021, while Melbourne's overall population increased by only 46% (3.4m to 4.9m). The paper also briefly revists a case study of an early-2010s development in the outer south-east suburbs, reported in Delbosc et al (2015), finding that there have been positive changes in service level at this local scale, but that needs-gaps and lack of services appear to remain a challenge. While Melbourne may be an outlier in terms of population growth and (low) density, these results might suggest that providing even a basic level of transit-based mobility to those in need may have only become more difficult. Directions for further research and limitations are also identified.  
 keywords: 
   - social needs
   - public transport
@@ -207,7 +207,7 @@ and consumption to describe
 cost efficiency, 
 cost effectiveness 
 and service effectiveness. 
-More broadly: 
+More broadly, 
 @Litman:2003ab and @Litman:2016aa 
 discuss the traffic, mobility, accessibility, 
 social equity, strategic planning and other rational decision-making perspectives
@@ -346,7 +346,7 @@ and *tidytransit* [@R-tidytransit].
 Code was developed and tested on the Mornington Peninsula Tourist Railway GTFS feed. 
 This was selected primarily for convenience, 
 given its location in south-east Melbourne
-and the authors familiarity with the surrounding geography, 
+and the authors' familiarity with the surrounding geography, 
 and that the feed covers only a small number of trips 
 across just three stations 
 (thereby facilitating hand verification of outputs). 
@@ -6587,9 +6587,9 @@ This paper has also demonstrated how this package might be applied
 through a case study of Melbourne
 in 2016 and 2021,
 in the same manner in which @currie2010identifying reported Melbourne in 2006.
-A motivation for this study was to explore how this have changed.
+A motivation for this study was to explore how this has changed.
 The share of the population
-living in areas wtih Zero Transport Supply grew from
+living in areas with Zero Transport Supply grew from
 `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,3])/sum(melbourne_comparison_2006_2021[,3]))`
 (`r format(sum(melbourne_comparison_2006_2021[1,3]), big.mark = ",")` residents) in 2006 to
 `r label_percent(accuracy=0.1)(sum(melbourne_comparison_2006_2021[1,8])/sum(melbourne_comparison_2006_2021[,8]))`
@@ -7367,3 +7367,5 @@ si_by_areaSA12016_2016_2021_wider_table_sa1_appendix_table <- si_by_areaSA12016_
 
 
 ```
+
+
